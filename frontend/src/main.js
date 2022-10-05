@@ -8,8 +8,6 @@ import Auth from './auth/main'
 
 import './styles/main.css'
 
-console.log(import.meta.env.VITE_BASE_URL)
-
 const autoLogin = Auth.refresh(localStorage.getItem('refreshToken')).catch(() => { localStorage.removeItem('refreshToken') })
 const getGlobalSettings = store.methods.globalSettings.init()
 
