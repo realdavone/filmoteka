@@ -1,0 +1,103 @@
+<template>
+  <main class="wrapper container">
+    <section class="inner-wrap">
+      <section class="button-holder-outter">
+        <div class="button-holder-inner">
+          <button :class="{'active': subpath === button.path}" v-for="(button, index) in categoryButtons" :key="index" @click="filterResults(button.path)">
+            <span class="material-symbols-outlined">{{button.icon}}</span>
+            <span>{{button.name}}</span>
+          </button>
+        </div>
+      </section>
+      <section class="results-holder">
+        <Title>Výsledky pre <span class="quotation-marks">{{route.query.q}}</span></Title>
+        <router-view :key="$route.fullPath"></router-view>
+      </section>
+    </section>
+  </main>
+</template>
+
+<script setup>
+import { ref, computed, onBeforeMount, inject } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
+import Title from '../components/Content/Title.vue'
+
+const store = inject('store');
+const route = useRoute();
+const router = useRouter();
+const categoryButtons = ref([{name:'Filmy',icon:'movie',path:'movie'},{name:'Seriály',icon:'tv',path:'tv'},{name:'Osoby',icon:'person',path:'person'}])
+
+const filterResults = category => { router.push({ path: `/search/${category}`, query: { q: route.query.q, page: 1 } }) }
+
+onBeforeMount(() => {
+  store.methods.recentSearch.pushItem(route.query.q)
+  document.title = `${route.query.q} - Vyhľadávanie / Filmotéka`
+})
+
+const subpath = computed(() => { return route.path.split('/')[2] })
+
+</script>
+
+<style lang="scss" scoped>
+section.inner-wrap{
+  display:flex;
+  flex-direction:row-reverse;
+  gap:20px;
+  align-items:flex-start;
+  section.button-holder-outter{
+    width:300px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    div.button-holder-inner{
+      display:flex;
+      flex-direction:column;
+      border-radius:8px;
+      overflow:hidden;
+      button{
+        width:100%;
+        background:var(--card-color);
+        height:40px;
+        transition:0.2s ease background;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        gap:8px;
+        span:nth-child(1){ font-size:1.25rem; }
+        &:hover{background:var(--card-color-hover);}
+        &:last-of-type{border-bottom:none;}
+      }
+      button.active{
+        background:var(--theme-color);
+        color:white;
+        font-weight:bold;
+      }
+    }
+  }
+  section.results-holder{ width:100% }
+}
+
+@media screen and (max-width: 1200px) {
+  section.inner-wrap{
+    flex-direction:column;
+    section.button-holder-outter{
+      width:100%;
+      div.button-holder-inner{
+        flex-direction:row;
+        button{
+          border-bottom:none;
+          border-right:1px solid var(--secondary-color);
+          &:last-of-type{
+            border-right:none;
+          }          
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 600px){
+  section.inner-wrap{gap:var(--container-padding)!important;}
+  section.button-holder-outter{gap:var(--container-padding)!important}
+}
+</style>

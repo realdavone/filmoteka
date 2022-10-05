@@ -1,0 +1,114 @@
+<template>
+  <router-link :to="{ name: props.type[0].toUpperCase()+props.type.substring(1), params: { id: props.id } }" class="title">
+    <div class="image-holder">
+      <img v-if="props.img" :src="'https://www.themoviedb.org/t/p/w154'+props.img" :alt="props.title" loading="lazy">
+    </div>
+    <section class="details">
+      <div class="title-holder">
+        <span class="title">{{props.title}}</span>  
+        <span style="color:var(--secondary-text-color)" v-if="props.release">&#32;({{(new Date(props.release)).getFullYear()}})</span>
+      </div>
+      <div v-if="props.rating !== undefined" class="rating">
+        <span>&starf;</span>
+        <span>{{props.rating}}</span>
+        <span v-if="store.methods.watched.exists({ type: props.type[0].toUpperCase()+props.type.substring(1), id: props.id.toString() })" class="material-symbols-outlined" style="color:var(--theme-color)">visibility</span>
+      </div>
+      <div class="overview" v-if="props.overview">{{props.overview}}</div>
+    </section>
+  </router-link>
+</template>
+
+<script setup>
+import { inject } from 'vue'
+
+const props = defineProps({
+  title: String,
+  overview: String,
+  img: String,
+  release: String,
+  id: Number,
+  type: String,
+  rating: Number
+})
+
+const store = inject('store')
+</script>
+
+<style lang="scss" scoped>
+a.title{
+  display:flex;
+  height:140px;
+  width:100%;
+  align-items:center;
+  background:var(--card-color);
+  border-radius:8px;
+  user-select:none;
+  gap:15px;
+  transition:0.2s ease background;
+  overflow:hidden;
+  div.image-holder{
+    height:100%;
+    aspect-ratio:2/3;
+    background:var(--card-color-hover);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-top-left-radius:8px;
+    border-bottom-left-radius:8px;
+    overflow:hidden;
+    img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+  }
+  section.details{
+    padding:5px 10px 5px 0;
+    display:flex;
+    justify-content:center;
+    flex-direction:column;
+    gap:6px;
+    user-select:none;
+    width:100%;
+    div.title-holder{
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      font-size:0.9rem;
+      span.title{ font-weight:700 }
+    }
+    div.rating{
+      display:flex;
+      align-self:flex-start;
+      align-items:center;
+      gap:5px;
+      span:nth-child(1){
+        font-size:1.25rem;
+        color:darkgoldenrod;
+      }
+      span:nth-child(2){ font-weight:700; font-size:0.75rem; }
+      span:nth-child(3){ font-size:1rem }
+    }
+    div.overview{
+      color:var(--secondary-text-color);
+      text-align:justify;
+      font-size:var(--overview-font-size);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      font-size:0.75rem;
+    }
+  }
+  &:hover{background:var(--card-color-hover);}
+}
+@media screen and (max-width: 600px) {
+  a.title{
+    height:110px;
+    div.overview{ display:none!important }
+  }
+}
+</style>
