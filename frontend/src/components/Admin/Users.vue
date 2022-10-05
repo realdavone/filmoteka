@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import User from './Users/User' 
+import User from './Users/User.vue' 
 import { ref, inject } from 'vue'
 import getData from '../../api/main.js'
 
