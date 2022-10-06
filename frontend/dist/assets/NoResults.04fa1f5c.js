@@ -1,0 +1,1 @@
+import{o as t,c as o,d as n,t as a}from"./index.3085cc2c.js";const c={class:"user-select-none"},_={__name:"NoResults",props:{text:String},setup(e){const s=e;return(r,l)=>(t(),o("section",null,[n("span",c,a(s.text||"\u017Diadne v\xFDsledky"),1)]))}};export{_};
