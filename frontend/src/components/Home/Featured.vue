@@ -1,5 +1,8 @@
 <template>
-  <section class="featured container user-select-none" :style="title?.backdrop_path ? `background-image:url('https://image.tmdb.org/t/p/w1280${title?.backdrop_path}');` : ''">
+  <section class="featured container user-select-none">
+    <div v-if="title?.backdrop_path" class="background-image">
+      <img :src="`https://image.tmdb.org/t/p/w1280${title?.backdrop_path}`" alt="">
+    </div>
     <Title style="position:relative;z-index:2">Vybrané</Title>
     <section class="title-holder container">
       <div class="poster">
@@ -50,15 +53,19 @@ section.featured{
   padding-top:var(--container-padding);
   padding-bottom:var(--container-padding);
   position:relative;
-  &::before{
-    content:'';
+  div.background-image{
     position:absolute;
     top:0;
-    left:0;
     bottom:0;
+    left:0;
     right:0;
-    background-color:var(--background-color);
-    opacity:0.75;
+    -webkit-mask-image: linear-gradient(#00000060, #00000060);
+    mask-image: linear-gradient(#00000060, #00000060);
+    img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
   }
   div.skeleton{
     background:white;

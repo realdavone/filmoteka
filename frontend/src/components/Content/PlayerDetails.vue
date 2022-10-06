@@ -1,8 +1,9 @@
 <template>
   <section class="user-select-none container">
-    <div class="outter" :style="bg ? `
-    background-image:radial-gradient(circle, var(--background-color-alpha) 0%, var(--background-color) 100%),url('https://image.tmdb.org/t/p/w1440_and_h320_multi_faces${bg}')
-    ` : ''">
+    <div class="outter">
+      <div v-if="bg" class="background-image">
+        <img :src="`https://image.tmdb.org/t/p/w1440_and_h320_multi_faces${bg}`" alt="Background image">
+      </div>
       <div class="poster">
         <slot name="poster" />
       </div>
@@ -49,6 +50,22 @@ section.container{
   display:flex;
   flex-direction:column;
   gap:var(--container-padding);
+  isolation:isolate;
+  div.background-image{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:0;
+    -webkit-mask-image: linear-gradient(var(--background-color), transparent);
+    mask-image: linear-gradient(var(--background-color), transparent);
+    img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+  }
   div.poster{
     aspect-ratio:2/3;
     min-width:200px;
@@ -57,18 +74,20 @@ section.container{
     border-radius:16px;
     overflow:hidden;
     align-self:flex-start;
+    z-index:1;
+    position:relative;
   }
   div.outter{
     display:flex;
     align-items:center;
     justify-content:center;
     gap:1.5rem;
-    background-color:var(--card-color);
     padding:var(--container-padding);
     margin:0 calc(0px - var(--container-padding));
     background-repeat:no-repeat;
     background-position:center;
     background-size:cover;
+    position:relative;
   }
   div.title{
     display:flex;
@@ -77,6 +96,8 @@ section.container{
     gap:1.5rem;
     width:100%;
     max-width:600px;
+    z-index:1;
+    position:relative;
   }
 }
 :slotted(span.title){

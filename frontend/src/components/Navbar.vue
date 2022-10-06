@@ -4,7 +4,9 @@
       <NavButton @handleClick="isMenuOpened = !isMenuOpened">
         <template #icon><span style="font-size:1.5rem">&#9776;</span></template>
       </NavButton>
-      <Logo class="icon-hide" :height="40" />
+      <router-link to="/">
+        <Logo class="icon-hide" :height="36" />
+      </router-link>
     </div>
     <SearchForm v-if="isSearchRendered" />
     <div class="right-menu">
@@ -172,6 +174,7 @@ nav{
     align-items:center;
     gap:20px;
     margin-right:auto;
+    a{line-height:1}
   }
 }
 aside.modal{

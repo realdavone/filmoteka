@@ -123,6 +123,9 @@ main.login-register form div.input{
   border-radius:8px;
   overflow:hidden;
 }
+main.login-register form div.input:focus-within{
+  outline:2px solid var(--theme-color);
+}
 main.login-register form div.input span:nth-child(1){
   font-size:1rem;
   color:var(--font-color-dark);

@@ -1,27 +1,25 @@
 <template>
   <section class="outter container user-select-none">
-    <section class="inner" :style="props.collection['backdrop_path']!==null?
-    `background:linear-gradient(90deg, var(--background-color-alpha) 20%, #ffffff00 100%), url(https://www.themoviedb.org/t/p/w1440_and_h320_multi_faces${props.collection['backdrop_path']})`:
-    'background:black;'
-    ">
+    <section class="inner">
+      <div v-if="collection['backdrop_path']" class="background-image">
+        <img :src="`https://www.themoviedb.org/t/p/w1440_and_h320_multi_faces${collection['backdrop_path']}`" alt="">
+      </div>
       <span class="heading">Tento film je súčasťou kolekcie</span>
-      <router-link class="cta" :to="{ name:'Collection', params:{ id: props.collection.id } }">
-        <b>Prejsť na kolekciu</b>
-        <span class="material-symbols-outlined">chevron_right</span>
-      </router-link>
+      <router-link class="cta" :to="{ name:'Collection', params:{ id: collection.id } }">Prejsť na kolekciu</router-link>
     </section>
   </section>
 </template>
 
 <script setup>
-const props = defineProps({ collection: Object })
+const { collection } = defineProps({ collection: Object })
 </script>
 
 <style lang="scss" scoped>
 section.outter{
   section.inner{
-    height:258px;
-    min-height:258px;
+    isolation:isolate;
+    height:200px;
+    min-height:200px;
     border-radius:12px;
     overflow:hidden;
     background-size:cover!important;
@@ -33,22 +31,41 @@ section.outter{
     align-items:flex-start;
     gap:20px;
     padding:var(--container-padding);
+    position:relative;
+    div.background-image{
+      position: absolute;
+      top:0;
+      bottom:0;
+      left:0;
+      right:0;
+      -webkit-mask-image: linear-gradient(to left, #000000, #00000060);
+      mask-image: linear-gradient(to left, #000000, #00000060);
+      img{
+        width:100%;
+        height:100%;
+        object-fit:cover;
+      }
+    }
     span.heading{
       font-size:1.5rem;
-      color:var(--font-color-dark);
+      position:relative;
+      z-index:1;
       b{font-size:1.5rem;}
     }
     a.cta{
+      position:relative;
+      z-index:1;
       background:var(--theme-color-transparent);
-      padding:8px 10px 8px 15px;
+      padding:6px 14px;
       border-radius:35px;
       text-transform:uppercase;
-      font-weight:bold;
+      font-family:'Oswald', sans-serif;
       font-size:0.8rem;
       transition:0.2s ease background;
       color:white;
       display:flex;
       align-items:center;
+      letter-spacing:0.5px;
     }
     a.cta:hover{ background:var(--theme-color) }
   }
