@@ -5,11 +5,14 @@ import Notifications, { notify } from '@kyvg/vue3-notification'
 import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
 import store from './store/index'
 import Auth from './auth/main'
+import _ from './utils/main'
 
 import './styles/main.css'
 
 const autoLogin = Auth.refresh(localStorage.getItem('refreshToken')).catch(() => { localStorage.removeItem('refreshToken') })
 const getGlobalSettings = store.methods.globalSettings.init()
+
+_.initLoader()
 
 Promise.all([autoLogin, getGlobalSettings]).then(values => {
   store.state.globalSettings = values[1]

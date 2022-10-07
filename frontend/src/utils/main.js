@@ -32,5 +32,16 @@ export default {
       else arr[indexOfItem]['jobs'].push(creator['job'])
     })
     return arr
+  },
+  initLoader(){
+    const logo = document.createElement('img')
+    logo.setAttribute('src', '/icon.svg')
+    logo.setAttribute('class', 'loaderScale')
+    logo.setAttribute('width', '75')
+    logo.setAttribute('alt', 'Logo')
+    const loader = document.createElement('section')
+    loader.setAttribute('style', 'width:100%;height:100vh;display:flex;justify-content:center;align-items:center')
+    loader.appendChild(logo)
+    document.getElementById('app').appendChild(loader)
   }
 }

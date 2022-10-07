@@ -178,9 +178,19 @@ main.login-register a.link{ font-size:0.75rem }
 
 .slide-enter-active, .slide-leave-active{ transition:transform 0.2s ease }
 .slide-enter-from, .slide-leave-to{ transform:translateX(-300px) }
+
+.loaderScale{
+  animation-name:loaderScale;
+  animation-iteration-count:infinite;
+  animation-duration:1.75s;
+}
 @media screen and (max-width: 600px) {
   :root{ 
     --container-padding:0.75rem;
     --vertical-card-width:120px;
   }
+}
+@keyframes loaderScale {
+  0%, 100% {transform:scale(1)}
+  50% {transform:scale(1.1)}
 }
