@@ -176,8 +176,6 @@ section.featured{
   div.poster{ display:none }
   div.title{ font-size:1.25rem!important }
   section.title-holder{
-    margin:0 calc(0px - var(--container-padding)); 
-    border-radius:0!important;
     gap:1rem!important
   }
   button.go-to-button{
