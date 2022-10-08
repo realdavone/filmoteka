@@ -2,7 +2,7 @@
   <section v-if="props.items.length!==0" class="container media-panel user-select-none">
     <Title style="align-self:flex-start;margin-bottom:0;">Média</Title>
     <a v-for="item in props.items" :key="item.key" :href="`https://www.youtube.com/watch?v=${item.key}`" target="_blank">
-      <span>&#9658;</span>
+      <span>&#9654;</span>
       <span><b>{{item.name}}</b> (YouTube)</span>
     </a>
   </section>

@@ -17,7 +17,7 @@
               <template #icon><span class="material-symbols-outlined">link</span></template>
             </SubNavButton>
             <SubNavButton v-if="store.state.credentials.loggedIn" title="Prezrené" @handleClick="store.methods.watched.toggle({ id: route.params.id, type: route.name, title: details['title']})">
-              <template #icon><span :style="[store.methods.watched.exists({ type: route.name, id: route.params.id }) ? 'opacity:1;' : 'opacity:0.5']">&#128065;</span></template>
+              <template #icon><span :style="[store.methods.watched.exists({ type: route.name, id: route.params.id }) ? 'opacity:1;' : 'opacity:0.5']">&#128065;&#xFE0E;</span></template>
             </SubNavButton>
             <SubNavButton v-if="store.state.credentials.loggedIn" title="Pripnutie prehrávača" @handleClick="store.methods.settings.pinnedPlayerToggle()">
               <template #icon><span :style="[store.state.settings.pinnedPlayer ? 'opacity:1' : 'opacity:0.5']" class="material-symbols-outlined">push_pin</span></template>

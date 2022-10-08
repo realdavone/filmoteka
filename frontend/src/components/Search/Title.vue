@@ -11,7 +11,7 @@
       <div v-if="props.rating !== undefined" class="rating">
         <span>&starf;</span>
         <span>{{props.rating}}</span>
-        <span v-if="store.methods.watched.exists({ type: props.type[0].toUpperCase() + props.type.substring(1), id: props.id.toString() })" style="color:var(--theme-color)">&#128065;</span>
+        <span v-if="store.methods.watched.exists({ type: props.type[0].toUpperCase() + props.type.substring(1), id: props.id.toString() })" style="color:var(--theme-color)">&#128065;&#xFE0E;</span>
       </div>
       <div class="overview" v-if="props.overview">{{props.overview}}</div>
     </section>

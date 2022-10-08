@@ -67,10 +67,9 @@
       </div>
     </div>
 
-    <div v-if="details['networks'].length !== 0" class="networks">
-      <div v-for="network in details['networks']" :key="network.id">
-        <img v-if="network.logo_path !== null" :src="`https://www.themoviedb.org/t/p/original${network.logo_path.split('.')[0] + '.svg'}`" :alt="network.name" :title="network.name">
-        <span v-else>{{network.name}}</span>
+    <div v-if="details['networks'].length !== 0" class="networks" ref="networks">
+      <div v-for="network, i in details['networks']" :key="network.id">
+        <img v-if="network.logo_path !== null" @error="hideNetwork(this.$refs.networks, i)" :src="`https://www.themoviedb.org/t/p/original${network.logo_path.split('.')[0] + '.svg'}`" :alt="network.name" :title="network.name">
       </div>
     </div>
   </section>
@@ -88,6 +87,8 @@ const route = useRoute()
 const store = inject('store')
 const type = ref(route.name.charAt(0).toLowerCase() + route.name.substr(1))
 const details = ref(props['details'])
+
+const hideNetwork = (el, index) => el.children[index].style.display = 'none'
 
 store.methods.recentItems.pushItem({
   type: type.value,
