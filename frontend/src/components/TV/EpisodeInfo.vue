@@ -17,8 +17,8 @@
       </div>
     </div>
     <button @click="showEpisodeSpoiler =! showEpisodeSpoiler" class="button-spoiler">
-      <span>{{`${showEpisodeSpoiler ? 'Skry' : 'Zobraz'}`}} spoiler</span>
-      <span class="material-symbols-outlined" :style="`transform: rotate(${showEpisodeSpoiler ? '180' : '0'}deg)`">keyboard_arrow_down</span>
+      <span>{{`${showEpisodeSpoiler ? 'Skry' : 'Zobraz'}`}} prehľad</span>
+      <span :style="`transform: rotate(${showEpisodeSpoiler ? '90' : '270'}deg)`">&#10094;</span>
     </button>
   </section>
 </template>
@@ -142,7 +142,7 @@ section.episode-info{
     align-self:center;
     display:flex;
     align-items:center;
-    gap:5px;
+    gap:0.75rem;
     line-height:1;
     white-space:nowrap;
     span:nth-child(1){

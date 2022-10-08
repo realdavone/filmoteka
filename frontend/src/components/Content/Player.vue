@@ -3,7 +3,7 @@
     <Transition name="fade">
       <div v-if="!props.source && props['isReady']['status'] === true" class="not-pressed">
         <div v-if="isPlayerWorking === false" class="player-warning">Prehrávač bol označený ako nefunkčný</div>
-        <button v-if="store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn" @click="$emit('setPlayer')" class="play-button">&#9658;</button>
+        <button v-if="store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn" @click="$emit('setPlayer')" class="play-button">&#9654;</button>
         <button v-else class="locked-player" @click="$router.push('/login')">
           <span>Prihláste sa pre sledovanie</span>
         </button>
@@ -104,7 +104,7 @@ section.player-holder{
       justify-content:center;
       gap:6px;
       z-index:2;
-      background-color:var(--theme-color);
+      background-color:var(--theme-color-transparent);
       border-radius:50px;
       width:54px;
       max-width:54px;
@@ -113,14 +113,10 @@ section.player-holder{
       overflow:hidden;
       color:var(--font-color-dark);
       transition:0.3s ease background-color;
-      outline:3px solid var(--theme-color);
       outline-offset:6px;
       font-size:1.5rem;
       padding-left:4px;
-      &:hover{
-        color:var(--font-color-light);
-        background-color:var(--font-color-dark);
-      }
+      &:hover{ background-color:var(--theme-color)}
     }
   }
   iframe{

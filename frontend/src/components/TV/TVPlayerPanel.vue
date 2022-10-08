@@ -51,7 +51,7 @@
           </div>
         </Transition>
       </div>
-      <button @click="setPlayer" class="play-button" title="Prehrať">&#9658;</button>
+      <button @click="setPlayer" class="play-button" title="Prehrať">&#9654;</button>
       <button :class="{'disabled':currentSeasonAndEpisode.season + 1 === seasons.length && currentSeasonAndEpisode.episode + 1 === numberOfEpisodes}" class="next-previous-episode" :disabled="currentSeasonAndEpisode.season + 1 === seasons.length && currentSeasonAndEpisode.episode + 1 === numberOfEpisodes" @click="handleControls('forwards')" title="Ďalšia epizóda">&raquo;</button>
     </div>
     <EpisodeInfo :id="props.id" :season="currentSeasonAndEpisode.season + 1" :episode="currentSeasonAndEpisode.episode + 1" v-if="store.state.globalSettings?.allowWatchWhileUnregistered || store.state.credentials.loggedIn"/>
