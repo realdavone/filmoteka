@@ -1,6 +1,6 @@
 <template>
   <aside ref="menu">
-    <header class="container">
+    <header class="container user-select-none">
       <NavButton @handleClick="closeMenu">
         <template #icon><span style="font-size:1.5rem">&#9776;</span></template>
       </NavButton>
@@ -67,25 +67,25 @@ const emit = defineEmits(['closeMenu','menu'])
 
 const links = [
   {
-    icon:'home',
+    icon:`<span style="font-size:1.25rem" class="material-symbols-outlined">home</span>`,
     label:'Domov',
     route:'/',
     shown:true
   },
   {
-    icon:'video_library',
+    icon:`<span style="font-size:1.25rem" class="material-symbols-outlined">video_library</span>`,
     label:'Knižnica',
     route:'/library',
     shown:true
   },
   {
-    icon:'recommend',
+    icon:`<span style="font-size:1.25rem" class="material-symbols-outlined">recommend</span>`,
     label:'Odporúčané',
     route:'/recommended',
     shown:true
   },
   {
-    icon:'admin_panel_settings',
+    icon:'<span style="font-size:1.35rem;line-height:1">&#9881;</span>',
     label:'Admin',
     route:'/admin',
     shown:store.state.credentials.user?.isAdmin || false

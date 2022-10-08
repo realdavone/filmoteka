@@ -11,7 +11,7 @@
     <SearchForm v-if="isSearchRendered" />
     <div class="right-menu">
       <NavButton title="Vyhĺadávanie" @handleClick="isSearchRendered = !isSearchRendered">
-        <template #icon><span class="material-symbols-outlined" style="padding-top:5px;color:var(--theme-color);font-weight:900;">{{!isSearchRendered?'search':'arrow_forward_ios'}}</span></template>
+        <template #icon><span class="material-symbols-outlined" style="padding-top:5px;color:var(--theme-color);font-weight:700;">{{!isSearchRendered ? 'search' : 'arrow_forward_ios'}}</span></template>
       </NavButton>
       <template v-if="!isSearchRendered && store.state.credentials.loggedIn">
         <NavButton class="icon-hide" title="Knižnica" @handleClick="$router.push('/library')">
@@ -26,7 +26,7 @@
         </NavButton>
       </template>
       <div v-if="!isSearchRendered && !store.state.credentials.loggedIn" class="auth-buttons">
-        <button v-if="store.state.globalSettings.allowRegistration" class="register-button" @click="$router.push('/register')">Registrovať</button>
+        <button v-if="store.state.globalSettings?.allowRegistration" class="register-button" @click="$router.push('/register')">Registrovať</button>
         <button class="login-button" @click="$router.push('/login')">Prihlásiť sa</button>
       </div>
     </div>

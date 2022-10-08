@@ -4,7 +4,7 @@
       <img :src="`https://image.tmdb.org/t/p/w1280${title?.backdrop_path}`" alt="">
     </div>
     <Title style="position:relative;z-index:2">Vybrané</Title>
-    <section class="title-holder container">
+    <section class="title-holder">
       <div class="poster">
         <img v-if="title?.poster_path" :src="`https://www.themoviedb.org/t/p/w300${title?.poster_path}`" :alt="title?.name || title?.title">
       </div>
@@ -37,19 +37,17 @@
 </template>
 
 <script setup>
-import { inject } from 'vue'
 import TypeIcon from '../Content/TypeIcon.vue'
 import Title from '../Content/Title.vue'
 
 const { title } = defineProps({ title: Object })
-const store = inject('store')
 </script>
 
 <style lang="scss" scoped>
 section.featured{
-  background-size: cover !important;
-  background-repeat: no-repeat !important;
-  background-position: center !important;
+  background-size:cover!important;
+  background-repeat:no-repeat!important;
+  background-position:center!important;
   padding-top:var(--container-padding);
   padding-bottom:var(--container-padding);
   position:relative;
@@ -59,8 +57,8 @@ section.featured{
     bottom:0;
     left:0;
     right:0;
-    -webkit-mask-image: linear-gradient(#00000060, #00000060);
-    mask-image: linear-gradient(#00000060, #00000060);
+    -webkit-mask-image: linear-gradient(black, transparent 50%);
+    mask-image: linear-gradient(black, transparent 50%);
     img{
       width:100%;
       height:100%;
@@ -72,14 +70,11 @@ section.featured{
     border-radius:4px;
   }
   section.title-holder{
-    backdrop-filter:blur(3px);
+    position: relative;
+    z-index:1;
     display:flex;
     align-items:center;
     gap:2rem;
-    padding-top:var(--container-padding);
-    padding-bottom:var(--container-padding);
-    border-radius:18px;
-    background-color:var(--background-color-alpha);
     div.poster{
       min-width:200px;
       max-width:200px;
@@ -112,13 +107,9 @@ section.featured{
         align-items:center;
         gap:0.5rem;
         span:nth-child(2){
-          background-color:var(--theme-color);
           font-size:0.75rem;
-          padding:0 4px;
-          border-radius:4px;
           text-transform:uppercase;
           font-weight:900;
-          color:var(--font-color-dark);
         }
         span:nth-child(3){
           font-size:0.85rem;

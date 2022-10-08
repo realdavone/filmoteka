@@ -1,6 +1,6 @@
 <template>
   <router-link tabindex="0" v-if="link.shown" class="menu-link" :to="link.route" @click.native="emit('close')">
-    <span class="material-symbols-outlined">{{link.icon}}</span>
+    <div class="icon" v-html="link.icon"></div>
     <span class="label">{{link.label}}</span>
   </router-link>
 </template>
@@ -17,6 +17,7 @@ a.menu-link{
   gap:20px;
   padding:12px 1rem;
   border-left:6px solid transparent;
+  div.icon{width:25px;text-align:center;}
   span:nth-child(1){ font-size:1.25rem }
   span:nth-child(2){ font-size:0.85rem }
   &:hover, &.router-link-exact-active{ background:var(--card-color-hover) }

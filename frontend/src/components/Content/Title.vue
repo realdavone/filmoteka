@@ -11,7 +11,7 @@ div.title{
   font-weight:700;
   text-transform:uppercase;
   letter-spacing:1px;
-  font-family: 'Oswald', sans-serif;
+  font-family:'Oswald', sans-serif;
 }
 @media screen and (max-width: 600px){
   div.title{ font-size:1.25rem }

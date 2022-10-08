@@ -177,6 +177,7 @@ section.title{
     flex-wrap:wrap;
     gap:15px;
     align-self:flex-end;
+    &:empty{ display:none; }
     img{
       max-height:30px;
       width:auto;
