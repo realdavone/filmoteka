@@ -204,8 +204,6 @@ div.season-select-holder, div.episode-select-holder{
 section.outter-holder{
   display:flex;
   flex-direction:column;
-  border-bottom-left-radius:16px;
-  border-bottom-right-radius:16px;
   width:var(--player-width);
   max-width:var(--player-width);
   section.episode-card-holder{
@@ -214,9 +212,7 @@ section.outter-holder{
     gap:var(--container-padding);
     margin-top:20px;
   }
-  section.player-holder-wrap{
-    background:black;
-  }
+  section.player-holder-wrap{ background-color:var(--player-background-color); }
   div.season-episode{
     width:100%;
     display:flex;

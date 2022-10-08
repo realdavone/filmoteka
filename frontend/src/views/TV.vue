@@ -8,7 +8,7 @@
         <SubNav ref="subnav">
           <template v-if="!loading">
             <SubNavButton v-if="store.state.credentials.loggedIn" title="Fungujúci prehrávač" @handleClick="toggleWorkingPlayer">
-              <template #icon><span :style="[isPlayerWorking === false ? 'opacity:1' : 'opacity:0.6']" class="material-symbols-outlined">error</span></template>
+              <template #icon><span :style="[isPlayerWorking === false ? 'opacity:1' : 'opacity:0.6']">&#9888;</span></template>
             </SubNavButton>
             <SubNavButton v-if="store.state.credentials.loggedIn" title="Odporúčiť" :disabled="isRecommended" @handleClick="addAsRecommended({ id: route.params.id, img: details['poster'], type: route.name, title: details['title'] })">
               <template #icon><span class="material-symbols-outlined">thumb_up</span></template>
@@ -17,13 +17,13 @@
               <template #icon><span class="material-symbols-outlined">link</span></template>
             </SubNavButton>
             <SubNavButton v-if="store.state.credentials.loggedIn" title="Prezrené" @handleClick="store.methods.watched.toggle({ id: route.params.id, type: route.name, title: details['title']})">
-              <template #icon><span class="material-symbols-outlined" :style="[store.methods.watched.exists({ type: route.name, id: route.params.id })?'opacity:1;':'opacity:0.5']">{{store.methods.watched.exists({ type: route.name, id: route.params.id })?'visibility':'visibility_off'}}</span></template>
+              <template #icon><span :style="[store.methods.watched.exists({ type: route.name, id: route.params.id }) ? 'opacity:1' : 'opacity:0.5']">&#128065;</span></template>
             </SubNavButton>
             <SubNavButton v-if="store.state.credentials.loggedIn" title="Pripnutie prehrávača" @handleClick="store.methods.settings.pinnedPlayerToggle()">
-              <template #icon><span :style="[store.state.settings.pinnedPlayer?'opacity:1':'opacity:0.6']" class="material-symbols-outlined">push_pin</span></template>
+              <template #icon><span :style="[store.state.settings.pinnedPlayer ? 'opacity:1' : 'opacity:0.6']" class="material-symbols-outlined">push_pin</span></template>
             </SubNavButton>
             <SubNavButton v-if="store.state.credentials.loggedIn" title="Pridanie k záložkam" @handleClick="store.methods.favourites.toggle({ id: route.params.id, img: details['poster'], type: route.name, title: details['title'] })">
-              <template #icon><span class="material-symbols-outlined">{{store.methods.favourites.exists({ type: route.name, id: route.params.id })?'bookmark_remove':'bookmark_add'}}</span></template>
+              <template #icon><span class="material-symbols-outlined">{{store.methods.favourites.exists({ type: route.name, id: route.params.id }) ? 'bookmark_remove' : 'bookmark_add'}}</span></template>
             </SubNavButton>
             {{$refs.subnav.name}}
           </template>

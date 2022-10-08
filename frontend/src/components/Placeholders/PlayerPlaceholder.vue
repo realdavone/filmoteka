@@ -13,8 +13,9 @@ div.player-holder{
   display:flex;
   flex-direction:column;
   gap:20px;
+  background-color:var(--player-background-color);
   div.player{
-    background:#00000080;
+    
     width:var(--player-width);
     min-width:var(--player-width);
     aspect-ratio:16/9!important;

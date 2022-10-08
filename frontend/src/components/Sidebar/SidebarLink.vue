@@ -16,12 +16,10 @@ a.menu-link{
   align-items:center;
   gap:20px;
   padding:12px 1rem;
-  span:nth-child(1){ font-size:1.25rem; }
-  span:nth-child(2){ font-size:0.85rem; }
-  &:hover, &.router-link-exact-active{ background:var(--card-color-hover); }
-  &.router-link-exact-active{ 
-    color:var(--theme-color);
-    span{ font-weight:700; }
-  }
+  border-left:6px solid transparent;
+  span:nth-child(1){ font-size:1.25rem }
+  span:nth-child(2){ font-size:0.85rem }
+  &:hover, &.router-link-exact-active{ background:var(--card-color-hover) }
+  &.router-link-exact-active{ border-left:6px solid var(--theme-color) }
 }
 </style>

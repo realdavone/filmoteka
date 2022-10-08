@@ -1,7 +1,7 @@
 <template>
-  <router-link :to="{ name: props.type[0].toUpperCase()+props.type.substring(1), params: { id: props.id } }" class="title">
+  <router-link :to="{ name: props.type[0].toUpperCase() + props.type.substring(1), params: { id: props.id } }" class="title">
     <div class="image-holder">
-      <img v-if="props.img" :src="'https://www.themoviedb.org/t/p/w154'+props.img" :alt="props.title" loading="lazy">
+      <img v-if="props.img" :src="`https://www.themoviedb.org/t/p/w154${props.img}`" :alt="props.title" loading="lazy">
     </div>
     <section class="details">
       <div class="title-holder">
@@ -11,7 +11,7 @@
       <div v-if="props.rating !== undefined" class="rating">
         <span>&starf;</span>
         <span>{{props.rating}}</span>
-        <span v-if="store.methods.watched.exists({ type: props.type[0].toUpperCase()+props.type.substring(1), id: props.id.toString() })" class="material-symbols-outlined" style="color:var(--theme-color)">visibility</span>
+        <span v-if="store.methods.watched.exists({ type: props.type[0].toUpperCase() + props.type.substring(1), id: props.id.toString() })" style="color:var(--theme-color)">&#128065;</span>
       </div>
       <div class="overview" v-if="props.overview">{{props.overview}}</div>
     </section>
@@ -56,6 +56,7 @@ a.title{
     border-top-left-radius:8px;
     border-bottom-left-radius:8px;
     overflow:hidden;
+    flex-shrink:0;
     img{
       width:100%;
       height:100%;
@@ -77,6 +78,7 @@ a.title{
       text-overflow: ellipsis;
       overflow: hidden;
       font-size:0.9rem;
+      line-height:1.2;
       span.title{ font-weight:700 }
     }
     div.rating{
@@ -84,12 +86,13 @@ a.title{
       align-self:flex-start;
       align-items:center;
       gap:5px;
+      line-height:1;
       span:nth-child(1){
         font-size:1.25rem;
         color:darkgoldenrod;
       }
       span:nth-child(2){ font-weight:700; font-size:0.75rem; }
-      span:nth-child(3){ font-size:1rem }
+      span:nth-child(3){ font-size:1.5rem }
     }
     div.overview{
       color:var(--secondary-text-color);

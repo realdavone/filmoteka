@@ -37,23 +37,22 @@ div.title{
     background-color:var(--font-color);
     border-radius:6px;
     width:70px;
-    height:1.5rem;
-    margin-bottom:10px;
+    height:1.2rem;
   }
   div.details, div.creators{
     width:100%;
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
-    gap:1rem;
+    grid-template-columns:repeat(auto-fit, minmax(130px,1fr));
+    gap:10px;
     div.detail{
       display:flex;
       gap:10px;
       flex-direction:column;
       div.label{
-        height:calc(1rem * 1.4);
         width:50px;
         background:var(--font-color);
-        border-radius:4px;        
+        border-radius:4px;
+        height:1rem;      
       }
       div.content{
         height:0.75rem;
@@ -100,11 +99,11 @@ div.quote{
 }
 div.ratings{
   align-self:flex-start;
+  div.label{ margin-bottom:10px }
   & > div:last-of-type{
     display:flex;
     align-items:center;
     gap:15px;
-
   }
   div.rating{
     width:40px;
@@ -123,6 +122,9 @@ div.overview{
   align-items:stretch;
   gap:5px;
   align-self:stretch;
+  div.label{
+    margin-bottom:10px;
+  }
   div.row{
     background-color:var(--font-color);
     border-radius:4px;

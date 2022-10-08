@@ -1,16 +1,17 @@
 :root{
   --primary-color:#3b3b3b;
+  --player-background-color:#282828;
 
-  --dark-card-color:#121e41;
-  --dark-card-color-hover:#0f1935;
+  --dark-card-color:#202020;
+  --dark-card-color-hover:#232323;
 
   --light-card-color:#F5F0F6;
   --light-card-color-hover:#ebe7ec;
 
-  --dark-background:#1E2749;
+  --dark-background:#1b1b1b;
   --light-background:#fffdfd;
 
-  --dark-background-alpha:#1e2749a0;
+  --dark-background-alpha:#1b1b1ba0;
   --light-background-alpha:#fffdfda0;
 
   --font-color-dark:#ffffff;

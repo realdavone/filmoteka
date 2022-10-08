@@ -40,7 +40,6 @@ onDeactivated(() => { document.removeEventListener('scroll', pinPlayer) })
 
 <style lang="scss" scoped>
 section.player-holder{
-  background:#000000d1;
   width:var(--player-width);
   max-width:var(--player-width);
   aspect-ratio:16/9!important;

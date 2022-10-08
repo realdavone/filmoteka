@@ -9,6 +9,9 @@
       </a>
       <Logo :height="40"/>
     </div>
+    <span class="copy">
+      &copy; 2022 Filmotéka
+    </span>
   </footer>
 </template>
 
@@ -69,6 +72,9 @@ footer{
   div.bottom-row{
     display:flex;
     gap:15px;
+  }
+  span.copy{
+    font-size:0.75rem;
   }
 }
 </style>

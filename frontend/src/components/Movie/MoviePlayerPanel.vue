@@ -22,13 +22,16 @@ const props = defineProps({
   isPlayerWorking: Boolean
 })
 
-const playerSource = ref(null);
+const playerSource = ref(null)
 
 const setPlayer = () => { playerSource.value = `https://www.2embed.to/embed/imdb/movie?id=${props.id}` }
 </script>
 
 <style lang="scss" scoped>
-section.outter-holder{ background:black }
+section.outter-holder{
+  background-color:var(--player-background-color);
+}
+
 @media screen and (max-width: 1300px) {
   section.outter-holder{ margin:0 calc(0px - var(--container-padding)) }
 }
