@@ -57,7 +57,7 @@ a.title-card{
       font-size:50px;
       span{
         color:var(--font-color-dark);
-        font-size:2.5rem;
+        font-size:2rem;
         transition:0.4s ease transform, 0.8s ease box-shadow;
         border-radius:50%;
         transform:scale(1.35);

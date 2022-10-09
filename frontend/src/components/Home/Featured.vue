@@ -128,10 +128,6 @@ section.featured{
           font-size:0.75rem;
           text-transform:uppercase;
           font-weight:900;
-          &::before{
-            content:'💬︎';
-            margin-right:0.5rem;
-          }
         }
       }
       div.overview{

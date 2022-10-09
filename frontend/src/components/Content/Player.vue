@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, inject, onActivated, onDeactivated } from 'vue'
+import { ref, onMounted, onUnmounted, inject, onActivated, onDeactivated } from 'vue'
 
 const store = inject('store')
 const pinned = ref(false)
@@ -30,12 +30,11 @@ const props = defineProps({
   isPlayerWorking: Boolean
 })
 
-const pinPlayer = () => {
-  if(props.source) pinned.value = document.getElementById('player-holder').offsetTop < window.scrollY
-}
+const pinPlayer = () => { if(props.source) pinned.value = document.getElementById('player-holder').offsetTop < window.scrollY }
 onActivated(() => { document.addEventListener('scroll', pinPlayer) })
 onMounted(() => { document.addEventListener('scroll', pinPlayer) })
 onDeactivated(() => { document.removeEventListener('scroll', pinPlayer) })
+onUnmounted(() => { document.removeEventListener('scroll', pinPlayer) })
 </script>
 
 <style lang="scss" scoped>

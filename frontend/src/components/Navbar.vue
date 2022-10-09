@@ -22,7 +22,7 @@
           <template #notification><span class="notification" v-if="store.state.notifications.recommended.length > 0"></span></template>
         </NavButton>
         <NavButton title="Záložky" @handleClick="bookmarksVisible = true">
-          <template #icon><span :style="favStyles" style="background-color:var(--theme-color)">{{store.state.favourites.length}}</span></template>
+          <template #icon><span :style="favStyles" id="favCount">{{favCount}}</span></template>
         </NavButton>
       </template>
       <div v-if="!isSearchRendered && !store.state.credentials.loggedIn" class="auth-buttons">
@@ -43,7 +43,7 @@
             <section v-if="store.state.favourites.length !== 0" class="title-holder">
               <div class="search-input-holder">
                 <input v-model="searchInput" class="search-input" type="text" placeholder="Hľadaj">
-                <button v-if="searchInput!==''" class="clear-search" @click="clearSearch()">&times;</button>
+                <button v-if="searchInput!==''" class="clear-search" @click="searchInput = ''">&times;</button>
               </div>
               <ul v-auto-animate>
                 <li :class="{'inactive':title.inactive}" class="title" v-for="title in items" :key="title.id">
@@ -79,7 +79,7 @@
 </template>
 
 <script setup>
-import { ref, inject, computed, defineAsyncComponent } from 'vue'
+import { ref, inject, computed, defineAsyncComponent, onMounted, onUnmounted } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 
 import Logo from './Logo.vue'
@@ -111,29 +111,36 @@ const favStyles = {
   justifyContent: 'center',
   alignItems: 'center',
   color: 'white',
-  fontSize: '0.65rem'
+  fontSize: '0.65rem',
+  backgroundColor: 'var(--theme-color)'
 }
 
-onClickOutside(modal, () => { 
-  clearSearch()
+onClickOutside(modal, () => {
+  searchInput.value = ''
   bookmarksVisible.value = false 
 })
-
-const clearSearch = () => { searchInput.value = '' }
 
 const items = computed(() => {
   let result = []
   for(let title of store.state['favourites']){
     if(title.title.toLowerCase().includes(searchInput.value.toLowerCase())) result.push(title)
-    else result.push({...title, inactive: true})
+    else result.push({ ...title, inactive: true })
   }
   return result
 })
+
+const favCount = computed(() => {
+  document.getElementById('favCount')?.classList.add('scaleup')
+  return store.state.favourites.length
+}) 
 
 socket.on('newRecommended', (data) => {
   const { type, id } = data.title.title
   store.methods.notifications.recommended.add({ type, id }) 
 })
+
+onMounted(() => { document.getElementById('favCount')?.addEventListener('animationend', e => { e.target.classList.remove('scaleup') }) })
+onUnmounted(() => { document.getElementById('favCount')?.removeEventListener('animationend') })
 </script>
 
 <style lang="scss" scoped>
@@ -311,9 +318,17 @@ aside.modal{
     font-size:0.8rem;
   }
 }
+.scaleup{
+  animation-name:scaleup;
+  animation-duration:0.4s;
+}
 @media screen and (max-width: 600px) {
   .icon-hide{
     display:none!important;    
   }
+}
+@keyframes scaleup{
+  0%, 100% {transform:scale(1);}
+  50% {transform:scale(1.25);}
 }
 </style>

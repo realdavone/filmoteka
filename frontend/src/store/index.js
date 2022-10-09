@@ -20,20 +20,14 @@ const methods = {
       notify({ type: doesExist === false ? 'success' : 'warn', text: doesExist === false ? 'Pridané do záložiek' : 'Odobrané zo záložiek' })
     },
     update(index, season, episode){
-      Object.assign(state.favourites[index], {
-        season,
-        episode
-      })
+      Object.assign(state.favourites[index], { season, episode })
       localStorage.setItem('favourites', JSON.stringify(state.favourites))
     },
     removeAll(){
       state.favourites = []
-      console.log(state.favourites)
       localStorage.setItem('favourites', JSON.stringify(state.favourites))
     },
-    exists(title){
-      return state.favourites.some(item => item['type'] === title.type && item['id'] === title.id)
-    }
+    exists(title){ return state.favourites.some(item => item['type'] === title.type && item['id'] === title.id) }
   },
   watched: {
     populate(){
@@ -66,48 +60,46 @@ const methods = {
   },
   recentSearch: {
     populate(){
-      if(localStorage.getItem('recentSearch')!==null){
-        return JSON.parse(localStorage.recentSearch);
-      }else{
-        return [];
-      }
+      if(localStorage.getItem('recentSearch') !== null)
+        try { return JSON.parse(localStorage.recentSearch) } 
+        catch (error) { return [] }
+      else return []
     },
     pushItem(item){
-      if(state.recentSearch.indexOf(item)!==-1){
-        state.recentSearch.splice(state.recentSearch.indexOf(item),1);
+      if(state.recentSearch.indexOf(item) !== -1){
+        state.recentSearch.splice(state.recentSearch.indexOf(item), 1)
       }
-      state.recentSearch.unshift(item);
-      if(state.recentSearch.length>5){
-        state.recentSearch=state.recentSearch.splice(0,5);
+      state.recentSearch.unshift(item)
+      if(state.recentSearch.length > 5){
+        state.recentSearch = state.recentSearch.splice(0,5)
       }
-      localStorage.setItem('recentSearch', JSON.stringify(state.recentSearch));
+      localStorage.setItem('recentSearch', JSON.stringify(state.recentSearch))
     },
     clear(){
-      state.recentSearch = [];
-      localStorage.removeItem('recentSearch');
+      state.recentSearch = []
+      localStorage.removeItem('recentSearch')
     }
   },
   recentItems: {
     populate() {
-      if(localStorage.getItem('recentItems')!==null){
-        return JSON.parse(localStorage.recentItems);
-      }else{
-        return [];
-      }
+      if(localStorage.getItem('recentItems') !== null)
+        try { return JSON.parse(localStorage.recentItems) } 
+        catch (error) { return [] }
+      else return []
     },
     pushItem(item){
       if(state.recentItems.some(title => title.id === item.id)){
-        state.recentItems.splice(state.recentItems.findIndex(title => title.id === item.id && title.type === item.type),1);
+        state.recentItems.splice(state.recentItems.findIndex(title => title.id === item.id && title.type === item.type), 1)
       }
-      state.recentItems.unshift(item);
-      if(state.recentItems.length>6){
-        state.recentItems=state.recentItems.splice(0,6);
+      state.recentItems.unshift(item)
+      if(state.recentItems.length > 6){
+        state.recentItems=state.recentItems.splice(0, 6)
       }
-      localStorage.setItem('recentItems', JSON.stringify(state.recentItems));
+      localStorage.setItem('recentItems', JSON.stringify(state.recentItems))
     },
     clear(){
-      state.recentItems = [];
-      localStorage.removeItem('recentItems');
+      state.recentItems = []
+      localStorage.removeItem('recentItems')
     }
   },
   settings: {
