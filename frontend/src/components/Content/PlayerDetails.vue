@@ -2,7 +2,7 @@
   <section class="user-select-none container">
     <div class="outter">
       <div v-if="bg" class="background-image">
-        <img :src="`https://image.tmdb.org/t/p/w1440_and_h320_multi_faces${bg}`" alt="Background image">
+        <img @error="bg = false" :src="`https://image.tmdb.org/t/p/w1440_and_h320_multi_faces${bg}`" alt="Obrázok v pozadí">
       </div>
       <div class="poster">
         <slot name="poster" />
@@ -58,8 +58,8 @@ section.container{
     right:0;
     bottom:0;
     z-index:0;
-    -webkit-mask-image: linear-gradient(var(--background-color), transparent);
-    mask-image: linear-gradient(var(--background-color), transparent);
+    -webkit-mask-image: linear-gradient(var(--background-color), transparent 75%);
+    mask-image: linear-gradient(var(--background-color), transparent 75%);
     img{
       width:100%;
       height:100%;

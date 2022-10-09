@@ -12,15 +12,11 @@
         <div v-if="title?.name || title?.title" class="title">{{title?.name || title?.title}}</div>
         <div v-else class="skeleton" style="height:1.75rem;width:25%;min-width:180px;"></div>
 
-        <div v-if="title?.media_type" class="sub-title">
-          <TypeIcon :type="title?.media_type"/>
-          <span>{{title?.original_language}}</span>
-        </div>
-        <div v-else class="skeleton" style="height:1rem;width:20%;min-width:180px;"></div>
-
         <div v-if="title?.vote_average !== undefined" class="rating">
           <span>&starf;</span>
           <span>{{Math.round(title?.vote_average * 10) / 10}}</span>
+          <TypeIcon :type="title?.media_type"/>
+          <span>{{title?.original_language}}</span>
         </div>
         <div v-else class="skeleton" style="height:1.75rem;width:60px;"></div>
 
@@ -102,24 +98,6 @@ section.featured{
         text-overflow: ellipsis;
         overflow: hidden;
       }
-      div.sub-title{
-        display:flex;
-        align-items:center;
-        gap:0.5rem;
-        span:nth-child(2){
-          font-size:0.75rem;
-          text-transform:uppercase;
-          font-weight:900;
-        }
-        span:nth-child(3){
-          font-size:0.85rem;
-          display: -webkit-box;
-          -webkit-line-clamp: 1;
-          -webkit-box-orient: vertical;
-          text-overflow: ellipsis;
-          overflow: hidden;
-        }
-      }
       div.genres{
         font-size:0.65rem;
         display:flex;
@@ -137,7 +115,7 @@ section.featured{
       div.rating{
         display:flex;
         align-items:center;
-        gap:10px;
+        gap:0.5rem;
         span:nth-child(1){
           color:goldenrod;
           font-weight:700;
@@ -146,6 +124,15 @@ section.featured{
           overflow:hidden;
         }
         span:nth-child(2){ font-weight:700 }
+        span:nth-child(4){
+          font-size:0.75rem;
+          text-transform:uppercase;
+          font-weight:900;
+          &::before{
+            content:'💬︎';
+            margin-right:0.5rem;
+          }
+        }
       }
       div.overview{
         display: -webkit-box;

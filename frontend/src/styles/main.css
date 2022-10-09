@@ -39,6 +39,7 @@ body{
   transition:0.2s ease background-color;
 }
 a,button,select,div,summary{ -webkit-tap-highlight-color: transparent }
+img{ color:transparent }
 body.modal-open{overflow:hidden}
 body[data-dark-theme=true]{
   --background-color:var(--dark-background);
