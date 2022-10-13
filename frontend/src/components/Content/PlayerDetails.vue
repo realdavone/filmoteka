@@ -136,10 +136,12 @@ div.overview{
 :slotted(div.under-title){
   span{ font-size:0.75rem;
     &.rated{
-      padding:1px 0.4rem 2px;
+      padding:1px 0.3rem;
       border-radius:4px;
-      outline:1px solid var(--font-color);
+      mix-blend-mode: difference;
       font-size:0.65rem;
+      background-color:var(--font-color);
+      color:var(--background-color);
       font-family:'Oswald',sans-serif;
       line-height:1;
       margin-right:8px;

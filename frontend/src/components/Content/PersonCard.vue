@@ -26,6 +26,8 @@ a.cast-card{
   flex-direction:row;
   align-items:center;
   padding-right:5px;
+  border-radius:100px;
+  transition:0.2s ease background-color;
   div.img{
     background:var(--card-color);
     height:80px;
@@ -56,6 +58,14 @@ a.cast-card{
         color:var(--secondary-text-color)
       }
     }
+  }
+  &:hover{
+    background-color:var(--card-color);
+  }
+}
+@media screen and (max-width: 600px){
+  a.cast-card:hover {
+    background-color:initial!important;
   }
 }
 </style>
