@@ -41,7 +41,7 @@ section.ctr{
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:1.5rem;
+  gap:1rem;
   text-align:center;
   margin-top:-1rem;
   position:relative;
@@ -49,7 +49,7 @@ section.ctr{
     background-color:var(--theme-color);
     padding:0.25rem 0.5rem;
     border-radius:6px;
-    font-size:0.95rem;
+    font-size:0.75rem;
     font-weight:700;
     color:var(--font-color-dark);
   }

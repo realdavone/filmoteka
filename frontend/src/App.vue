@@ -27,13 +27,6 @@ provide('socket', socket)
 </script>
 
 <style lang="scss">
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Montserrat',sans-serif;
-  line-height:1.4;
-}
 main.content{
   width:100%;
   min-height:calc(100vh - var(--nav-height) - var(--footer-height));

@@ -1,6 +1,6 @@
 <template>
   <section class="vertical-placeholder">
-    <Logo height="75" style="opacity:0.1;filter:grayscale(100%)"/>
+    <Logo :height="75" style="opacity:0.1;filter:grayscale(100%)"/>
   </section>
 </template>
 

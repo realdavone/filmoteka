@@ -1,7 +1,7 @@
 <template>
   <router-link tabindex="0" :class="`title-card user-select-none ${store.methods.watched.exists({ type: item.media_type, id: item.id }) ? 'seen' : ''}`" :to="{ name: item.media_type[0].toUpperCase() + item.media_type.substring(1), params: { id: item.id } }">
     <div class="poster">
-      <img class="poster" :src="`https://www.themoviedb.org/t/p/w300${item.profile_path || item.poster_path}`" loading="lazy" :alt="item.name || item.title">
+      <img @load="log" class="poster" :src="`https://www.themoviedb.org/t/p/w300${item.profile_path || item.poster_path}`" loading="lazy" :alt="item.name || item.title">
       <div class="hover">
         <span>&#9655;</span>
       </div>
@@ -13,6 +13,8 @@
 import { inject } from 'vue'
 const store = inject('store')
 const { item } = defineProps({ item: Object })
+
+const log = el => el.target.style.opacity = 1
 </script>
 
 <style lang="scss" scoped>
@@ -39,8 +41,9 @@ a.title-card{
     img.poster{
       width:100%;
       aspect-ratio:2/3;
-      transition:0.6s ease transform;
+      transition:0.6s ease transform, 0.4s ease opacity;
       object-fit:cover;
+      opacity:0;
     }
     div.hover{
       position:absolute;

@@ -28,6 +28,13 @@
 
   --overview-font-size:0.8rem;
 }
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Trebuchet MS',sans-serif;
+  line-height:1.4;
+}
 body{
   background-color:var(--background-color);
   color:var(--font-color);
