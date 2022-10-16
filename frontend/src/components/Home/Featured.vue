@@ -77,7 +77,7 @@ section.featured{
       aspect-ratio:2/3;
       overflow:hidden;
       border-radius:16px;
-      background-color:var(--theme-color);
+      background-color:var(--card-color);
       img{
         width:100%;
         height:100%;

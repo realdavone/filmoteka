@@ -1,6 +1,8 @@
 <template>
   <div class="title">
-    <div class="img"></div>
+    <div class="img">
+      <Logo height="50" style="opacity:0.1;filter:grayscale(100%)"/>
+    </div>
     <div class="text-holder">
       <div class="title"></div>
       <div class="rating"></div>
@@ -10,6 +12,10 @@
     </div>
   </div>
 </template>
+
+<script setup>
+import Logo from '../Logo.vue'
+</script>
 
 <style lang="scss" scoped>
 div.title{
@@ -25,6 +31,9 @@ div.title{
     background:var(--card-color-hover);
     height:100%;
     aspect-ratio:2/3;
+    display:flex;
+    justify-content:center;
+    align-items:center;
   }
   div.text-holder{
     display:flex;
