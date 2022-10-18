@@ -36,7 +36,7 @@ const featured = ref({})
 const fetchData = async () => {
   try {
     const trends = await getData({ endpoint: '/trending/day' })
-    trendingTitles.value = trends['results']
+    trendingTitles.value = trends['results'].filter(title => title['poster_path'] !== null)
 
     // const popular = await getData({ endpoint: '/popular/tv' })
     // popularTv.value = popular['results'].filter(title => title.poster_path).map(title => ({ ...title, media_type: 'tv' }))

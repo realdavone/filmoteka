@@ -11,7 +11,7 @@
         <slot name="subnav" />
         <div>
           <slot name="title">
-            <div style="background:var(--font-color);height:calc(1.75rem * 1.1);width:160px;border-radius:6px;"></div>
+            <div style="background:var(--font-color);height:calc(1.5rem * 1.1);width:160px;border-radius:6px;"></div>
           </slot>
           <slot name="subtitle">
             <div style="background:var(--font-color);height:calc(0.75rem * 1.4);width:100px;border-radius:6px;margin-top:5px;"></div>
