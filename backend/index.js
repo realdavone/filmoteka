@@ -2,7 +2,6 @@ import dotenv from 'dotenv'
 import express from 'express'
 import http from 'http'
 import cors from 'cors'
-import fetch from 'node-fetch'
 import { init, io } from './io.js'
 import mongoose from 'mongoose'
 
@@ -32,9 +31,6 @@ io.on('connection', (socket) => {
 
 app.use(express.json())
 app.use(cors())
-
-const TMDB_BASE_API = process.env.TMDB_BASE_API
-const TMDB_API_KEY = process.env.TMDB_API_KEY
 
 mongoose.connect(process.env.DATABASE).then(() => { console.log('DB CONNECTED') })
 

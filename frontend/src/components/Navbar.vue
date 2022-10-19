@@ -162,7 +162,7 @@ nav{
     margin-left:0.75rem;
     button{
       font-size:0.75rem;
-      &.register-button{
+      &.login-button{
         background-color:var(--theme-color);
         color:var(--font-color-dark);
         padding:6px 8px;
