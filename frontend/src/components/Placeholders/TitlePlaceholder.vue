@@ -1,7 +1,7 @@
 <template>
   <div class="title">
     <div class="img">
-      <Logo height="50" style="opacity:0.1;filter:grayscale(100%)"/>
+      <Logo :height="50" style="opacity:0.1;filter:grayscale(100%)"/>
     </div>
     <div class="text-holder">
       <div class="title"></div>

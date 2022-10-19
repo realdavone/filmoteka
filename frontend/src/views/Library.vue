@@ -77,6 +77,8 @@ const fetchTitles = async(url) => {
     totalPages.value = data.total_pages
     filterParams.page = data.page
 
+    console.log(titles.value)
+
     loaded.value = true
   }
   catch (error) { router.push({ name: 'NotFound' }) }

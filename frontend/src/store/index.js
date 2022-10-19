@@ -50,7 +50,7 @@ const methods = {
   },
   countries: {
     async set(code){ 
-      const res = await fetch(`${baseURL}/country-codes/${code}`)
+      const res = await fetch(`${baseURL}/resources/country-codes/${code}`)
       const data = await res.json()
       state.countries = data.codes
     }
@@ -165,7 +165,7 @@ const state = reactive({
   recentSearch: methods.recentSearch.populate(),
   recentItems: methods.recentItems.populate(),
   settings:{
-    pinnedPlayer: localStorage.getItem('pinnedPlayer')!==null?JSON.parse(localStorage.getItem('pinnedPlayer')):true,
+    pinnedPlayer: localStorage.getItem('pinnedPlayer') !== null ? JSON.parse(localStorage.getItem('pinnedPlayer')) : true,
     themeColors: {
       colors: ['#ED3F00','#F78764','#2176AE','#FBB13C','#DE4D86','#89BD9E','#B84A62'],
       mainColor: null

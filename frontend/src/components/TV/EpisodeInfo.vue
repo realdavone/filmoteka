@@ -43,7 +43,7 @@ watch(props, val => { getEpisodeInfo(val.id,val.season,val.episode) })
 
 const getEpisodeInfo = async (id, season, episode) => {
   try {
-    const data = await getData({ endpoint: `/episode-info/${id}/${season}/${episode}` })
+    const data = await getData({ endpoint: `/title/episode/${id}/${season}/${episode}` })
     
     const translations = _.getTranslations(data['translations']['translations'])
 

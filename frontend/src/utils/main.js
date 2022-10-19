@@ -6,7 +6,7 @@ export default {
     return data.codes
   },
   async getGenres(keyword){
-    const data = await getData({ endpoint: `/genres/${keyword}` })
+    const data = await getData({ endpoint: `/resources/genre/${keyword}` })
     const genres = new Map()
     for(let genre of data.genres){
       genres.set(genre.id, genre.name)

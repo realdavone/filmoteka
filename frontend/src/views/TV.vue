@@ -121,7 +121,7 @@ const isPlayerWorking = ref(true)
 const fetchData = async (id) => {
   try {
     result.value = await getData({ endpoint: `/title/find/tv/${id}` })
-    const videosData = await getData({ endpoint: `/video/tv/${id}` })
+    const videosData = await getData({ endpoint: `/title/video/tv/${id}` })
 
     const omdb = result.value.omdb
 
