@@ -6,15 +6,7 @@
         <NoResults v-if="titles.length===0&&loaded"/>
       </template>
     </ItemPanel>
-    <section v-if="titles.length>0&&loaded" class="page-nav">
-      <button :class="{'disabled':parseInt(currentPage)===1}" :disabled="parseInt(currentPage)===1" @click="navigatePages(parseInt(currentPage)-1)">
-        <i class="fas fa-angle-left"></i>
-      </button>
-      <span>{{currentPage}}</span>
-      <button :class="{'disabled':parseInt(currentPage)>=parseInt(totalPages)}" :disabled="parseInt(currentPage)>=parseInt(totalPages)" @click="navigatePages(parseInt(currentPage)+1)">
-        <i class="fas fa-angle-right"></i>
-      </button>
-    </section>
+    <PageControl v-if="titles.length !== 0" @navigate="navigate" :pages="{ current: currentPage, total: totalPages }"/>
   </section>
 </template>
 
@@ -25,6 +17,7 @@ import { onBeforeMount, ref } from 'vue'
 import Title from '../../components/Search/Title.vue'
 import ItemPanel from '../../components/Content/ItemPanel.vue'
 import NoResults from '../../components/NoResults.vue'
+import PageControl from '../../components/PageControl.vue'
 
 import getData from '../../api/main.js'
 
@@ -50,15 +43,7 @@ const fetchData = async (query, page) => {
   }
 }
 
-const navigatePages = page => {
-  router.push({
-    path: '/search/tv',
-    query: {
-      q: route.query.q,
-      page: page
-    }
-  })
-}
+const navigate = pageNumber => { router.push({ path: '/search/tv', query: { ...route.query, page: pageNumber } }) }
 
 onBeforeMount(()=>{
   fetchData(route.query.q, route.query.page);
@@ -70,32 +55,6 @@ section.items-holder{
   display:flex;
   flex-direction:column;
   gap:20px
-}
-section.page-nav{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  span{
-    display:inline-block;
-    width:40px;
-    font-size:1.25rem;
-    text-align:center;
-    font-weight:900;
-  }
-  button{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:var(--card-color);
-    width:40px;
-    height:30px;
-    border-radius:8px;
-    &.disabled{
-      background:none;
-      cursor:default;
-      opacity:0.5;
-    }
-  }
 }
 @media screen and (max-width: 600px){
   section.items-holder{gap:var(--container-padding)!important}

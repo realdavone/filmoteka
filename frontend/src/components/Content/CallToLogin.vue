@@ -57,6 +57,7 @@ section.ctr{
     position:absolute;
     top:1rem;
     right:1rem;
+    font-size:1rem;
   }
   section.logos{
     display:flex;
@@ -65,9 +66,7 @@ section.ctr{
       height:1.25rem;
       width:auto;
     }
-    span{
-      font-size:0.75rem;
-    }
+    span{ font-size:0.75rem }
   }
 }  
 </style>

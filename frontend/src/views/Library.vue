@@ -28,15 +28,7 @@
         <NoResults v-if="titles.length === 0 && loaded === true" />
       </template>
     </ItemPanel>
-    <section v-if="titles.length !==0 " class="page-control">
-      <button :class="{ 'disabled': parseInt(filterParams.page) === 1 }" :disabled="parseInt(filterParams.page) === 1" @click="navigatePages(parseInt(filterParams.page) - 1)" class="arrow-button">
-        <span class="material-symbols-outlined">chevron_left</span>
-      </button>
-      <span class="current-page">{{filterParams.page}}</span>
-      <button :class="{ 'disabled': parseInt(filterParams.page) === parseInt(totalPages) }" :disabled="parseInt(filterParams.page) === parseInt(totalPages)" class="arrow-button" @click="navigatePages(parseInt(filterParams.page) + 1)">
-        <span class="material-symbols-outlined">chevron_right</span>
-      </button>
-    </section>
+    <PageControl v-if="titles.length !== 0" @navigate="navigate" :pages="{ current: filterParams.page, total: totalPages }"/>
   </main>
 </template>
 
@@ -47,6 +39,7 @@ import Title from '../components/Search/Title.vue'
 import TitleB from '../components/Content/Title.vue'
 import NoResults from '../components/NoResults.vue'
 import ItemPanel from '../components/Content/ItemPanel.vue'
+import PageControl from '../components/PageControl.vue'
 import getData from '../api/main.js'
 
 const route = useRoute()
@@ -60,7 +53,7 @@ const filterParams = reactive({
   page: 1
 })
 
-const totalPages = ref()
+const totalPages = ref(null)
 const titles = ref([])
 
 const loaded = ref(false)
@@ -84,12 +77,7 @@ const fetchTitles = async(url) => {
 
 const filter = (type, sort, page, genre) => { router.push({ name: 'Library', query: { type, sort, genre, page } }) }
 
-const navigatePages = (pageNum) => {
-  const currentQuery = route.query;
-  const newQuery = { ...currentQuery, page: pageNum };
-  
-  router.push({ name: 'Library', query: newQuery })
-}
+const navigate = pageNumber => { router.push({ name: 'Library', query: { ...route.query, page: pageNumber } }) }
 
 onBeforeMount(() => { fetchTitles(url.value) })
 
@@ -142,33 +130,6 @@ section.filter{
   &>*{
     flex:1;
     height:32px;
-  }
-}
-section.page-control{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  margin-top:var(--container-padding);
-  span.current-page{
-    display:inline-block;
-    text-align:center;
-    font-size:1.25rem;
-    width:40px;
-    font-weight:900;
-  }
-  button.arrow-button{
-    background:var(--card-color);
-    width:40px;
-    height:30px;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:8px;
-  }
-  button.arrow-button.disabled{
-    cursor:default;
-    background:transparent;
-    opacity:0.5;
   }
 }
 </style>
