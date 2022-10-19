@@ -15,8 +15,8 @@
       </div>
       <div class="overview" v-if="title.overview">{{title.overview}}</div>
     </section>
-    <div v-if="title.poster_path" class="background-img">
-      <img :src="`https://www.themoviedb.org/t/p/w780${title.poster_path}`" :alt="title.title" loading="lazy">
+    <div v-if="title.backdrop_path" class="background-img">
+      <img :src="`https://www.themoviedb.org/t/p/w780${title.backdrop_path}`" :alt="title.title" loading="lazy">
     </div>
   </router-link>
 </template>
