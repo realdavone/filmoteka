@@ -25,15 +25,17 @@ div.title{
   border-radius:8px;
   display:flex;
   align-items:center;
-  gap:15px;
+  gap:1rem;
+  padding:1rem;
   overflow:hidden;
   div.img{
     background:var(--card-color-hover);
     height:100%;
-    aspect-ratio:2/3;
+    aspect-ratio:1;
     display:flex;
     justify-content:center;
     align-items:center;
+    border-radius:0.5rem;
   }
   div.text-holder{
     display:flex;

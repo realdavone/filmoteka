@@ -8,10 +8,8 @@
 div.title{
   margin-bottom:1rem;
   font-size:1.5rem;
-  font-weight:700;
   text-transform:uppercase;
-  letter-spacing:1px;
-  font-family:'Oswald', sans-serif;
+  font-family: Copperplate, Papyrus, fantasy;
 }
 @media screen and (max-width: 600px){
   div.title{ font-size:1.25rem }

@@ -204,8 +204,7 @@ aside.modal{
     padding:10px 10px 10px 15px;
     background-color:var(--card-color-hover);
     span.heading{ 
-      font-weight:700;
-      font-family: 'Oswald', sans-serif;
+      font-family: Copperplate, Papyrus, fantasy;
       font-size:1.25rem;
     }
     button{
@@ -217,8 +216,9 @@ aside.modal{
       border-radius:50%;
       transition:0.2s ease background-color;
       color:crimson;
-      padding-top:1px;
-      font-size:2rem;
+      font-size:1.25rem;
+      line-height:1;
+      padding-bottom:3px;
       &:active{background-color:#dc143c40;}
     } 
   }

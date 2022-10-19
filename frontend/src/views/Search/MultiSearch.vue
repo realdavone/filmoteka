@@ -4,7 +4,7 @@
       <header>Filmy</header>
       <ItemPanel :placeholderData="{count:3,type:'title'}">
         <template #item>
-          <Title v-for="movie in movies" :key="movie.id" :title="movie.title" :img="movie.poster_path" :release="movie.release_date" :overview="movie.overview" :id="movie.id" :type="'movie'" :rating="movie.vote_average"/>
+          <Title v-for="movie in movies" :key="movie.id" :title="{...movie, type: 'movie'}" />
           <router-link v-if="loaded" :to="{ path:'/search/movie', query:{ q: route.query.q, page: 1 } }" class="show-more user-select-none">
             <span>Zobraziť filmy</span>
             <span class="material-symbols-outlined">chevron_right</span>
@@ -14,7 +14,7 @@
       <header>Seriály</header>
       <ItemPanel :placeholderData="{count:3,type:'title'}">
         <template #item>
-          <Title v-for="tv in tvs" :key="tv.id" :title="tv.name" :originalTitle="tv.original_name" :img="tv.poster_path" :release="tv.first_air_date" :overview="tv.overview" :id="tv.id" :type="'tv'" :rating="tv.vote_average"/>
+          <Title v-for="tv in tvs" :key="tv.id" :title="{...tv, type: 'tv'}" />
           <router-link v-if="loaded" :to="{ path:'/search/tv', query:{ q: route.query.q, page: 1 } }" class="show-more user-select-none">
             <span>Zobraziť seriály</span>
             <span class="material-symbols-outlined">chevron_right</span>

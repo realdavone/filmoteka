@@ -17,7 +17,7 @@
           <Heading>Filmy</Heading>
           <ItemPanel :placeholderData="{ count: 2, type: 'title' }">
             <template #item>
-              <Title v-for="movie in collection.titles" :key="movie.id" :title="movie.title" :img="movie.poster_path" :release="movie.release_date" :overview="movie.overview" :id="movie.id" :type="'movie'" :rating="Math.floor(movie.vote_average*10)/10"/>          
+              <Title v-for="movie in collection.titles" :key="movie.id" :title="{...movie, type: 'movie'}" />          
             </template>
           </ItemPanel>
         </section>

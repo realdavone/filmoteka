@@ -15,13 +15,11 @@ const props = defineProps({ placeholderData: Object })
 
 <style lang="scss" scoped>
 section.items{
-  display:flex;
-  flex-direction:column;
-  gap:20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));
+  gap:1rem;
 }
 @media screen and (max-width: 600px){
-  section.items{
-    gap:var(--container-padding)!important;
-  }
+  section.items{ gap:var(--container-padding)!important }
 }
 </style>

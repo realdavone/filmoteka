@@ -2,7 +2,7 @@
   <section class="items-holder">
     <ItemPanel :placeholderData="{count:4,type:'title'}">
       <template #item>
-        <Title v-for="tv in titles" :key="tv.id" :title="tv.name" :originalTitle="tv.original_name" :img="tv.poster_path" :release="tv.first_air_date" :overview="tv.overview" :id="tv.id" :type="'tv'" :rating="tv.vote_average"/>
+        <Title v-for="tv in titles" :key="tv.id" :title="{...tv, type: 'tv'}" />
         <NoResults v-if="titles.length===0&&loaded"/>
       </template>
     </ItemPanel>

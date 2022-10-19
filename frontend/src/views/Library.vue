@@ -22,9 +22,9 @@
         <span class="material-symbols-outlined" style="font-size:1.25rem">filter_alt</span>
       </button>
     </section>
-    <ItemPanel :placeholderData="{count:4, type:'title'}">
+    <ItemPanel :placeholderData="{count:8, type:'title'}">
       <template #item>
-        <Title v-for="title in titles" :key="title.id" :title="title.title || title.name" :img="title.poster_path" :release="title.release_date || title.first_air_date" :overview="title.overview" :id="title.id" :type="filterParams.type" :rating="title.vote_average" />
+        <Title v-for="title in titles" :key="title.id" :title="{...title, type: route.query.type || 'movie'}" />
         <NoResults v-if="titles.length === 0 && loaded === true" />
       </template>
     </ItemPanel>
@@ -77,8 +77,6 @@ const fetchTitles = async(url) => {
     totalPages.value = data.total_pages
     filterParams.page = data.page
 
-    console.log(titles.value)
-
     loaded.value = true
   }
   catch (error) { router.push({ name: 'NotFound' }) }
@@ -107,11 +105,12 @@ section.filter{
   background-color:var(--background-color);
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-  gap:10px;
+  gap:1rem;
   position:sticky;
   top:var(--nav-height);
-  padding-top:var(--container-padding);
-  padding-bottom:var(--container-padding);
+  padding-top:1rem;
+  padding-bottom:1rem;
+  z-index:5;
   select{
     padding:8px;
     border:none;
