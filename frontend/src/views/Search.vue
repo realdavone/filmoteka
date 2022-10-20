@@ -11,7 +11,7 @@
       </section>
       <section class="results-holder">
         <Title>Výsledky pre <span class="quotation-marks">{{route.query.q}}</span></Title>
-        <router-view :key="$route.fullPath"></router-view>
+        <router-view></router-view>
       </section>
     </section>
   </main>

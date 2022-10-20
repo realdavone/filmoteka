@@ -26,7 +26,7 @@
       <header>Osoby</header>
       <ItemPanel :placeholderData="{count:4,type:'person'}">
         <template #item>
-          <Person v-for="person in people" :key="person.id" :name="person.name" :img="person.profile_path" :id="person.id" :knownFor="person['known_for']" />
+          <Person v-for="person in people" :key="person.id" :person="person" />
           <router-link v-if="loaded" :to="{ path:'/search/person', query:{ q: route.query.q, page: 1 } }" class="show-more user-select-none">
             <span>Zobraziť osoby</span>
             <span class="material-symbols-outlined">chevron_right</span>

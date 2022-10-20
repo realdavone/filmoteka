@@ -3,7 +3,7 @@
     <ItemPanel :placeholderData="{count:4,type:'title'}">
       <template #item>
         <template v-if="route.matched[1].props.default.type === 'person'">
-          <Person v-for="item in items" :key="item.id" :person="{...item, type: route.matched[1].props.default.type}" />
+          <Person v-for="item in items" :key="item.id" :person="{...item}" />
         </template>
         <template v-else>
           <Title v-for="item in items" :key="item.id" :title="{...item, type: route.matched[1].props.default.type}" />    
@@ -47,7 +47,7 @@ const fetchData = async (type, query, page) => {
   } catch (error) { router.push({ name: 'NotFound' }) }
 }
 
-const navigate = pageNumber => { router.push({ path: '/search/movie', query: { ...route.query, page: pageNumber } }) }
+const navigate = pageNumber => { router.push({ path: `/search/${route.matched[1].props.default.type}`, query: { ...route.query, page: pageNumber } }) }
 
 onBeforeMount(() => { fetchData(route.matched[1].props.default.type, route.query.q, route.query.page) })
 </script>
