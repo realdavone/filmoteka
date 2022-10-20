@@ -14,9 +14,9 @@ const routes = [
     component: () => import('../views/Search.vue'),
     children: [
       { path: '', name: 'Multi', component: () => import('../views/Search/MultiSearch.vue') },
-      { path: 'movie', component: () => import('../views/Search/MovieSearch.vue') },
-      { path: 'tv', component: () => import('../views/Search/TVSearch.vue') },
-      { path: 'person', component: () => import('../views/Search/PersonSearch.vue') }
+      { path: 'movie', props: { type: 'movie' }, component: () => import('../views/Search/SubSearch.vue') },
+      { path: 'tv', props: { type: 'tv' }, component: () => import('../views/Search/SubSearch.vue') },
+      { path: 'person', props: { type: 'person' }, component: () => import('../views/Search/SubSearch.vue') }
     ],
     meta: { title: 'Vyhľadávanie' }
   },
