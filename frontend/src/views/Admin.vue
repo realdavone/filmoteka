@@ -86,7 +86,7 @@ section.dashboard{
       padding:15px;
       transform:rotate(180deg);
     }
-    span:nth-child(2){ font-family: 'Oswald', sans-serif; }
+    span:nth-child(2){ font-weight:900; }
   }
   div.columns{
     display:flex;

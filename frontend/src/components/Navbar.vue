@@ -204,8 +204,8 @@ aside.modal{
     padding:10px 10px 10px 15px;
     background-color:var(--card-color-hover);
     span.heading{ 
-      font-family: Copperplate, Papyrus, fantasy;
-      font-size:1.25rem;
+      font-size:1.15rem;
+      font-weight:900;
     }
     button{
       height:30px;

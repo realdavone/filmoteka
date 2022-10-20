@@ -9,7 +9,7 @@ div.title{
   margin-bottom:1rem;
   font-size:1.5rem;
   text-transform:uppercase;
-  font-family: Copperplate, Papyrus, fantasy;
+  font-weight:900;
 }
 @media screen and (max-width: 600px){
   div.title{ font-size:1.25rem }
