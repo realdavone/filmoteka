@@ -1,5 +1,5 @@
 <template>
-  <main class="flex-column">
+  <main class="title">
     <PlayerDetails :type="'tv'" :bg="result?.backdrop_path">
       <template #poster>
         <img v-if="details?.poster" class="poster" :src="`https://www.themoviedb.org/t/p/w300${details['poster']}`" :alt="details['title']">
@@ -64,7 +64,7 @@
         <Details v-if="!loading" :details="details" />
       </template>
     </PlayerDetails>
-    <main class="flex-column" v-if="!loading">
+    <main class="title" v-if="!loading">
       <CastPanel v-if="cast.length !== 0">
         <template #title>Herci</template>
         <template #card>

@@ -1,5 +1,5 @@
 <template>
-  <section class="outter container user-select-none">
+  <section class="outter user-select-none">
     <section class="inner">
       <div v-if="collection['backdrop_path']" class="background-image">
         <img :src="`https://www.themoviedb.org/t/p/w1440_and_h320_multi_faces${collection['backdrop_path']}`" alt="">
@@ -20,7 +20,6 @@ section.outter{
     isolation:isolate;
     height:200px;
     min-height:200px;
-    border-radius:12px;
     overflow:hidden;
     background-size:cover!important;
     background-repeat:no-repeat!important;
@@ -50,24 +49,21 @@ section.outter{
       font-size:1.5rem;
       position:relative;
       z-index:1;
-      b{font-size:1.5rem;}
     }
     a.cta{
       position:relative;
       z-index:1;
-      background:var(--theme-color-transparent);
-      padding:6px 14px;
+      padding:6px 14px 7px;
       border-radius:35px;
       text-transform:uppercase;
-      font-family:'Oswald', sans-serif;
+      font-weight:900;
       font-size:0.8rem;
       transition:0.2s ease background;
       color:white;
       display:flex;
       align-items:center;
-      letter-spacing:0.5px;
+      background-color:var(--theme-color);
     }
-    a.cta:hover{ background:var(--theme-color) }
   }
 }
 @media screen and (max-width: 600px) {

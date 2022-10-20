@@ -4,7 +4,7 @@
       <section class="container collection-holder">
         <div class="img-details">
           <div class="img">
-            <img v-if="collection.poster" :src="`https://www.themoviedb.org/t/p/w300_and_h450_bestv2${collection.poster}`" alt="Plagát kolekcie">
+            <img v-if=" collection.poster" :src="`https://www.themoviedb.org/t/p/w300_and_h450_bestv2${collection.poster}`" alt="Plagát kolekcie">
           </div>
           <div class="details">
             <span v-if="collection.title" class="heading">{{collection.title}}</span>
@@ -17,7 +17,7 @@
           <Heading>Filmy</Heading>
           <ItemPanel :placeholderData="{ count: 2, type: 'title' }">
             <template #item>
-              <Title v-for="movie in collection.titles" :key="movie.id" :title="{...movie, type: 'movie'}" />          
+              <Title v-for="movie in collection.titles" :key="movie.id" :title="{ ...movie, type: 'movie' }" />          
             </template>
           </ItemPanel>
         </section>
@@ -47,10 +47,12 @@ const fetchData = async(id) => {
 
     const translations = _.getTranslations(data['translations']['translations'])
 
-    collection.title = translations.length > 0 && translations[0]['data']['title'] !=='' ? translations[0]['data']['title'] : data.name
-    collection.overview = translations.length > 0 && translations[0]['data']['overview'] !=='' ? translations[0]['data']['overview'] : data.overview
+    collection.title = translations.length > 0 && translations[0]['data']['title'] !== '' ? translations[0]['data']['title'] : data.name
+    collection.overview = translations.length > 0 && translations[0]['data']['overview'] !== '' ? translations[0]['data']['overview'] : data.overview
     collection.titles = data.parts
     collection.poster = data.poster_path
+
+    console.log(data)
   } catch (error) { router.push({ name: 'NotFound' }) }
   
   document.title=`${collection.title} / Filmotéka`
@@ -65,7 +67,7 @@ onActivated(() => {
 <style lang="scss" scoped>
 section.collection-holder{
   display:flex;
-  gap:20px;
+  gap:var(--container-padding);
   justify-content:space-between;
   align-items:flex-start;
   div.skeleton{
@@ -77,14 +79,13 @@ section.collection-holder{
     max-width:800px;
     min-width:800px;
     display:flex;
-    gap:20px;
+    gap:var(--container-padding);
     align-items:stretch;
     div.img{
-      background:var(--theme-color);
+      background:var(--card-color);
       overflow:hidden;
-      border-radius:12px;
-      min-width:250px;
-      min-height:375px;
+      border-radius:1rem;
+      width:250px;
       aspect-ratio:2/3;
       img{
         width:100%;
@@ -101,10 +102,7 @@ section.collection-holder{
         font-size:1.5rem;
         font-weight:900;
       }
-      p{
-        text-align:justify;
-        font-size:0.85rem!important;
-      }
+      p{ font-size:0.85rem!important }
     }
   }
   section.titles-holder{ width:100%; }

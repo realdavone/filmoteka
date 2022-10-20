@@ -90,6 +90,12 @@ button.toggle-button[data-active=false]::before{ transform:translateX(0) }
 button.toggle-button[data-active=true]{ background-color:var(--theme-color) }
 button.toggle-button[data-active=true]::before{ transform:translateX(13px) }
 
+main.title{
+  display:flex;
+  flex-direction:column;
+  gap:var(--container-padding)
+}
+
 .fade-enter-active, .fade-leave-active{ transition:opacity 0.2s ease }
 .fade-enter-from, .fade-leave-to{ opacity:0 }
 

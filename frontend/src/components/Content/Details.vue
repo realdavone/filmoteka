@@ -68,7 +68,7 @@
     </div>
 
     <div v-if="details['networks'].length !== 0" class="networks" ref="networks">
-      <img div v-for="network, i in details['networks']" :key="network.id" @error="hideNetwork(networks, i)" :src="`https://www.themoviedb.org/t/p/original${network.logo_path.split('.')[0] + '.svg'}`" :alt="network.name" :title="network.name">
+      <img div v-for="network, i in details['networks']" :key="network.id" @error="hideNetwork" :src="`https://www.themoviedb.org/t/p/original${network.logo_path.split('.')[0] + '.svg'}`" :alt="network.name" :title="network.name">
     </div>
   </section>
 </template>
@@ -87,7 +87,7 @@ const type = ref(route.name.charAt(0).toLowerCase() + route.name.substr(1))
 const details = ref(props['details'])
 const networks = ref(null)
 
-const hideNetwork = (el, index) => el.children[index].style.display = 'none'
+const hideNetwork = el => el.target.style.display = 'none'
 
 store.methods.recentItems.pushItem({
   type: type.value,

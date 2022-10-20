@@ -35,11 +35,6 @@ main.content{
   padding-top:20px;
   padding-bottom:20px;
 }
-.flex-column{
-  display:flex;
-  flex-direction:column;
-  gap:20px;
-}
 .container{
   padding-left:var(--container-padding);
   padding-right:var(--container-padding);
@@ -101,9 +96,6 @@ input{
   .wrapper{
     padding-top:var(--container-padding);
     padding-bottom:var(--container-padding);
-  }
-  .flex-column{
-    gap:var(--container-padding);
   }
 }
 </style>

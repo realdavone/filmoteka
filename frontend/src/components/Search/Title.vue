@@ -39,7 +39,6 @@ a.title{
   border-radius:0.5rem;
   user-select:none;
   gap:1rem;
-  transition:0.2s ease background;
   overflow:hidden;
   padding:1rem;
   position: relative;
@@ -103,7 +102,9 @@ a.title{
       font-size:0.75rem;
     }
   }
-  &:hover{background:var(--card-color-hover);}
+  &:hover{
+    div.background-img{ opacity:0.25 }
+  }
   div.background-img{
     position:absolute;
     top:0;
@@ -112,6 +113,7 @@ a.title{
     bottom:0;
     z-index:-1;
     opacity:0.1;
+    transition:0.2s ease opacity;
     img{
       width:100%;
       height:100%;

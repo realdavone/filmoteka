@@ -145,6 +145,7 @@ div.overview{
       font-family:'Oswald',sans-serif;
       line-height:1;
       margin-right:8px;
+      font-weight:900;
     }
   }
 }
