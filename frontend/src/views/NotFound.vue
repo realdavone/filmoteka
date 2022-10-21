@@ -33,6 +33,7 @@ main.main{
     padding:8px 16px;
     transition:0.2s ease background;
     font-weight:700;
+    color:var(--font-color-dark);
   }
 }
 </style>

@@ -88,12 +88,15 @@ export const removeRecommendedTitle = async (req, res) => {
 
 export const getEpisode = async (req, res) => {
   const { id, season, episode } = req.params
-
-  const response = await fetch(`${TMDB_BASE_API}/tv/${id}/season/${season}/episode/${episode}?api_key=${TMDB_API_KEY}&language=sk-SK&append_to_response=translations`)
-  res.status(200).json(await response.json())
+  try {
+    const response = await fetch(`${TMDB_BASE_API}/tv/${id}/season/${season}/episode/${episode}?api_key=${TMDB_API_KEY}&language=sk-SK&append_to_response=translations`)
+    res.status(200).json(await response.json())
+  } catch (error) { res.sendStatus(500) }
 }
 
 export const getVideo = async (req, res) => {
-  const data = await fetch(`${TMDB_BASE_API}/${req.params.type}/${req.params.id}/videos?api_key=${TMDB_API_KEY}&language=en-US`)
-  res.status(200).json(await data.json())
+  try {
+    const data = await fetch(`${TMDB_BASE_API}/${req.params.type}/${req.params.id}/videos?api_key=${TMDB_API_KEY}&language=en-US`)
+    res.status(200).json(await data.json())    
+  } catch (error) { res.sendStatus(500) }
 }

@@ -16,6 +16,7 @@ const { collection } = defineProps({ collection: Object })
 
 <style lang="scss" scoped>
 section.outter{
+  isolation:isolate;
   section.inner{
     isolation:isolate;
     height:200px;

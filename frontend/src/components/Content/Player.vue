@@ -82,21 +82,6 @@ section.player-holder{
     position:absolute;
     top:0;
     left:0;
-    div.bg{
-      background-position:center;
-      background-size:cover;
-      position:absolute;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      z-index:1;
-      -webkit-filter: blur(3px);
-      -moz-filter: blur(3px);
-      -o-filter: blur(3px);
-      -ms-filter: blur(3px);
-      filter: blur(3px);
-    }
     button.play-button{
       display:flex;
       align-items:center;
@@ -129,7 +114,7 @@ section.player-holder{
       position:fixed;
       top:var(--nav-height);
       left:0;
-      z-index:10;
+      z-index:15;
       height:40vh;
       width:auto;
       box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);

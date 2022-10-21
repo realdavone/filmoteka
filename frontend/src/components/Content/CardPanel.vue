@@ -44,6 +44,7 @@ const scrollTo = (element, distance) => { element.scrollTo({ left: element.scrol
 <style lang="scss" scoped>
 section.panel{
   position: relative;
+  isolation:isolate;
   div.upper-row{
     display:flex;
     align-items:center;

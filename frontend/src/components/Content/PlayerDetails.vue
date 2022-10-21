@@ -50,7 +50,6 @@ section.container{
   display:flex;
   flex-direction:column;
   gap:var(--container-padding);
-  isolation:isolate;
   div.background-image{
     position:absolute;
     top:0;
