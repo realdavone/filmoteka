@@ -2,7 +2,7 @@
   <section class="outter user-select-none">
     <section class="inner">
       <div v-if="collection['backdrop_path']" class="background-image">
-        <img :src="`https://www.themoviedb.org/t/p/w1440_and_h320_multi_faces${collection['backdrop_path']}`" alt="">
+        <img :src="`https://www.themoviedb.org/t/p/w1440_and_h320_multi_faces${collection['backdrop_path']}`" alt="Obrázok kolekcie">
       </div>
       <span class="heading">Tento film je súčasťou kolekcie</span>
       <router-link class="cta" :to="{ name:'Collection', params:{ id: collection.id } }">Prejsť na kolekciu</router-link>

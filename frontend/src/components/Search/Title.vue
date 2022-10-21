@@ -4,7 +4,7 @@
       <img v-if="title.poster_path" :src="`https://www.themoviedb.org/t/p/w300_and_h300_face${title.poster_path}`" :alt="title.title" loading="lazy">
     </div>
     <section class="details">
-      <div class="title-holder">
+      <div class="title-holder" :title="`${title.title || title.name} (${(new Date(title.release_date || title.first_air_date)).getFullYear()})`">
         <span class="title">{{title.title || title.name}}</span>  
         <span style="color:var(--secondary-text-color)" v-if="title.release_date || title.first_air_date">&#32;({{(new Date(title.release_date || title.first_air_date)).getFullYear()}})</span>
       </div>

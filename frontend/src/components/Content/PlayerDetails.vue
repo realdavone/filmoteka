@@ -2,7 +2,7 @@
   <section class="user-select-none container">
     <div class="outter">
       <div v-if="bg" class="background-image">
-        <img @error="bg = false" :src="`https://image.tmdb.org/t/p/w1440_and_h320_multi_faces${bg}`" alt="Obrázok v pozadí">
+        <img @error="bg = false" :src="`https://www.themoviedb.org/t/p/w1440_and_h320_multi_faces${bg}`" alt="Obrázok v pozadí">
       </div>
       <div class="poster">
         <slot name="poster" />

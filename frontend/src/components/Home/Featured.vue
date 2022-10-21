@@ -1,7 +1,7 @@
 <template>
   <section class="featured container user-select-none">
     <div v-if="title?.backdrop_path" class="background-image">
-      <img :src="`https://image.tmdb.org/t/p/w1280${title?.backdrop_path}`" alt="">
+      <img :src="`https://www.themoviedb.org/t/p/w1440_and_h320_multi_faces${title?.backdrop_path}`" alt="Obrázok v pozadí">
     </div>
     <Title style="position:relative;z-index:2">Vybrané</Title>
     <section class="title-holder">
@@ -24,8 +24,7 @@
         <div v-else class="skeleton" style="height:1rem;width:80%;"></div>
 
         <button class="go-to-button" @click="$router.push(`/${title?.media_type}/${title?.id}`)">
-          <span>&#9655;</span>
-          <span>Prehrať</span>
+          <span>Prejsť na {{title?.media_type === 'movie' ? 'film' : 'seriál'}}</span>
         </button>
       </div>      
     </section>
@@ -53,8 +52,8 @@ section.featured{
     bottom:0;
     left:0;
     right:0;
-    -webkit-mask-image: linear-gradient(black, transparent 50%);
-    mask-image: linear-gradient(black, transparent 50%);
+    -webkit-mask-image: linear-gradient(#000000, #00000040 50%, transparent);
+    mask-image: linear-gradient(#000000, #00000040 50%, transparent);
     img{
       width:100%;
       height:100%;
@@ -62,7 +61,7 @@ section.featured{
     }
   }
   div.skeleton{
-    background:white;
+    background:#ffffff80;
     border-radius:4px;
   }
   section.title-holder{
@@ -149,8 +148,7 @@ section.featured{
         align-items:center;
         gap:8px;
         color:var(--font-color-dark);
-        span:nth-child(1){ font-size:1rem }
-        span:nth-child(2){ font-size:0.85rem }
+        span{ font-size:0.85rem }
       }
     }
   }
