@@ -5,7 +5,7 @@
         <slot name="label" />
       </span>
       <div class="info">
-        <div style="display:flex;gap:8px;font-size:0.8rem;align-items:center;">
+        <div style="display:flex;gap:8px;font-size:0.75rem;align-items:center;line-height:1;">
           <b style="color:var(--theme-color)">{{`S${info.season}.E${info.episode}`}}</b>          
           <span style="color:var(--secondary-text-color)">{{new Date(info.date).toLocaleDateString('sk-SK', { weekday: 'short', year: '2-digit', month: 'short', day: 'numeric' })}}</span>
         </div>
@@ -17,11 +17,7 @@
 <script setup>
 const { playable, info } = defineProps({
   playable: Boolean,
-  info: {
-    season: Number,
-    episode: Number,
-    date: String
-  }
+  info: { season: Number, episode: Number, date: String }
 })
 const emit = defineEmits(['playEpisode'])
 </script>
@@ -35,15 +31,9 @@ section.episode-card{
   position:relative;
   gap:0.5rem;
   span.label{
-    font-family: 'Oswald', sans-serif;
-    font-size:0.8rem;
-    font-weight:700;
+    font-size:0.75rem;
+    font-weight:900;
     text-transform:uppercase;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    text-overflow: ellipsis;
-    overflow: hidden;
     margin-bottom:2px;
   }
   &::before{

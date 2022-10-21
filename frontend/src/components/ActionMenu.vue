@@ -23,20 +23,21 @@ defineExpose({ copyUrl })
 
 <style lang="scss">
 nav.subnav{
-  width:100%;
   display:flex;
   flex-direction:row;
   align-items:center;
   overflow:hidden;
+  align-self:center;
   div.buttons{
     display:flex;
     align-items:center;
-    gap:4px;
+    gap:1rem;
+    flex-wrap:wrap;
     button.placeholder{
-      height:36px;
-      width:36px;
-      background-color:var(--theme-color);
-      border-radius:50%;
+      height:calc(0.85rem + 2 * 0.5rem);
+      aspect-ratio:1;
+      background-color:var(--card-color);
+      border-radius:0.25rem;
       cursor:default;
     }
   }

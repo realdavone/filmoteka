@@ -8,7 +8,6 @@
         <slot name="poster" />
       </div>
       <div class="title">
-        <slot name="subnav" />
         <div>
           <slot name="title">
             <div style="background:var(--font-color);height:calc(1.5rem * 1.1);width:160px;border-radius:6px;"></div>
@@ -27,6 +26,7 @@
         </div>
       </div>
     </div>
+    <slot name="actionMenu" />
     <section class="player-details-holder">
       <slot name="player">
         <PlayerPlaceholder :type="type" />
@@ -57,8 +57,8 @@ section.container{
     right:0;
     bottom:0;
     z-index:0;
-    -webkit-mask-image: linear-gradient(var(--background-color), transparent 75%);
-    mask-image: linear-gradient(var(--background-color), transparent 75%);
+    -webkit-mask-image: linear-gradient(#000000, #00000040 50%, transparent);
+    mask-image: linear-gradient(#000000, #00000040 50%, transparent);
     img{
       width:100%;
       height:100%;
@@ -169,7 +169,6 @@ section.player-details-holder{
   align-items:flex-start;
 }
 @media screen and (max-width: 1300px) {
-  section.container{gap:0}
   section.player-details-holder{
     flex-direction:column;
     align-items:stretch!important;
@@ -181,8 +180,8 @@ section.player-details-holder{
     gap:1rem!important;
   }
   div.poster{
-    min-width:75px!important;
-    max-width:75px!important;
+    min-width:100px!important;
+    max-width:100px!important;
   }
   :slotted(span.title){ font-size:1.25rem }
 }

@@ -83,24 +83,7 @@ section.player-holder{
     top:0;
     left:0;
     button.play-button{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:6px;
-      z-index:2;
-      background-color:var(--theme-color-transparent);
-      border-radius:50px;
-      width:54px;
-      max-width:54px;
-      height:54px;
-      max-height:54px;
-      overflow:hidden;
-      color:var(--font-color-dark);
-      transition:0.3s ease background-color;
-      outline-offset:6px;
-      font-size:1.5rem;
-      padding-left:4px;
-      &:hover{ background-color:var(--theme-color)}
+      font-size:2.5rem;
     }
   }
   iframe{

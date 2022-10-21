@@ -4,29 +4,35 @@
       <template #poster>
         <img v-if="details?.poster" class="poster" :src="`https://www.themoviedb.org/t/p/w300${details['poster']}`" :alt="details['title']">
       </template>
-      <template #subnav>
-        <SubNav ref="subnav">
+      <template #actionMenu>
+        <ActionMenu ref="actionMenu">
           <template v-if="!loading">
-            <SubNavButton v-if="store.state.credentials.loggedIn" title="Fungujúci prehrávač" @handleClick="toggleWorkingPlayer">
-              <template #icon><span :style="[isPlayerWorking === false ? 'opacity:1' : 'opacity:0.6']">&#9888;</span></template>
-            </SubNavButton>        
-            <SubNavButton v-if="store.state.credentials.loggedIn" title="Odporúčiť" :disabled="isRecommended" @handleClick="addAsRecommended({ id: route.params.id, img: details['poster'], type: route.name, title: details['title'] })">
-              <template #icon><span class="material-symbols-outlined">thumb_up</span></template>
-            </SubNavButton>        
-            <SubNavButton title="Skopírovať URL adresu" @handleClick="$refs.subnav.copyUrl()">
-              <template #icon><span class="material-symbols-outlined">link</span></template>
-            </SubNavButton>
-            <SubNavButton v-if="store.state.credentials.loggedIn" title="Prezrené" @handleClick="store.methods.watched.toggle({ id: route.params.id, type: route.name, title: details['title']})">
-              <template #icon><span :style="[store.methods.watched.exists({ type: route.name, id: route.params.id }) ? 'opacity:1;' : 'opacity:0.5']">&#128065;&#xFE0E;</span></template>
-            </SubNavButton>
-            <SubNavButton v-if="store.state.credentials.loggedIn" title="Pripnutie prehrávača" @handleClick="store.methods.settings.pinnedPlayerToggle()">
-              <template #icon><span :style="[store.state.settings.pinnedPlayer ? 'opacity:1' : 'opacity:0.5']" class="material-symbols-outlined">push_pin</span></template>
-            </SubNavButton>
-            <SubNavButton v-if="store.state.credentials.loggedIn" title="Pridanie k záložkam" @handleClick="store.methods.favourites.toggle({ id: route.params.id, img: details['poster'], type: route.name, title: details['title'] })">
-              <template #icon><span class="material-symbols-outlined">{{store.methods.favourites.exists({ type: route.name, id: route.params.id }) ? 'bookmark_remove' : 'bookmark_add'}}</span></template>
-            </SubNavButton>
+            <ActionButton v-if="store.state.credentials.loggedIn" title="Fungujúci prehrávač" @handleClick="toggleWorkingPlayer">
+              <template #icon><span class="icon" :style="[isPlayerWorking === false ? 'opacity:1' : 'opacity:0.6']">&#9888;</span></template>
+              <template #label><span class="label">Nahlásiť prehrávač</span></template>
+            </ActionButton>
+            <ActionButton v-if="store.state.credentials.loggedIn" title="Odporúčiť" :disabled="isRecommended" @handleClick="addAsRecommended({ id: route.params.id, img: details['poster'], type: route.name, title: details['title'] })">
+              <template #icon><span class="material-symbols-outlined icon">thumb_up</span></template>
+              <template #label><span class="label">{{isRecommended ? 'Odporúčané' : 'Odporúčiť'}}</span></template>
+            </ActionButton>
+            <ActionButton title="Skopírovať URL adresu" @handleClick="$refs.actionMenu.copyUrl()">
+              <template #icon><span class="material-symbols-outlined icon">link</span></template>
+              <template #label><span class="label">Skopírovať URL</span></template>
+            </ActionButton>
+            <ActionButton v-if="store.state.credentials.loggedIn" title="Prezrené" @handleClick="store.methods.watched.toggle({ id: route.params.id, type: route.name, title: details['title']})">
+              <template #icon><span class="icon" :style="[store.methods.watched.exists({ type: route.name, id: route.params.id }) ? 'opacity:1' : 'opacity:0.5']">&#128065;&#xFE0E;</span></template>
+              <template #label><span class="label">Označiť ako {{store.methods.watched.exists({ type: route.name, id: route.params.id }) ? 'neprezrené' : 'prezrené'}}</span></template>
+            </ActionButton>
+            <ActionButton v-if="store.state.credentials.loggedIn" title="Pripnutie prehrávača" @handleClick="store.methods.settings.pinnedPlayerToggle()">
+              <template #icon><span :style="[store.state.settings.pinnedPlayer ? 'opacity:1' : 'opacity:0.6']" class="material-symbols-outlined icon">push_pin</span></template>
+              <template #label><span class="label">{{store.state.settings.pinnedPlayer ? 'Odopnúť' : 'Pripnúť'}}</span></template>
+            </ActionButton>
+            <ActionButton v-if="store.state.credentials.loggedIn" title="Pridanie k záložkam" @handleClick="store.methods.favourites.toggle({ id: route.params.id, img: details['poster'], type: route.name, title: details['title'] })">
+              <template #icon><span class="material-symbols-outlined icon">{{store.methods.favourites.exists({ type: route.name, id: route.params.id }) ? 'bookmark_remove' : 'bookmark_add'}}</span></template>
+              <template #label><span class="label">{{store.methods.favourites.exists({ type: route.name, id: route.params.id }) ? 'Odobrať zo záložiek' : 'Pridať k záložkam'}}</span></template>
+            </ActionButton>
           </template>
-        </SubNav>
+        </ActionMenu>
       </template>
       <template #title>
         <span v-if="!loading" class="title">{{details['title']}}</span>
@@ -97,9 +103,9 @@ import PersonCard from '../components/Content/PersonCard.vue'
 import MediaPanel from '../components/Content/MediaPanel.vue'
 import MoviePlayerPanel from '../components/Movie/MoviePlayerPanel.vue'
 import Collection from '../components/Movie/Collection.vue'
-import SubNav from '../components/SubNav.vue'
+import ActionMenu from '../components/ActionMenu.vue'
 import PlayerDetails from '../components/Content/PlayerDetails.vue'
-import SubNavButton from '../components/Buttons/SubNavButton.vue'
+import ActionButton from '../components/Buttons/ActionButton.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -117,11 +123,11 @@ const isPlayerWorking = ref(true)
 const fetchData = async (id) => {
   try {
     result.value = await getData({ endpoint: `/title/find/movie/${id}` })
-    const videosData = await getData({ endpoint: `/title/video/movie/${id}` })
+    //const videosData = await getData({ endpoint: `/title/video/movie/${id}` })
 
     const omdb = result.value.omdb
     
-    videos.value = videosData.results.filter(video => video.type==='Trailer');
+    //videos.value = videosData.results.filter(video => video.type==='Trailer');
     cast.value = result.value.credits.cast.filter(castMember => castMember.profile_path!==null).splice(0, 16)
     similarMovies.value = result.value.recommendations.results.filter(movie => movie.poster_path!==null).splice(0, 16)
     
