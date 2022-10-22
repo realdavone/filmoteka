@@ -66,8 +66,7 @@ section.episode-info{
   align-items:flex-start;
   gap:10px;
   padding:12px 16px;
-  border-bottom-left-radius:8px;
-  border-bottom-right-radius:8px;
+  border-radius:1rem;
   background:var(--card-color);
   transition:0.2s ease height;
   overflow:hidden;

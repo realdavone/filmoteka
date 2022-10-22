@@ -55,7 +55,6 @@
       <button :class="{'disabled':currentSeasonAndEpisode.season + 1 === seasons.length && currentSeasonAndEpisode.episode + 1 === numberOfEpisodes}" class="next-previous-episode" :disabled="currentSeasonAndEpisode.season + 1 === seasons.length && currentSeasonAndEpisode.episode + 1 === numberOfEpisodes" @click="handleControls('forwards')" title="Ďalšia epizóda">&raquo;</button>
     </div>
     <EpisodeInfo :id="props.id" :season="currentSeasonAndEpisode.season + 1" :episode="currentSeasonAndEpisode.episode + 1" v-if="store.state.globalSettings?.allowWatchWhileUnregistered || store.state.credentials.loggedIn"/>
-    
     <section v-if="(props['lastEpisode'] !==null || props['nextEpisode'] !== null) && (store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn)" class="episode-card-holder">
       <EpisodeCard 
       v-if="props['lastEpisode']"
@@ -204,13 +203,13 @@ div.season-select-holder, div.episode-select-holder{
 section.outter-holder{
   display:flex;
   flex-direction:column;
+  gap:1rem;
   width:var(--player-width);
   max-width:var(--player-width);
   section.episode-card-holder{
     display:flex;
     flex-wrap:nowrap;
     gap:var(--container-padding);
-    margin-top:20px;
   }
   section.player-holder-wrap{ background-color:var(--player-background-color); }
   div.season-episode{
@@ -221,6 +220,7 @@ section.outter-holder{
     height:40px;
     gap:5px;
     padding:0 5px;
+    border-radius:1.5rem;
     button{
       color:var(--theme-color);
       display:flex;

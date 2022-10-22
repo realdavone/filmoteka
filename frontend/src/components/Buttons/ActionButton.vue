@@ -1,9 +1,27 @@
 <template>
-  <button class="sub-nav-button" @click="$emit('handleClick')">
+  <button :class="`sub-nav-button ${warning ? 'warning' : ''} ${success ? 'success' : ''}`" @click="$emit('handleClick')">
     <slot name="icon" />
     <slot name="label" />
+    <div v-if="loading" class="loader"></div>
   </button>
 </template>
+
+<script setup>
+const { loading, warning, success } = defineProps({
+  warning: {
+    type: Boolean,
+    default: false
+  },
+  loading: {
+    type: Boolean,
+    default: false
+  },
+  success: {
+    type: Boolean,
+    default: false
+  }
+})
+</script>
 
 <style lang="scss" scoped>
 button.sub-nav-button{
@@ -14,8 +32,10 @@ button.sub-nav-button{
   align-items:center;
   gap:0.5rem;
   padding:0.5rem;
-  border-radius:0.25rem;
+  border-radius:1rem;
   line-height:1;
+  &.warning{ background-color:crimson!important; }
+  &.success{ background-color:seagreen; }
   &.placeholder{
     background:var(--card-color);
     cursor:default;
@@ -27,7 +47,7 @@ button.sub-nav-button{
   }
 }
 :slotted(span.label){
-  font-size:0.85rem;
+  font-size:0.75rem;
 }
 :slotted(span.icon){
   font-size:1rem;
