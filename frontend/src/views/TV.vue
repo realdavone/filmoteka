@@ -90,7 +90,7 @@
         <Details v-if="!loading" :details="details" />
       </template>
     </PlayerDetails>
-    <main class="title" v-if="!loading">
+    <template v-if="!loading">
       <CastPanel v-if="cast.length !== 0">
         <template #title>Herci</template>
         <template #card>
@@ -105,7 +105,7 @@
           <template #title>Podobné</template>
           <template #card><VerticalCard v-for="item in similarTV" :key="item.id" :item="item"/></template>
       </CardPanel>
-    </main>
+    </template>
   </main>
 </template>
 
@@ -146,7 +146,7 @@ const isRecommended = reactive({
 
 const isPlayerWorking = reactive({
   isLoading: false,
-  value: false
+  value: true
 })
 
 const fetchData = async (id) => {
