@@ -1,26 +1,25 @@
 <template>
   <section id="player-holder" class="player-holder user-select-none">
-    <Transition name="fade">
-      <div v-if="!props.source && props['isReady']['status'] === true" class="not-pressed">
-        <div v-if="isPlayerWorking === false" class="player-warning">Prehrávač bol označený ako nefunkčný</div>
-        <button v-if="store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn" @click="$emit('setPlayer')" class="play-button">&#9654;</button>
-        <button v-else class="locked-player" @click="$router.push('/login')">
-          <span>Prihláste sa pre sledovanie</span>
-        </button>
-      </div>
-    </Transition>
-    <Transition name="fade">
-      <iframe v-if="props.source" :class="{ pinned: pinned && store.state.settings.pinnedPlayer }" :src="props['source']" frameborder="0" loading="lazy" allowfullscreen></iframe>
-    </Transition>
+    <div v-if="!props.source && props['isReady']['status'] === true" class="not-pressed">
+      <div v-if="isPlayerWorking === false" class="player-warning">Prehrávač bol označený ako nefunkčný</div>
+      <button v-if="store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn" @click="$emit('setPlayer')" class="play-button">&#9654;</button>
+      <button v-else class="locked-player" @click="$router.push('/login')"><span>Prihláste sa pre sledovanie</span></button>
+    </div>
+    <div v-if="props.source && !loadedIframe" class="loading">
+      <Loader :height="'2rem'" :border="'0.2rem'"/>
+    </div>
+    <iframe @load="loadedIframe = true" v-if="props.source" :class="{ pinned: pinned && store.state.settings.pinnedPlayer }" :src="props['source']" frameborder="0" loading="lazy" allowfullscreen></iframe>
     <span v-if="!props['isReady']['status']" class="warning">{{ props['isReady']['message'] }}</span>
   </section>
 </template>
 
 <script setup>
+import Loader from '../Loader.vue'
 import { ref, onMounted, onUnmounted, inject, onActivated, onDeactivated } from 'vue'
 
 const store = inject('store')
 const pinned = ref(false)
+const loadedIframe = ref(false)
 
 const props = defineProps({
   isReady: Object,
@@ -31,6 +30,7 @@ const props = defineProps({
 })
 
 const pinPlayer = () => { if(props.source) pinned.value = document.getElementById('player-holder').offsetTop < window.scrollY }
+
 onActivated(() => { document.addEventListener('scroll', pinPlayer) })
 onMounted(() => { document.addEventListener('scroll', pinPlayer) })
 onDeactivated(() => { document.removeEventListener('scroll', pinPlayer) })
@@ -48,6 +48,16 @@ section.player-holder{
   margin:0 auto;
   position:relative;
   overflow:hidden;
+  div.loading{
+    position:absolute;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  }
   div.player-warning{
     position:absolute;
     top:0;
@@ -83,7 +93,8 @@ section.player-holder{
     top:0;
     left:0;
     button.play-button{
-      font-size:2.5rem;
+      font-size:3.5rem;
+      color:var(--font-color-dark)
     }
   }
   iframe{

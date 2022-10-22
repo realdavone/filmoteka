@@ -31,13 +31,13 @@ nav.subnav{
   div.buttons{
     display:flex;
     align-items:center;
-    gap:1rem;
+    gap:0.75rem;
     flex-wrap:wrap;
     button.placeholder{
       height:calc(0.85rem + 2 * 0.5rem);
-      aspect-ratio:1;
+      width:3rem;
       background-color:var(--card-color);
-      border-radius:0.25rem;
+      border-radius:1rem;
       cursor:default;
     }
   }

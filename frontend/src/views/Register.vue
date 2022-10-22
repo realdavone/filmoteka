@@ -19,7 +19,7 @@
       <div v-if="error" class="error">{{error}}</div>
       <button :disabled="registerStart" type="submit">
         <span>Registrovať</span>
-        <div v-if="registerStart" class="loader"></div>
+        <Loader v-if="registerStart" />
       </button>
     </form>
     <router-link to="/login" class="link">Už máte účet?</router-link>
@@ -27,6 +27,7 @@
 </template>
 
 <script setup>
+import Loader from '../components/Loader.vue'
 import { notify } from "@kyvg/vue3-notification"
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'

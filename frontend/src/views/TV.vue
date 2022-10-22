@@ -252,7 +252,7 @@ const addAsRecommended = async obj => {
     })
     if(res.success) {
       notify({ type: 'success', text: 'Úspešne pridané do odporúčaných' })
-      return true
+      isRecommended.value = true
     }
   } catch (error) { console.log(error) }
   finally{ isRecommended.isLoading = false }

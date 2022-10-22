@@ -2,11 +2,12 @@
   <button :class="`sub-nav-button ${warning ? 'warning' : ''} ${success ? 'success' : ''}`" @click="$emit('handleClick')">
     <slot name="icon" />
     <slot name="label" />
-    <div v-if="loading" class="loader"></div>
+    <Loader v-if="loading" />
   </button>
 </template>
 
 <script setup>
+import Loader from '../Loader.vue'
 const { loading, warning, success } = defineProps({
   warning: {
     type: Boolean,
@@ -34,8 +35,14 @@ button.sub-nav-button{
   padding:0.5rem;
   border-radius:1rem;
   line-height:1;
-  &.warning{ background-color:crimson!important; }
-  &.success{ background-color:seagreen; }
+  &.warning{
+    background-color:crimson!important;
+    color:var(--font-color-dark);
+  }
+  &.success{
+    background-color:seagreen!important;
+    color:var(--font-color-dark);
+  }
   &.placeholder{
     background:var(--card-color);
     cursor:default;

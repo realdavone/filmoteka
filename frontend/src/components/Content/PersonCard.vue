@@ -25,9 +25,10 @@ a.cast-card{
   gap:15px;
   flex-direction:row;
   align-items:center;
-  padding-right:5px;
+  padding-right:1rem;
   border-radius:100px;
   transition:0.2s ease background-color;
+  overflow:hidden;
   div.img{
     background:var(--card-color);
     height:80px;
@@ -41,14 +42,14 @@ a.cast-card{
   div.name-holder{
     display:flex;
     flex-direction:column;
-    gap:8px;
+    gap:0.5rem;
     span{
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       text-overflow: ellipsis;
       overflow: hidden;
-      line-height:1.2;
+      line-height:1.1;
       &.name{ 
         font-weight:bold;
         font-size:1rem;
@@ -59,13 +60,9 @@ a.cast-card{
       }
     }
   }
-  &:hover{
-    background-color:var(--card-color);
-  }
+  &:hover{ background-color:var(--card-color) }
 }
 @media screen and (max-width: 600px){
-  a.cast-card:hover {
-    background-color:initial!important;
-  }
+  a.cast-card:hover { background-color:initial!important }
 }
 </style>

@@ -14,7 +14,7 @@
       </div>
       <button :disabled="loginStart" type="submit">
         <span>Prihlásiť</span>
-        <div v-if="loginStart" class="loader"></div>
+        <Loader v-if="loginStart" />
       </button>
       <div id="buttonDiv" style="align-self:center"></div>
     </form>
@@ -23,6 +23,7 @@
 </template>
 
 <script setup>
+import Loader from '../components/Loader.vue'
 import { notify } from "@kyvg/vue3-notification"
 import { reactive, inject, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
