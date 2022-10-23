@@ -1,6 +1,6 @@
 <template>
   <section class="items-holder">
-    <ItemPanel :placeholderData="{count:4,type:'title'}">
+    <ItemPanel :placeholderData="{ count: 4, type: route.matched[1].props.default.type }">
       <template #item>
         <template v-if="route.matched[1].props.default.type === 'person'">
           <Person v-for="item in items" :key="item.id" :person="{...item}" />

@@ -1,6 +1,5 @@
 <template>
   <div class="filmography">
-    <div class="title"></div>
     <section class="filmography"></section>
   </div>
 </template>

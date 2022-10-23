@@ -1,7 +1,7 @@
 <template>
   <section class="items">
     <slot name="item">
-      <component v-for="n in props['placeholderData']['count']" :key="n" :is="props['placeholderData']['type']==='title'?TitlePlaceholder:PersonPlaceholder"></component>
+      <component v-for="n in props['placeholderData']['count']" :key="n" :is="props['placeholderData']['type'] === 'person' ? PersonPlaceholder : TitlePlaceholder"></component>
     </slot>
   </section>
 </template>

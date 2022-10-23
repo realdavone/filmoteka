@@ -19,7 +19,6 @@
 
     <template #filmography>
       <div v-if="!loading" class="flex-column">
-        <Title style="margin-bottom:0">Filmografia</Title>
         <section class="selectors">
           <div class="primary">
             <button @click="selector.primary = 'Filmy'" :data-active="selector.primary === 'Filmy'">Filmy</button>
