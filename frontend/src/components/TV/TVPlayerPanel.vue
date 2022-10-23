@@ -216,7 +216,7 @@ section.outter-holder{
     width:100%;
     display:flex;
     align-items:center;
-    background:var(--card-color-hover);
+    background:var(--card-color);
     height:40px;
     gap:5px;
     padding:0 5px;

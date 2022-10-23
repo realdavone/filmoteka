@@ -111,11 +111,13 @@ const getCat = rating => parseFloat(rating) < 2.5 ? 'low' : parseFloat(rating) <
 section.title{
   display:flex;
   align-items:flex-start;
-  flex-flow:column;
+  flex-direction:column;
   gap:1rem;
   max-width:1000px;
   width:100%;
-  border-radius:16px;
+  border-radius:1rem;
+  padding:1rem;
+  background-color:var(--card-color);
   margin:0 auto;
   span.label{
     font-weight:700;

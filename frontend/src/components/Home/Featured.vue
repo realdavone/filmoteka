@@ -3,7 +3,6 @@
     <div v-if="title?.backdrop_path" class="background-image">
       <img :src="`https://www.themoviedb.org/t/p/w1440_and_h320_multi_faces${title?.backdrop_path}`" alt="Obrázok v pozadí">
     </div>
-    <Title style="position:relative;z-index:2">Vybrané</Title>
     <section class="title-holder">
       <div class="poster">
         <img v-if="title?.poster_path" :src="`https://www.themoviedb.org/t/p/w300${title?.poster_path}`" :alt="title?.name || title?.title">
@@ -16,7 +15,6 @@
           <span>&starf;</span>
           <span>{{Math.round(title?.vote_average * 10) / 10}}</span>
           <TypeIcon :type="title?.media_type"/>
-          <span>{{title?.original_language}}</span>
         </div>
         <div v-else class="skeleton" style="height:1.75rem;width:60px;"></div>
 
@@ -33,7 +31,6 @@
 
 <script setup>
 import TypeIcon from '../Content/TypeIcon.vue'
-import Title from '../Content/Title.vue'
 
 const { title } = defineProps({ title: Object })
 </script>
@@ -58,6 +55,7 @@ section.featured{
       width:100%;
       height:100%;
       object-fit:cover;
+      filter:blur(5px)
     }
   }
   div.skeleton{

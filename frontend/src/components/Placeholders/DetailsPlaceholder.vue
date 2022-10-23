@@ -33,6 +33,9 @@ div.title{
   gap:1rem;
   max-width:1000px;
   width:100%;
+  background-color:var(--card-color);
+  padding:1rem;
+  border-radius:1rem;
   div.label{
     background-color:var(--font-color);
     border-radius:6px;

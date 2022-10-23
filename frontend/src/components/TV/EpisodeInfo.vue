@@ -13,11 +13,9 @@
       </div>
       <div class="thumbnail">
         <img v-if="episodeInfo['thumbnail']" :src="`https://www.themoviedb.org/t/p/w454_and_h254_bestv2${episodeInfo['thumbnail']}`" :alt="episodeInfo['name']">
-        <div v-else></div>
       </div>
     </div>
     <button @click="showEpisodeSpoiler =! showEpisodeSpoiler" class="button-spoiler">
-      <span>{{`${showEpisodeSpoiler ? 'Skry' : 'Zobraz'}`}} prehľad</span>
       <span :style="`transform: rotate(${showEpisodeSpoiler ? '90' : '270'}deg)`">&#10094;</span>
     </button>
   </section>
@@ -25,7 +23,7 @@
 
 <script setup>
 import _ from '../../utils/main.js'
-import { onBeforeMount, ref, watch } from 'vue'
+import { ref, watchEffect } from 'vue'
 import getData from '../../api/main.js'
 
 const props = defineProps({
@@ -36,15 +34,12 @@ const props = defineProps({
 
 const episodeInfo = ref({})
 const showEpisodeSpoiler = ref(false)
-
-onBeforeMount(() => { getEpisodeInfo(props.id,props.season,props.episode) })
-
-watch(props, val => { getEpisodeInfo(val.id,val.season,val.episode) })
+const loading = ref(true)
 
 const getEpisodeInfo = async (id, season, episode) => {
   try {
+    loading.value = true
     const data = await getData({ endpoint: `/title/episode/${id}/${season}/${episode}` })
-    
     const translations = _.getTranslations(data['translations']['translations'])
 
     episodeInfo.value = {
@@ -56,7 +51,10 @@ const getEpisodeInfo = async (id, season, episode) => {
       thumbnail: data['still_path'] !== '' ? data['still_path'] : null
     }
   } catch (error) { console.log(error) }
+  finally{ loading.value = false }
 }
+
+watchEffect(() => { getEpisodeInfo(props.id, props.season, props.episode) }, { flush: 'post' })
 </script>
 
 <style lang="scss" scoped>
@@ -113,15 +111,11 @@ section.episode-info{
       display:flex;
       justify-content:center;
       align-items:center;
+      background:var(--card-color-hover);
       img{
         height:100%;
         width:100%;
         object-fit:cover;
-      }
-      div{
-        width:100%;
-        height:100%;
-        background:var(--card-color-hover);
       }
     }
     div.overview{
@@ -142,15 +136,10 @@ section.episode-info{
     display:flex;
     align-items:center;
     gap:0.75rem;
-    line-height:1;
+    line-height:0.5;
     white-space:nowrap;
-    span:nth-child(1){
-      font-family: 'Oswald', sans-serif;
-      text-transform:uppercase;
-      font-size:0.7rem;
-      font-weight:900;
-    }
-    span:nth-child(2){ transition:0.2s ease transform }
+    font-size:1.5rem;
+    span{ transition:0.2s ease transform }
   }
 }
 

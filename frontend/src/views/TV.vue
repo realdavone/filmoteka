@@ -213,8 +213,8 @@ const fetchData = async (id) => {
 
     loading.value = false
     
-    isPlayerWorking.value = result.value['isPlayerWorking']
-    isRecommended.value = result.value['isRecommended']
+    result.value['isPlayerWorking'] === undefined ? isPlayerWorking.value = true : isPlayerWorking.value = result.value['isPlayerWorking']
+    result.value['isRecommended'] === undefined ? isRecommended.value = false : isRecommended.value = result.value['isRecommended']
 
     document.title = `${details.value['title']}${details.value['year']?' ('+details.value['year']+')':''} / Filmotéka`
   } catch (error) { router.push({ name: 'NotFound' }) }

@@ -5,6 +5,15 @@ main.login-register{
   align-items:center;
   flex-direction:column;
   gap:1rem;
+  section.outter{
+    width:100%;
+    max-width:350px;
+    display:flex;
+    flex-direction:column;
+    border-radius:1rem;
+    overflow:hidden;
+    background-color:var(--card-color);
+  }
   header{
     font-size:1.25rem;
     font-weight:700;
@@ -12,13 +21,7 @@ main.login-register{
     justify-content:center;
     align-items:center;
     gap:10px;
-    background-color:var(--card-color-hover);
     padding:1rem;
-    width:100%;
-    max-width:350px;
-    border-top-left-radius:14px;
-    border-top-right-radius:14px;
-    span:nth-child(1){ font-family: 'Oswald', sans-serif }
   }
   form{
     width:100%;
@@ -26,22 +29,16 @@ main.login-register{
     display:flex;
     flex-direction:column;
     gap:1rem;
-    background-color:var(--card-color);
     padding:1rem;
-    border-bottom-left-radius:14px;
-    border-bottom-right-radius:14px;
-    margin-top:-1rem;
     div.input{
       display:flex;
       align-items:stretch;
-      background:white;
-      border-radius:8px;
+      background:var(--card-color-hover);
+      border-radius:0.5rem;
       overflow:hidden;
       &:focus-within{ outline:2px solid var(--theme-color) }
       span:nth-child(1){
-        font-size:1rem;
-        color:var(--font-color-dark);
-        background-color:var(--theme-color);
+        font-size:0.75rem;
         min-width:30px;
         display:flex;
         align-items:center;
@@ -51,6 +48,8 @@ main.login-register{
         padding:10px 15px;
         font-size:0.85rem;
         width:100%;
+        background-color:inherit;
+        color:inherit;
         &::placeholder{ font-size:0.85rem }
       }
     }
@@ -64,7 +63,7 @@ main.login-register{
     button[type=submit]{
       background-color:var(--theme-color);
       height:34px;
-      border-radius:8px;
+      border-radius:0.5rem;
       font-size:0.75rem;
       color:var(--font-color-dark);
       padding:0 1rem;
