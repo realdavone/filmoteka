@@ -1,34 +1,41 @@
 <template>
-  <main class="container login-register">
-    <section class="outter">
-      <header>
-        <span>Registrácia</span>
-      </header>
-      <form class="form" @submit.prevent="register">
-        <div class="input">
-          <span>&commat;</span>
-          <input v-model="credentials.email" type="email" name="email" placeholder="Email" autocomplete="email" required>
-        </div>
-        <div class="input">
-          <span>&#x66D;</span>
-          <input v-model="credentials.password" type="password" name="password" placeholder="Heslo" autocomplete="current-password" required>
-        </div>
-        <div class="input">
-          <span>&#x66D;</span>
-          <input v-model="credentials.repeatPassword" type="password" name="password" placeholder="Zopakovať heslo" autocomplete="new-password" required>
-        </div>
-        <div v-if="error" class="error">{{error}}</div>
-        <button :disabled="registerStart" type="submit">
-          <span>Registrovať</span>
-          <Loader v-if="registerStart" />
-        </button>
-      </form>
-    </section>
-    <router-link tabindex="0" to="/login" class="link">Už máte účet?</router-link>
+  <main class="login">
+    <div class="outter">
+      <section class="content">
+        <img src="../assets/auth-bg.jpg" alt="Obrázok">
+        <Logo :height="75"/>
+        <router-link tabindex="0" to="/login" class="link">Už máte účet?</router-link>
+      </section>
+      <section class="form">
+        <header>
+          <span>Registrácia</span>
+        </header>
+        <form class="form" @submit.prevent="register">
+          <div class="input">
+            <span>&commat;</span>
+            <input v-model="credentials.email" type="email" name="email" placeholder="Email" autocomplete="email" required>
+          </div>
+          <div class="input">
+            <span>&#x66D;</span>
+            <input v-model="credentials.password" type="password" name="password" placeholder="Heslo" autocomplete="current-password" required>
+          </div>
+          <div class="input">
+            <span>&#x66D;</span>
+            <input v-model="credentials.repeatPassword" type="password" name="password" placeholder="Zopakovať heslo" autocomplete="new-password" required>
+          </div>
+          <div v-if="error" class="error">{{error}}</div>
+          <button :disabled="registerStart" type="submit">
+            <span>Registrovať</span>
+            <Loader v-if="registerStart" />
+          </button>
+        </form>
+      </section>
+    </div>
   </main>
 </template>
 
 <script setup>
+import Logo from '../components/Logo.vue'
 import Loader from '../components/Loader.vue'
 import { notify } from "@kyvg/vue3-notification"
 import { reactive, ref } from 'vue'
