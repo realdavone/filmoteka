@@ -1,7 +1,7 @@
 <template>
-  <form class="search-form" @submit.prevent="submitQuery">
+  <form class="search-form" @submit.prevent="submitQuery" autocomplete="off">
     <div class="select user-select-none">
-      <div class="selected-option" @click="isOptionsMenuOpened=!isOptionsMenuOpened" :data-opened="isOptionsMenuOpened">
+      <div class="selected-option" @click="isOptionsMenuOpened =! isOptionsMenuOpened" :data-opened="isOptionsMenuOpened">
         <span class="material-symbols-outlined" style="font-size:1.25rem">{{searchType['icon']}}</span>        
       </div>
       <Transition name="fade">

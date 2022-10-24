@@ -97,6 +97,14 @@ section.panel{
     top:50%;
     font-size:2rem;
     line-height:1;
+    background-color:white;
+    width:2.75rem;
+    aspect-ratio:1;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:0 4px 5px 0;
     &.left{left:20px;}
     &.right{right:20px;}
   }

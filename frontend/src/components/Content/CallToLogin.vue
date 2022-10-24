@@ -46,12 +46,9 @@ section.ctr{
   margin-top:-1rem;
   position:relative;
   button.cta{
-    background-color:var(--theme-color);
-    padding:0.25rem 0.5rem;
-    border-radius:6px;
-    font-size:0.75rem;
+    font-size:0.9rem;
     font-weight:700;
-    color:var(--font-color-dark);
+    color:var(--theme-color);
   }
   .close{
     position:absolute;
