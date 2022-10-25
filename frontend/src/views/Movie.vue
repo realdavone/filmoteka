@@ -88,7 +88,7 @@
       </template>
     </PlayerDetails>
     <template v-if="!loading">
-      <CastPanel v-if="cast.length !== 0">
+      <CastPanel v-once v-if="cast.length !== 0">
         <template #title>Herci</template>
         <template #card>
           <PersonCard v-for="item in cast" :key="item.id" :type="'person'" :id="item.id">
@@ -98,8 +98,8 @@
           </PersonCard>
         </template>
       </CastPanel>
-      <Collection v-if="result['belongs_to_collection']" :collection="result['belongs_to_collection']"/>
-      <CardPanel v-if="similarMovies.length!==0" :hoverEffect="true" :scroll="true">
+      <Collection v-once v-if="result['belongs_to_collection']" :collection="result['belongs_to_collection']"/>
+      <CardPanel v-if="similarMovies.length !== 0" :scroll="true">
         <template #title>Podobné</template>
         <template #card><VerticalCard v-for="item in similarMovies" :key="item.id" :item="item"/></template>
       </CardPanel>

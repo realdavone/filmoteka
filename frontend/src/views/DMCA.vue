@@ -1,5 +1,5 @@
 <template>
-  <section class="container user-select-none">
+  <section class="container user-select-none" v-once>
     <Title>DMCA</Title>
     <article>
       Zodpovednosť za porušovanie autorských práv nenesie prevádzkovateľ tohto portálu! Dôvod je ten, 

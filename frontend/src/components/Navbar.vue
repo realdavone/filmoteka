@@ -43,11 +43,11 @@
             <section v-if="store.state.favourites.length !== 0" class="title-holder">
               <div class="search-input-holder">
                 <input v-model="searchInput" class="search-input" type="text" placeholder="Hľadaj">
-                <button v-if="searchInput!==''" class="clear-search" @click="searchInput = ''">&times;</button>
+                <button v-if="searchInput !== ''" class="clear-search" @click="searchInput = ''">&times;</button>
               </div>
               <ul v-auto-animate>
-                <li :class="{'inactive':title.inactive}" class="title" v-for="title in items" :key="title.id">
-                  <router-link @click.native="bookmarksVisible = false" :to="{ name: title.type, params: { id: title.id } }">
+                <li :class="{ 'inactive' : title.inactive }" class="title" v-for="title in items" :key="title.id">
+                  <router-link tabindex="0" @click.native="bookmarksVisible = false" :to="{ name: title.type, params: { id: title.id } }">
                     <TypeIcon class="icon" :type="title.type"/>
                     <div class="poster">
                       <img v-if="title.img" :src="`https://image.tmdb.org/t/p/w45_and_h45_face${title.img}`" :alt="title.title" loading="lazy">
@@ -202,9 +202,8 @@ aside.modal{
     justify-content:space-between;
     align-items:center;
     padding:10px 10px 10px 15px;
-    background-color:var(--card-color-hover);
     span.heading{ 
-      font-size:1.15rem;
+      font-size:1rem;
       font-weight:900;
     }
     button{
@@ -230,14 +229,14 @@ aside.modal{
       align-items:center;
       gap:5px;
       background:var(--card-color-hover);
-      padding:0 10px 0 10px;
+      padding:0 10px;
       border-radius:20px;
       overflow:hidden;
       margin:0 5px 10px;
       input.search-input{
         color:inherit;
         width:100%;
-        padding:10px 5px;
+        padding:6px 5px;
         background:transparent;
       }
       button.clear-search{
@@ -272,11 +271,11 @@ aside.modal{
         }
         div.poster{
           outline:2px solid var(--theme-color);
-          min-width:24px;
-          max-width:24px;
-          min-height:24px;
-          max-height:24px;
-          border-radius:4px;
+          min-width:1.5rem;
+          max-width:1.5rem;
+          min-height:1.5rem;
+          max-height:1.5rem;
+          border-radius:0.75rem;
           overflow:hidden;
           img{width:100%;height:100%;}
         }
@@ -304,13 +303,13 @@ aside.modal{
     padding:0 10px;
     button{
       background:crimson;
-      padding:5px 8px;
-      border-radius:6px;
+      padding:3px 5px;
+      border-radius:0.5rem;
       transition:0.2s ease background;
-      font-size:0.7rem;
+      font-size:0.65rem;
       font-weight:700;
       margin-bottom:2px;
-      color:white;
+      color:var(--font-color-dark);
     }
   }
   p.no-items{

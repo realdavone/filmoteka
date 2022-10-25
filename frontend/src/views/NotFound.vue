@@ -1,5 +1,5 @@
 <template>
-  <main class="container main user-select-none">
+  <main v-once class="container main user-select-none">
     <div align="center">
       <span class="num">404</span><br>
       <span>Hľadaný obsah nebol nájdený</span>
