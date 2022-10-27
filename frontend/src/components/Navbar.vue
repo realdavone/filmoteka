@@ -139,7 +139,16 @@ socket.on('newRecommended', (data) => {
   store.methods.notifications.recommended.add({ type, id }) 
 })
 
-onMounted(() => { document.getElementById('favCount')?.addEventListener('animationend', e => { e.target.classList.remove('scaleup') }) })
+onMounted(() => { 
+  document.getElementById('favCount')?.addEventListener('animationend', e => { e.target.classList.remove('scaleup') }) 
+
+  const el = document.getElementsByTagName('nav')[0]
+  const observer = new IntersectionObserver( 
+    ([e]) => e.target.classList.toggle('scroll', e.intersectionRatio < 1),
+    { threshold: [1] }
+  )
+  observer.observe(el)
+})
 onUnmounted(() => { document.getElementById('favCount')?.removeEventListener('animationend') })
 </script>
 
@@ -150,11 +159,14 @@ nav{
   display:flex;
   align-items:center;
   position:sticky;
-  top:0;
+  top:-1px;
   z-index:100;
   gap:10px;
+  transition:0.2s ease background-color;
+  &.scroll{
   background-color:var(--background-color-alpha);
   backdrop-filter:blur(5px);
+  }
   div.auth-buttons{
     display:flex;
     gap:0.75rem;

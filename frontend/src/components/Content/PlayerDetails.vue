@@ -2,7 +2,7 @@
   <section class="user-select-none container">
     <div class="outter">
       <div v-if="bg" class="background-image">
-        <img @error="bg = false" :src="`https://www.themoviedb.org/t/p/w1440_and_h320_multi_faces${bg}`" alt="Obrázok v pozadí">
+        <img @error="bg = false" :src="`	https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${bg}`" alt="Obrázok v pozadí">
       </div>
       <div class="poster">
         <slot name="poster" />
@@ -50,6 +50,7 @@ section.container{
   display:flex;
   flex-direction:column;
   gap:var(--container-padding);
+  margin-top:calc(0px - var(--nav-height));
   div.background-image{
     position:absolute;
     top:0;
@@ -57,8 +58,8 @@ section.container{
     right:0;
     bottom:0;
     z-index:0;
-    -webkit-mask-image: linear-gradient(#000000, #00000040 50%, transparent);
-    mask-image: linear-gradient(#000000, #00000040 50%, transparent);
+    -webkit-mask-image: linear-gradient(#00000030, #00000080 50%, transparent);
+    mask-image: linear-gradient(#00000030, #00000080 50%, transparent);
     img{
       width:100%;
       height:100%;
@@ -87,6 +88,7 @@ section.container{
     background-position:center;
     background-size:cover;
     position:relative;
+    padding-top:calc(var(--nav-height) + var(--container-padding));
   }
   div.title{
     display:flex;
