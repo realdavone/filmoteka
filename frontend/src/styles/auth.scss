@@ -121,12 +121,14 @@ main.login, main.register{
   }
 }
 @media screen and (max-width: 600px){
-  div.outter{
-    min-height:100vh!important;
-    border-radius:0!important;
-    grid-template-columns:1fr!important;
-    grid-template-rows:1fr 1fr;
+  main.login, main.register{
+    div.outter{
+      min-height:100vh!important;
+      border-radius:0!important;
+      grid-template-columns:1fr!important;
+      grid-template-rows:1fr 1fr;
+    }
+    section.content{ order:2!important }
+    section.form{ order:1!important }
   }
-  section.content{ order:2!important }
-  section.form{ order:1!important }
 }
