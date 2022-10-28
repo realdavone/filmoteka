@@ -10,8 +10,11 @@
     </div>
     <SearchForm v-if="isSearchRendered" />
     <div class="right-menu">
-      <NavButton title="Vyhĺadávanie" @handleClick="isSearchRendered = !isSearchRendered">
-        <template #icon><span class="material-symbols-outlined" style="padding-top:5px;color:var(--theme-color);font-weight:700;">{{!isSearchRendered ? 'search' : 'arrow_forward_ios'}}</span></template>
+      <NavButton title="Vyhľadávanie" @handleClick="isSearchRendered = !isSearchRendered">
+        <template #icon>
+          <span v-if="!isSearchRendered" class="material-symbols-outlined" style="padding-top:5px;color:var(--theme-color);font-weight:700;">search</span>
+          <span v-else style="color:var(--theme-color);font-weight:700;font-size:1.5rem">&#10095;</span>
+        </template>
       </NavButton>
       <template v-if="!isSearchRendered && store.state.credentials.loggedIn">
         <NavButton class="icon-hide" title="Knižnica" @handleClick="$router.push('/library')">
@@ -320,12 +323,10 @@ aside.modal{
   animation-duration:0.4s;
 }
 @media screen and (max-width: 600px) {
-  .icon-hide{
-    display:none!important;    
-  }
+  .icon-hide{ display:none!important }
 }
 @keyframes scaleup{
-  0%, 100% {transform:scale(1);}
-  50% {transform:scale(1.25);}
+  0%, 100% { transform:scale(1) }
+  50% { transform:scale(1.25) }
 }
 </style>

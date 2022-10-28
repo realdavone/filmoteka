@@ -37,12 +37,13 @@ button.action-button{
   border-radius:0.25rem;
   line-height:1;
   min-width:160px;
+  height:40px;
   &.warning{
-    background-color:crimson!important;
+    background-color:#dc143c80;
     color:var(--font-color-dark);
   }
   &.success{
-    background-color:seagreen!important;
+    background-color:#2e8b5780;
     color:var(--font-color-dark);
   }
   &.placeholder{
@@ -64,6 +65,11 @@ button.action-button{
 }
 @media screen and (max-width: 600px){
   :slotted(span.label){ display:none }
-  :slotted(span.icon){ display:initial }
+  :slotted(span.icon){ display:initial; font-size:1.1rem; }
+  button.action-button{
+    min-width:40px;
+    border-radius:2rem;
+    padding:0.75rem;
+  }
 }
 </style>

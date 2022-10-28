@@ -30,6 +30,7 @@ nav.subnav{
   align-self:center;
   div.buttons{
     display:flex;
+    justify-content:center;
     gap:0.5rem;
     flex-wrap:wrap;
     button.placeholder{

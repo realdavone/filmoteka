@@ -42,7 +42,7 @@ const searchType = ref(options[0])
 onClickOutside(optionsMenu, () => isOptionsMenuOpened.value = false)
 
 const submitQuery = () => {
-  if(searchQuery.value!==''){
+  if(searchQuery.value !== ''){
     router.push({ path: `/search${searchType.value.value}`, query: { q: searchQuery.value } })
     input.value.blur()
   }
@@ -98,8 +98,10 @@ form{
   border-radius:25px;
   background:var(--card-color);
   width:100%;
+  max-width:500px;
   transition:0.2s ease all;
   padding:5px;
+  margin-left:auto;
   input{
     padding:0 8px;
     background:transparent;

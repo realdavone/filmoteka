@@ -34,14 +34,14 @@
               title="Prezrené"
               :success="store.methods.watched.exists({ type: route.name, id: route.params.id })"
               @handleClick="store.methods.watched.toggle({ id: route.params.id, type: route.name, title: details['title']})">
-                <template #icon><span class="icon" :style="[store.methods.watched.exists({ type: route.name, id: route.params.id }) ? 'opacity:1' : 'opacity:0.5']">&#128065;&#xFE0E;</span></template>
+                <template #icon><span class="icon">&#128065;&#xFE0E;</span></template>
                 <template #label><span class="label">Označiť ako {{store.methods.watched.exists({ type: route.name, id: route.params.id }) ? 'neprezrené' : 'prezrené'}}</span></template>
               </ActionButton>
               <ActionButton
               title="Pripnutie prehrávača"
               :success="store.state.settings.pinnedPlayer"
               @handleClick="store.methods.settings.pinnedPlayerToggle()">
-                <template #icon><span :style="[store.state.settings.pinnedPlayer ? 'opacity:1' : 'opacity:0.6']" class="material-symbols-outlined icon">push_pin</span></template>
+                <template #icon><span class="material-symbols-outlined icon">push_pin</span></template>
                 <template #label><span class="label">{{store.state.settings.pinnedPlayer ? 'Odopnúť' : 'Pripnúť'}} prehrávač</span></template>
               </ActionButton>
               <ActionButton

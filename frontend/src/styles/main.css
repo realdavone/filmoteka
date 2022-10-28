@@ -44,6 +44,7 @@ body{
   max-width:2000px;
   margin:0 auto;
   transition:0.2s ease background-color;
+  overflow-x:hidden;
 }
 a,button,select,div,summary{ -webkit-tap-highlight-color: transparent }
 img{ color:transparent }
