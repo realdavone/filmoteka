@@ -236,4 +236,12 @@ section.title{
     }
   }
 }
+@media screen and (max-width: 600px){
+  section.title{
+    width:initial;
+    border-radius:0;
+    margin-left:calc(0px - 1rem);
+    margin-right:calc(0px - 1rem);
+  }
+}
 </style>

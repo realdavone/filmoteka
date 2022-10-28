@@ -54,7 +54,6 @@ section.ctr{
     position:absolute;
     top:1rem;
     right:1rem;
-    font-size:1rem;
   }
   section.logos{
     display:flex;

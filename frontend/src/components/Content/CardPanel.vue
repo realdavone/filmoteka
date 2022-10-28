@@ -95,7 +95,7 @@ section.panel{
     color:var(--theme-color);
     z-index:5;
     top:50%;
-    font-size:2rem;
+    font-size:1.5rem;
     line-height:1;
     background-color:white;
     width:2.75rem;
@@ -104,7 +104,7 @@ section.panel{
     display:flex;
     justify-content:center;
     align-items:center;
-    padding:0 4px 5px 0;
+    padding:0 4px 0 0;
     &.left{left:20px;}
     &.right{right:20px;}
   }

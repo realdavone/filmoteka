@@ -1,6 +1,7 @@
 import dotenv from 'dotenv'
 import fetch from 'node-fetch'
 import { io } from '../io.js'
+import jwt from 'jsonwebtoken'
 
 import Title from '../schemas/Title.js'
 import RecommendedTitle from '../schemas/RecommendedTitle.js'
@@ -11,18 +12,23 @@ const TMDB_BASE_API = process.env.TMDB_BASE_API
 const TMDB_API_KEY = process.env.TMDB_API_KEY
 const OMDB_API_KEY = process.env.OMDB_API_KEY
 
+const getUserFromToken = (token) => {
+  try {
+    return jwt.verify(token, process.env.ACCESS_TOKEN_KEY)
+  } catch (error) { return undefined }
+}
+
 export const getTitle = async (req, res) => {
   const { type, id } = req.params
+  //const user = getUserFromToken(req.headers?.['access-token'])
   
   const response = await fetch(`${TMDB_BASE_API}/${type}/${id}?api_key=${TMDB_API_KEY}&append_to_response=credits,recommendations,external_ids,translations,content_ratings,images&include_image_language=en,null&language=sk-SK`)
   const data = await response.json()
   const omdbResponse = await fetch(`https://www.omdbapi.com/?i=${data.external_ids.imdb_id}&apikey=${OMDB_API_KEY}`)
-  const omdbData = await omdbResponse.json() 
+  const omdbData = await omdbResponse.json()
 
   const foundTitle = await Title.findOne({ type, id })
-
   if(foundTitle === null) return res.json({ ...data, omdb: { ...omdbData }, ...foundTitle?._doc, isRecommended: false })
-
   const isRecommended = await RecommendedTitle.findOne({ title: foundTitle._id })
   res.json({ ...data, omdb: { ...omdbData }, ...foundTitle?._doc, isRecommended: isRecommended === null ? false : true })
 }

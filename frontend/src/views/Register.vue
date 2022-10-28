@@ -1,14 +1,10 @@
 <template>
   <main class="login">
     <div class="outter">
-      <section class="content">
-        <img src="../assets/auth-bg.jpg" alt="Obrázok">
-        <Logo :height="75"/>
-        <router-link tabindex="0" to="/login" class="link">Už máte účet?</router-link>
-      </section>
       <section class="form">
         <header>
           <span>Registrácia</span>
+          <CloseButton @click="history.state.back === null ? router.push('/') : router.go(-1)"/>
         </header>
         <form class="form" @submit.prevent="register">
           <div class="input">
@@ -29,13 +25,15 @@
             <Loader v-if="registerStart" />
           </button>
         </form>
+        <router-link tabindex="0" to="/login" class="link">Už máte účet?</router-link>
+
       </section>
     </div>
   </main>
 </template>
 
 <script setup>
-import Logo from '../components/Logo.vue'
+import CloseButton from '../components/Buttons/CloseButton.vue'
 import Loader from '../components/Loader.vue'
 import { notify } from "@kyvg/vue3-notification"
 import { reactive, ref } from 'vue'
@@ -46,6 +44,8 @@ import '../styles/auth.scss'
 const router = useRouter()
 const error = ref(null)
 const registerStart = ref(false)
+
+const history = window.history
 
 const credentials = reactive({ email: null, password: null, repeatPassword: null })
 const register = () => {

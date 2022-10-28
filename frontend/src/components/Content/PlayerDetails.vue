@@ -2,10 +2,12 @@
   <section class="user-select-none container">
     <div class="outter">
       <div v-if="bg" class="background-image">
-        <img @error="bg = false" :src="`	https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${bg}`" alt="Obrázok v pozadí">
+        <img @error="bg = false" :src="`https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${bg}`" alt="Obrázok v pozadí">
       </div>
-      <div class="poster">
-        <slot name="poster" />
+      <div class="left-col">
+        <div class="poster">
+          <slot name="poster" />
+        </div>
       </div>
       <div class="title">
         <div>
@@ -66,6 +68,9 @@ section.container{
       object-fit:cover;
     }
   }
+  div.left-col{
+    align-self:flex-start;
+  }
   div.poster{
     aspect-ratio:2/3;
     min-width:200px;
@@ -73,7 +78,6 @@ section.container{
     background:var(--card-color-hover);
     border-radius:16px;
     overflow:hidden;
-    align-self:flex-start;
     z-index:1;
     position:relative;
   }

@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken'
 dotenv.config()
 
 const auth = (req, res, next) => {
-  if(!req.headers['access-token']) { res.status(401).json({ success: false, message: 'Nesprávne headers' }); return}
+  if(!req.headers['access-token']) { return res.status(401).json({ success: false, message: 'Nesprávne headers' })}
   try {
     const decoded = jwt.verify(req.headers['access-token'], process.env.ACCESS_TOKEN_KEY)
     req.user = decoded

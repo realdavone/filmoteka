@@ -1,14 +1,10 @@
 <template>
   <main class="login">
     <div class="outter">
-      <section class="content">
-        <img src="../assets/auth-bg.jpg" alt="Obrázok">
-        <Logo :height="75"/>
-        <router-link tabindex="0" v-if="store.state.globalSettings?.allowRegistration" to="/register" class="link">Ešte nemáte účet?</router-link>
-      </section>
       <section class="form">
         <header>
           <span>Prihlásenie</span>
+          <CloseButton @click="history.state.back === null ? router.push('/') : router.go(-1)"/>
         </header>
         <form class="form" @submit.prevent="login">
           <div class="input">
@@ -25,13 +21,14 @@
           </button>
           <div id="buttonDiv" style="align-self:center"></div>
         </form>
+        <router-link tabindex="0" v-if="store.state.globalSettings?.allowRegistration" to="/register" class="link">Ešte nemáte účet?</router-link>
       </section>
     </div>
   </main>
 </template>
 
 <script setup>
-import Logo from '../components/Logo.vue'
+import CloseButton from '../components/Buttons/CloseButton.vue'
 import Loader from '../components/Loader.vue'
 import { notify } from "@kyvg/vue3-notification"
 import { reactive, inject, onMounted, ref } from 'vue'
@@ -44,6 +41,7 @@ const store = inject('store')
 
 const credentials = reactive({ email: null, password: null })
 const loginStart = ref(false)
+const history = window.history
 
 onMounted(() => {
   google.accounts.id.initialize({

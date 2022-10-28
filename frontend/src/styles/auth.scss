@@ -5,66 +5,37 @@ main.login, main.register{
   align-items:center;
   flex-direction:column;
   gap:1rem;
-  background-color:var(--theme-color);
+  background-color:var(--background-color);
   div.outter{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    background-color:var(--dark-card-color);
+    background-color:var(--background-color);
     border-radius:0.75rem;
     overflow:hidden;
-    max-width:600px;
+    max-width:400px;
     width:100%;
-    min-height:400px;
-    box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.75);
-  }
-  section.content{
-    padding:1.5rem;
-    position: relative;
-    flex-basis:50%;
-    isolation:isolate;
-    z-index:1;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    gap:1rem;
-    overflow:hidden;
-    order:1;
-    img{
-      max-width:100%;
-      min-height:100%;
-      object-fit:cover;
-      position: absolute;
-      top:0;
-      left:0;
-      bottom:0;
-      right:0;
-      z-index:-1;
-      opacity:0.25;
-      filter:blur(2px);
-    }
-    a.link{
-      font-size:0.75rem;
-      color:var(--font-color-dark);
-      &:hover{
-        text-decoration:underline;
-      }
-    }
+    outline:2px solid var(--card-color-hover);
   }
   section.form{
     display:flex;
     flex-direction:column;
     align-self:center;
     padding:1.5rem;
-    flex-basis:50%;
-    order:2;
+    gap:1.5rem;
+    width:100%;
+    a{
+      align-self:center;
+      font-size:0.75rem;
+      &:hover{
+        text-decoration:underline;
+      }
+    }
   }
   header{
     font-size:1.25rem;
     font-weight:700;
     gap:10px;
-    margin-bottom:2rem;
-    color:var(--font-color-dark);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
   }
   form{
     width:100%;
@@ -74,10 +45,9 @@ main.login, main.register{
     div.input{
       display:flex;
       align-items:stretch;
-      background:var(--dark-card-color-hover);
       border-radius:0.5rem;
       overflow:hidden;
-      color:var(--font-color-dark);
+      background-color:var(--card-color);
       &:focus-within{ outline:2px solid var(--theme-color) }
       span:nth-child(1){
         font-size:0.75rem;
@@ -123,12 +93,7 @@ main.login, main.register{
 @media screen and (max-width: 600px){
   main.login, main.register{
     div.outter{
-      min-height:100vh!important;
-      border-radius:0!important;
-      grid-template-columns:1fr!important;
-      grid-template-rows:1fr 1fr;
+      outline:none;
     }
-    section.content{ order:2!important }
-    section.form{ order:1!important }
   }
 }
