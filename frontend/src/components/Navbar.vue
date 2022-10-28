@@ -1,5 +1,5 @@
 <template>
-  <nav class="container">
+  <nav v-auto-animate class="container">
     <div v-if="!isSearchRendered" class="left-menu">
       <NavButton @handleClick="isMenuOpened = !isMenuOpened">
         <template #icon><span style="font-size:1.5rem">&#9776;</span></template>
@@ -8,15 +8,21 @@
         <Logo class="icon-hide" :height="36" />
       </router-link>
     </div>
-    <SearchForm v-if="isSearchRendered" />
-    <div class="right-menu">
-      <NavButton title="Vyhľadávanie" @handleClick="isSearchRendered = !isSearchRendered">
+    <div v-if="isSearchRendered" class="middle">
+      <SearchForm />
+      <NavButton title="Vyhľadávanie" @handleClick="isSearchRendered = false">
         <template #icon>
-          <span v-if="!isSearchRendered" class="material-symbols-outlined" style="padding-top:5px;color:var(--theme-color);font-weight:700;">search</span>
-          <span v-else style="color:var(--theme-color);font-weight:700;font-size:1.5rem">&#10095;</span>
+          <span style="color:var(--theme-color);font-weight:700;font-size:1.5rem">&#10095;</span>
         </template>
       </NavButton>
-      <template v-if="!isSearchRendered && store.state.credentials.loggedIn">
+    </div>
+    <div v-if="!isSearchRendered" class="right-menu">
+      <NavButton title="Vyhľadávanie" @handleClick="isSearchRendered = true">
+        <template #icon>
+          <span class="material-symbols-outlined" style="padding-top:5px;color:var(--theme-color);font-weight:700;">search</span>
+        </template>
+      </NavButton>
+      <template v-if="store.state.credentials.loggedIn">
         <NavButton class="icon-hide" title="Knižnica" @handleClick="$router.push('/library')">
           <template #icon><span class="material-symbols-outlined icon" style="padding-top:5px">video_library</span></template>
         </NavButton>
@@ -197,6 +203,13 @@ nav{
     gap:20px;
     margin-right:auto;
     a{line-height:1}
+  }
+  div.middle{
+    margin:0 auto;
+    display:flex;
+    gap:1rem;
+    width:100%;
+    max-width:500px;
   }
 }
 aside.modal{

@@ -96,9 +96,8 @@ div.select{
 form{
   display:flex;
   border-radius:25px;
-  background:var(--card-color);
+  background:var(--card-color-hover);
   width:100%;
-  max-width:500px;
   transition:0.2s ease all;
   padding:5px;
   margin-left:auto;

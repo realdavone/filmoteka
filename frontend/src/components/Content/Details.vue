@@ -238,10 +238,11 @@ section.title{
 }
 @media screen and (max-width: 600px){
   section.title{
+    box-sizing:border-box;
     width:initial;
     border-radius:0;
-    margin-left:calc(0px - 1rem);
-    margin-right:calc(0px - 1rem);
+    margin-left:calc(0px - var(--container-padding));
+    margin-right:calc(0px - var(--container-padding));
   }
 }
 </style>
