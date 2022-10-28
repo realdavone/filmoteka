@@ -42,7 +42,7 @@
               :success="store.state.settings.pinnedPlayer"
               @handleClick="store.methods.settings.pinnedPlayerToggle()">
                 <template #icon><span :style="[store.state.settings.pinnedPlayer ? 'opacity:1' : 'opacity:0.6']" class="material-symbols-outlined icon">push_pin</span></template>
-                <template #label><span class="label">{{store.state.settings.pinnedPlayer ? 'Odopnúť' : 'Pripnúť'}}</span></template>
+                <template #label><span class="label">{{store.state.settings.pinnedPlayer ? 'Odopnúť' : 'Pripnúť'}} prehrávač</span></template>
               </ActionButton>
               <ActionButton
               title="Pridanie k záložkam"

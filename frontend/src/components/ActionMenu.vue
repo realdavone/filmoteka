@@ -30,14 +30,13 @@ nav.subnav{
   align-self:center;
   div.buttons{
     display:flex;
-    align-items:center;
-    gap:0.75rem;
+    gap:0.5rem;
     flex-wrap:wrap;
     button.placeholder{
       height:calc(0.85rem + 2 * 0.5rem);
       width:3rem;
       background-color:var(--card-color);
-      border-radius:1rem;
+      border-radius:0.25rem;
       cursor:default;
     }
   }

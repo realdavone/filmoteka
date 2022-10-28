@@ -218,20 +218,6 @@ aside.modal{
       font-size:1rem;
       font-weight:900;
     }
-    button{
-      height:30px;
-      min-width:30px;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      border-radius:50%;
-      transition:0.2s ease background-color;
-      color:crimson;
-      font-size:1.25rem;
-      line-height:1;
-      padding-bottom:3px;
-      &:active{background-color:#dc143c40;}
-    } 
   }
   section.title-holder{
     overflow:auto;

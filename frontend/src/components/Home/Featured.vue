@@ -1,7 +1,7 @@
 <template>
   <section class="featured container user-select-none">
     <div v-if="title?.backdrop_path" class="background-image">
-      <img :src="`https://www.themoviedb.org/t/p/w1440_and_h320_multi_faces${title?.backdrop_path}`" alt="Obrázok v pozadí">
+      <img @error="hide" :src="`https://www.themoviedb.org/t/p/w1440_and_h320_multi_faces${title?.backdrop_path}`" alt="Obrázok v pozadí">
     </div>
     <section class="title-holder">
       <div class="poster">
@@ -32,15 +32,15 @@
 <script setup>
 import TypeIcon from '../Content/TypeIcon.vue'
 
+const hide = el => el.target.style.display = 'none'
+
 const { title } = defineProps({ title: Object })
 </script>
 
 <style lang="scss" scoped>
 section.featured{
-  background-size:cover!important;
-  background-repeat:no-repeat!important;
-  background-position:center!important;
-  padding-top:var(--container-padding);
+  padding-top:calc(var(--nav-height) + var(--container-padding));
+  margin-top:calc(0px - var(--nav-height));
   padding-bottom:var(--container-padding);
   position:relative;
   div.background-image{
@@ -49,8 +49,8 @@ section.featured{
     bottom:0;
     left:0;
     right:0;
-    -webkit-mask-image: linear-gradient(#000000, #00000040 50%, transparent);
-    mask-image: linear-gradient(#000000, #00000040 50%, transparent);
+    -webkit-mask-image: linear-gradient(#00000030, #00000080 50%, transparent);
+    mask-image: linear-gradient(#00000030, #00000080 50%, transparent);
     img{
       width:100%;
       height:100%;

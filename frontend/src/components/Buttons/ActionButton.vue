@@ -1,5 +1,5 @@
 <template>
-  <button :class="`sub-nav-button ${warning ? 'warning' : ''} ${success ? 'success' : ''}`" @click="$emit('handleClick')">
+  <button :class="`action-button ${warning ? 'warning' : ''} ${success ? 'success' : ''}`" @click="$emit('handleClick')">
     <slot name="icon" />
     <slot name="label" />
     <Loader v-if="loading" />
@@ -25,16 +25,18 @@ const { loading, warning, success } = defineProps({
 </script>
 
 <style lang="scss" scoped>
-button.sub-nav-button{
+button.action-button{
   transition:0.2s ease all;
   overflow:hidden;
   background-color:var(--card-color-hover);
   display:flex;
   align-items:center;
+  justify-content:center;
   gap:0.5rem;
-  padding:0.5rem;
-  border-radius:1rem;
+  padding:0.75rem;
+  border-radius:0.25rem;
   line-height:1;
+  min-width:160px;
   &.warning{
     background-color:crimson!important;
     color:var(--font-color-dark);
