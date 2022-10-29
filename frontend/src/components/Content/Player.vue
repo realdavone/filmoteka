@@ -106,7 +106,7 @@ section.player-holder{
     transition:0.2s ease all;
     &.pinned{
       position:fixed;
-      top:var(--nav-height);
+      top:calc(var(--nav-height) - 1px);
       left:0;
       z-index:15;
       height:40vh;

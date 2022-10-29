@@ -172,6 +172,7 @@ nav{
   z-index:100;
   gap:10px;
   transition:0.2s ease background-color;
+  isolation:isolate;
   &.scroll{
   background-color:var(--background-color-alpha);
   backdrop-filter:blur(5px);

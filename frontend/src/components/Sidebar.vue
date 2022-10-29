@@ -2,7 +2,7 @@
   <aside ref="menu">
     <header class="container user-select-none">
       <NavButton @handleClick="closeMenu">
-        <template #icon><span style="font-size:1.5rem">&#9776;</span></template>
+        <template #icon><span style="font-size:1.5rem">&#10094;</span></template>
       </NavButton>
       <div class="right-menu">
         <template v-if="store.state.credentials.loggedIn">
@@ -24,15 +24,6 @@
           </div>
           <div class="color-picker">
             <button v-for="(color, i) in store.state.settings.themeColors.colors" :key="i" class="color" :style="'background:'+color" @click="store.methods.settings.themeColor.set(color)" :data-active="store.methods.settings.themeColor.get()===color"></button>
-          </div>
-        </template>
-      </OpenCloseSettings>
-      <OpenCloseSettings>
-        <template #label>História vyhľadávania</template>
-        <template #content>
-          <span v-if="store.state.recentSearch.length === 0" class="no-history">Žiadna história</span>
-          <div v-else class="flex-list">
-            <router-link class="history-item" v-for="(searchedItem, i) in store.state.recentSearch" :key="i" :to="{ path: '/search', query: { q: searchedItem } }" @click.native="closeMenu()">{{searchedItem}}</router-link>
           </div>
         </template>
       </OpenCloseSettings>

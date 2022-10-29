@@ -1,12 +1,12 @@
 <template>
   <form class="search-form" @submit.prevent="submitQuery" autocomplete="off">
     <div class="select user-select-none">
-      <div class="selected-option" @click="isOptionsMenuOpened =! isOptionsMenuOpened" :data-opened="isOptionsMenuOpened">
+      <div class="selected-option" @click="isOptionsMenuOpened = !isOptionsMenuOpened" :data-opened="isOptionsMenuOpened">
         <span class="material-symbols-outlined" style="font-size:1.25rem">{{searchType['icon']}}</span>        
       </div>
       <Transition name="fade">
         <div ref="optionsMenu" v-if="isOptionsMenuOpened" class="options">
-          <div class="option" v-for="option in options" :key="option.value" :data-active="searchType.value===option.value" @click="searchType=option;isOptionsMenuOpened=false;">
+          <div class="option" v-for="option in options" :key="option.value" :data-active="searchType.value === option.value" @click="searchType = option; isOptionsMenuOpened = false;">
             <div class="icon-holder">
               <span class="material-symbols-outlined" style="font-size:1.25rem">{{option.icon}}</span>
             </div>
@@ -15,18 +15,25 @@
         </div>
       </Transition>
     </div>
-    <input id="search-input" ref="input" v-model="searchQuery"  type="text" placeholder="Vyhľadávanie" required>
+    <input id="search-input" ref="input" v-model="searchQuery"  type="text" placeholder="Vyhľadávanie" required @focus="inputFocus(true)" @focusout="inputFocus(false)">
   </form>
+  <Transition name="fade">
+    <div v-if="isInputFocused && store.state.recentSearch.length > 0" class="recent">
+      <button v-for="(item, index) in store.state.recentSearch" :key="index" @click="$router.push('/search?q='+item)">{{item}}</button>
+    </div>
+  </Transition>
 </template>
 
 <script setup>
 import { onClickOutside } from '@vueuse/core'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, inject } from 'vue'
 import { useRouter } from 'vue-router'
 
+const store = inject('store')
 const router = useRouter()
 const searchQuery = ref('')
 const input = ref(null)
+const isInputFocused = ref(false)
 
 const isOptionsMenuOpened = ref(false)
 const optionsMenu = ref(null)
@@ -48,10 +55,25 @@ const submitQuery = () => {
   }
 }
 
-onMounted(() => { input.value.focus() })
+const inputFocus = state => isInputFocused.value = state
+
+onMounted(() => input.value.focus())
 </script>
 
 <style lang="scss" scoped>
+div.recent{
+  position:absolute;
+  left:0;
+  top:calc(100% );
+  background:var(--card-color);
+  width:100%;
+  padding:0.5rem 1rem;
+  font-size:0.75rem;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:0.75rem;
+}
 div.select{
   position:relative;
   isolation:isolate;
@@ -93,7 +115,7 @@ div.select{
   }
   div.option:not([data-active=true]):hover{background:var(--card-color-hover);}
 }
-form{
+form.search-form{
   display:flex;
   border-radius:25px;
   background:var(--card-color-hover);
@@ -101,6 +123,8 @@ form{
   transition:0.2s ease all;
   padding:5px;
   margin-left:auto;
+  height:46px;
+  position:relative;
   input{
     padding:0 8px;
     background:transparent;
