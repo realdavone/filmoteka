@@ -17,11 +17,13 @@
     </div>
     <input id="search-input" ref="input" v-model="searchQuery"  type="text" placeholder="Vyhľadávanie" required @focus="inputFocus(true)" @focusout="inputFocus(false)">
   </form>
+  <!--
   <Transition name="fade">
     <div v-if="isInputFocused && store.state.recentSearch.length > 0" class="recent">
       <button v-for="(item, index) in store.state.recentSearch" :key="index" @click="$router.push('/search?q='+item)">{{item}}</button>
     </div>
   </Transition>
+  -->
 </template>
 
 <script setup>
