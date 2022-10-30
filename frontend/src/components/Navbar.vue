@@ -12,15 +12,13 @@
       <SearchForm />
       <NavButton title="Vyhľadávanie" @handleClick="isSearchRendered = false">
         <template #icon>
-          <span style="color:var(--theme-color);font-weight:700;font-size:1.5rem">&#10095;</span>
+          <span style="color:var(--theme-color);font-size:1.5rem">&#10095;</span>
         </template>
       </NavButton>
     </div>
     <div v-if="!isSearchRendered" class="right-menu">
       <NavButton title="Vyhľadávanie" @handleClick="isSearchRendered = true">
-        <template #icon>
-          <span class="material-symbols-outlined" style="padding-top:5px;color:var(--theme-color);font-weight:700;">search</span>
-        </template>
+        <template #icon><span class="material-symbols-outlined" style="padding-top:5px;color:var(--theme-color);">search</span></template>
       </NavButton>
       <template v-if="store.state.credentials.loggedIn">
         <NavButton class="icon-hide" title="Knižnica" @handleClick="$router.push('/library')">

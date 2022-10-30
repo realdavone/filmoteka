@@ -34,7 +34,7 @@ nav.subnav{
     gap:0.5rem;
     flex-wrap:wrap;
     button.placeholder{
-      height:calc(0.85rem + 2 * 0.5rem);
+      height:40px;
       width:3rem;
       background-color:var(--card-color);
       border-radius:0.25rem;

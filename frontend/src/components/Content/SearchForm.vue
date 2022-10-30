@@ -85,6 +85,7 @@ div.select{
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
     border-radius:8px;
     overflow:hidden;
+    top:calc(100% + 10px);
   }
   div.selected-option, div.option{
     height:36px;

@@ -5,21 +5,21 @@
       :isPlayerWorking="props.isPlayerWorking"
       :title="props.title"
       :isReady="{
-        status:areThereAnyEpisodes&&props['hasFirstEpisodeAired'],
-        message:areThereAnyEpisodes&&props['hasFirstEpisodeAired']?null:
-          areThereAnyEpisodes&&!props['hasFirstEpisodeAired']?'Seriál zatiaľ nevyšiel':
-            !areThereAnyEpisodes&&props['hasFirstEpisodeAired']?'Seriál nemá žiadne epizódy':
+        status: areThereAnyEpisodes && props['hasFirstEpisodeAired'],
+        message: areThereAnyEpisodes && props['hasFirstEpisodeAired'] ? null:
+          areThereAnyEpisodes && !props['hasFirstEpisodeAired'] ? 'Seriál zatiaľ nevyšiel' :
+            !areThereAnyEpisodes && props['hasFirstEpisodeAired'] ? 'Seriál nemá žiadne epizódy' :
         'Nastala chyba'
       }"
       :source="playerSource"
       :type="'tv'"
-      @setPlayer="setPlayer()"
+      @setPlayer="setPlayer"
       />
     </section>
     <div v-if="areThereAnyEpisodes && (store.state.globalSettings?.allowWatchWhileUnregistered || store.state.credentials.loggedIn)" class="season-episode">
-      <button :class="{'disabled':currentSeasonAndEpisode.season === 0 && currentSeasonAndEpisode.episode === 0}" class="next-previous-episode" :disabled="currentSeasonAndEpisode.season===0&&currentSeasonAndEpisode.episode===0" @click="handleControls('backwards')" title="Predchádzajúca epizóda">&laquo;</button>
+      <button :class="{ 'disabled' : currentSeasonAndEpisode.season === 0 && currentSeasonAndEpisode.episode === 0 }" class="next-previous-episode" :disabled="currentSeasonAndEpisode.season === 0 && currentSeasonAndEpisode.episode === 0" @click="handleControls('backwards')" title="Predchádzajúca epizóda">&laquo;</button>
       <div class="season-select-holder user-select-none">
-        <div class="selected-season" @click="isSeasonListOpened=!isSeasonListOpened">
+        <div class="selected-season" @click="isSeasonListOpened =! isSeasonListOpened">
           <div class="poster-holder">
             <img v-if="seasons[currentSeasonAndEpisode.season]['poster_path']" :src="`https://image.tmdb.org/t/p/w45_and_h45_face${seasons[currentSeasonAndEpisode.season]['poster_path']}`" :alt="`Obrázok ${seasons[currentSeasonAndEpisode.season]['season_number']}. série`">          
           </div>
@@ -27,13 +27,13 @@
         </div>
         <Transition name="fade">
           <div v-if="isSeasonListOpened" class="options" ref="seasonList">
-            <div @click="currentSeasonAndEpisode.season=i;isSeasonListOpened=false;currentSeasonAndEpisode.episode=0;" v-for="(season, i) in seasons" :key="season.season_number" class="option" :data-active="currentSeasonAndEpisode.season===i">
+            <div @click="currentSeasonAndEpisode.season = i; isSeasonListOpened = false; currentSeasonAndEpisode.episode = 0" v-for="(season, i) in seasons" :key="season.season_number" class="option" :data-active="currentSeasonAndEpisode.season === i">
               <div class="poster-holder">
                 <img v-if="season['poster_path']" :src="`https://image.tmdb.org/t/p/w45_and_h45_face${season['poster_path']}`" :alt="`Obrázok ${season['season_number']}. série`">
               </div>
               <div class="content-holder">
                 <span>Séria {{season['season_number']}}</span>
-                <span class="episode-count">{{season['episode_count']}} {{season['episode_count']==1?'epizóda':season['episode_count']>1&&season['episode_count']<5?'epizódy':'epizód'}}</span>
+                <span class="episode-count">{{season['episode_count']}} {{season['episode_count'] == 1 ? 'epizóda':season['episode_count'] > 1 && season['episode_count'] < 5 ? 'epizódy' : 'epizód'}}</span>
               </div>
             </div>
           </div>
@@ -45,7 +45,7 @@
         </div>
         <Transition name="fade">        
           <div v-if="isEpisodeListOpened" class="options" ref="episodeList">
-            <div v-for="i in numberOfEpisodes" :key="i" @click="currentSeasonAndEpisode.episode = i - 1; isEpisodeListOpened = false;" class="option" :data-active="currentSeasonAndEpisode.episode === i - 1">
+            <div v-for="i in numberOfEpisodes" :key="i" @click="currentSeasonAndEpisode.episode = i - 1; isEpisodeListOpened = false" class="option" :data-active="currentSeasonAndEpisode.episode === i - 1">
               <span>Epizóda {{i}}</span>
             </div>
           </div>
@@ -55,7 +55,7 @@
       <button :class="{'disabled':currentSeasonAndEpisode.season + 1 === seasons.length && currentSeasonAndEpisode.episode + 1 === numberOfEpisodes}" class="next-previous-episode" :disabled="currentSeasonAndEpisode.season + 1 === seasons.length && currentSeasonAndEpisode.episode + 1 === numberOfEpisodes" @click="handleControls('forwards')" title="Ďalšia epizóda">&raquo;</button>
     </div>
     <EpisodeInfo :id="props.id" :season="currentSeasonAndEpisode.season + 1" :episode="currentSeasonAndEpisode.episode + 1" v-if="store.state.globalSettings?.allowWatchWhileUnregistered || store.state.credentials.loggedIn"/>
-    <section v-if="(props['lastEpisode'] !==null || props['nextEpisode'] !== null) && (store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn)" class="episode-card-holder">
+    <section v-if="(props['lastEpisode'] !== null || props['nextEpisode'] !== null) && (store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn)" class="episode-card-holder">
       <EpisodeCard 
       v-if="props['lastEpisode']"
       :playable="true"
@@ -112,10 +112,10 @@ const playEpisode = ({ season, episode }) => {
 }
 
 const setPlayer = () => {
-  playerSource.value=`https://www.2embed.to/embed/tmdb/tv?id=${props.id}&s=${currentSeasonAndEpisode.season+1}&e=${currentSeasonAndEpisode.episode+1}`;
+  playerSource.value = `https://www.2embed.to/embed/tmdb/tv?id=${props.id}&s=${currentSeasonAndEpisode.season + 1}&e=${currentSeasonAndEpisode.episode + 1}`
 
   if(store.state.favourites.some(item => item.id === props.id.toString())){
-    store.methods.favourites.update(store.state.favourites.findIndex(item => item.id === props.id.toString()), currentSeasonAndEpisode.season + 1, currentSeasonAndEpisode.episode + 1);
+    store.methods.favourites.update(store.state.favourites.findIndex(item => item.id === props.id.toString()), currentSeasonAndEpisode.season + 1, currentSeasonAndEpisode.episode + 1)
   }
 }
 
@@ -131,7 +131,7 @@ const handleControls = action => {
 }
 
 onBeforeMount(() => {
-  if(seasons.value.length === 0){ areThereAnyEpisodes.value = false }
+  if(seasons.value.length === 0) areThereAnyEpisodes.value = false
   else {
     if(store.state.favourites.findIndex(item => item.id === props.id.toString()) !== -1){
       currentSeasonAndEpisode.season = parseInt(store.state.favourites[store.state.favourites.findIndex(item => item.id === props.id.toString())].season) -1 || 0;
@@ -141,8 +141,8 @@ onBeforeMount(() => {
 })
 
 const numberOfEpisodes = computed(() => {
-  if(currentSeasonAndEpisode.season !== null){ return seasons.value[currentSeasonAndEpisode.season]['episode_count'] }
-  else { return null }
+  if(currentSeasonAndEpisode.season !== null) return seasons.value[currentSeasonAndEpisode.season]['episode_count']
+  else return null
 })
 
 onClickOutside(seasonList, () => isSeasonListOpened.value = false)
@@ -155,12 +155,13 @@ div.season-select-holder, div.episode-select-holder{
   width:100%;
   --option-height:40px;
   align-self:flex-start;
+  position:relative;
   div.selected-season, div.selected-episode, div.option{
     min-height:var(--option-height);
     display:flex;
-    gap:8px;
+    gap:0.5rem;
     align-items:center;
-    padding:0 8px;
+    padding:0 0.5rem;
     cursor:pointer;
     div.poster-holder{
       height:26px;
@@ -175,7 +176,6 @@ div.season-select-holder, div.episode-select-holder{
     }
     span{font-size:0.75rem;
       &.episode-count{
-        color:var(--theme-color);
         font-size:0.6rem;
         font-weight:700;
       }
@@ -185,19 +185,23 @@ div.season-select-holder, div.episode-select-holder{
       align-items:center;
       flex-direction:column;
     }
-    &[data-active=true]{ background:var(--theme-color-transparent) }
+    &[data-active=true]{ background:var(--theme-color) }
   }
   div.selected-season, div.selected-episode{ font-weight:700; }
   div.option:not([data-active=true]):hover{background:var(--card-color-hover)}
   div.options{
     display:flex;
     flex-direction:column;
-    position: relative;
+    position:absolute;
+    width:100%;
     z-index:3;
+    left:0;
     background:var(--card-color);
     max-height:200px;
     overflow:auto;
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+    border-radius:0.5rem;
+    top:calc(100% + 5px);
   }
 }
 section.outter-holder{

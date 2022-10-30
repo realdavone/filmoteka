@@ -25,7 +25,6 @@ const emit = defineEmits(['playEpisode'])
 <style lang="scss" scoped>
 section.episode-card{
   flex:1;
-  border-radius:10px;
   display:flex;
   align-items:stretch;
   position:relative;
@@ -35,10 +34,12 @@ section.episode-card{
     font-weight:900;
     text-transform:uppercase;
     margin-bottom:2px;
+    line-height:1;
   }
   &::before{
     content:'';
-    width:5px;
+    min-width:5px;
+    max-width:5px;
     background-color:var(--theme-color);
     border-radius:3px;
   }
