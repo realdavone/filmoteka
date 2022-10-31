@@ -3,16 +3,21 @@
     <div class="title-holder">
       <div class="title">
         <b>{{`${episodeInfo['seasonNumber']}.${episodeInfo['episodeNumber']}`}}</b>
-        <span>{{episodeInfo['name']}}</span>
+        <span v-if="!loading">{{episodeInfo['name']}}</span>
+        <div v-else class="skeleton"></div>
       </div>
       <span v-if="episodeInfo['airDate']" class="airdate">{{episodeInfo['airDate']}}</span>
     </div>
     <div v-if="showEpisodeSpoiler" class="thumb-overview">
       <div class="overview">
-        <span>{{episodeInfo['overview']}}</span>
+        <span v-if="!loading">{{episodeInfo['overview']}}</span>
+        <template v-else>
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+        </template>
       </div>
       <div class="thumbnail">
-        <img v-if="episodeInfo['thumbnail']" :src="`https://www.themoviedb.org/t/p/w454_and_h254_bestv2${episodeInfo['thumbnail']}`" :alt="episodeInfo['name']">
+        <img v-if="episodeInfo['thumbnail'] && !loading" :src="`https://www.themoviedb.org/t/p/w454_and_h254_bestv2${episodeInfo['thumbnail']}`" :alt="episodeInfo['name']">
       </div>
     </div>
     <button @click="showEpisodeSpoiler =! showEpisodeSpoiler" class="button-spoiler">
@@ -26,11 +31,7 @@ import _ from '../../utils/main.js'
 import { ref, watchEffect } from 'vue'
 import getData from '../../api/main.js'
 
-const props = defineProps({
-  id: String,
-  season: Number,
-  episode: Number
-})
+const props = defineProps({ id: String, season: Number, episode: Number })
 
 const episodeInfo = ref({})
 const showEpisodeSpoiler = ref(false)
@@ -45,10 +46,10 @@ const getEpisodeInfo = async (id, season, episode) => {
     episodeInfo.value = {
       seasonNumber: data['season_number'],
       episodeNumber: data['episode_number'],
-      name: translations.length > 0 && translations[0]['data']['name'] !== '' ? translations[0]['data']['name'] : data['name'],
+      name: translations?.['data']?.['name'] || data['name'],
       airDate: data['air_date'] !== '' ? new Date(data['air_date']).toLocaleDateString('sk-SK', { weekday: 'short', year: '2-digit', month: 'short', day: 'numeric' }) : null,
-      overview: translations.length > 0 ? translations[0]['data']['overview'] : data.overview || 'Popis nie je dostupný',
-      thumbnail: data['still_path'] !== '' ? data['still_path'] : null
+      overview: translations?.['data']?.['overview'] || data?.overview || 'Popis nie je dostupný',
+      thumbnail: data?.['still_path'] || null
     }
   } catch (error) { console.log(error) }
   finally{ loading.value = false }
@@ -68,6 +69,12 @@ section.episode-info{
   background:var(--card-color);
   transition:0.2s ease height;
   overflow:hidden;
+  div.skeleton{
+    background-color:var(--font-color);
+    width:75%;
+    height:1rem;
+    border-radius:0.25rem;
+  }
   div.title-holder{
     display:flex;
     justify-content:space-between;
@@ -78,6 +85,7 @@ section.episode-info{
       display:flex;
       align-items:center;
       gap:10px;
+      width:90%;
       b{ color:var(--theme-color) }
       span{
         font-weight:700;
@@ -92,7 +100,8 @@ section.episode-info{
     span.airdate{
       margin-top:3px;
       font-size:0.8rem;
-      color:var(--secondary-text-color)
+      color:var(--secondary-text-color);
+      white-space:nowrap;
     }
   }
   div.thumb-overview{
@@ -127,6 +136,9 @@ section.episode-info{
       span{
         padding-right:10px;
         font-size:var(--overview-font-size);
+      }
+      div{
+        margin-bottom:0.25rem;
       }
     }
   }

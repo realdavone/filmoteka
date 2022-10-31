@@ -15,15 +15,14 @@ export default {
   },
   makeUnscrollable(element, arg){ element.classList.toggle('modal-open', arg) },
   getTranslations(translations){
-    const trans = translations.filter(
-      element => element['iso_639_1'] === 'en' || element['iso_639_1'] === 'sk' || element['iso_639_1'] === 'cs'
-    ).filter(
-      element => element['data']['overview'] !== ''
-    ).sort((a, b) => { return a['iso_639_1'] === 'sk' ? -1 : b['iso_639_1'] === 'sk' ? 1 : 0})
-    return trans
+    return translations
+    .filter(translation => translation['iso_639_1'] === 'en' || translation['iso_639_1'] === 'sk' || translation['iso_639_1'] === 'cs')
+    .filter(translation => translation['data']['overview'] !== '')
+    .sort((a, b) => a['iso_639_1'] === 'sk' ? -1 : b['iso_639_1'] === 'sk' ? 1 : 0)
+    .shift()
   },
   sortCreators(creators){
-    if(Array.isArray(creators) === false) return []
+    if(!Array.isArray(creators)) return []
     
     let arr = []
     creators.forEach(creator => {

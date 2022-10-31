@@ -158,14 +158,14 @@ const fetchData = async (id) => {
     const translations = _.getTranslations(result.value['translations']['translations'])
     
     details.value = {
-      title: translations.length>0&&translations[0]['data']['title']!==''&&translations[0]['data']['name']!==''?translations[0]['data']['title']||translations[0]['data']['name']:result.value['title'],
+      title: translations?.['data']?.['title'] || translations?.['data']?.['name'] || result.value['title'] || result.value['name'],
       original_title: result.value['original_title'],
       poster: result.value['poster_path'],
       genres: result.value['genres'] || [],
       runtime: result.value['runtime'] ? Math.floor(result.value['runtime'] / 60) + 'h ' + result.value['runtime'] % 60 + 'm' : null,
-      overview: translations.length > 0 ? translations[0]['data']['overview'] : result.value['overview'],
+      overview: translations?.['data']?.['overview'] || result.value['overview'],
       countries: result.value['production_countries'],
-      tagline: translations.length > 0 ? translations[0]['data']['tagline'] : result.value['tagline'],
+      tagline: translations?.['data']?.['tagline'] || result.value['tagline'],
       imdb: result.value['imdb_id'],
       networks: result.value.production_companies.filter(prod => prod.logo_path!==null),
       creators: _.sortCreators(result.value['credits']['crew'].sort((a, b) => b['popularity'] - a['popularity']).slice(0, 5)),

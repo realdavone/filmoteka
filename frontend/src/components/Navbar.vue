@@ -4,9 +4,6 @@
       <NavButton @handleClick="isMenuOpened = !isMenuOpened">
         <template #icon><span style="font-size:1.5rem">&#9776;</span></template>
       </NavButton>
-      <router-link to="/">
-        <Logo class="icon-hide" :height="36" />
-      </router-link>
     </div>
     <div v-if="isSearchRendered" class="middle">
       <SearchForm />

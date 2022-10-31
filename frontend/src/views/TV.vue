@@ -163,14 +163,14 @@ const fetchData = async (id) => {
     const translations = _.getTranslations(result.value['translations']['translations'])
 
     details.value = {
-      title: translations.length > 0 && translations[0]['data']['title']!==''&&translations[0]['data']['name']!==''?translations[0]['data']['title']||translations[0]['data']['name']:result.value['name'],
+      title: translations?.['data']?.['title'] || translations?.['data']?.['name'] || result.value['title'] || result.value['name'],
       original_title: result.value['original_name'],
       poster: result.value['poster_path'],
       genres: result.value['genres'] || [],
       runtime: result.value['episode_run_time'][0]?Math.floor(result.value['episode_run_time'][0]/60)+'h '+result.value['episode_run_time'][0]%60+'m':null,
-      overview: translations.length>0?translations[0]['data']['overview']:result.value['overview'],
+      overview: translations?.['data']?.['overview'] || result.value['overview'],
       countries: result.value['origin_country'],
-      tagline: translations.length>0?translations[0]['data']['tagline']:result.value['tagline'],
+      tagline: translations?.['data']?.['tagline'] || result.value['tagline'],
       imdb: result.value['external_ids']['imdb_id'],
       networks: result.value.networks.filter(network => network.logo_path!==''),
       creators: _.sortCreators(result.value['created_by'].slice(0,5)),
