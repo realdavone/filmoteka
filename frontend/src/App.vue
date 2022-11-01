@@ -8,12 +8,10 @@
     </router-view>
   </main>
   <notifications position="bottom center"/>
-  <Footer v-if="!$route?.meta?.hideFooter"/>
 </template>
 
 <script setup>
 import Navbar from './components/Navbar.vue'
-import Footer from './components/Footer.vue'
 import { provide } from 'vue'
 import store from './store/index'
 import { io } from "socket.io-client"
@@ -29,7 +27,8 @@ provide('socket', socket)
 <style lang="scss">
 main.content{
   width:100%;
-  min-height:calc(100vh - var(--nav-height) - var(--footer-height));
+  min-height:calc(100vh - var(--nav-height));
+  padding-bottom:var(--main-content-padding-bottom);
 }
 .wrapper{
   padding-top:20px;
@@ -89,8 +88,6 @@ input{
   outline:none;
   font-family:inherit;
 }
-::-webkit-scrollbar{width:15px;height:15px;}
-::-webkit-scrollbar-thumb{background:var(--theme-color-transparent);border:4px solid transparent;border-radius:10px;background-clip:content-box;}
 
 @media screen and (max-width: 600px) {
   .wrapper{

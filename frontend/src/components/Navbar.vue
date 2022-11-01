@@ -31,7 +31,7 @@
       </template>
       <div v-if="!isSearchRendered && !store.state.credentials.loggedIn" class="auth-buttons">
         <button v-if="store.state.globalSettings?.allowRegistration" class="register-button" @click="$router.push('/register')">Registrovať</button>
-        <button class="login-button" @click="$router.push('/login')">Prihlásiť sa</button>
+        <BasicButton text="Prihlásiť sa" @handleClick="$router.push('/login')"/>
       </div>
     </div>
   </nav>
@@ -85,6 +85,7 @@ import { onClickOutside } from '@vueuse/core'
 
 import Logo from './Logo.vue'
 import NavButton from './Buttons/NavButton.vue'
+import BasicButton from './Buttons/BasicButton.vue';
 const Modal = defineAsyncComponent(() => import('./Modal.vue'))
 const Sidebar = defineAsyncComponent(() => import('./Sidebar.vue'))
 const SearchForm = defineAsyncComponent(() => import('./Content/SearchForm.vue'))
@@ -174,16 +175,7 @@ nav{
     gap:0.75rem;
     align-self:center;
     margin-left:0.75rem;
-    button{
-      font-size:0.75rem;
-      &.login-button{
-        background-color:var(--theme-color);
-        color:var(--font-color-dark);
-        padding:6px 8px;
-        border-radius:4px;
-        font-weight:700;
-      }
-    }
+    button{ font-size:0.75rem }
   }
   div.right-menu{
     display:flex;

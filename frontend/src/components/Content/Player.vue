@@ -75,8 +75,8 @@ section.player-holder{
     z-index:2;
     font-size:0.75rem;
     border:1px solid #ffffff40;
-    padding:6px 8px;
-    border-radius:2px;
+    padding:0.5rem 0.75rem;
+    border-radius:0.5rem;
     text-align:center;
     color:var(--font-color-dark);
     transition:0.2s ease border;

@@ -39,6 +39,7 @@
           </div>
         </template>
       </OpenCloseSettings>
+      <Footer />
     </main>
   </aside>
 </template>
@@ -47,6 +48,7 @@
 import NavButton from './Buttons/NavButton.vue'
 import SidebarLink from './Sidebar/SidebarLink.vue'
 import OpenCloseSettings from './Sidebar/OpenCloseSettings.vue'
+import Footer from './Footer.vue'
 import { notify } from "@kyvg/vue3-notification"
 import { onClickOutside } from '@vueuse/core'
 import { ref, inject, onMounted, onUnmounted } from 'vue'

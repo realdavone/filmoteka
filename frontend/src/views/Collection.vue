@@ -14,7 +14,6 @@
           </div>
         </div>
         <section class="titles-holder">
-          <Heading>Filmy</Heading>
           <ItemPanel :placeholderData="{ count: 2, type: 'title' }">
             <template #item>
               <Title v-for="movie in collection.titles" :key="movie.id" :title="{ ...movie, type: 'movie' }" />          
@@ -32,7 +31,6 @@ import { useRoute, useRouter } from 'vue-router'
 import _ from '../utils/main.js'
 
 import Title from '../components/Search/Title.vue'
-import Heading from '../components/Content/Title.vue'
 import ItemPanel from '../components/Content/ItemPanel.vue'
 
 import getData from '../api/main.js'
@@ -47,13 +45,12 @@ const fetchData = async(id) => {
 
     const translations = _.getTranslations(data['translations']['translations'])
 
-    collection.title = translations.length > 0 && translations[0]['data']['title'] !== '' ? translations[0]['data']['title'] : data.name
-    collection.overview = translations.length > 0 && translations[0]['data']['overview'] !== '' ? translations[0]['data']['overview'] : data.overview
+    collection.title = translations?.['data']?.['title'] || data.name
+    collection.overview = translations?.['data']?.['overview'] || data.overview
     collection.titles = data.parts
     collection.poster = data.poster_path
 
-    console.log(data)
-  } catch (error) { router.push({ name: 'NotFound' }) }
+    } catch (error) { router.push({ name: 'NotFound' }) }
   
   document.title=`${collection.title} / Filmotéka`
 }

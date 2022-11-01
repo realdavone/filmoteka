@@ -95,7 +95,7 @@ section.filter{
   grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
   gap:1rem;
   position:sticky;
-  top:var(--nav-height);
+  top:calc(var(--nav-height) - 1px);
   padding-top:1rem;
   padding-bottom:1rem;
   z-index:5;

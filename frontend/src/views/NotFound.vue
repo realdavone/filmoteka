@@ -4,12 +4,13 @@
       <span class="num">404</span><br>
       <span>Hľadaný obsah nebol nájdený</span>
     </div>
-    <router-link to="/">
-      <span>Vrátiť sa na domovskú stránku</span>
-      <span class="material-symbols-outlined">home</span>
-    </router-link>
+    <BasicButton text="Vrátiť sa na domovskú stránku" @handleClick="$router.push('/')"/>
   </main>
 </template>
+
+<script setup>
+import BasicButton from '../components/Buttons/BasicButton.vue'
+</script>
 
 <style lang="scss" scoped>
 main.main{

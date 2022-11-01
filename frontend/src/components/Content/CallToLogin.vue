@@ -5,13 +5,15 @@
       <img v-for="(network, i) in networks" :key="i" :src="`https://www.themoviedb.org/t/p/original/${network.src}.svg`" :alt="network.name">
       <span>a ďalšie...</span>
     </section>
-    <button class="cta" @click="$router.push('/login')">Prihlásiť sa</button>
+    <BasicButton text="Prihlásiť sa" @handleClick="$router.push('/login')"/>
     <CloseButton class="close" @click="shown = false"  />
   </section>
 </template>
 
 <script setup>
 import CloseButton from '../Buttons/CloseButton.vue'
+import BasicButton from '../Buttons/BasicButton.vue'
+
 import { ref } from 'vue'
 const shown = ref(true)
 
@@ -45,11 +47,6 @@ section.ctr{
   text-align:center;
   margin-top:-1rem;
   position:relative;
-  button.cta{
-    font-size:0.9rem;
-    font-weight:700;
-    color:var(--theme-color);
-  }
   .close{
     position:absolute;
     top:1rem;

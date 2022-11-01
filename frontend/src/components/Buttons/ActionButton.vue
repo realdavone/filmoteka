@@ -9,18 +9,9 @@
 <script setup>
 import Loader from '../Loader.vue'
 const { loading, warning, success } = defineProps({
-  warning: {
-    type: Boolean,
-    default: false
-  },
-  loading: {
-    type: Boolean,
-    default: false
-  },
-  success: {
-    type: Boolean,
-    default: false
-  }
+  warning: { type: Boolean, default: false },
+  loading: { type: Boolean, default: false },
+  success: { type: Boolean, default: false }
 })
 </script>
 
@@ -28,13 +19,13 @@ const { loading, warning, success } = defineProps({
 button.action-button{
   transition:0.2s ease all;
   overflow:hidden;
-  background-color:var(--card-color-hover);
+  background-color:var(--card-color);
   display:flex;
   align-items:center;
   justify-content:center;
   gap:0.5rem;
   padding:0.75rem;
-  border-radius:0.25rem;
+  border-radius:0.5rem;
   line-height:1;
   min-width:160px;
   height:40px;
@@ -55,10 +46,9 @@ button.action-button{
     opacity:0.5;
     background-color:transparent;
   }
+  &:hover:not(.warning, .success, .placeholder){ background-color:var(--card-color-hover) }
 }
-:slotted(span.label){
-  font-size:0.75rem;
-}
+:slotted(span.label){ font-size:0.75rem }
 :slotted(span.icon){
   font-size:1rem;
   display:none;

@@ -1,5 +1,5 @@
 main.login, main.register{
-  min-height:100vh;
+  min-height:calc(100vh - var(--main-content-padding-bottom));
   display:flex;
   justify-content:center;
   align-items:center;

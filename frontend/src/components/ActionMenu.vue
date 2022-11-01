@@ -37,7 +37,7 @@ nav.subnav{
       height:40px;
       width:3rem;
       background-color:var(--card-color);
-      border-radius:0.25rem;
+      border-radius:0.5rem;
       cursor:default;
     }
   }

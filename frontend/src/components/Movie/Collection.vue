@@ -5,12 +5,13 @@
         <img :src="`https://www.themoviedb.org/t/p/w1440_and_h320_multi_faces${collection['backdrop_path']}`" alt="Obrázok kolekcie">
       </div>
       <span class="heading">Tento film je súčasťou kolekcie</span>
-      <router-link class="cta" :to="{ name:'Collection', params:{ id: collection.id } }">Prejsť na kolekciu</router-link>
+      <BasicButton text="Prejsť na kolekciu" @handleClick="$router.push(`/collection/${collection.id}`)"/>
     </section>
   </section>
 </template>
 
 <script setup>
+import BasicButton from '../Buttons/BasicButton.vue'
 const { collection } = defineProps({ collection: Object })
 </script>
 
@@ -50,20 +51,6 @@ section.outter{
       font-size:1.5rem;
       position:relative;
       z-index:1;
-    }
-    a.cta{
-      position:relative;
-      z-index:1;
-      padding:6px 14px 7px;
-      border-radius:35px;
-      text-transform:uppercase;
-      font-weight:900;
-      font-size:0.8rem;
-      transition:0.2s ease background;
-      color:white;
-      display:flex;
-      align-items:center;
-      background-color:var(--theme-color);
     }
   }
 }

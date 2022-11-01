@@ -21,9 +21,7 @@
         <div v-if="title?.overview" class="overview">{{title?.overview}}</div>
         <div v-else class="skeleton" style="height:1rem;width:80%;"></div>
 
-        <button class="go-to-button" @click="$router.push(`/${title?.media_type}/${title?.id}`)">
-          <span>Prejsť na {{title?.media_type === 'movie' ? 'film' : 'seriál'}}</span>
-        </button>
+        <BasicButton :text="`Prejsť na ${title?.media_type === 'movie' ? 'film' : 'seriál'}`" @handleClick="$router.push(`/${title?.media_type}/${title?.id}`)" />
       </div>      
     </section>
   </section>
@@ -31,6 +29,7 @@
 
 <script setup>
 import TypeIcon from '../Content/TypeIcon.vue'
+import BasicButton from '../Buttons/BasicButton.vue'
 
 const hide = el => el.target.style.display = 'none'
 
@@ -85,6 +84,7 @@ section.featured{
     div.content{
       display:flex;
       flex-direction:column;
+      align-items:flex-start;
       gap:1rem;
       flex-basis:100%;
       div.title{
@@ -140,14 +140,14 @@ section.featured{
       button.go-to-button{
         align-self:flex-start;
         background-color:var(--theme-color);
-        padding:4px 10px;
-        border-radius:8px;
+        padding:0.5rem 0.75rem;
+        border-radius:0.5rem;
         font-weight:700;
         display:flex;
         align-items:center;
         gap:8px;
         color:var(--font-color-dark);
-        span{ font-size:0.85rem }
+        span{ font-size:0.75rem }
       }
     }
   }

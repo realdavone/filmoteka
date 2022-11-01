@@ -1,17 +1,15 @@
 <template>
-  <footer class="container user-select-none">
+  <footer class="user-select-none">
     <ul>
       <li v-for="(link, i) in links" :key="i"><router-link tabindex="0" :to="link.address">{{ link.label }}</router-link></li>
     </ul>
     <div class="logos">
+      <Logo :height="40"/>
       <a href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer">
         <img class="tmdb-logo" src="../assets/tmdb.svg" alt="TMDB">
       </a>
-      <Logo :height="40"/>
     </div>
-    <span class="copy">
-      &copy; 2022 Filmotéka
-    </span>
+    <span class="copy">&copy; 2022 Filmotéka</span>
   </footer>
 </template>
 
@@ -19,14 +17,6 @@
 import Logo from './Logo.vue'
 
 const links = [
-  {
-    address: '/',
-    label: 'Domov'
-  },
-  {
-    address: '/library',
-    label: 'Knižnica'
-  },
   {
     address: '/dmca',
     label: 'DMCA'
@@ -37,14 +27,11 @@ const links = [
 <style lang="scss" scoped>
 footer{
   width:100%;
-  height:var(--footer-height);
   display:flex;
   gap:15px;
-  align-items:center;
+  align-items:flex-start;
   justify-content:center;
   flex-direction:column;
-  padding-top:20px;
-  padding-bottom:20px;
   ul{
     list-style-type:none;
     display:flex;
@@ -69,12 +56,6 @@ footer{
       }
     }
   }
-  div.bottom-row{
-    display:flex;
-    gap:15px;
-  }
-  span.copy{
-    font-size:0.75rem;
-  }
+  span.copy{font-size:0.75rem;}
 }
 </style>
