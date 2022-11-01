@@ -1,5 +1,5 @@
 <template>
-  <main class="profile container wrapper">
+  <main class="profile container">
     <slot name="details">
       <PersonDetailsPlaceholder />
     </slot>

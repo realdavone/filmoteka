@@ -1,5 +1,4 @@
 <template>
-  <!--<Loading v-if="loading"/>-->
   <PersonProfile>
     <template #details>
       <PersonDetails
@@ -43,7 +42,6 @@
 import PersonDetails from '../components/Person/PersonDetails.vue'
 import PersonProfile from '../components/Person/PersonProfile.vue'
 import Filmography from '../components/Person/Filmography.vue'
-import Title from '../components/Content/Title.vue'
 
 import { ref, onBeforeMount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -55,10 +53,7 @@ const router = useRouter()
 const result = ref({})
 const loading = ref(true)
 
-const selector = ref({
-  primary: 'Filmy',
-  secondary: 'Herectvo'
-})
+const selector = ref({ primary: 'Filmy', secondary: 'Herectvo' })
 
 const fetchData = async id => {
   try {
