@@ -22,9 +22,7 @@ div.label{
   background-color:var(--card-color-hover);
   padding:5px 10px;
   border-radius:6px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  text-align:center;
   user-select:none;
   font-size:0.85rem;
 }

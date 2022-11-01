@@ -28,17 +28,14 @@ import { ref } from 'vue'
 import Title from '../Content/Title.vue'
 import VerticalCardPlaceholder from '../Placeholders/VerticalCardPlaceholder.vue'
 
-const { allowGrid, isGrid, placeholderInfo } = defineProps({ 
-  allowGrid: { type: Boolean, default: false },
-  isGrid: { type: Boolean, default: false },
-  placeholderInfo: Object 
+const { allowGrid, isGrid, placeholderInfo } = defineProps({ allowGrid: { type: Boolean, default: false },
+  isGrid: { type: Boolean, default: false }, placeholderInfo: Object 
 })
 
 const cardHolder = ref(null)
 const gridView = ref(isGrid)
 
-const scrollTo = (element, distance) => { element.scrollTo({ left: element.scrollLeft += distance, behavior: 'smooth' })
-}
+const scrollTo = (element, distance) => element.scrollTo({ left: element.scrollLeft += distance, behavior: 'smooth' })
 </script>
 
 <style lang="scss" scoped>
@@ -97,16 +94,23 @@ section.panel{
     top:50%;
     font-size:1.5rem;
     line-height:1;
-    background-color:white;
+    background-color:var(--card-color);
     width:2.75rem;
     aspect-ratio:1;
     border-radius:50%;
     display:flex;
     justify-content:center;
     align-items:center;
-    padding:0 4px 0 0;
-    &.left{left:20px;}
+    transition:0.2s ease background-color, 0.4s ease transform;
+    &.left{
+      left:20px;
+      padding:0 4px 2px 0;
+    }
     &.right{right:20px;}
+    &:hover{
+      transform:scale(1.1);
+      background-color:var(--card-color-hover);
+    }
   }
 }
 @media screen and (max-width: 600px) {

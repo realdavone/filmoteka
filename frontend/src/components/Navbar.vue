@@ -57,16 +57,13 @@
                       <img v-if="title.img" :src="`https://image.tmdb.org/t/p/w45_and_h45_face${title.img}`" :alt="title.title" loading="lazy">
                     </div>
                     <span class="text">{{title.title}}</span>
-                    <span v-if="title.season!==undefined" class="last-watched" title="Posledná prehraná epizóda">{{title.season}}.{{`${title.episode < 10 ? '0' + title.episode : title.episode}`}}</span>
+                    <span v-if="title.season !== undefined" class="last-watched" title="Posledná prehraná epizóda">{{title.season}}.{{`${title.episode < 10 ? '0' + title.episode : title.episode}`}}</span>
                   </router-link>
                   <button class="remove-item" @click="store.methods.favourites.toggle({ id: title.id, type: title.type })" title="Odobrať">&#8854;</button>
                 </li>
               </ul>
             </section>
-            <p v-else class="no-items">
-              Neboli pridané žiadne záložky.<br>Záložky sa daju pridať kliknutím na ikonu 
-              <span class="material-symbols-outlined" style="font-size:1.25rem;vertical-align:bottom;color:var(--theme-color)">bookmark_add</span>
-            </p>
+            <span v-else class="no-items">Neboli pridané žiadne záložky.</span>
             <div v-if="store.state.favourites.length !==0 " class="bin-holder">
               <button @click="store.methods.favourites.removeAll()">Zmazať všetky</button>
             </div>
@@ -322,8 +319,8 @@ aside.modal{
       color:var(--font-color-dark);
     }
   }
-  p.no-items{
-    padding:0 15px;
+  span.no-items{
+    padding:0 1rem;
     font-size:0.8rem;
   }
 }

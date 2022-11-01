@@ -75,6 +75,7 @@ section.featured{
       overflow:hidden;
       border-radius:16px;
       background-color:var(--card-color);
+      box-shadow: 0px 0px 15px 1px rgba(0,0,0,0.75);
       img{
         width:100%;
         height:100%;

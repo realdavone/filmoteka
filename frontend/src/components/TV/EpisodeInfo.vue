@@ -6,7 +6,8 @@
         <span v-if="!loading">{{episodeInfo['name']}}</span>
         <div v-else class="skeleton"></div>
       </div>
-      <span v-if="episodeInfo['airDate']" class="airdate">{{episodeInfo['airDate']}}</span>
+      <span v-if="!loading && episodeInfo['airDate']" class="airdate">{{episodeInfo['airDate']}}</span>
+      <div v-else class="skeleton"></div>
     </div>
     <div v-if="showEpisodeSpoiler" class="thumb-overview">
       <div class="overview">
@@ -17,7 +18,9 @@
         </template>
       </div>
       <div class="thumbnail">
-        <img v-if="episodeInfo['thumbnail'] && !loading" :src="`https://www.themoviedb.org/t/p/w454_and_h254_bestv2${episodeInfo['thumbnail']}`" :alt="episodeInfo['name']">
+        <Transition name="fade">
+          <img v-if="episodeInfo['thumbnail'] && !loading" :src="`https://www.themoviedb.org/t/p/w454_and_h254_bestv2${episodeInfo['thumbnail']}`" :alt="episodeInfo['name']">        
+        </Transition>
       </div>
     </div>
     <button @click="showEpisodeSpoiler =! showEpisodeSpoiler" class="button-spoiler">
@@ -74,6 +77,7 @@ section.episode-info{
     width:75%;
     height:1rem;
     border-radius:0.25rem;
+    opacity:0.5
   }
   div.title-holder{
     display:flex;
@@ -129,7 +133,8 @@ section.episode-info{
     }
     div.overview{
       width:100%;
-      max-height:127px;
+      height:127px;
+      min-height:127px;
       overflow:auto;
       padding-right:5px;
       line-height:1.1;
@@ -137,9 +142,7 @@ section.episode-info{
         padding-right:10px;
         font-size:var(--overview-font-size);
       }
-      div{
-        margin-bottom:0.25rem;
-      }
+      div{ margin-bottom:0.25rem }
     }
   }
   button.button-spoiler{

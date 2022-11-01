@@ -12,18 +12,19 @@
       <div class="title">
         <div>
           <slot name="title">
-            <div style="background:var(--font-color);height:calc(1.5rem * 1.1);width:160px;border-radius:6px;"></div>
+            <div class="skeleton" style="height:calc(1.5rem * 1.1);width:180px;margin-bottom:0.5rem"></div>
           </slot>
           <slot name="subtitle">
-            <div style="background:var(--font-color);height:calc(0.75rem * 1.4);width:100px;border-radius:6px;margin-top:5px;"></div>
+            <div class="skeleton" style="height:calc(0.75rem * 1.4);width:100px;"></div>
           </slot>
         </div>
         <slot name="tagline">
-          <div style="background:var(--font-color);height:calc(0.75rem * 1.4);width:100px;border-radius:6px;"></div>
+          <div class="skeleton" style="height:calc(0.75rem * 1.4);width:120px;"></div>
         </slot>
         <div class="overview">
           <slot name="shortOverview">
-            <div style="background:var(--font-color);height:calc(0.75rem * 1.4);width:100%;border-radius:6px;"></div>
+            <div class="skeleton" style="height:calc(0.7rem * 1.4);"></div>
+            <div class="skeleton" style="height:calc(0.7rem * 1.4);"></div>
           </slot>
         </div>
       </div>
@@ -68,9 +69,7 @@ section.container{
       object-fit:cover;
     }
   }
-  div.left-col{
-    align-self:flex-start;
-  }
+  div.left-col{ align-self:flex-start }
   div.poster{
     aspect-ratio:2/3;
     min-width:200px;
@@ -134,10 +133,6 @@ div.overview{
   gap:5px;
   align-self:stretch;
 }
-:slotted(span.label){
-  font-weight:700;
-  font-size:0.95rem;
-}
 :slotted(div.under-title){
   span{ font-size:0.75rem;
     &.rated{
@@ -190,5 +185,9 @@ section.player-details-holder{
     max-width:100px!important;
   }
   :slotted(span.title){ font-size:1.25rem }
+}
+div.skeleton{
+  background:var(--font-color);
+  border-radius:0.5rem;
 }
 </style>

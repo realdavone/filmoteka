@@ -34,7 +34,7 @@
               title="Prezrené"
               :success="store.methods.watched.exists({ type: route.name, id: route.params.id })"
               @handleClick="store.methods.watched.toggle({ id: route.params.id, type: route.name, title: details['title']})">
-                <template #icon><span class="icon">&#128065;&#xFE0E;</span></template>
+                <template #icon><span class="material-symbols-outlined icon">visibility</span></template>
                 <template #label><span class="label">Označiť ako {{store.methods.watched.exists({ type: route.name, id: route.params.id }) ? 'neprezrené' : 'prezrené'}}</span></template>
               </ActionButton>
               <ActionButton
@@ -71,7 +71,6 @@
         <span v-if="!loading" class="tagline">{{details?.tagline}}</span>
       </template>
       <template #shortOverview>
-        <span v-if="!loading" class="label">Krátky prehľad</span>
         <span v-if="!loading" class="overview">{{details?.overview || 'Žiadny prehľad'}}</span>
       </template>
       <template #player>
