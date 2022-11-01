@@ -1,13 +1,12 @@
 <template>
   <div class="title">
     <div class="img">
-      <Logo :height="50" style="opacity:0.1;filter:grayscale(100%)"/>
     </div>
     <div class="text-holder">
-      <div class="title"></div>
-      <div class="rating"></div>
+      <div class="skeleton-text" style="height:1.15rem;width:50%;"></div>
+      <div class="skeleton-text" style="width:1rem"></div>
       <div class="text">
-        <div v-for="i in 2" :key="i" class="row"></div>
+        <div v-for="i in 2" :key="i" class="skeleton-text" style="height:0.75rem"></div>
       </div>
     </div>
   </div>
@@ -49,21 +48,10 @@ div.title{
       width:25%;
       border-radius:4px;
     }
-    div.rating{
-      background:var(--font-color);
-      height:1rem;
-      width:50px;
-      border-radius:4px;
-    }
     div.text{
-      div.row{
-        background:var(--font-color);
-        height:0.75rem;
-        width:100%;
-        border-radius:4px;
-        margin-bottom:4px;
-        &:last-of-type{ width:90% }
-      }
+      display:flex;
+      flex-direction:column;
+      gap:0.35rem;
     }
   }
 }

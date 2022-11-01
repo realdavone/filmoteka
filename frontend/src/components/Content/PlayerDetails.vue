@@ -12,19 +12,19 @@
       <div class="title">
         <div>
           <slot name="title">
-            <div class="skeleton" style="height:calc(1.5rem * 1.1);width:180px;margin-bottom:0.5rem"></div>
+            <div class="skeleton-text" style="height:calc(1.5rem * 1.1);width:180px;margin-bottom:0.5rem"></div>
           </slot>
           <slot name="subtitle">
-            <div class="skeleton" style="height:calc(0.75rem * 1.4);width:100px;"></div>
+            <div class="skeleton-text" style="height:calc(0.75rem * 1.4);width:100px;"></div>
           </slot>
         </div>
         <slot name="tagline">
-          <div class="skeleton" style="height:calc(0.75rem * 1.4);width:120px;"></div>
+          <div class="skeleton-text" style="height:calc(0.75rem * 1.4);width:120px;"></div>
         </slot>
         <div class="overview">
           <slot name="shortOverview">
-            <div class="skeleton" style="height:calc(0.7rem * 1.4);"></div>
-            <div class="skeleton" style="height:calc(0.7rem * 1.4);"></div>
+            <div class="skeleton-text" style="height:calc(0.7rem * 1.4);"></div>
+            <div class="skeleton-text" style="height:calc(0.7rem * 1.4);"></div>
           </slot>
         </div>
       </div>
@@ -185,9 +185,5 @@ section.player-details-holder{
     max-width:100px!important;
   }
   :slotted(span.title){ font-size:1.25rem }
-}
-div.skeleton{
-  background:var(--font-color);
-  border-radius:0.5rem;
 }
 </style>

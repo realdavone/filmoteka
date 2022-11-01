@@ -97,6 +97,12 @@ main.title{
   flex-direction:column;
   gap:var(--container-padding)
 }
+div.skeleton-text{
+  background:var(--font-color);
+  opacity:0.75;
+  border-radius:1rem;
+  height:0.9rem;
+}
 .fade-enter-active, .fade-leave-active{ transition:opacity 0.2s ease }
 .fade-enter-from, .fade-leave-to{ opacity:0 }
 

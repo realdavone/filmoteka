@@ -2,8 +2,8 @@
   <div class="person">
     <div class="img"></div>
     <div class="text-holder">
-      <div class="title"></div>
-      <div class="text"></div>
+      <div class="skeleton-text" style="width:50%;"></div>
+      <div class="skeleton-text"></div>
     </div>
   </div>
 </template>
@@ -15,7 +15,7 @@ div.person{
   background:var(--card-color);
   border-radius:8px;
   display:flex;
-  gap:15px;
+  gap:1rem;
   align-items:center;
   overflow:hidden;
 
@@ -30,19 +30,6 @@ div.person{
     gap:6px;
     width:100%;
     padding-right:10px;
-
-    div.title{
-      background:var(--font-color);
-      height:0.95rem;
-      width:100px;
-      border-radius:4px;
-    }
-    div.text{
-      background:var(--font-color);
-      height:0.8rem;
-      width:50%;
-      border-radius:4px;
-    }
   }
 }
 </style>

@@ -9,17 +9,17 @@
       </div>
       <div class="content">
         <div v-if="title?.name || title?.title" class="title">{{title?.name || title?.title}}</div>
-        <div v-else class="skeleton" style="height:1.75rem;width:25%;min-width:180px;"></div>
+        <div v-else class="skeleton-text" style="height:1.75rem;width:25%;min-width:180px;"></div>
 
         <div v-if="title?.vote_average !== undefined" class="rating">
           <span>&starf;</span>
           <span>{{Math.round(title?.vote_average * 10) / 10}}</span>
           <TypeIcon :type="title?.media_type"/>
         </div>
-        <div v-else class="skeleton" style="height:1.75rem;width:60px;"></div>
+        <div v-else class="skeleton-text" style="height:1.75rem;width:60px;"></div>
 
         <div v-if="title?.overview" class="overview">{{title?.overview}}</div>
-        <div v-else class="skeleton" style="height:1rem;width:80%;"></div>
+        <div v-else class="skeleton-text" style="height:1rem;width:80%;"></div>
 
         <BasicButton :text="`Prejsť na ${title?.media_type === 'movie' ? 'film' : 'seriál'}`" @handleClick="$router.push(`/${title?.media_type}/${title?.id}`)" />
       </div>      
@@ -56,10 +56,6 @@ section.featured{
       object-fit:cover;
       filter:blur(5px)
     }
-  }
-  div.skeleton{
-    background:#ffffff80;
-    border-radius:4px;
   }
   section.title-holder{
     position: relative;

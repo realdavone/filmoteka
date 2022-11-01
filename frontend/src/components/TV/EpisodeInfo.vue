@@ -4,17 +4,17 @@
       <div class="title">
         <b>{{`${episodeInfo['seasonNumber']}.${episodeInfo['episodeNumber']}`}}</b>
         <span v-if="!loading">{{episodeInfo['name']}}</span>
-        <div v-else class="skeleton"></div>
+        <div v-else class="skeleton-text" style="width:50%;"></div>
       </div>
       <span v-if="!loading && episodeInfo['airDate']" class="airdate">{{episodeInfo['airDate']}}</span>
-      <div v-else class="skeleton"></div>
+      <div v-else class="skeleton-text" style="width:50px;"></div>
     </div>
     <div v-if="showEpisodeSpoiler" class="thumb-overview">
       <div class="overview">
         <span v-if="!loading">{{episodeInfo['overview']}}</span>
         <template v-else>
-          <div class="skeleton"></div>
-          <div class="skeleton"></div>
+          <div class="skeleton-text"></div>
+          <div class="skeleton-text"></div>
         </template>
       </div>
       <div class="thumbnail">
@@ -72,13 +72,6 @@ section.episode-info{
   background:var(--card-color);
   transition:0.2s ease height;
   overflow:hidden;
-  div.skeleton{
-    background-color:var(--font-color);
-    width:75%;
-    height:1rem;
-    border-radius:0.25rem;
-    opacity:0.5
-  }
   div.title-holder{
     display:flex;
     justify-content:space-between;

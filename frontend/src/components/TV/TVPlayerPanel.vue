@@ -121,11 +121,11 @@ const setPlayer = () => {
 
 const handleControls = action => {
   if(action === 'backwards') {
-    if(currentSeasonAndEpisode.episode !== 0) { currentSeasonAndEpisode.episode-- }
+    if(currentSeasonAndEpisode.episode !== 0) currentSeasonAndEpisode.episode-- 
     else { currentSeasonAndEpisode.season--; currentSeasonAndEpisode.episode = numberOfEpisodes.value - 1 }
   }
   else {
-    if((currentSeasonAndEpisode.episode + 1) !== numberOfEpisodes.value) { currentSeasonAndEpisode.episode++ }
+    if((currentSeasonAndEpisode.episode + 1) !== numberOfEpisodes.value) currentSeasonAndEpisode.episode++
     else { currentSeasonAndEpisode.season++; currentSeasonAndEpisode.episode = 0 }
   }
 }
