@@ -14,9 +14,10 @@ const emit = defineEmits(['close'])
 a.menu-link{
   display:flex;
   align-items:center;
-  gap:20px;
+  gap:1rem;
   padding:12px 1rem;
-  border-left:6px solid transparent;
+  border-left:0.5rem solid transparent;
+  border-radius:0.5rem;
   div.icon{width:25px;text-align:center;}
   span:nth-child(1){ font-size:1.25rem }
   span:nth-child(2){ font-size:0.85rem }

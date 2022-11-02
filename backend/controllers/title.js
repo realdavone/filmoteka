@@ -12,15 +12,8 @@ const TMDB_BASE_API = process.env.TMDB_BASE_API
 const TMDB_API_KEY = process.env.TMDB_API_KEY
 const OMDB_API_KEY = process.env.OMDB_API_KEY
 
-const getUserFromToken = (token) => {
-  try {
-    return jwt.verify(token, process.env.ACCESS_TOKEN_KEY)
-  } catch (error) { return undefined }
-}
-
 export const getTitle = async (req, res) => {
   const { type, id } = req.params
-  //const user = getUserFromToken(req.headers?.['access-token'])
   
   const response = await fetch(`${TMDB_BASE_API}/${type}/${id}?api_key=${TMDB_API_KEY}&append_to_response=credits,recommendations,external_ids,translations,content_ratings,images&include_image_language=en,null&language=sk-SK`)
   const data = await response.json()
@@ -98,6 +91,40 @@ export const getEpisode = async (req, res) => {
     const response = await fetch(`${TMDB_BASE_API}/tv/${id}/season/${season}/episode/${episode}?api_key=${TMDB_API_KEY}&language=sk-SK&append_to_response=translations`)
     res.status(200).json(await response.json())
   } catch (error) { res.sendStatus(500) }
+}
+
+export const rateTitle = async (req, res) => {
+  const { id: userId } = req.user
+  const { action, type, id } = req.body
+
+  try {
+    let title = await Title.findOne({ type, id })
+    if(title === null) await Title.create({ type, id })
+  
+    Title.findOne({ type, id }, (error, doc) => {
+      if(error) return res.status(400).json({ success: false, message: error })
+
+      switch(action){ 
+        case 'like':
+          if(doc.likes.includes(userId)) doc.likes = doc.likes.filter(id => id !== userId)
+          else doc.likes.push(userId)
+
+          doc.dislikes = doc.dislikes.filter(id => id !== userId)
+          break
+        case 'dislike':
+          if(doc.dislikes.includes(userId)) doc.dislikes = doc.dislikes.filter(id => id !== userId)
+          else doc.dislikes.push(userId)
+
+          doc.likes = doc.likes.filter(id => id !== userId)
+          break
+        default: 
+          return res.status(400).json({ success: false, message: 'Nesprávna akcia' })
+      }
+      doc.save()
+
+      res.status(200).json({ success: true })
+    })
+  } catch (error) { res.status(500).json({ success: false, message: 'Nieco sa dojebalo' }) }
 }
 
 export const getVideo = async (req, res) => {

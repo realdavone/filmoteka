@@ -9,7 +9,7 @@
           <slot name="poster" />
         </div>
       </div>
-      <div class="title">
+      <div class="right-col">
         <div>
           <slot name="title">
             <div class="skeleton-text" style="height:calc(1.5rem * 1.1);width:180px;margin-bottom:0.5rem"></div>
@@ -27,6 +27,7 @@
             <div class="skeleton-text" style="height:calc(0.7rem * 1.4);"></div>
           </slot>
         </div>
+        <slot name="feedback" />
       </div>
     </div>
     <slot name="actionMenu" />
@@ -93,7 +94,7 @@ section.container{
     position:relative;
     padding-top:calc(var(--nav-height) + var(--container-padding));
   }
-  div.title{
+  div.right-col{
     display:flex;
     flex-direction:column;
     align-items:flex-start;
@@ -102,6 +103,10 @@ section.container{
     max-width:600px;
     z-index:1;
     position:relative;
+    div.rating{
+      display:flex;
+      gap:1rem;
+    }
   }
 }
 :slotted(span.title){

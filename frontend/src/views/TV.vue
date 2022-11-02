@@ -4,6 +4,9 @@
       <template #poster>
         <img v-if="details?.poster" class="poster" :src="`https://www.themoviedb.org/t/p/w300${details['poster']}`" :alt="details['title']">
       </template>
+      <template #feedback>
+        <Feedback v-if="!loading" :state="{ likes: details?.likes, dislikes: details?.dislikes }" :title="{ id: $route.params.id, type: 'tv' }"/>
+      </template>
       <template #actionMenu>
         <ActionMenu ref="actionMenu">
           <template v-if="!loading">
@@ -125,6 +128,7 @@ import TVPlayerPanel from '../components/TV/TVPlayerPanel.vue'
 import ActionMenu from '../components/ActionMenu.vue'
 import PlayerDetails from '../components/Content/PlayerDetails.vue'
 import ActionButton from '../components/Buttons/ActionButton.vue'
+import Feedback from '../components/Content/Feedback.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -207,7 +211,9 @@ const fetchData = async (id) => {
       rated: !omdb['Rated']||omdb['Rated']==='N/A'?'Not Rated':omdb['Rated'],
       number_of_episodes: result.value['number_of_episodes'],
       status: status.get(result.value['status']),
-      languages: result.value['spoken_languages']
+      languages: result.value['spoken_languages'],
+      likes: result.value?.['likes'] || [],
+      dislikes: result.value?.['dislikes'] || []
     }
 
     loading.value = false

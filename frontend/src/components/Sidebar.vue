@@ -144,10 +144,14 @@ aside{
     flex-direction:column;
     gap:0.5rem;
     overflow:auto;
-    padding:15px 1rem 10px;
+    padding:0.75rem 0.75rem 0.5rem;
     background:var(--card-color);
     min-height:calc(100vh - var(--nav-height));
-    section.menu-links{ margin:0 -1rem }
+    section.menu-links{
+      display:flex;
+      flex-direction:column;
+      gap:0.25rem
+    }
     div.theme-picker{
       display:flex;
       gap:10px;

@@ -4,6 +4,9 @@
       <template #poster>
         <img v-if="details?.poster" class="poster" :src="`https://www.themoviedb.org/t/p/w300${details['poster']}`" :alt="details['title']">
       </template>
+      <template #feedback>
+        <Feedback v-if="!loading" :state="{ likes: details?.likes, dislikes: details?.dislikes }" :title="{ id: $route.params.id, type: 'movie' }"/>
+      </template>
       <template #actionMenu>
         <ActionMenu ref="actionMenu">
           <template v-if="!loading">
@@ -124,6 +127,7 @@ import Collection from '../components/Movie/Collection.vue'
 import ActionMenu from '../components/ActionMenu.vue'
 import PlayerDetails from '../components/Content/PlayerDetails.vue'
 import ActionButton from '../components/Buttons/ActionButton.vue'
+import Feedback from '../components/Content/Feedback.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -204,7 +208,9 @@ const fetchData = async (id) => {
       status: null,
       release_date: result.value['release_date']!=='' ? new Date(result.value['release_date']).toLocaleDateString('sk-SK') : null,
       languages: result.value['spoken_languages'],
-      revenue: new Intl.NumberFormat('sk-SK', { notation: "compact", compactDisplay: "short", style: "currency", currency: "USD" }).format(result.value['revenue'])
+      revenue: new Intl.NumberFormat('sk-SK', { notation: "compact", compactDisplay: "short", style: "currency", currency: "USD" }).format(result.value['revenue']),
+      likes: result.value?.['likes'] || [],
+      dislikes: result.value?.['dislikes'] || []
     }
 
     loading.value = false

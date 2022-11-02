@@ -20,7 +20,13 @@ const titleSchema = new Schema({
   isPlayerWorking: {
     type: Boolean,
     default: true
-  }
+  },
+  likes:{
+    type: [String]
+  },
+  dislikes:{
+    type: [String]
+  },
 }, { collection: 'titles' });
 
 export default mongoose.model('Title', titleSchema);
