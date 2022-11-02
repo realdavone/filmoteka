@@ -17,7 +17,7 @@ const { loading, warning, success } = defineProps({
 
 <style lang="scss" scoped>
 button.action-button{
-  transition:0.2s ease all;
+  transition:0.2s ease background-color;
   overflow:hidden;
   background-color:var(--card-color);
   display:flex;
@@ -46,7 +46,7 @@ button.action-button{
     opacity:0.5;
     background-color:transparent;
   }
-  &:hover:not(.warning, .success, .placeholder){ background-color:var(--card-color-hover) }
+  &:hover:not(.warning, .success, .placeholder, :disabled){ background-color:var(--card-color-hover) }
 }
 :slotted(span.label){ font-size:0.75rem }
 :slotted(span.icon){
@@ -60,6 +60,7 @@ button.action-button{
     min-width:40px;
     border-radius:2rem;
     padding:0.75rem;
+    transition:0.2s ease all;
   }
 }
 </style>

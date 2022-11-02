@@ -239,8 +239,9 @@ aside.modal{
         background:transparent;
       }
       button.clear-search{
-        font-size:1.5rem;
+        font-size:1rem;
         line-height:1;
+        opacity:0.5;
       }
     }
     li.title{

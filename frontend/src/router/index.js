@@ -78,7 +78,6 @@ const routes = [
     component: () => import('../views/Login.vue'),
     meta: {
       hideNav: true,
-      hideFooter: true,
       denyAccessAsLoggedIn: true,
       title: 'Prihlásenie'
     }
@@ -89,7 +88,6 @@ const routes = [
     component: () => import('../views/Register.vue'),
     meta: { 
       hideNav: true,
-      hideFooter: true,
       denyAccessAsLoggedIn: true,
       title: 'Registrácia'
     },

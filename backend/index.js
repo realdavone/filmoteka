@@ -28,7 +28,6 @@ io.on('connection', (socket) => {
   users.set(socket.id, null)
   socket.on('disconnect', () => { users.delete(socket.id) })
 })
-
 app.use(express.json())
 app.use(cors())
 

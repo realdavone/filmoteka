@@ -17,8 +17,8 @@ div.item{
   span.label{ font-weight:700 }
   span.content{
     font-size:0.75rem;
-    font-weight:200;
     line-height:1.4;
+    color:var(--secondary-text-color);
   }
 }
 </style>

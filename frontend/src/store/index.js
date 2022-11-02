@@ -6,11 +6,10 @@ const baseURL = import.meta.env.VITE_BASE_URL
 const methods = {
   favourites: {
     populate(){
-      if(localStorage.getItem('favourites') !== null) {     
-        try { return JSON.parse(localStorage.favourites) }
-        catch (error) { return [] }
-      }
-      else { return [] }
+      if(localStorage.getItem('favourites') === null) return []
+
+      try { return JSON.parse(localStorage.favourites) }
+      catch (error) { return [] }
     },
     toggle({ id, type, title, img }){
       const doesExist = methods.favourites.exists({ type, id })
@@ -19,8 +18,11 @@ const methods = {
       localStorage.setItem('favourites', JSON.stringify(state.favourites))
       notify({ type: doesExist === false ? 'success' : 'warn', text: doesExist === false ? 'Pridané do záložiek' : 'Odobrané zo záložiek' })
     },
-    update(index, season, episode){
-      Object.assign(state.favourites[index], { season, episode })
+    update(id, season, episode){
+      state.favourites = state.favourites.map(title => {
+        if(title.id === id && title.type === 'Tv') return { ...title, episode, season }
+        return title
+      })
       localStorage.setItem('favourites', JSON.stringify(state.favourites))
     },
     removeAll(){
@@ -44,9 +46,7 @@ const methods = {
       localStorage.setItem('watched', JSON.stringify(state.watched))
       notify({ type: doesExist === false ? 'success' : 'warn', text: doesExist === false ? 'Označený ako prezrený' : 'Označený ako neprezrený' })
     },
-    exists({ type, id }){ 
-      return state.watched.some(item => item['type'].toLowerCase() === type.toLowerCase() && item['id'].toString() === id.toString()) 
-    }
+    exists({ type, id }){ return state.watched.some(item => item['type'].toLowerCase() === type.toLowerCase() && item['id'].toString() === id.toString()) }
   },
   countries: {
     async set(code){ 

@@ -98,10 +98,16 @@ main.title{
   gap:var(--container-padding)
 }
 div.skeleton-text{
-  background:var(--font-color);
+  background-color:var(--font-color);
   opacity:0.75;
   border-radius:1rem;
   height:0.9rem;
+}
+div.skeleton-text:last-of-type{
+  width:90%;
+}
+div.skeleton-text:first-of-type{
+  width:100%;
 }
 .fade-enter-active, .fade-leave-active{ transition:opacity 0.2s ease }
 .fade-enter-from, .fade-leave-to{ opacity:0 }

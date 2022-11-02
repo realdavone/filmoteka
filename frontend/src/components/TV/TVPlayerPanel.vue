@@ -82,15 +82,7 @@ import Player from '../Content/Player.vue'
 import { ref, onBeforeMount, inject, computed, reactive } from 'vue'
 import { onClickOutside } from '@vueuse/core'
  
-const props = defineProps({
-  id: String,
-  seasons: Object,
-  title: String,
-  nextEpisode: Object,
-  lastEpisode: Object,
-  hasFirstEpisodeAired: Boolean,
-  isPlayerWorking: Boolean
-})
+const props = defineProps({ id: String, seasons: Object, title: String, nextEpisode: Object, lastEpisode: Object, hasFirstEpisodeAired: Boolean, isPlayerWorking: Boolean })
 const store = inject('store')
 
 const currentSeasonAndEpisode = reactive({ season: 0, episode: 0 })
@@ -115,7 +107,11 @@ const setPlayer = () => {
   playerSource.value = `https://www.2embed.to/embed/tmdb/tv?id=${props.id}&s=${currentSeasonAndEpisode.season + 1}&e=${currentSeasonAndEpisode.episode + 1}`
 
   if(store.state.favourites.some(item => item.id === props.id.toString())){
-    store.methods.favourites.update(store.state.favourites.findIndex(item => item.id === props.id.toString()), currentSeasonAndEpisode.season + 1, currentSeasonAndEpisode.episode + 1)
+    store.methods.favourites.update(
+      props.id,
+      currentSeasonAndEpisode.season + 1,
+      currentSeasonAndEpisode.episode + 1
+    )
   }
 }
 

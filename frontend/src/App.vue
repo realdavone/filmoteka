@@ -14,11 +14,9 @@
 import Navbar from './components/Navbar.vue'
 import { provide } from 'vue'
 import store from './store/index'
-import { io } from "socket.io-client"
+import socket from './socket/main'
 
-const socket = io.connect(import.meta.env.VITE_SOCKET_ADDRESS)
-
-socket.on('globalSettingsUpdate', (data) => { store.state.globalSettings = { ...store.state.globalSettings, ...data } })
+socket.on('globalSettingsUpdate', data => store.state.globalSettings = { ...store.state.globalSettings, ...data } )
 
 provide('store', store)
 provide('socket', socket)

@@ -75,7 +75,7 @@ section.episode-info{
   div.title-holder{
     display:flex;
     justify-content:space-between;
-    align-items:flex-start;
+    align-items:flex-end;
     align-self:stretch;
     gap:10px;
     div.title{
