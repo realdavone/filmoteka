@@ -4,10 +4,10 @@
       <Title style="margin-bottom:0"><slot name="title" /></Title>
       <div v-if="allowGrid" class="view-buttons">
         <button @click="gridView = true" :data-active="gridView">
-          <span class="material-symbols-outlined">grid_view</span>
+          <span class="material-icons">grid_view</span>
         </button>
         <button @click="gridView = false" :data-active="!gridView">
-          <span class="material-symbols-outlined">view_column</span>
+          <span class="material-icons">view_column</span>
         </button>
       </div>
     </div>
