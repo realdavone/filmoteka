@@ -4,7 +4,7 @@
       <section class="button-holder-outter">
         <div class="button-holder-inner">
           <button :class="{'active': subpath === button.path}" v-for="(button, index) in categoryButtons" :key="index" @click="filterResults(button.path)">
-            <span class="material-symbols-outlined">{{button.icon}}</span>
+            <span class="material-icons">{{button.icon}}</span>
             <span>{{button.name}}</span>
           </button>
         </div>

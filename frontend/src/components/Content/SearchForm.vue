@@ -2,13 +2,13 @@
   <form class="search-form" @submit.prevent="submitQuery" autocomplete="off">
     <div class="select user-select-none">
       <div class="selected-option" @click="isOptionsMenuOpened = !isOptionsMenuOpened" :data-opened="isOptionsMenuOpened">
-        <span class="material-symbols-outlined" style="font-size:1.25rem">{{searchType['icon']}}</span>        
+        <span class="material-icons" style="font-size:1.25rem">{{searchType['icon']}}</span>        
       </div>
       <Transition name="fade">
         <div ref="optionsMenu" v-if="isOptionsMenuOpened" class="options">
           <div class="option" v-for="option in options" :key="option.value" :data-active="searchType.value === option.value" @click="searchType = option; isOptionsMenuOpened = false;">
             <div class="icon-holder">
-              <span class="material-symbols-outlined" style="font-size:1.25rem">{{option.icon}}</span>
+              <span class="material-icons" style="font-size:1.25rem">{{option.icon}}</span>
             </div>
             <span>{{option.label}}</span>
           </div>

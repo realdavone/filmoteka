@@ -7,7 +7,7 @@
           <Title v-for="movie in movies" :key="movie.id" :title="{...movie, type: 'movie'}" />
           <router-link v-if="loaded" :to="{ path:'/search/movie', query:{ q: route.query.q, page: 1 } }" class="show-more user-select-none">
             <span>Zobraziť filmy</span>
-            <span class="material-symbols-outlined">chevron_right</span>
+            &#10095;
           </router-link>
         </template>
       </ItemPanel>
@@ -17,7 +17,7 @@
           <Title v-for="tv in tvs" :key="tv.id" :title="{...tv, type: 'tv'}" />
           <router-link v-if="loaded" :to="{ path:'/search/tv', query:{ q: route.query.q, page: 1 } }" class="show-more user-select-none">
             <span>Zobraziť seriály</span>
-            <span class="material-symbols-outlined">chevron_right</span>
+            &#10095;
           </router-link>
         </template>
       </ItemPanel>      
@@ -29,7 +29,7 @@
           <Person v-for="person in people" :key="person.id" :person="person" />
           <router-link v-if="loaded" :to="{ path:'/search/person', query:{ q: route.query.q, page: 1 } }" class="show-more user-select-none">
             <span>Zobraziť osoby</span>
-            <span class="material-symbols-outlined">chevron_right</span>
+            &#10095;
           </router-link>
         </template>
       </ItemPanel>

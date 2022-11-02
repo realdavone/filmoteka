@@ -1,15 +1,14 @@
 <template>
   <div class="rating">
     <button @click="handleFeedback('like')">
-      <span class="material-symbols-outlined"
-      :style="`${likes.includes(store.state.credentials.user?._id) ? 'color:green' : ''}`">thumb_up</span>
-      {{likes.length}}
+      <span v-if="likes.includes(store.state.credentials.user._id)" class="material-icons" style="color:crimson">favorite</span>
+      <span v-else class="material-icons">favorite_border</span>
+      <span>{{likes.length}}</span>
     </button>
     <button @click="handleFeedback('dislike')">
-      <span class="material-symbols-outlined"
-      :style="`${dislikes.includes(store.state.credentials.user?._id) ? 'color:red' : ''}`">
-      thumb_down</span>
-      {{dislikes.length}}
+      <span v-if="dislikes.includes(store.state.credentials.user._id)" class="material-icons" style="color:crimson">heart_broken</span>
+      <span v-else class="material-icons-outlined">heart_broken</span>
+      <span>{{dislikes.length}}</span>
     </button>
   </div>
 </template>
@@ -62,6 +61,8 @@ div.rating{
     display:flex;
     align-items:center;
     gap:0.5rem;
+    span:first-of-type{ font-size:2rem; }
+    span:last-of-type{font-size:1.1rem;}
   }
 }
 </style>

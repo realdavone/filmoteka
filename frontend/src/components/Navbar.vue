@@ -15,14 +15,14 @@
     </div>
     <div v-if="!isSearchRendered" class="right-menu">
       <NavButton title="Vyhľadávanie" @handleClick="isSearchRendered = true">
-        <template #icon><span class="material-symbols-outlined" style="padding-top:5px;color:var(--theme-color);">search</span></template>
+        <template #icon><span class="material-icons" style="padding-top:5px;color:var(--theme-color);">search</span></template>
       </NavButton>
       <template v-if="store.state.credentials.loggedIn">
         <NavButton class="icon-hide" title="Knižnica" @handleClick="$router.push('/library')">
-          <template #icon><span class="material-symbols-outlined icon" style="padding-top:5px">video_library</span></template>
+          <template #icon><span class="material-icons icon" style="padding-top:5px">video_library</span></template>
         </NavButton>
         <NavButton class="icon-hide" title="Odporúčané" @handleClick="$router.push('/recommended')">
-          <template #icon><span class="material-symbols-outlined" style="padding-top:5px">recommend</span></template>
+          <template #icon><span class="material-icons" style="padding-top:5px">recommend</span></template>
           <template #notification><span class="notification" v-if="store.state.notifications.recommended.length > 0"></span></template>
         </NavButton>
         <NavButton title="Záložky" @handleClick="bookmarksVisible = true">

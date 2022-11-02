@@ -19,8 +19,12 @@
         <template #label>Vizuálne nastavenia</template>
         <template #content>
           <div class="theme-picker">
-            <button class="theme-button dark" @click="store.methods.settings.darkTheme.set(true)" :data-active="store.state.settings.darkTheme === true">&#9679;</button>
-            <button class="theme-button light" @click="store.methods.settings.darkTheme.set(false)" :data-active="store.state.settings.darkTheme === false">&#9788;</button>
+            <button class="theme-button dark" @click="store.methods.settings.darkTheme.set(true)" :data-active="store.state.settings.darkTheme === true">
+              <span class="material-icons">dark_mode</span>
+            </button>
+            <button class="theme-button light" @click="store.methods.settings.darkTheme.set(false)" :data-active="store.state.settings.darkTheme === false">
+              <span class="material-icons-outlined">light_mode</span>
+            </button>
           </div>
           <div class="color-picker">
             <button v-for="(color, i) in store.state.settings.themeColors.colors" :key="i" class="color" :style="'background:'+color" @click="store.methods.settings.themeColor.set(color)" :data-active="store.methods.settings.themeColor.get()===color"></button>
@@ -60,25 +64,25 @@ const emit = defineEmits(['closeMenu','menu'])
 
 const links = [
   {
-    icon:`<span style="font-size:1.25rem" class="material-symbols-outlined">home</span>`,
+    icon:`<span style="font-size:1.25rem" class="material-icons">home</span>`,
     label:'Domov',
     route:'/',
     shown:true
   },
   {
-    icon:`<span style="font-size:1.25rem" class="material-symbols-outlined">video_library</span>`,
+    icon:`<span style="font-size:1.25rem" class="material-icons">video_library</span>`,
     label:'Knižnica',
     route:'/library',
     shown:true
   },
   {
-    icon:`<span style="font-size:1.25rem" class="material-symbols-outlined">recommend</span>`,
+    icon:`<span style="font-size:1.25rem" class="material-icons">recommend</span>`,
     label:'Odporúčané',
     route:'/recommended',
     shown:true
   },
   {
-    icon:'<span style="font-size:1.35rem;line-height:1">&#9881;</span>',
+    icon:'<span style="font-size:1.25rem" class="material-icons">settings</span>',
     label:'Admin',
     route:'/admin',
     shown:store.state.credentials.user?.isAdmin || false
@@ -147,6 +151,7 @@ aside{
     padding:0.75rem 0.75rem 0.5rem;
     background:var(--card-color);
     min-height:calc(100vh - var(--nav-height));
+    overflow-x:hidden;
     section.menu-links{
       display:flex;
       flex-direction:column;
@@ -165,7 +170,6 @@ aside{
         align-items:center;
         justify-content:center;
         position:relative;
-        font-size:1.25rem;
         &.dark{
           background:var(--dark-background);
           color:var(--font-color-dark);

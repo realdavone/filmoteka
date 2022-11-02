@@ -5,7 +5,7 @@
         <img v-if="details?.poster" class="poster" :src="`https://www.themoviedb.org/t/p/w300${details['poster']}`" :alt="details['title']">
       </template>
       <template #feedback>
-        <Feedback v-if="!loading" :state="{ likes: details?.likes, dislikes: details?.dislikes }" :title="{ id: $route.params.id, type: 'movie' }"/>
+        <Feedback v-if="!loading && store.state.credentials.loggedIn" :state="{ likes: details?.likes, dislikes: details?.dislikes }" :title="{ id: $route.params.id, type: 'movie' }"/>
       </template>
       <template #actionMenu>
         <ActionMenu ref="actionMenu">
@@ -13,7 +13,7 @@
             <ActionButton
             title="Skopírovať URL adresu"
             @handleClick="$refs.actionMenu.copyUrl()">
-              <template #icon><span class="material-symbols-outlined icon">link</span></template>
+              <template #icon><span class="material-icons icon">link</span></template>
               <template #label><span class="label">Skopírovať URL</span></template>
             </ActionButton>
             <template v-if="store.state.credentials.loggedIn">
@@ -30,28 +30,28 @@
               title="Odporúčiť"
               :disabled="isRecommended.value"
               @handleClick="addAsRecommended({ id: route.params.id, img: details['poster'], type: route.name, title: details['title'] })">
-                <template #icon><span class="material-symbols-outlined icon">thumb_up</span></template>
+                <template #icon><span class="material-icons icon">thumb_up</span></template>
                 <template #label><span class="label">{{isRecommended.value ? 'Odporúčané' : 'Odporúčiť'}}</span></template>
               </ActionButton>
               <ActionButton
               title="Prezrené"
               :success="store.methods.watched.exists({ type: route.name, id: route.params.id })"
               @handleClick="store.methods.watched.toggle({ id: route.params.id, type: route.name, title: details['title']})">
-                <template #icon><span class="material-symbols-outlined icon">visibility</span></template>
+                <template #icon><span class="material-icons icon">visibility</span></template>
                 <template #label><span class="label">Označiť ako {{store.methods.watched.exists({ type: route.name, id: route.params.id }) ? 'neprezrené' : 'prezrené'}}</span></template>
               </ActionButton>
               <ActionButton
               title="Pripnutie prehrávača"
               :success="store.state.settings.pinnedPlayer"
               @handleClick="store.methods.settings.pinnedPlayerToggle()">
-                <template #icon><span class="material-symbols-outlined icon">push_pin</span></template>
+                <template #icon><span class="material-icons icon">push_pin</span></template>
                 <template #label><span class="label">{{store.state.settings.pinnedPlayer ? 'Odopnúť' : 'Pripnúť'}} prehrávač</span></template>
               </ActionButton>
               <ActionButton
               title="Pridanie k záložkam"
               :success="store.methods.favourites.exists({ type: route.name, id: route.params.id })"
               @handleClick="store.methods.favourites.toggle({ id: route.params.id, img: details['poster'], type: route.name, title: details['title'] })">
-                <template #icon><span class="material-symbols-outlined icon">{{store.methods.favourites.exists({ type: route.name, id: route.params.id }) ? 'bookmark_remove' : 'bookmark_add'}}</span></template>
+                <template #icon><span class="material-icons icon">{{store.methods.favourites.exists({ type: route.name, id: route.params.id }) ? 'bookmark_remove' : 'bookmark_add'}}</span></template>
                 <template #label><span class="label">{{store.methods.favourites.exists({ type: route.name, id: route.params.id }) ? 'Odobrať zo záložiek' : 'Pridať k záložkam'}}</span></template>
               </ActionButton>
             </template>

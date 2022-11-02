@@ -18,7 +18,11 @@ a.menu-link{
   padding:12px 1rem;
   border-left:0.5rem solid transparent;
   border-radius:0.5rem;
-  div.icon{width:25px;text-align:center;}
+  div.icon{
+    width:25px;
+    text-align:center;
+    line-height:1;
+  }
   span:nth-child(1){ font-size:1.25rem }
   span:nth-child(2){ font-size:0.85rem }
   &:hover, &.router-link-exact-active{ background:var(--card-color-hover) }

@@ -1,9 +1,9 @@
 <template>
   <div class="user">
     <div class="details">
-      <span v-if="store.state.credentials.user?.email === user.email" class="material-symbols-outlined label">person_filled</span>
+      <span v-if="store.state.credentials.user?.email === user.email" class="material-icons label">person_filled</span>
       <span>{{ user.email }}</span>
-      <span v-if="user.isOwner" class="material-symbols-outlined owner">verified_user</span>
+      <span v-if="user.isOwner" class="material-icons owner">verified_user</span>
     </div>
     <div class="control">
       <span>Admin</span>
@@ -62,19 +62,11 @@ div.user{
   div.details{
     display:flex;
     align-items:center;
-    gap:8px;
+    gap:0.5rem;
     span.label{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
       font-size:0.65rem;
       border-radius:10px;
-      min-width:17px;
-      max-width:17px;
-      min-height:17px;
-      max-height:17px;
-      font-weight:700;
-      background-color:var(--theme-color);
+      max-width:10px;
     }
     span.owner{
       color:var(--theme-color);

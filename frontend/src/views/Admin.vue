@@ -8,7 +8,7 @@
       <div class="columns">
         <aside class="menu">
           <button v-for="(tab, i) in tabs" :key="i" class="tab" :data-active="activeComponent === tab.component" @click="activeComponent = tab.component">
-            <span class="material-symbols-outlined">{{tab.icon}}</span>
+            <span class="material-icons">{{tab.icon}}</span>
           </button>
         </aside>
         <section class="content">
