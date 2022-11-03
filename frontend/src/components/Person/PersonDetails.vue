@@ -29,12 +29,10 @@
         <div class="profile-biography">{{person['bio'] || `Pre ${person['name']} nie je k dispozicií žiadna biografia`}}</div>
       </div>
     </section>
-    <PicturePanel v-if="person['imgs'].length !== 0" :imgs="person['imgs'].slice(0, 6)"/>
   </main>
 </template>
 
 <script setup>
-import PicturePanel from '../Person/PicturePanel.vue'
 import Socials from '../Person/Socials.vue'
 
 import { ref } from 'vue'

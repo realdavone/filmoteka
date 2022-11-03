@@ -90,15 +90,14 @@ section.filmography{
           padding-left:8px; 
         }
       }
-      &:nth-of-type(even) td:not(:first-child):not(:nth-child(2)) {background:var(--card-color);}
-      //&.border-top{border-top:2px solid var(--card-color)}
     }
     tr:last-child{border-bottom:none;}
   }
   div.title{padding-bottom:5px;}
   i.as{
     display:inline-block;
-    margin:0 0.3rem;
+    margin:0 0.5rem;
+    color:var(--alternative-color);
   }
 }
 section.filmography:last-child{margin-bottom:0;}

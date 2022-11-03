@@ -20,18 +20,18 @@
       <div v-if="!loading" class="flex-column">
         <section class="selectors">
           <div class="primary">
-            <button @click="selector.primary = 'Filmy'" :data-active="selector.primary === 'Filmy'">Filmy</button>
-            <button @click="selector.primary = 'TV'" :data-active="selector.primary === 'TV'">TV</button>
+            <button @click="selector.primary = 'movie'" :data-active="selector.primary === 'movie'">Filmy</button>
+            <button @click="selector.primary = 'tv'" :data-active="selector.primary === 'tv'">TV</button>
           </div>
           <div class="secondary">
-            <button @click="selector.secondary = 'Herectvo'" :data-active="selector.secondary === 'Herectvo'">Herectvo</button>
-            <button @click="selector.secondary = 'Tvorba'" :data-active="selector.secondary === 'Tvorba'">Tvorba</button>
+            <button @click="selector.secondary = 'cast'" :data-active="selector.secondary === 'cast'">Herectvo</button>
+            <button @click="selector.secondary = 'crew'" :data-active="selector.secondary === 'crew'">Tvorba</button>
           </div>
         </section>
-        <Filmography v-if="selector.primary === 'Filmy' && selector.secondary === 'Herectvo'" :items="result.movie_credits.cast" :type="'movie'" />
-        <Filmography v-if="selector.primary === 'TV' && selector.secondary === 'Herectvo'" :items="result.tv_credits.cast" :type="'tv'" />
-        <Filmography v-if="selector.primary === 'Filmy' && selector.secondary === 'Tvorba'" :items="result.movie_credits.crew" :type="'movie'" />
-        <Filmography v-if="selector.primary === 'TV' && selector.secondary === 'Tvorba'" :items="result.tv_credits.crew" :type="'tv'" />
+        <Filmography v-if="selector.primary === 'movie' && selector.secondary === 'cast'" :items="result.movie_credits.cast" :type="selector.primary" />
+        <Filmography v-if="selector.primary === 'tv' && selector.secondary === 'cast'" :items="result.tv_credits.cast" :type="selector.primary" />
+        <Filmography v-if="selector.primary === 'movie' && selector.secondary === 'crew'" :items="result.movie_credits.crew" :type="selector.primary" />
+        <Filmography v-if="selector.primary === 'tv' && selector.secondary === 'crew'" :items="result.tv_credits.crew" :type="selector.primary" />
       </div>
     </template>
   </PersonProfile>
@@ -53,7 +53,7 @@ const router = useRouter()
 const result = ref({})
 const loading = ref(true)
 
-const selector = ref({ primary: 'Filmy', secondary: 'Herectvo' })
+const selector = ref({ primary: 'movie', secondary: 'cast' })
 
 const fetchData = async id => {
   try {
@@ -72,22 +72,22 @@ onBeforeMount(() => { fetchData(route.params.id) })
   section.selectors{
     display:flex;
     flex-direction:column;
-    gap:10px;
+    gap:0.5rem;
     div.primary{
       button {
         font-size:1.25rem;
         font-weight:900;
-        padding:2px 8px;
-        border-radius:6px;
+        padding:2px 0.5rem;
+        border-radius:0.5rem;
         &[data-active=true]{
           background:var(--theme-color);
-          color:white
+          color:white;
         }
       }
     }
     div.secondary{
       button {
-        font-size:0.95rem;
+        font-size:0.9rem;
         font-weight:700;
         padding:2px 8px;
         border-radius:6px;
@@ -99,8 +99,13 @@ onBeforeMount(() => { fetchData(route.params.id) })
     }
   }
   div.flex-column{
-    min-width:450px;
-    max-width:450px;
+    display:flex;
+    flex-direction:column;
+    min-width:500px;
+    max-width:500px;
+    outline:2px solid var(--card-color);
+    padding:var(--container-padding);
+    border-radius:var(--container-padding);
   }
   @media screen and (max-width: 1200px){
     div.flex-column{
