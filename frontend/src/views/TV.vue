@@ -5,7 +5,7 @@
         <img v-if="details?.poster" class="poster" :src="`https://www.themoviedb.org/t/p/w300${details['poster']}`" :alt="details['title']">
       </template>
       <template #feedback>
-        <Feedback v-if="!loading && store.state.credentials.loggedIn" :state="{ likes: details?.likes, dislikes: details?.dislikes }" :title="{ id: $route.params.id, type: 'tv' }"/>
+        <Feedback v-if="!loading && store.state.credentials.loggedIn && (new Date()) > new Date(result['first_air_date'])" :state="{ likes: details?.likes, dislikes: details?.dislikes }" :title="{ id: $route.params.id, type: 'tv' }"/>
       </template>
       <template #actionMenu>
         <ActionMenu ref="actionMenu">
@@ -22,7 +22,7 @@
               title="Fungujúci prehrávač"
               :warning="!isPlayerWorking.value"
               @handleClick="toggleWorkingPlayer({ id: route.params.id, img: details['poster'], type: route.name, title: details['title'] })">
-                <template #icon><span class="icon" :style="[isPlayerWorking.value === false ? 'opacity:1' : 'opacity:0.6']">&#9888;</span></template>
+                <template #icon><span class="icon">&#9888;</span></template>
                 <template #label><span class="label">Nahlásiť prehrávač</span></template>
               </ActionButton>
               <ActionButton

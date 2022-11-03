@@ -80,6 +80,7 @@ section.container{
     overflow:hidden;
     z-index:1;
     position:relative;
+    box-shadow: 0px 0px 15px 1px rgba(0,0,0,0.75);
   }
   div.outter{
     display:flex;

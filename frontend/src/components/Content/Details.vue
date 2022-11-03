@@ -131,42 +131,41 @@ section.title{
       display:flex;
       align-items:center;
       gap:15px;
-      a.primary{
-        width:60px;
-        height:60px;
+      a{
+        font-family:monospace;
         background-color:var(--card-color-hover);
-        outline:4px solid var(--card-color-hover);
-        border-radius:30px;
         display:flex;
         align-items:center;
         justify-content:center;
-        font-weight:700;
-        font-size:1.25rem;
-        transition:0.2s ease transform;
-        &.low{border:5px solid crimson}
-        &.medium{border:5px solid goldenrod}
-        &.high{border:5px solid green}
-        &:hover{ transform:scale(1.05) }
-      }
-      a.secondary{
-        width:40px;
-        height:40px;
-        background:var(--card-color-hover);
-        border-radius:25px;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        flex-direction:column;
-        font-size:0.75rem;
-        position:relative;
-        span:nth-child(1){ font-weight:700 }
-        span:nth-child(2){
-          position:absolute;
-          top:calc(100% + 5px);
-          text-align:center;
-          line-height:1;
-          font-size:0.5rem;
-          pointer-events:none;
+        &.primary{
+          width:60px;
+          height:60px;
+          outline:4px solid var(--card-color-hover);
+          border-radius:30px;
+          font-weight:700;
+          font-size:1rem;
+          transition:0.2s ease transform;
+          &.low{border:5px solid crimson}
+          &.medium{border:5px solid goldenrod}
+          &.high{border:5px solid green}
+          &:hover{ transform:scale(1.05) }
+        }
+        &.secondary{
+          width:40px;
+          height:40px;
+          border-radius:25px;
+          flex-direction:column;
+          font-size:0.75rem;
+          position:relative;
+          span:nth-child(1){ font-weight:700 }
+          span:nth-child(2){
+            position:absolute;
+            top:calc(100% + 5px);
+            text-align:center;
+            line-height:1;
+            font-size:0.5rem;
+            pointer-events:none;
+          }
         }
       }
     }

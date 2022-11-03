@@ -40,7 +40,7 @@ const { title } = defineProps({ title: Object })
 section.featured{
   padding-top:calc(var(--nav-height) + var(--container-padding));
   margin-top:calc(0px - var(--nav-height));
-  padding-bottom:var(--container-padding);
+  padding-bottom:calc(var(--container-padding) + 2rem);
   position:relative;
   div.background-image{
     position:absolute;

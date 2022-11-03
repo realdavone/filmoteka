@@ -1,10 +1,6 @@
 <template>
   <section class="ctr user-select-none" v-if="shown">
     <span><b>Neobmedzené</b> sledovanie filmov a seriálov.</span>
-    <section class="logos">
-      <img v-for="(network, i) in networks" :key="i" :src="`https://www.themoviedb.org/t/p/original/${network.src}.svg`" :alt="network.name">
-      <span>a ďalšie...</span>
-    </section>
     <BasicButton text="Prihlásiť sa" @handleClick="$router.push('/login')"/>
     <CloseButton class="close" @click="shown = false"  />
   </section>
@@ -17,21 +13,6 @@ import BasicButton from '../Buttons/BasicButton.vue'
 import { ref } from 'vue'
 const shown = ref(true)
 
-const networks = [
-  {
-    name: 'Netflix',
-    src: 'wwemzKWzjKYJFfCeiB57q3r4Bcm'
-  },
-  {
-    name: 'HBO',
-    src: 'tuomPhY2UtuPTqqFnKMVHvSb724'
-  },
-  {
-    name: 'Disney+',
-    src: 'uzKjVDmQ1WRMvGBb7UNRE0wTn1H'
-  }
-]
-
 defineExpose({ shown })
 </script>
 
@@ -41,12 +22,14 @@ section.ctr{
   background-color:var(--card-color-hover);
   font-size:1.05rem;
   display:flex;
-  flex-direction:column;
   align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
   gap:1rem;
   text-align:center;
-  margin-top:-1rem;
+  margin:-2.5rem var(--container-padding) 0;
   position:relative;
+  border-radius:1rem;
   .close{
     position:absolute;
     top:1rem;

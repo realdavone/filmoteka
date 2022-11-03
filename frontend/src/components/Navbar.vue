@@ -15,7 +15,7 @@
     </div>
     <div v-if="!isSearchRendered" class="right-menu">
       <NavButton title="Vyhľadávanie" @handleClick="isSearchRendered = true">
-        <template #icon><span class="material-icons" style="padding-top:5px;color:var(--theme-color);">search</span></template>
+        <template #icon><span class="material-icons-outlined" style="padding-top:5px;font-weight:700;color:var(--theme-color);">search</span></template>
       </NavButton>
       <template v-if="store.state.credentials.loggedIn">
         <NavButton class="icon-hide" title="Knižnica" @handleClick="$router.push('/library')">
@@ -52,14 +52,16 @@
               <ul v-auto-animate>
                 <li :class="{ 'inactive' : title.inactive }" class="title" v-for="title in items" :key="title.id">
                   <router-link tabindex="0" @click.native="bookmarksVisible = false" :to="{ name: title.type, params: { id: title.id } }">
-                    <TypeIcon class="icon" :type="title.type"/>
                     <div class="poster">
                       <img v-if="title.img" :src="`https://image.tmdb.org/t/p/w45_and_h45_face${title.img}`" :alt="title.title" loading="lazy">
                     </div>
-                    <span class="text">{{title.title}}</span>
-                    <span v-if="title.season !== undefined" class="last-watched" title="Posledná prehraná epizóda">{{title.season}}.{{`${title.episode < 10 ? '0' + title.episode : title.episode}`}}</span>
+                    <TypeIcon class="icon" :type="title.type"/>
+                    <div>
+                      <span class="text">{{title.title}}</span>
+                      <span v-if="title.season !== undefined" class="last-watched" title="Posledná prehraná epizóda">{{title.season}}.{{`${title.episode < 10 ? '0' + title.episode : title.episode}`}}</span>
+                    </div>
                   </router-link>
-                  <button class="remove-item" @click="store.methods.favourites.toggle({ id: title.id, type: title.type })" title="Odobrať">&#8854;</button>
+                  <button class="remove-item" @click="store.methods.favourites.toggle({ id: title.id, type: title.type })" title="Odobrať">&times;</button>
                 </li>
               </ul>
             </section>
@@ -83,7 +85,6 @@
 import { ref, inject, computed, defineAsyncComponent, onMounted, onUnmounted } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 
-import Logo from './Logo.vue'
 import NavButton from './Buttons/NavButton.vue'
 import BasicButton from './Buttons/BasicButton.vue';
 const Modal = defineAsyncComponent(() => import('./Modal.vue'))
@@ -114,7 +115,8 @@ const favStyles = {
   alignItems: 'center',
   color: 'white',
   fontSize: '0.65rem',
-  backgroundColor: 'var(--theme-color)'
+  backgroundColor: 'var(--theme-color)',
+  fontFamily: 'monospace'
 }
 
 onClickOutside(modal, () => {
@@ -202,7 +204,7 @@ aside.modal{
   max-width:100%;
   min-height:60vh;
   max-height:60vh;
-  background:var(--card-color);
+  background:var(--background-color);
   display:flex;
   flex-direction:column;
   gap:10px;
@@ -248,12 +250,13 @@ aside.modal{
       display:flex;
       justify-content:space-between;
       align-items:center;
-      gap:15px;
-      padding:6px 10px 6px;
+      gap:1rem;
+      padding:0.75rem;
       transition:0.2s ease background;
       position:relative;
-      margin-bottom:5px;
-      border-radius:60px;
+      margin-bottom:0.5rem;
+      border-radius:1rem;
+      background-color:var(--card-color);
       a{
         display:flex;
         align-items:center;
@@ -270,17 +273,16 @@ aside.modal{
           i{font-size:0.7rem;}
         }
         div.poster{
-          outline:2px solid var(--theme-color);
-          min-width:1.5rem;
-          max-width:1.5rem;
-          min-height:1.5rem;
-          max-height:1.5rem;
-          border-radius:0.75rem;
+          aspect-ratio:1;
+          width:2rem;
+          border-radius:0.5rem;
           overflow:hidden;
           img{width:100%;height:100%;}
         }
         span.text{font-size:0.8rem;font-weight:700;}
         span.last-watched{
+          font-family:monospace;
+          display:block;
           font-weight:bold;
           color:var(--theme-color);
           font-size:0.8rem;

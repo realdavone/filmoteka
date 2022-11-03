@@ -62,7 +62,10 @@ div.rating{
     align-items:center;
     gap:0.5rem;
     span:first-of-type{ font-size:2rem; }
-    span:last-of-type{font-size:1.1rem;}
+    span:last-of-type{
+      font-family:monospace;
+      font-size:1rem;
+    }
   }
 }
 </style>

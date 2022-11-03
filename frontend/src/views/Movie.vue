@@ -5,7 +5,7 @@
         <img v-if="details?.poster" class="poster" :src="`https://www.themoviedb.org/t/p/w300${details['poster']}`" :alt="details['title']">
       </template>
       <template #feedback>
-        <Feedback v-if="!loading && store.state.credentials.loggedIn" :state="{ likes: details?.likes, dislikes: details?.dislikes }" :title="{ id: $route.params.id, type: 'movie' }"/>
+        <Feedback v-if="!loading && store.state.credentials.loggedIn && (new Date()) > new Date(result.release_date)" :state="{ likes: details?.likes, dislikes: details?.dislikes }" :title="{ id: $route.params.id, type: 'movie' }"/>
       </template>
       <template #actionMenu>
         <ActionMenu ref="actionMenu">
@@ -22,7 +22,7 @@
               title="Fungujúci prehrávač"
               :warning="!isPlayerWorking.value"
               @handleClick="toggleWorkingPlayer({ id: route.params.id, img: details['poster'], type: route.name, title: details['title'] })">
-                <template #icon><span class="icon" :style="[isPlayerWorking.value === false ? 'opacity:1' : 'opacity:0.6']">&#9888;</span></template>
+                <template #icon><span class="icon">&#9888;</span></template>
                 <template #label><span class="label">Nahlásiť prehrávač</span></template>
               </ActionButton>
               <ActionButton
@@ -80,7 +80,7 @@
         <MoviePlayerPanel
         v-if="!loading"
         :isPlayerWorking="isPlayerWorking.value"
-        :id="result.imdb_id"
+        :id="details.imdb"
         :isReleased="(new Date()) > new Date(result.release_date)"
         :title="details['title']"
         />
@@ -90,6 +90,7 @@
       </template>
     </PlayerDetails>
     <template v-if="!loading">
+      <Collection v-once v-if="result['belongs_to_collection']" :collection="result['belongs_to_collection']"/>
       <CastPanel v-once v-if="cast.length !== 0">
         <template #title>Herci</template>
         <template #card>
@@ -100,7 +101,6 @@
           </PersonCard>
         </template>
       </CastPanel>
-      <Collection v-once v-if="result['belongs_to_collection']" :collection="result['belongs_to_collection']"/>
       <CardPanel v-if="similarMovies.length !== 0" :scroll="true">
         <template #title>Podobné</template>
         <template #card><VerticalCard v-for="item in similarMovies" :key="item.id" :item="item"/></template>
@@ -206,7 +206,7 @@ const fetchData = async (id) => {
       rated: !omdb['Rated']||omdb['Rated']==='N/A'?'Not Rated':omdb['Rated'],
       number_of_episodes: null,
       status: null,
-      release_date: result.value['release_date']!=='' ? new Date(result.value['release_date']).toLocaleDateString('sk-SK') : null,
+      release_date: result.value['release_date'] !== '' ? new Date(result.value['release_date']).toLocaleDateString('sk-SK') : null,
       languages: result.value['spoken_languages'],
       revenue: new Intl.NumberFormat('sk-SK', { notation: "compact", compactDisplay: "short", style: "currency", currency: "USD" }).format(result.value['revenue']),
       likes: result.value?.['likes'] || [],
