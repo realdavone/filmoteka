@@ -3,13 +3,19 @@
     <div v-if="!props.source && props['isReady']['status'] === true" class="not-pressed">
       <div v-if="isPlayerWorking === false" class="player-warning">Prehrávač bol označený ako nefunkčný</div>
       <button v-if="store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn" @click="$emit('setPlayer')" class="play-button">&#9654;</button>
-      <button v-else class="locked-player" @click="$router.push('/login')"><span>Prihláste sa pre sledovanie</span></button>
+      <button v-else class="locked-player" @click="$router.push('/login')">
+        <span class="material-icons-outlined">lock</span>
+        <span>Prihláste sa pre sledovanie</span>
+      </button>
     </div>
     <div v-if="props.source && !loadedIframe" class="loading">
       <Loader :height="'2rem'" :border="'0.2rem'"/>
     </div>
     <iframe @load="loadedIframe = true" v-if="props.source" :class="{ pinned: pinned && store.state.settings.pinnedPlayer }" :src="props['source']" frameborder="0" loading="lazy" allowfullscreen></iframe>
-    <span v-if="!props['isReady']['status']" class="warning">{{ props['isReady']['message'] }}</span>
+    <div v-if="!props['isReady']['status']" class="warning">
+      <span class="material-icons-outlined">watch_later</span>
+      <span>{{ props['isReady']['message'] }}</span>
+    </div>
   </section>
 </template>
 
@@ -73,14 +79,15 @@ section.player-holder{
     gap:10px;
     position:relative;
     z-index:2;
-    font-size:0.75rem;
-    border:1px solid #ffffff40;
+    border:2px solid #ffffff80;
     padding:0.5rem 0.75rem;
     border-radius:0.5rem;
     text-align:center;
     color:var(--font-color-dark);
     transition:0.2s ease border;
-    &:hover{border:1px solid var(--font-color-dark);}
+    span:first-of-type{ font-size:1rem; }
+    span:last-of-type{ font-size:0.75rem; }
+    &:hover{border:2px solid var(--theme-color);}
   }
   div.not-pressed{
     padding:15px;
@@ -114,9 +121,13 @@ section.player-holder{
       box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
     }
   }
-  span.warning{
-    font-size:0.85rem;
+  div.warning{
+    display:flex;
+    align-items:center;
+    gap:0.5rem;
     color:var(--font-color-dark);
+    span:first-of-type{ font-size:1.25rem }
+    span:last-of-type{ font-size:0.75rem }
   }
 }
 @media screen and (max-width: 500px) {

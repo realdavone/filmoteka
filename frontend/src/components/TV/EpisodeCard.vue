@@ -5,20 +5,15 @@
         <slot name="label" />
       </span>
       <div class="info">
-        <div style="display:flex;gap:8px;font-size:0.75rem;align-items:center;line-height:1;">
-          <b style="color:var(--theme-color)">{{`S${info.season}.E${info.episode}`}}</b>          
-          <span style="color:var(--secondary-text-color)">{{new Date(info.date).toLocaleDateString('sk-SK', { weekday: 'short', year: '2-digit', month: 'short', day: 'numeric' })}}</span>
-        </div>
+        <span>{{`${info.season}.${info.episode}`}}</span>          
+        <span>{{new Date(info.date).toLocaleDateString('sk-SK', { weekday: 'short', year: '2-digit', month: 'short', day: 'numeric' })}}</span>
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
-const { playable, info } = defineProps({
-  playable: Boolean,
-  info: { season: Number, episode: Number, date: String }
-})
+const { playable, info } = defineProps({ playable: Boolean, info: { season: Number, episode: Number, date: String } })
 const emit = defineEmits(['playEpisode'])
 </script>
 
@@ -42,6 +37,21 @@ section.episode-card{
     max-width:5px;
     background-color:var(--theme-color);
     border-radius:3px;
+  }
+  div.info{
+    display:flex;
+    gap:0.5rem;
+    font-size:0.75rem;
+    align-items:center;
+    line-height:1;
+    span:first-of-type{
+      font-family:monospace;
+      color:var(--theme-color);
+      font-weight:700;
+    }
+    span:last-of-type{
+      color:var(--secondary-text-color);
+    }
   }
 }
 </style>

@@ -246,4 +246,10 @@ aside{
   }
   span.no-history{ font-size:0.8rem }
 }
+@media screen and (max-width: 600px){
+  aside{
+    max-width:100%;
+    min-width:100%;
+  }
+}
 </style>

@@ -1,6 +1,6 @@
 import express from 'express'
 import auth from '../middleware/auth.js'
-import { getTitle, getRecommended, toggleNonWorkingTitle, removeRecommendedTitle, toggleRecommendedTitle, getEpisode, getVideo, rateTitle } from '../controllers/title.js'
+import { getTitle, getRecommended, toggleNonWorkingTitle, removeRecommendedTitle, toggleRecommendedTitle, getEpisode, getVideo, rateTitle, getMostLiked } from '../controllers/title.js'
 
 const router = express.Router()
 
@@ -12,5 +12,6 @@ router.delete('/recommend', auth, removeRecommendedTitle)
 router.get('/episode/:id/:season/:episode', getEpisode)
 router.get('/video/:type/:id', getVideo)
 router.patch('/rate', auth, rateTitle)
+router.get('/most-liked', getMostLiked)
 
 export default router

@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import { inject, computed, ref } from 'vue'
+import { inject, ref } from 'vue'
 import getData from '../../api/main.js'
 
 const store = inject('store')

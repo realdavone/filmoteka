@@ -26,7 +26,7 @@ export const login = async (req, res) => {
         success: true,
         accessToken,
         refreshToken,
-        user: { id: user._id, email: user.email, isAdmin: user.isAdmin } 
+        user: { _id: user._id, email: user.email, isAdmin: user.isAdmin } 
       })
     }
     res.status(401).json({ success: false, message: 'Nesprávne meno alebo heslo' })

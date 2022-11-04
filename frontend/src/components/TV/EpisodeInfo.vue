@@ -83,7 +83,10 @@ section.episode-info{
       align-items:center;
       gap:10px;
       width:90%;
-      b{ color:var(--theme-color) }
+      b{ 
+        font-family:monospace;
+        color:var(--theme-color);
+      }
       span{
         font-weight:700;
         font-size:inherit;

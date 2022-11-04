@@ -1,7 +1,6 @@
 import dotenv from 'dotenv'
 import fetch from 'node-fetch'
 import { io } from '../io.js'
-import jwt from 'jsonwebtoken'
 
 import Title from '../schemas/Title.js'
 import RecommendedTitle from '../schemas/RecommendedTitle.js'
@@ -124,12 +123,19 @@ export const rateTitle = async (req, res) => {
 
       res.status(200).json({ success: true })
     })
-  } catch (error) { res.status(500).json({ success: false, message: 'Nieco sa dojebalo' }) }
+  } catch (error) { res.sendStatus(500) }
 }
 
 export const getVideo = async (req, res) => {
   try {
     const data = await fetch(`${TMDB_BASE_API}/${req.params.type}/${req.params.id}/videos?api_key=${TMDB_API_KEY}&language=en-US`)
     res.status(200).json(await data.json())    
+  } catch (error) { res.sendStatus(500) }
+}
+
+export const getMostLiked = async (req, res) => {
+  try {
+    const titles = await Title.find({ 'likes.0': { '$exists': true } }).sort({ 'likes': -1 }).limit(10)
+    res.json(titles)
   } catch (error) { res.sendStatus(500) }
 }
