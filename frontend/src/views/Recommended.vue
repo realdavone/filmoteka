@@ -1,32 +1,31 @@
 <template>
-  <main class="container wrapper">
-    <Title>Odporúčané za posledný deň</Title>
-    <div v-if="items.length === 0 && loading === false" class="no-items">Sekcia odporúčaných je prázdna</div>
-    <GridPanel v-else>
-      <template #items>
-        <router-link v-if="!loading" :to="`/${item?.title.type}/${item?.title.id}`" v-for="item in items" :key="item?.id" class="item">
-          <span v-if="store.state.notifications.recommended.some(title => title.type === item?.title.type && title.id === item?.title.id)" class="newly-added">Nové</span>
-          <img :src="`https://www.themoviedb.org/t/p/w300${item.title.img}`" :alt="item.title.title" loading="lazy">
-        </router-link>
+  <main class="wrapper">
+    <div v-if="items.length === 0 && loading === false" class="no-items container">Sekcia odporúčaných je prázdna</div>
+    <CardPanel v-else :allowGrid="false" :isGrid="true" :placeholderInfo="{ count: 8 }">
+      <template #title>Odporúčané za posledný deň</template>
+      <template #card>
+        <VerticalCard v-for="item in items" :item="item.title" :key="item.id" />
       </template>
-    </GridPanel>
+    </CardPanel>
   </main>
 </template>
 
 <script> 
-export default { name: 'Recommended'} 
+export default { name: "Recommended" } 
 </script>
 
 <script setup>
 import { ref, onBeforeMount, onUnmounted, inject } from 'vue'
-import Title from '../components/Content/Title.vue'
-import GridPanel from '../components/Content/GridPanel.vue'
+import VerticalCard from '../components/Content/VerticalCard.vue'
+import CardPanel from '../components/Content/CardPanel.vue'
 
 import getData from '../api/main'
 
 const store = inject('store')
 const items = ref([])
 const loading = ref(true)
+
+console.log(items)
 
 const fetchRecommended = async () => {
   items.value = await getData({ endpoint: '/title/recommended' })
