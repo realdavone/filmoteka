@@ -25,8 +25,6 @@ const store = inject('store')
 const items = ref([])
 const loading = ref(true)
 
-console.log(items)
-
 const fetchRecommended = async () => {
   items.value = await getData({ endpoint: '/title/recommended' })
   loading.value = false
