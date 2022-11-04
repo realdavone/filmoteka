@@ -152,6 +152,8 @@ aside{
     background:var(--card-color);
     min-height:calc(100vh - var(--nav-height));
     overflow-x:hidden;
+    &::-webkit-scrollbar{width:15px;height:15px;}
+    &::-webkit-scrollbar-thumb{background:var(--card-color-hover);border:4px solid transparent;border-radius:10px;background-clip:content-box;}
     section.menu-links{
       display:flex;
       flex-direction:column;

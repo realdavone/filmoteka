@@ -101,7 +101,7 @@
           </PersonCard>
         </template>
       </CastPanel>
-      <CardPanel v-if="similarMovies.length !== 0">
+      <CardPanel v-if="similarMovies.length !== 0" :scroll="true">
         <template #title>Podobné</template>
         <template #card><VerticalCard v-for="item in similarMovies" :key="item.id" :item="item"/></template>
       </CardPanel>

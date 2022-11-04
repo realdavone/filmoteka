@@ -225,6 +225,8 @@ aside.modal{
   section.title-holder{
     overflow:auto;
     padding:0 10px;
+    &::-webkit-scrollbar{width:15px;height:15px;}
+    &::-webkit-scrollbar-thumb{background:var(--card-color-hover);border:4px solid transparent;border-radius:10px;background-clip:content-box;}
     div.search-input-holder{
       display:flex;
       align-items:center;
@@ -325,6 +327,15 @@ aside.modal{
 }
 @media screen and (max-width: 600px) {
   .icon-hide{ display:none!important }
+  aside.modal{
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    border-radius:0;
+    position:fixed;
+    min-height:100%;
+  }
 }
 @keyframes scaleup{
   0%, 100% { transform:scale(1) }

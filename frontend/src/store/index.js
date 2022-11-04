@@ -46,7 +46,9 @@ const methods = {
       localStorage.setItem('watched', JSON.stringify(state.watched))
       notify({ type: doesExist === false ? 'success' : 'warn', text: doesExist === false ? 'Označený ako prezrený' : 'Označený ako neprezrený' })
     },
-    exists({ type, id }){ return state.watched.some(item => item['type'].toLowerCase() === type.toLowerCase() && item['id'].toString() === id.toString()) }
+    exists({ type, id }){ 
+      return state.watched.some(item => item['type'].toLowerCase() === type?.toLowerCase() && item['id'].toString() === id?.toString())
+    }
   },
   countries: {
     async set(code){ 

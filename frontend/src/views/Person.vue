@@ -69,48 +69,48 @@ onBeforeMount(() => { fetchData(route.params.id) })
 </script>
 
 <style lang="scss" scoped>
-  section.selectors{
-    display:flex;
-    flex-direction:column;
-    gap:0.5rem;
-    div.primary{
-      button {
-        font-size:1.25rem;
-        font-weight:900;
-        padding:2px 0.5rem;
-        border-radius:0.5rem;
-        &[data-active=true]{
-          background:var(--theme-color);
-          color:white;
-        }
-      }
-    }
-    div.secondary{
-      button {
-        font-size:0.9rem;
-        font-weight:700;
-        padding:2px 8px;
-        border-radius:6px;
-        &[data-active=true]{
-          background:var(--theme-color);
-          color:white
-        }
+section.selectors{
+  display:flex;
+  flex-direction:column;
+  gap:0.5rem;
+  div.primary{
+    button {
+      font-size:1.25rem;
+      font-weight:900;
+      padding:2px 0.5rem;
+      border-radius:0.5rem;
+      &[data-active=true]{
+        background:var(--theme-color);
+        color:white;
       }
     }
   }
+  div.secondary{
+    button {
+      font-size:0.9rem;
+      font-weight:700;
+      padding:2px 8px;
+      border-radius:6px;
+      &[data-active=true]{
+        background:var(--theme-color);
+        color:white
+      }
+    }
+  }
+}
+div.flex-column{
+  display:flex;
+  flex-direction:column;
+  min-width:500px;
+  max-width:500px;
+  outline:2px solid var(--card-color);
+  padding:var(--container-padding);
+  border-radius:var(--container-padding);
+}
+@media screen and (max-width: 1200px){
   div.flex-column{
-    display:flex;
-    flex-direction:column;
-    min-width:500px;
-    max-width:500px;
-    outline:2px solid var(--card-color);
-    padding:var(--container-padding);
-    border-radius:var(--container-padding);
+    min-width:initial;
+    max-width:initial;
   }
-  @media screen and (max-width: 1200px){
-    div.flex-column{
-      min-width:initial;
-      max-width:initial;
-    }
-  }
+}
 </style>

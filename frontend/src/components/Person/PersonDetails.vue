@@ -70,6 +70,8 @@ main.outter-holder{
   flex-direction:column;
   gap:var(--container-padding);
   width:100%;
+  position:sticky;
+  top:var(--nav-height);
   section.profile{
     display:flex;
     align-items:flex-start;
@@ -113,9 +115,16 @@ main.outter-holder{
         font-weight:700;
         font-size:1.75rem;
       }
-      div.profile-biography{ font-size:0.85rem }
+      div.profile-biography{ 
+        font-size:0.85rem;
+        max-height:60vh;
+        overflow:auto;
+      }
     }
   }
+}
+@media screen and (max-width: 1200px){
+  main.outter-holder{ position:static }
 }
 @media screen and (max-width: 700px) {
   section.profile{
