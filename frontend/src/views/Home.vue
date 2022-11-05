@@ -1,7 +1,7 @@
 <template>
   <main class="home">
     <Featured :title="featured" />
-    <CallToLogin ref="callToLogin" v-memo="[store.state.credentials.loggedIn, $refs.callToLogin?.shown]" v-if="!store.state.credentials.loggedIn" />
+    <CallToLogin v-if="!store.state.credentials.loggedIn" ref="callToLogin" :enableClose="false" v-memo="[store.state.credentials.loggedIn, $refs.callToLogin?.shown]" />
     <CardPanel :allowGrid="true" :isGrid="true" :placeholderInfo="{ count: 8 }">
       <template #title>Trendy</template>
       <template #card>

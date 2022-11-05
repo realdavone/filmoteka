@@ -27,7 +27,7 @@
             </button>
           </div>
           <div class="color-picker">
-            <button v-for="(color, i) in store.state.settings.themeColors.colors" :key="i" class="color" :style="'background:'+color" @click="store.methods.settings.themeColor.set(color)" :data-active="store.methods.settings.themeColor.get()===color"></button>
+            <button v-for="(color, i) in store.state.settings.themeColors.colors" :key="i" class="color" :style="`border-color:${color}`" @click="store.methods.settings.themeColor.set(color)" :data-active="store.methods.settings.themeColor.get()===color"></button>
           </div>
         </template>
       </OpenCloseSettings>
@@ -118,8 +118,7 @@ aside{
     display:flex;
     align-items:center;
     min-height:var(--nav-height);
-    gap:15px;
-    background-color:var(--card-color-hover)!important;
+    gap:1rem;
     div.right-menu{
       margin-left:auto;
       display:flex;
@@ -147,7 +146,7 @@ aside{
     display:flex;
     flex-direction:column;
     gap:0.5rem;
-    overflow:auto;
+    overflow-y:scroll;
     padding:0.75rem 0.75rem 0.5rem;
     background:var(--card-color);
     min-height:calc(100vh - var(--nav-height));
@@ -198,12 +197,12 @@ aside{
         width:100%;
         aspect-ratio:1;
         border-radius:100px;
-        position: relative;
+        position:relative;
         color:var(--font-color-dark);
-        &[data-active=true]::after{
-          content:'\2713';
-          font-weight:900;
-        }
+        overflow:hidden;
+        border-width:3px;
+        border-style:solid;
+        &[data-active=true]{ background-color:var(--theme-color) }
       }
     }
     div.flex-list{

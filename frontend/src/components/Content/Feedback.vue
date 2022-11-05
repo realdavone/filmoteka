@@ -63,7 +63,7 @@ div.rating{
     gap:0.5rem;
     span:first-of-type{ font-size:2rem; }
     span:last-of-type{
-      font-family:monospace;
+      font-family:monospace,'Roboto Mono';
       font-size:1rem;
     }
   }

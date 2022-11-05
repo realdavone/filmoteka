@@ -60,7 +60,7 @@ section.panel{
     }
   }
   div.card-holder{
-    gap:max(1rem, calc(var(--container-padding) / 2));
+    gap:1.75rem;
     &.scroll{
       flex-wrap:nowrap;
       overflow:auto;

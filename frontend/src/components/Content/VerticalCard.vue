@@ -19,10 +19,6 @@ const fadeIn = el => el.target.style.opacity = 1
 
 <style lang="scss" scoped>
 a.title-card{
-  user-select: none;
-  display:flex;
-  gap:10px;
-  flex-direction:column;
   overflow:hidden;
   background:var(--card-color);
   border-radius:1rem;
@@ -64,9 +60,9 @@ a.title-card{
         transition:0.4s ease transform, 0.8s ease box-shadow;
         border-radius:50%;
         transform:scale(1.35);
-        box-shadow: inset 0px 0px 0px 4px var(--theme-color);
-        outline:2px solid var(--theme-color);
-        outline-offset:6px;
+        box-shadow: inset 0px 0px 0px 0.5rem var(--theme-color);
+        outline:0.25rem solid var(--theme-color);
+        outline-offset:0.25rem;
         display:inline-block;
         width:64px;
         height:64px;
@@ -74,6 +70,7 @@ a.title-card{
         align-items:center;
         justify-content:center;
         padding-left:4px;
+        font-weight:900;
       }
     }
     &:hover{
@@ -90,7 +87,7 @@ a.title-card{
     }
   }
   &.seen::before{
-    font-family:'Material Symbols Outlined';
+    font-family:'Material Icons';
     content:'visibility';
     color:var(--theme-color);
     font-size:1.5rem;

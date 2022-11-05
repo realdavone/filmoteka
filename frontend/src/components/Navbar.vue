@@ -116,7 +116,7 @@ const favStyles = {
   color: 'white',
   fontSize: '0.65rem',
   backgroundColor: 'var(--theme-color)',
-  fontFamily: 'monospace'
+  fontFamily: `monospace,'Roboto Mono'`
 }
 
 onClickOutside(modal, () => {

@@ -84,7 +84,7 @@ section.episode-info{
       gap:10px;
       width:90%;
       b{ 
-        font-family:monospace;
+        font-family:monospace,'Roboto Mono';
         color:var(--theme-color);
       }
       span{

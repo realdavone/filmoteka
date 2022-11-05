@@ -1,23 +1,25 @@
 <template>
-  <section class="ctr user-select-none" v-if="shown">
+  <section class="prompt user-select-none" v-if="shown">
     <span><b>Neobmedzené</b> sledovanie filmov a seriálov.</span>
     <BasicButton text="Prihlásiť sa" @handleClick="$router.push('/login')"/>
-    <CloseButton class="close" @click="shown = false"  />
+    <CloseButton v-if="enableClose" class="close" @click="shown = false"  />
   </section>
 </template>
 
 <script setup>
 import CloseButton from '../Buttons/CloseButton.vue'
 import BasicButton from '../Buttons/BasicButton.vue'
-
 import { ref } from 'vue'
+
+const { enableClose } = defineProps({ enableClose: { type: Boolean, default: true } })
+
 const shown = ref(true)
 
 defineExpose({ shown })
 </script>
 
 <style lang="scss" scoped>
-section.ctr{
+section.prompt{
   padding:1.5rem 3rem;
   background-color:var(--card-color-hover);
   font-size:1.05rem;
@@ -30,10 +32,11 @@ section.ctr{
   margin:-2.5rem var(--container-padding) 0;
   position:relative;
   border-radius:1rem;
+  isolation:isolate;
   .close{
     position:absolute;
-    top:1rem;
-    right:1rem;
+    top:0.5rem;
+    right:0.5rem;
   }
   section.logos{
     display:flex;

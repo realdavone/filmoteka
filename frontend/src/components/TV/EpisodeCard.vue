@@ -45,7 +45,7 @@ section.episode-card{
     align-items:center;
     line-height:1;
     span:first-of-type{
-      font-family:monospace;
+      font-family:monospace,'Roboto Mono';
       color:var(--theme-color);
       font-weight:700;
     }
