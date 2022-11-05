@@ -19,7 +19,6 @@
       </select>
       <button @click="filter(filterParams.type, filterParams.sort, 1, filterParams.genre)" class="filter-button">
         <span class="label">Filter</span>
-        <span class="material-icons" style="font-size:1.25rem">filter_alt</span>
       </button>
     </section>
     <ItemPanel :placeholderData="{count:8, type:'title'}">
@@ -81,7 +80,7 @@ const navigate = pageNumber => { router.push({ name: 'Library', query: { ...rout
 
 onBeforeMount(() => { fetchTitles(url.value) })
 
-const changeType = () => { filterParams.genre = store.state.genres[type.value].entries().next().value[0] }
+const changeType = () => filterParams.genre = store.state.genres[type.value].entries().next().value[0]
 </script>
 
 <style lang="scss" scoped>
@@ -100,12 +99,12 @@ section.filter{
   padding-bottom:1rem;
   z-index:5;
   select{
-    padding:8px;
+    padding:0.5rem;
     border:none;
     font-weight:bold;
     font-size:0.8rem;
     outline:none;
-    border-radius:5px;
+    border-radius:0.5rem;
     cursor:pointer;
     transition:0.2s ease background;
     background-color:var(--card-color);
@@ -118,14 +117,10 @@ section.filter{
     color:white;
     font-weight:700;
     text-transform:uppercase;
-    padding:8px;
-    border-radius:6px;
-    font-size:0.9rem;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:6px;
-    font-family: 'Oswald', sans-serif;
+    padding:0.5rem;
+    border-radius:0.5rem;
+    font-size:0.75rem;
+    font-family:monospace,'Roboto Mono';
   }
   &>*{
     flex:1;
