@@ -19,7 +19,7 @@
       </select>
       <button @click="filter(filterParams.type, filterParams.sort, 1, filterParams.genre)" class="filter-button">
         <span class="label">Filter</span>
-        <span class="material-symbols-outlined" style="font-size:1.25rem">filter_alt</span>
+        <span class="material-icons" style="font-size:1.25rem">filter_alt</span>
       </button>
     </section>
     <ItemPanel :placeholderData="{count:8, type:'title'}">
