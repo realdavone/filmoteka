@@ -36,7 +36,7 @@
         <template #content>
           <span v-if="store.state.recentItems.length === 0" class="no-history">Žiadne navštívené</span>
           <div v-else class="grid-list-sec">
-            <router-link class="recent-item" v-for="(recentItem, i) in store.state.recentItems" :key="i" :title="recentItem.title" :to="{ path: `/${recentItem.type}/${recentItem.id}` }">
+            <router-link class="recent-item" v-for="(recentItem, i) in store.state.recentItems" :key="i" :title="recentItem.title" :to="{ path: `/${recentItem.type}/${recentItem.id}` }" @click.native="closeMenu">
               <img v-if="recentItem.poster" :src="`https://www.themoviedb.org/t/p/w220_and_h330_face${recentItem.poster}`" :alt="recentItem.title">
               <span v-else>{{recentItem.title}}</span>
             </router-link>
@@ -98,7 +98,7 @@ onUnmounted(() => { document.removeEventListener('keydown', closeAtEscapeKeydown
 
 onClickOutside(menu, () => { closeMenu() })
 
-const closeMenu = () => { emit('closeMenu',true) }
+const closeMenu = () => emit('closeMenu', true)
 </script>
 
 <style lang="scss" scoped>
@@ -226,9 +226,13 @@ aside{
       a.recent-item{
         background-color:var(--primary-color);
         overflow:hidden;
-        border-radius:8px;
+        border-radius:1rem;
         aspect-ratio:2/3;
-        img{ width:100%; height:auto; }
+        img{
+          width:100%;
+          height:auto;
+          object-fit:cover;
+        }
         span{
           font-size:0.5rem;
           line-height:1;

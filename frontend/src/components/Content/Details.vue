@@ -15,7 +15,7 @@
       </DetailsItem>
       <DetailsItem v-if="details['number_of_episodes']">
         <template #label>Počet epizód</template>
-        <template #content>{{details['number_of_episodes']}} epizód</template>
+        <template #content>{{details['number_of_episodes']}}</template>
       </DetailsItem>
       <DetailsItem v-if="details['runtime']">
         <template #label>Dĺžka</template>

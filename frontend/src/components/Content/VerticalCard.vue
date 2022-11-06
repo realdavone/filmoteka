@@ -1,5 +1,5 @@
 <template>
-  <router-link tabindex="0" :class="`title-card user-select-none ${store.methods.watched.exists({ type: item.media_type || item.type, id: item.id }) ? 'seen' : ''}`" :to="`/${item.media_type || item.type}/${item.id}`">
+  <router-link tabindex="0" :title="item.name || item.title" :class="`title-card user-select-none ${store.methods.watched.exists({ type: item.media_type || item.type, id: item.id }) ? 'seen' : ''}`" :to="`/${item.media_type || item.type}/${item.id}`">
     <div class="poster">
       <img @load="fadeIn" class="poster" :src="`https://www.themoviedb.org/t/p/w300${item.img || item.profile_path || item.poster_path}`" loading="lazy" :alt="item.name || item.title">
       <div class="hover">
