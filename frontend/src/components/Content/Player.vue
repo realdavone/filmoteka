@@ -12,7 +12,7 @@
       <Loader :height="'2rem'" :border="'0.2rem'"/>
     </div>
     <iframe @load="loadedIframe = true" v-if="props.source" :class="{ pinned: pinned && store.state.settings.pinnedPlayer }" :src="props['source']" frameborder="0" loading="lazy" allowfullscreen></iframe>
-    <div v-if="!props['isReady']['status']" class="warning">
+    <div v-if="!props['isReady']['status']" class="message">
       <span class="material-icons-outlined">event</span>
       <span>{{ props['isReady']['message'] }}</span>
     </div>
@@ -121,11 +121,15 @@ section.player-holder{
       box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
     }
   }
-  div.warning{
+  div.message{
     display:flex;
     align-items:center;
+    justify-content:center;
     gap:0.5rem;
     color:var(--font-color-dark);
+    background-color:#ffffff05;
+    width:100%;
+    padding:1.5rem 1rem;
     span:first-of-type{ font-size:1.25rem }
     span:last-of-type{ font-size:0.75rem }
   }
