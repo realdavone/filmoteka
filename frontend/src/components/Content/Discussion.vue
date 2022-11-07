@@ -1,13 +1,18 @@
 <template>
   <section class="container">
     <button class="add-comment" @click="openModal">Pridať komentár...</button>
-    <div class="subtitle">Komentáre</div>
     <div class="comments">
+      <div class="subtitle">Komentáre</div>
       <template v-if="!loading">
         <div v-if="data.length > 0" class="comment" v-for="comment in data" :key="comment.id">
           <header>
-            <span :style="`${store.state.credentials.user?.email === comment.author?.email && 'color:var(--theme-color)'}`">{{comment.author?.email}}</span>
-            <span>{{new Date(comment.createdAt).toLocaleString('sk-SK')}}</span>
+            <div class="left-col">
+              <span :style="`${store.state.credentials.user?.email === comment.author?.email && 'color:var(--theme-color)'}`">{{comment.author?.email}}</span>
+              <span> @ {{new Date(comment.createdAt).toLocaleString('sk-SK')}}</span>
+            </div>
+            <button v-if="store.state.credentials.user?.email === comment.author?.email" @click="deleteComment(comment._id)">
+              <span class="material-icons">delete_outline</span>
+            </button>
           </header>
           <div class="content">{{comment.content}}</div>
         </div>
@@ -55,6 +60,18 @@ const fetchComments = () => {
   })
 }
 
+const deleteComment = id => {
+  getData({ endpoint: `/comments`, options: {
+    method: 'DELETE',
+    body: JSON.stringify({id})
+  }})
+  .then(res => {
+    if(res.success) fetchComments()
+    else throw(res.message || 'Nastala chyba')
+  })
+  .catch(error => error.value = error)
+}
+
 onBeforeMount(() => fetchComments())
 
 const openModal = () => isModalOpen.value = !isModalOpen.value
@@ -68,17 +85,18 @@ span.no-comments{
 }
 button.add-comment{
   background-color:var(--card-color-hover);
-  padding:1rem 1.25rem;
+  padding:0.75rem 1.25rem;
   width:100%;
   border-radius:3rem;
   text-align:left;
-  font-size:1.1rem;
+  font-size:1rem;
   margin-bottom:1rem;
 }
 div.subtitle{
   font-size:1.05rem;
   padding:0.5rem 0;
   font-weight:700;
+  align-self:flex-start;
 }
 div.comments{
   display:flex;
@@ -88,6 +106,7 @@ div.comments{
   max-height:300px;
   min-height:2.5rem;
   overflow:auto;
+  padding:0 1.25rem;
   &::-webkit-scrollbar{width:15px;height:15px;}
   &::-webkit-scrollbar-thumb{background:var(--card-color-hover);border:4px solid transparent;border-radius:10px;background-clip:content-box;}
   div.comment{
@@ -99,11 +118,17 @@ div.comments{
     gap:0.5rem;
     align-self:stretch;
     header{
-      font-size:0.75rem;
       display:flex;
-      align-items:flex-end;
+      align-items:center;
+      justify-content:space-between;
       gap:0.5rem;
-      span:last-of-type{ color:var(--alternative-color); }
+      div.left-col{
+        font-size:0.75rem;
+      }
+      button{
+        color:crimson;
+        span{ font-size:1rem }
+      }
     }
   }
 }

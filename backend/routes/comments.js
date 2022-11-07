@@ -7,6 +7,6 @@ const router = express.Router()
 
 router.get('/:type/:id', getComments)
 router.post('/add', auth, addComment)
-router.delete('/:type/:id', auth, deleteComment)
+router.delete('/', auth, deleteComment)
 
 export default router
