@@ -8,6 +8,7 @@
 import functions from '../utils/main.js'
 import { onMounted, onUnmounted } from 'vue'
 
+
 const props = defineProps({ isVisible: Boolean })
 const emit = defineEmits(['close'])
 

@@ -49,9 +49,9 @@ export const toggleNonWorkingTitle = async (req, res) => {
 export const toggleRecommendedTitle = async (req, res) => {
   const { type, id } = req.body
 
-  let title = await Title.findOne({ type, id })
+  let title = await Title.findOneAndUpdate({ type, id }, { img: req.body.img })
 
-  if(title === null) { title = await Title.create(req.body) }
+  if(title === null) title = await Title.create(req.body)
 
   let recommended = await RecommendedTitle.findOne({ title: title._id })
 

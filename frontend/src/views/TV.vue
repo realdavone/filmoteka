@@ -93,6 +93,7 @@
       </template>
     </PlayerDetails>
     <template v-if="!loading">
+      <Discussion v-if="store.state.credentials.loggedIn" :title="{ type: 'tv', id: route.params.id }" />
       <CastPanel v-once v-if="cast.length !== 0">
         <template #title>Herci</template>
         <template #card>
@@ -104,8 +105,8 @@
         </template>
       </CastPanel>
       <CardPanel v-if="similarTV.length !== 0">
-          <template #title>Podobné</template>
-          <template #card><VerticalCard v-for="item in similarTV" :key="item.id" :item="item"/></template>
+        <template #title>Podobné</template>
+        <template #card><VerticalCard v-for="item in similarTV" :key="item.id" :item="item"/></template>
       </CardPanel>
     </template>
   </main>
@@ -129,6 +130,7 @@ import ActionMenu from '../components/ActionMenu.vue'
 import PlayerDetails from '../components/Content/PlayerDetails.vue'
 import ActionButton from '../components/Buttons/ActionButton.vue'
 import Feedback from '../components/Content/Feedback.vue'
+import Discussion from '../components/Content/Discussion.vue'
 
 const route = useRoute()
 const router = useRouter()

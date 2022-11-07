@@ -15,6 +15,7 @@ import searchRoutes from './routes/search.js'
 import discoverRoutes from './routes/discover.js'
 import resourcesRoutes from './routes/resources.js'
 import panelRoutes from './routes/panel.js'
+import commentsRoutes from './routes/comments.js'
 
 const app = express()
 dotenv.config()
@@ -43,5 +44,6 @@ app.use('/api/search', searchRoutes)
 app.use('/api/discover', discoverRoutes)
 app.use('/api/panel', panelRoutes)
 app.use('/api/resources', resourcesRoutes)
+app.use('/api/comments', commentsRoutes)
 
 server.listen(process.env.PORT || 5000, () => { console.log(`Server started at port ${process.env.PORT || 5000}`) })

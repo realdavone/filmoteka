@@ -81,7 +81,8 @@ button{
   cursor:pointer;
   color:inherit;
 }
-input{
+input, textarea{
+  background:none;
   border:none;
   outline:none;
   font-family:inherit;

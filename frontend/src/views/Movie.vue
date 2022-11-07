@@ -90,6 +90,7 @@
       </template>
     </PlayerDetails>
     <template v-if="!loading">
+      <Discussion v-if="store.state.credentials.loggedIn" :title="{ type: 'movie', id: route.params.id }" />
       <Collection v-once v-if="result['belongs_to_collection']" :collection="result['belongs_to_collection']"/>
       <CastPanel v-once v-if="cast.length !== 0">
         <template #title>Herci</template>
@@ -128,6 +129,7 @@ import ActionMenu from '../components/ActionMenu.vue'
 import PlayerDetails from '../components/Content/PlayerDetails.vue'
 import ActionButton from '../components/Buttons/ActionButton.vue'
 import Feedback from '../components/Content/Feedback.vue'
+import Discussion from '../components/Content/Discussion.vue'
 
 const route = useRoute()
 const router = useRouter()

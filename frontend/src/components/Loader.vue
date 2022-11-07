@@ -1,5 +1,5 @@
 <template>
-  <div class="loader" :style="{ height: height, borderWidth: border}"></div>
+  <div class="loader" :style="{ height: height, width: height, borderWidth: border}"></div>
 </template>
 
 <script setup>
@@ -15,6 +15,7 @@ div.loader {
   border-top: 0.1rem solid transparent;
   border-radius: 50%;
   height:calc(1rem - 2 * 0.1rem);
+  width:calc(1rem - 2 * 0.1rem);
   aspect-ratio:1;
   animation: spin 1s linear infinite;
 }
