@@ -1,21 +1,11 @@
 <template>
   <section class="container">
+    <Title>Diskusia</Title>
     <button class="add-comment" @click="openModal">Pridať komentár...</button>
     <div class="comments">
-      <div class="subtitle">Komentáre</div>
       <template v-if="!loading">
-        <div v-if="data.length > 0" class="comment" v-for="comment in data" :key="comment.id">
-          <header>
-            <div class="left-col">
-              <span :style="`${store.state.credentials.user?.email === comment.author?.email && 'color:var(--theme-color)'}`">{{comment.author?.email}}</span>
-              <span> @ {{new Date(comment.createdAt).toLocaleString('sk-SK')}}</span>
-            </div>
-            <button v-if="store.state.credentials.user?.email === comment.author?.email" @click="deleteComment(comment._id)">
-              <span class="material-icons">delete_outline</span>
-            </button>
-          </header>
-          <div class="content">{{comment.content}}</div>
-        </div>
+        <div v-if="error" class="error">{{error}}</div>
+        <Comment v-if="data.length > 0" v-for="comment in data" :key="comment.id" :comment="comment" @deleted="fetchComments"/>
         <span v-else class="no-comments">Žiadne komentáre</span>
       </template>
       <Loader v-else :height="'1.5rem'" :border="'0.25rem'" />
@@ -29,13 +19,14 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount, inject } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 
-import SubmitCommentModal from '../SubmitCommentModal.vue';
+import SubmitCommentModal from '../SubmitCommentModal.vue'
 import Loader from '../Loader.vue'
-import getData from '../../api/main'
+import Comment from './Comment.vue'
+import Title from './Title.vue'
 
-const store = inject('store')
+import getData from '../../api/main'
 
 const { title } = defineProps({ title: Object })
 
@@ -47,32 +38,20 @@ const loading = ref(null)
 const error = ref(null)
 
 const fetchComments = () => {
+  loading.value = true
+  error.value = null
   getData({ endpoint: `/comments/${title.type}/${title.id}` })
-  .then(response => {
-    loading.value = true
-    error.value = null
-    data.value = response
-  })
-  .catch(error => error.value = error)
+  .then(response => data.value = response)
+  .catch(err => error.value = err)
   .finally(() => {
     isModalOpen.value = false
     loading.value = false
   })
 }
 
-const deleteComment = id => {
-  getData({ endpoint: `/comments`, options: {
-    method: 'DELETE',
-    body: JSON.stringify({id})
-  }})
-  .then(res => {
-    if(res.success) fetchComments()
-    else throw(res.message || 'Nastala chyba')
-  })
-  .catch(error => error.value = error)
-}
-
-onBeforeMount(() => fetchComments())
+onBeforeMount(() => {
+  if(!loading.value) fetchComments()
+})
 
 const openModal = () => isModalOpen.value = !isModalOpen.value
 </script>
@@ -83,6 +62,10 @@ span.no-comments{
   align-self:flex-start;
   color:var(--alternative-color)
 }
+div.error{
+  align-self:flex-start;
+  color:crimson
+}
 button.add-comment{
   background-color:var(--card-color-hover);
   padding:0.75rem 1.25rem;
@@ -92,12 +75,6 @@ button.add-comment{
   font-size:1rem;
   margin-bottom:1rem;
 }
-div.subtitle{
-  font-size:1.05rem;
-  padding:0.5rem 0;
-  font-weight:700;
-  align-self:flex-start;
-}
 div.comments{
   display:flex;
   flex-direction:column;
@@ -106,30 +83,7 @@ div.comments{
   max-height:300px;
   min-height:2.5rem;
   overflow:auto;
-  padding:0 1.25rem;
   &::-webkit-scrollbar{width:15px;height:15px;}
   &::-webkit-scrollbar-thumb{background:var(--card-color-hover);border:4px solid transparent;border-radius:10px;background-clip:content-box;}
-  div.comment{
-    background-color:var(--card-color);
-    padding:1rem;
-    border-radius:1rem;
-    display:flex;
-    flex-direction:column;
-    gap:0.5rem;
-    align-self:stretch;
-    header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:0.5rem;
-      div.left-col{
-        font-size:0.75rem;
-      }
-      button{
-        color:crimson;
-        span{ font-size:1rem }
-      }
-    }
-  }
 }
 </style>

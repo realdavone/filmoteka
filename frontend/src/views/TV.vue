@@ -93,7 +93,7 @@
       </template>
     </PlayerDetails>
     <template v-if="!loading">
-      <Discussion v-if="store.state.credentials.loggedIn" :title="{ type: 'tv', id: route.params.id }" />
+      <Discussion v-if="store.state.credentials.loggedIn && $route.params.id" :title="{ type: 'tv', id: $route.params.id }" />
       <CastPanel v-once v-if="cast.length !== 0">
         <template #title>Herci</template>
         <template #card>

@@ -26,6 +26,8 @@ export const deleteComment = async (req, res) => {
   Comment.findById(id, (err, comment) => {
     if(err) return res.status(500).json({ success: false, message: 'Niečo sa pokazilo' })
 
+    if(!comment) return res.status(404).json({ success: false, message: 'Komentár neexistuje' })
+
     if(comment.author.toString() !== userId) return res.status(403).json({ success: false, message: 'Môžete mazať len svoje komentáre' })
     
     comment.remove()

@@ -90,7 +90,7 @@
       </template>
     </PlayerDetails>
     <template v-if="!loading">
-      <Discussion v-if="store.state.credentials.loggedIn" :title="{ type: 'movie', id: route.params.id }" />
+      <Discussion v-if="store.state.credentials.loggedIn && $route.params.id" :title="{ type: 'movie', id: $route.params.id }" />
       <Collection v-once v-if="result['belongs_to_collection']" :collection="result['belongs_to_collection']"/>
       <CastPanel v-once v-if="cast.length !== 0">
         <template #title>Herci</template>
@@ -102,7 +102,7 @@
           </PersonCard>
         </template>
       </CastPanel>
-      <CardPanel v-if="similarMovies.length !== 0" :scroll="true">
+      <CardPanel v-if="similarMovies.length !== 0">
         <template #title>Podobné</template>
         <template #card><VerticalCard v-for="item in similarMovies" :key="item.id" :item="item"/></template>
       </CardPanel>

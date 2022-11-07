@@ -6,10 +6,13 @@
           <span>{{store.state.credentials.user?.email}}</span>
           <CloseButton @click="emit('close')"/>
         </header>
-        <div v-if="error">{{error}}</div>
+        <div v-if="error" class="error">{{error}}</div>
         <form @submit.prevent="submitComment">
           <textarea ref="textarea" v-model="content" type="text" placeholder="Napíš komentár..."></textarea>
-          <button :disabled="content.length === 0">Komentovať</button>
+          <button :disabled="content.length === 0 || loading === true">
+            Komentovať
+            <Loader v-if="loading" />
+          </button>
         </form>
       </div>
     </template>
@@ -23,6 +26,7 @@ import getData from '../api/main.js'
 
 import CloseButton from './Buttons/CloseButton.vue'
 import Modal from './Modal.vue'
+import Loader from './Loader.vue'
 
 const { title } = defineProps({ title: Object })
 const emit = defineEmits(['close', 'submitted'])
@@ -54,17 +58,11 @@ const submitComment = () => {
     }
   })
   .then(response => {
-    if(response.success){
-      emit('submitted')
-    }
+    if(response.success) emit('submitted')
+    else throw(response.message || 'Niečo sa pokazilo')
   })
-  .catch(error => {
-    console.log(error)
-    error.value = error
-  })
-  .finally(() => {
-    loading.value = false
-  })
+  .catch(err => error.value = err)
+  .finally(() => loading.value = false)
 }
 
 onMounted(() => textarea.value.focus())
@@ -80,6 +78,7 @@ div.modal{
   gap:0.5rem;
   width:100%;
   max-width:400px;
+  div.error{color:crimson}
   header{
     display:flex;
     justify-content:space-between;
@@ -104,6 +103,10 @@ div.modal{
       background-color:var(--theme-color);
       padding:0.5rem;
       border-radius:0.5rem;
+      display:flex;
+      gap:0.75rem;
+      align-items:center;
+      justify-content:center;
       &:disabled{
         opacity:0.5;
         cursor:default;
