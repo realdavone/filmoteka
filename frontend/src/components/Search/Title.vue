@@ -11,7 +11,7 @@
       <div v-if="title.vote_average !== undefined" class="rating">
         <span>&starf;</span>
         <span>{{title.vote_average}}</span>
-        <span v-if="store.methods.watched.exists({ type: title.type[0].toUpperCase() + title.type.substring(1), id: title.id.toString() })" style="color:var(--theme-color)">&#128065;&#xFE0E;</span>
+        <span v-if="store.methods.watched.exists({ type: title.type[0].toUpperCase() + title.type.substring(1), id: title.id.toString() })" style="color:var(--theme-color);font-size:1rem;" class="material-icons icon">visibility</span>
       </div>
       <div class="overview" v-if="title.overview">{{title.overview}}</div>
     </section>

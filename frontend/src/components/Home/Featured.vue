@@ -63,6 +63,8 @@ section.featured{
     display:flex;
     align-items:center;
     gap:2rem;
+    margin:0 auto;
+    max-width:900px;
     div.poster{
       min-width:200px;
       max-width:200px;
