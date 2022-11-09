@@ -2,24 +2,9 @@
   <main class="container wrapper">
     <TitleB style="margin-bottom:0">Knižnica</TitleB>
     <section class="filter">
-      <!-- <select id="type" v-model="filterParams.type" @change="changeType()"> -->
-        <!-- <option value="movie">Filmy</option> -->
-        <!-- <option value="tv">TV</option> -->
-      <!-- </select> -->
-      <!-- <select id="genres" v-model="filterParams.genre"> -->
-        <!-- <option v-for="[key, value] in store.state.genres[filterParams.type]" :key="key" :value="key">{{value}}</option> -->
-      <!-- </select> -->
-      <!-- <select id="sortby" v-model="filterParams.sort"> -->
-        <!-- <option value="popularity.desc">Popularita ↓</option> -->
-        <!-- <option value="popularity.asc">Popularita ↑</option> -->
-        <!-- <option value="release_date.desc">Dátum vydania ↓</option> -->
-        <!-- <option value="release_date.asc">Dátum vydania ↑</option> -->
-        <!-- <option value="revenue.desc">Tržby ↓</option> -->
-        <!-- <option value="revenue.asc">Tržby ↑</option> -->
-      <!-- </select> -->
-      <SelectOption :options="titleTypes" v-model="filterParams.type" />
-      <SelectOption :options="store.state.genres[filterParams.type]" v-model="filterParams.genre" />
-      <SelectOption :options="sortTypes" v-model="filterParams.sort" />
+      <SelectOption v-model="filterParams.type" @update:modelValue="typeChange" :options="titleTypes" />
+      <SelectOption v-model="filterParams.genre" :options="store.state.genres[filterParams.type]" />
+      <SelectOption v-model="filterParams.sort" :options="sortTypes" />
       <button @click="filter(filterParams.type, filterParams.sort, 1, filterParams.genre)" class="filter-button">
         <span class="label">Filter</span>
       </button>
@@ -57,8 +42,8 @@ const titleTypes = new Map()
 const sortTypes = new Map()
 .set('popularity.desc', 'Popularita ↓')
 .set('popularity.asc', 'Popularita ↑')
-.set('release_date.desc', 'Dátum vydania ↓')
-.set('release_date.asc', 'Dátum vydania ↑')
+.set('release_date.desc', 'Vydanie ↓')
+.set('release_date.asc', 'Vydanie ↑')
 .set('revenue.desc', 'Tržby ↓')
 .set('revenue.asc', 'Tržby ↑')
 
@@ -74,21 +59,21 @@ const titles = ref([])
 
 const loaded = ref(false)
 
+const typeChange = newType => !store.state.genres[newType].has(filterParams.genre) && (filterParams.genre = store.state.genres[filterParams.type].entries().next().value[0])
+
 const url = computed(() => {
   return `/discover/${route.query.type || 'movie'}?sort=${route.query.sort || 'popularity.desc'}&page=${route.query.page || 1}&genre=${route.query.genre || 28}`
 })
 
-const fetchTitles = async(url) => {
-  try {
-    const data = await getData({ endpoint: url })
-
+const fetchTitles = (url) => {
+  getData({ endpoint: url })
+  .then(data => {
     titles.value = titles.value.concat(data.results.filter(title => title.poster_path))
     totalPages.value = data.total_pages
     filterParams.page = data.page
-
-    loaded.value = true
-  }
-  catch (error) { router.push({ name: 'NotFound' }) }
+  })
+  .catch(() => router.push({ name: 'NotFound' }))
+  .finally(() => loaded.value = true)
 }
 
 const filter = (type, sort, page, genre) => { router.push({ name: 'Library', query: { type, sort, genre, page } }) }
@@ -96,8 +81,6 @@ const filter = (type, sort, page, genre) => { router.push({ name: 'Library', que
 const navigate = pageNumber => { router.push({ name: 'Library', query: { ...route.query, page: pageNumber } }) }
 
 onBeforeMount(() => { fetchTitles(url.value) })
-
-const changeType = () => filterParams.genre = store.state.genres[type.value].entries().next().value[0]
 </script>
 
 <style lang="scss" scoped>
@@ -115,20 +98,6 @@ section.filter{
   padding-top:1rem;
   padding-bottom:1rem;
   z-index:5;
-  select{
-    padding:0.5rem;
-    border:none;
-    font-weight:bold;
-    font-size:0.8rem;
-    outline:none;
-    border-radius:0.5rem;
-    cursor:pointer;
-    transition:0.2s ease background;
-    background-color:var(--card-color);
-    color:inherit;
-    option{color:inherit;}
-    &:hover{ background:var(--card-color-hover) }
-  }
   button.filter-button{
     background:var(--theme-color);
     color:white;

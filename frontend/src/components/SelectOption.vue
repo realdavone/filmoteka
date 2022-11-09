@@ -1,9 +1,9 @@
 <template>
   <div class="select">
-    <div class="active-selector" @click="areValuesVisible = !areValuesVisible">{{activeOption[1]}}</div>
+    <div class="active-selector" @click="areValuesVisible = !areValuesVisible">{{options.get(modelValue)}}</div>
     <Transition name="fade">
       <div ref="values" v-show="areValuesVisible" class="values">
-        <div v-for="option in options" :key="option" @click="handleChange(option)" :class="`option ${activeOption[1] === option[1] && 'active'}`">{{option[1]}}</div>
+        <div v-for="option in options" :key="option" @click="handleChange(option)" :class="`option ${options.get(modelValue) === option[1] && 'active'}`">{{option[1]}}</div>
       </div>
     </Transition>
   </div>
@@ -16,12 +16,10 @@ import { ref } from 'vue'
 const { options, modelValue } = defineProps({ options: Map, modelValue: String | Number })
 const emit = defineEmits(['update:modelValue'])
 
-const activeOption = ref([modelValue, options.get(modelValue)])
 const values = ref(null)
 const areValuesVisible = ref(false)
 
 const handleChange = value => {
-  activeOption.value = value
   emit('update:modelValue', value[0])
   areValuesVisible.value = false
 }
@@ -36,11 +34,11 @@ div.select{
   border-radius:0.5rem;
   cursor:pointer;
   position:relative;
-  isolation:isolate;
   div.active-selector{
     font-size:0.75rem;
   }
   div.values{
+    z-index:2;
     border-radius:0.5rem;
     padding:0.75rem;
     top:calc(100% + 0.5rem);
