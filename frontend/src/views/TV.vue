@@ -4,6 +4,9 @@
       <template #poster>
         <img v-if="details?.poster" class="poster" :src="`https://www.themoviedb.org/t/p/w300${details['poster']}`" :alt="details['title']">
       </template>
+      <template #rating>
+        <Rating :rating="details?.['ratings']?.[0]?.['rating']" :url="details?.['ratings']?.[0]?.['url']" />
+      </template>
       <template #feedback>
         <Feedback v-if="!loading && store.state.credentials.loggedIn && (new Date()) > new Date(result['first_air_date'])" :state="{ likes: details?.likes, dislikes: details?.dislikes }" :title="{ id: $route.params.id, type: 'tv' }"/>
       </template>
@@ -22,7 +25,7 @@
               title="Fungujúci prehrávač"
               :warning="!isPlayerWorking.value"
               @handleClick="toggleWorkingPlayer({ id: route.params.id, img: details['poster'], type: route.name, title: details['title'] })">
-                <template #icon><span class="icon">&#9888;</span></template>
+                <template #icon><span class="material-icons icon">report_problem</span></template>
                 <template #label><span class="label">Nahlásiť prehrávač</span></template>
               </ActionButton>
               <ActionButton
@@ -131,6 +134,7 @@ import PlayerDetails from '../components/Content/PlayerDetails.vue'
 import ActionButton from '../components/Buttons/ActionButton.vue'
 import Feedback from '../components/Content/Feedback.vue'
 import Discussion from '../components/Content/Discussion.vue'
+import Rating from '../components/Content/Rating.vue' 
 
 const route = useRoute()
 const router = useRouter()
@@ -182,7 +186,7 @@ const fetchData = async (id) => {
       ratings: [
         {
           name: 'TMDB',
-          rating: (Math.floor(parseFloat(result.value['vote_average'])*10)/10).toString(),
+          rating: (Math.floor(parseFloat(result.value['vote_average']) * 10) / 10),
           url: `https://www.themoviedb.org/tv/${route.params.id}`
         },
         {

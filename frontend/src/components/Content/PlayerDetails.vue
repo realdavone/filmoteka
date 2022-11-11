@@ -22,9 +22,12 @@
           <div class="skeleton-text" style="height:calc(0.75rem * 1.4);width:120px;"></div>
         </slot>
         <div class="overview">
+          <slot name="rating" />
           <slot name="shortOverview">
-            <div class="skeleton-text" style="height:calc(0.7rem * 1.4);"></div>
-            <div class="skeleton-text" style="height:calc(0.7rem * 1.4);"></div>
+            <div style="width:100%">
+              <div class="skeleton-text" style="height:calc(0.7rem * 1.4);margin-bottom:0.5rem;"></div>
+              <div class="skeleton-text" style="height:calc(0.7rem * 1.4);"></div>
+            </div>
           </slot>
         </div>
         <slot name="feedback" />
@@ -76,7 +79,7 @@ section.container{
     min-width:200px;
     max-width:200px;
     background:var(--card-color-hover);
-    border-radius:16px;
+    border-radius:1rem;
     overflow:hidden;
     z-index:1;
     position:relative;
@@ -86,7 +89,7 @@ section.container{
     display:flex;
     align-items:center;
     justify-content:center;
-    gap:1.5rem;
+    gap:2rem;
     padding:var(--container-padding);
     margin:0 calc(0px - var(--container-padding));
     background-repeat:no-repeat;
@@ -135,8 +138,8 @@ section.container{
 }
 div.overview{
   display:flex;
-  flex-direction:column;
-  gap:5px;
+  gap:1rem;
+  align-items:center;
   align-self:stretch;
 }
 :slotted(div.under-title){

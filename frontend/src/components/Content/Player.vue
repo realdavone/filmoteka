@@ -1,7 +1,9 @@
 <template>
   <section id="player-holder" class="player-holder user-select-none">
     <div v-if="!props.source && props['isReady']['status'] === true" class="not-pressed">
-      <div v-if="isPlayerWorking === false" class="player-warning">Prehrávač bol označený ako nefunkčný</div>
+      <Transition name="fade">
+        <div v-if="!isPlayerWorking" class="player-warning">Prehrávač bol označený ako nefunkčný</div>
+      </Transition>
       <button v-if="store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn" @click="$emit('setPlayer')" class="play-button">&#9654;</button>
       <button v-else class="locked-player" @click="$router.push('/login')">
         <span class="material-icons-outlined">lock</span>
@@ -66,12 +68,13 @@ section.player-holder{
   }
   div.player-warning{
     position:absolute;
-    top:0;
+    top:1rem;
     z-index:2;
-    color:crimson;
-    font-weight:700;
-    font-size:0.8rem;
-    padding:5px;
+    font-size:0.75rem;
+    text-align:center;
+    background-color:#dc143c80;
+    padding:0.5rem 1rem;
+    border-radius:1rem;
   }
   button.locked-player{
     display:flex;
@@ -79,15 +82,18 @@ section.player-holder{
     gap:10px;
     position:relative;
     z-index:2;
-    border:2px solid #ffffff80;
+    border:2px solid #ffffff10;
     padding:0.5rem 0.75rem;
     border-radius:0.5rem;
     text-align:center;
     color:var(--font-color-dark);
-    transition:0.2s ease border;
+    transition:0.2s ease all;
     span:first-of-type{ font-size:1rem; }
     span:last-of-type{ font-size:0.75rem; }
-    &:hover{border:2px solid var(--theme-color);}
+    &:hover{
+      border:2px solid var(--theme-color);
+      background-color:#ffffff10;
+    }
   }
   div.not-pressed{
     padding:15px;

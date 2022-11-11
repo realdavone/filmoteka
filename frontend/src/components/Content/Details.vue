@@ -44,7 +44,7 @@
     <section class="ratings">
       <span class="label">Hodnotenia</span>
       <div class="ratings">
-        <Rating v-for="(rating, index) in details['ratings']" :key="index" :rating="rating['rating']" :url="rating['url']" :name="rating['name']"/>
+        <Rating v-for="(rating, index) in details['ratings'].slice(1)" :key="index" :rating="rating['rating']" :url="rating['url']" :name="rating['name']"/>
       </div>
     </section>
 

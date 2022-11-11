@@ -1,7 +1,7 @@
 <template>
   <section class="filmography user-select-none">
     <table v-if="props.items.length !== 0" class="filmography">
-      <tr v-for="(title, index) in titles" :key="index" :class="{'border-top': (title.release_date || title.first_air_date) && index !== 0 && getFullYear(titles[index - 1]['release_date' || 'first_air_date']) !== getFullYear(title.release_date || title.first_air_date)}">
+      <tr v-for="(title, index) in titles" :key="index">
         <td class="year">
           <span v-if="title.release_date || title.first_air_date">
             {{index === 0 ? getFullYear(title.release_date||title.first_air_date) : getFullYear(titles[index - 1]['release_date' || 'first_air_date']) !== getFullYear(title.release_date || title.first_air_date) ? getFullYear(title.release_date || title.first_air_date) : ''}}
@@ -10,7 +10,7 @@
         </td>
         <td class="watched">
           <div v-if="store.methods.watched.exists({ type: props.type[0].toUpperCase() + props.type.substring(1), id: title.id.toString() })">
-            <span class="material-symbols-outlined" style="color:var(--theme-color)">visibility</span>
+            <span class="material-icons" style="color:var(--theme-color)">visibility</span>
           </div> 
         </td>
         <td class="title">
@@ -90,8 +90,8 @@ section.filmography{
           padding-left:8px; 
         }
       }
+      &:last-child{border-bottom:none;}
     }
-    tr:last-child{border-bottom:none;}
   }
   div.title{padding-bottom:5px;}
   i.as{
