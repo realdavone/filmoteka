@@ -1,6 +1,6 @@
 <template>
   <component :is="url ? 'a' : 'div'" :href="url && url" target="_blank" :class="`rating ${getCat(parseInt(rating))} ${size}`" v-if="rating">
-    <span class="rating">{{rating}}</span>
+    <span class="rating">{{isNaN(rating) ? rating : Math.floor(rating * 10) / 10}}</span>
     <span v-if="name" class="name">{{name}}</span>
   </component>
 </template>
@@ -9,7 +9,7 @@
 const { rating, name, url, size } = defineProps({ rating: Number | String, url: String, name: String, size: { type: String, default: 'normal' } })
 
 const getCat = rating => {
-  if(isNaN(rating)) return
+  if(isNaN(rating) || rating === 0) return
   if(rating > 10) rating = rating / 10
   return parseFloat(rating) < 2.5 ? 'low' : parseFloat(rating) < 7.0 ? 'medium' : 'high'
 }
@@ -21,6 +21,7 @@ div.rating, a.rating{
   --borderWidth:0.25rem;
   --fontSizeRating:0.85rem;
   --fontSizeName:0.65rem;
+
   background-color:var(--card-color);
   aspect-ratio:1;
   display:flex;

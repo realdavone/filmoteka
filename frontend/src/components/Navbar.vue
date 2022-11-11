@@ -2,7 +2,7 @@
   <nav v-auto-animate class="container">
     <div v-if="!isSearchRendered" class="left-menu">
       <NavButton @handleClick="isMenuOpened = !isMenuOpened">
-        <template #icon><span style="font-size:1.5rem;line-height:1">&#9776;</span></template>
+        <template #icon><span class="material-icons" style="font-size:1.5rem;line-height:1">menu</span></template>
       </NavButton>
     </div>
     <div v-if="isSearchRendered" class="middle">
@@ -15,7 +15,7 @@
     </div>
     <div v-if="!isSearchRendered" class="right-menu">
       <NavButton title="Vyhľadávanie" @handleClick="isSearchRendered = true">
-        <template #icon><span class="material-icons-outlined" style="padding-top:5px;font-weight:700;color:var(--theme-color);">search</span></template>
+        <template #icon><span class="material-icons" style="padding-top:5px;font-weight:700;color:var(--theme-color);">search</span></template>
       </NavButton>
       <template v-if="store.state.credentials.loggedIn">
         <NavButton class="icon-hide" title="Knižnica" @handleClick="$router.push('/library')">
