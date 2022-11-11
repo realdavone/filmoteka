@@ -1,7 +1,7 @@
 <template>
   <section class="container">
     <Title>Diskusia</Title>
-    <button class="add-comment" @click="openModal">Pridať komentár...</button>
+    <button class="add-comment" @click="openModal">Napísať komentár...</button>
     <div class="comments">
       <template v-if="!loading">
         <div v-if="error" class="error">{{error}}</div>

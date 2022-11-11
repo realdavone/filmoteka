@@ -15,16 +15,22 @@ const getGlobalSettings = store.methods.globalSettings.init()
 _.initLoader()
 
 Promise.all([autoLogin, getGlobalSettings]).then(values => {
-  store.state.globalSettings = values[1]
+  const [attemptLogin, globals] = values
+
+  store.state.globalSettings = globals
   
   router.beforeEach((to, from) => {
     if(to.meta.denyAccessAsLoggedIn && store.state.credentials.loggedIn !== false) return '/' 
-    if(to.meta.requiresAdmin && store.state.credentials.loggedIn === false) return { name: 'Login' }
+    if(to.meta.requiresAdmin && store.state.credentials.loggedIn === false) return '/login'
   })
 
-  createApp(App).use(router).use(autoAnimatePlugin).use(Notifications).mount('#app')
+  createApp(App)
+  .use(router)
+  .use(autoAnimatePlugin)
+  .use(Notifications)
+  .mount('#app')
 
-  if(values[0]?.success) notify({ type: 'success', text: values[0]['message'] })
+  if(attemptLogin?.success) notify({ type: 'success', text: attemptLogin['message'] })
   
   store.initializeData()
 })

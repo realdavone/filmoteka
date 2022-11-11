@@ -2,7 +2,7 @@
   <div class="comment">
     <header>
       <div class="left-col">
-        <span :style="`${store.state.credentials.user?.email === comment.author?.email && 'color:var(--theme-color)'}`">{{comment.author?.email}}</span>
+        <span :class="`${store.state.credentials.user?.email === comment.author?.email && 'me'}`">{{comment.author?.email}}</span>
         <span> @ {{new Date(comment.createdAt).toLocaleString('sk-SK')}}</span>
       </div>
       <button v-if="store.state.credentials.user?.email === comment.author?.email" :disabled="loading" @click="deleteComment(comment._id)">
@@ -41,9 +41,6 @@ const store = inject('store')
 
 <style lang="scss" scoped>
 div.comment{
-  background-color:var(--card-color);
-  padding:1rem;
-  border-radius:1rem;
   display:flex;
   flex-direction:column;
   gap:0.5rem;
@@ -55,6 +52,21 @@ div.comment{
     gap:0.5rem;
     div.left-col{
       font-size:0.75rem;
+      span:first-of-type{
+        color:var(--theme-color);
+        display:inline-flex;
+        align-items:center;
+        gap:0.25rem;
+        &.me::before{
+          content:'JA';
+          color:var(--font-color-dark);
+          background-color:var(--theme-color);
+          font-size:0.55rem;
+          line-height:1;
+          padding:0.15rem 0.25rem;
+          border-radius:0.15rem;
+        }
+      }
     }
     button{
       color:crimson;

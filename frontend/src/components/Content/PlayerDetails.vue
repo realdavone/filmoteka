@@ -194,5 +194,6 @@ section.player-details-holder{
     max-width:100px!important;
   }
   :slotted(span.title){ font-size:1.25rem }
+  div.right-col{ gap:1rem!important }
 }
 </style>

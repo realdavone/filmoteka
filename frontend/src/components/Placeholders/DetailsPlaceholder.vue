@@ -9,7 +9,7 @@
     <div class="skeleton-text" style="height:1.25rem;width:160px"></div>
     <div class="ratings">
       <div>
-        <div class="rating" v-for="i in 4" :key="i"></div>
+        <div class="rating" v-for="i in 3" :key="i"></div>
       </div>
     </div>
     <div class="skeleton-text" style="height:1.25rem;width:160px"></div>
@@ -71,10 +71,6 @@ div.ratings{
     height:40px;
     background-color:var(--card-color-hover);
     border-radius:50%;
-    &:nth-child(1){
-      width:60px;
-      height:60px;
-    }
   }
 }
 div.overview{

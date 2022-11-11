@@ -6,7 +6,10 @@
       </NavButton>
       <div class="right-menu">
         <template v-if="store.state.credentials.loggedIn">
-          <span style="font-size:0.75rem">{{store.state.credentials.user.email.split('@')[0]}}</span>
+          <div class="user">
+            <span class="material-icons">account_circle</span>
+            <span style="font-size:0.75rem">{{store.state.credentials.user.email.split('@')[0]}}</span>
+          </div>
           <button class="logout-button" @click="logout(); closeMenu()">Odhlásiť sa</button>
         </template>
       </div>
@@ -123,18 +126,21 @@ aside{
       margin-left:auto;
       display:flex;
       align-items:center;
-      gap:10px;
-      button{
+      gap:0.75rem;
+      div.user{
         display:flex;
-        justify-content:center;
         align-items:center;
-        gap:5px;
-        font-size:0.75rem;
-        &.logout-button{ 
-          outline:1px solid var(--font-color);
-          padding:3px 6px;
-          border-radius:2px;
+        justify-content:center;
+        gap:0.5rem;
+        span:last-of-type{
+          line-height:1;
         }
+      }
+      button.logout-button{
+        font-size:0.65rem;
+        outline:1px solid var(--font-color);
+        padding:3px 6px;
+        border-radius:0.25rem;
       }
     }
   }

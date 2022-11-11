@@ -3,7 +3,10 @@
     <template #modal>
       <div ref="modal" class="modal"> 
         <header>
-          <span>{{store.state.credentials.user?.email}}</span>
+          <div class="user">
+            <span class="material-icons">account_circle</span>
+            <span>{{store.state.credentials.user?.email}}</span>
+          </div>
           <CloseButton @click="emit('close')"/>
         </header>
         <div v-if="error" class="error">{{error}}</div>
@@ -83,7 +86,13 @@ div.modal{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    span{ font-size:0.85rem; }
+    div.user{
+      display:flex;
+      align-items:center;
+      gap:0.25rem;
+      span:first-of-type{ font-size:1.25rem; }
+      span:last-of-type{ font-size:0.85rem; }
+    }
   }
   form{
     display:flex;
@@ -101,12 +110,15 @@ div.modal{
     }
     button{
       background-color:var(--theme-color);
-      padding:0.5rem;
+      padding:0.5rem 1rem;
       border-radius:0.5rem;
       display:flex;
       gap:0.75rem;
       align-items:center;
       justify-content:center;
+      color:var(--font-color-dark);
+      font-weight:700;
+      align-self:flex-end;
       &:disabled{
         opacity:0.5;
         cursor:default;
