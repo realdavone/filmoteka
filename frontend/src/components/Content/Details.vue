@@ -122,7 +122,7 @@ section.title{
   }
   section.ratings{
     align-self:stretch;
-    padding:0 0 10px 0;
+    padding-bottom:1.5rem;
     div.ratings{
       margin-top:1rem;
       display:flex;
