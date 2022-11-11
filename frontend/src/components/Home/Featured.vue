@@ -12,8 +12,7 @@
         <div v-else class="skeleton-text" style="height:1.75rem;width:25%;min-width:180px;"></div>
 
         <div v-if="title?.vote_average !== undefined" class="rating">
-          <span>&starf;</span>
-          <span>{{Math.round(title?.vote_average * 10) / 10}}</span>
+          <Rating :rating="Math.round(title?.vote_average * 10) / 10"/>
           <TypeIcon :type="title?.media_type"/>
         </div>
         <div v-else class="skeleton-text" style="height:1.75rem;width:60px;"></div>
@@ -30,6 +29,7 @@
 <script setup>
 import TypeIcon from '../Content/TypeIcon.vue'
 import BasicButton from '../Buttons/BasicButton.vue'
+import Rating from '../Content/Rating.vue'
 
 const hide = el => el.target.style.display = 'none'
 
@@ -133,7 +133,6 @@ section.featured{
         text-overflow: ellipsis;
         overflow: hidden;
         font-size:0.85rem;
-        text-align:justify;
       }
       button.go-to-button{
         align-self:flex-start;

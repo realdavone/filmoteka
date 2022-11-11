@@ -41,15 +41,12 @@
       </DetailsItem>
     </div>
 
-    <div class="ratings">
+    <section class="ratings">
       <span class="label">Hodnotenia</span>
-      <div>
-        <a :class="(index === 0 ? `primary ${getCat(rating['rating'])}` : 'secondary')" v-for="(rating, index) in details['ratings'].filter(item => item['rating'])" :key="index" :href="rating['url']" target="_blank">
-          <span>{{rating['rating']}}</span>
-          <span v-if="index > 0">{{rating['name']}}</span>
-        </a>
+      <div class="ratings">
+        <Rating v-for="(rating, index) in details['ratings']" :key="index" :rating="rating['rating']" :url="rating['url']" :name="rating['name']"/>
       </div>
-    </div>
+    </section>
 
     <div class="overview">
       <span class="label">Prehľad</span>
@@ -67,7 +64,7 @@
       </div>
     </div>
 
-    <div v-if="details['networks'].length !== 0" class="networks" ref="networks">
+    <div v-if="details['networks'].length !== 0" class="networks">
       <img div v-for="network, i in details['networks']" :key="network.id" @error="hideNetwork" :src="`https://www.themoviedb.org/t/p/original${network.logo_path.split('.')[0] + '.svg'}`" :alt="network.name" :title="network.name">
     </div>
   </section>
@@ -75,6 +72,7 @@
 
 <script setup>
 import DetailsItem from './DetailsItem.vue'
+import Rating from './Rating.vue'
 
 import { inject, ref } from 'vue'
 import { useRoute } from 'vue-router'
@@ -85,7 +83,6 @@ const route = useRoute()
 const store = inject('store')
 const type = ref(route.name.charAt(0).toLowerCase() + route.name.substr(1))
 const details = ref(props['details'])
-const networks = ref(null)
 
 const hideNetwork = el => el.target.style.display = 'none'
 
@@ -123,51 +120,14 @@ section.title{
     font-weight:700;
     font-size:1.05rem;
   }
-  div.ratings{
+  section.ratings{
     align-self:stretch;
     padding:0 0 10px 0;
-    div{
-      margin-top:15px;
+    div.ratings{
+      margin-top:1rem;
       display:flex;
-      align-items:center;
-      gap:15px;
-      a{
-        font-family:monospace;
-        background-color:var(--card-color-hover);
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        &.primary{
-          width:60px;
-          height:60px;
-          outline:4px solid var(--card-color-hover);
-          border-radius:30px;
-          font-weight:700;
-          font-size:1rem;
-          transition:0.2s ease transform;
-          &.low{border:5px solid crimson}
-          &.medium{border:5px solid goldenrod}
-          &.high{border:5px solid green}
-          &:hover{ transform:scale(1.05) }
-        }
-        &.secondary{
-          width:40px;
-          height:40px;
-          border-radius:25px;
-          flex-direction:column;
-          font-size:0.75rem;
-          position:relative;
-          span:nth-child(1){ font-weight:700 }
-          span:nth-child(2){
-            position:absolute;
-            top:calc(100% + 5px);
-            text-align:center;
-            line-height:1;
-            font-size:0.5rem;
-            pointer-events:none;
-          }
-        }
-      }
+      align-items:flex-star;
+      gap:1rem;
     }
   }
   div.networks{

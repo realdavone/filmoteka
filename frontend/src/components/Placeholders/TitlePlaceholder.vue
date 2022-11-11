@@ -4,17 +4,13 @@
     </div>
     <div class="text-holder">
       <div class="skeleton-text" style="height:1.15rem;width:50%;"></div>
-      <div class="skeleton-text" style="width:1rem"></div>
+      <div class="rating"></div>
       <div class="text">
         <div v-for="i in 2" :key="i" class="skeleton-text" style="height:0.75rem"></div>
       </div>
     </div>
   </div>
 </template>
-
-<script setup>
-import Logo from '../Logo.vue'
-</script>
 
 <style lang="scss" scoped>
 div.title{
@@ -42,11 +38,10 @@ div.title{
     gap:10px;
     width:100%;
     padding-right:10px;
-    div.title{
-      background:var(--font-color);
-      height:1rem;
-      width:25%;
-      border-radius:4px;
+    div.rating{
+      width:1.75rem;
+      aspect-ratio:1;
+      background-color:var(--card-color-hover);
     }
     div.text{
       display:flex;

@@ -8,9 +8,8 @@
         <span class="title">{{title.title || title.name}}</span>  
         <span style="color:var(--secondary-text-color)" v-if="title.release_date || title.first_air_date">&#32;({{(new Date(title.release_date || title.first_air_date)).getFullYear()}})</span>
       </div>
-      <div v-if="title.vote_average !== undefined" class="rating">
-        <span>&starf;</span>
-        <span>{{title.vote_average}}</span>
+      <div v-if="title.vote_average" class="rating">
+        <Rating :rating="title.vote_average" :size="'small'"/>
         <span v-if="store.methods.watched.exists({ type: title.type[0].toUpperCase() + title.type.substring(1), id: title.id.toString() })" style="color:var(--theme-color);font-size:1rem;" class="material-icons icon">visibility</span>
       </div>
       <div class="overview" v-if="title.overview">{{title.overview}}</div>
@@ -22,6 +21,8 @@
 </template>
 
 <script setup>
+import Rating from '../Content/Rating.vue'
+
 import { inject } from 'vue'
 
 const { title } = defineProps({ title: Object })
