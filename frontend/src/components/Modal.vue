@@ -5,17 +5,23 @@
 </template>
 
 <script setup>
-import functions from '../utils/main.js'
+import _ from '../utils/main.js'
 import { onMounted, onUnmounted } from 'vue'
 
 
 const props = defineProps({ isVisible: Boolean })
 const emit = defineEmits(['close'])
 
-const closeAtEscapeKeydown = e => { if(e.code === 'Escape') emit('close') }
+const closeAtEscapeKeydown = e => e.code === 'Escape' && emit('close')
 
-onMounted(() => { functions.makeUnscrollable(document.body,true); document.addEventListener('keydown', closeAtEscapeKeydown); })
-onUnmounted(() => { functions.makeUnscrollable(document.body,false); document.removeEventListener('keydown', closeAtEscapeKeydown); })
+onMounted(() => {
+  _.makeUnscrollable(document.body, true)
+  document.addEventListener('keydown', closeAtEscapeKeydown)
+})
+onUnmounted(() => {
+  _.makeUnscrollable(document.body, false)
+  document.removeEventListener('keydown', closeAtEscapeKeydown)
+})
 </script>
 
 <style lang="scss" scoped>

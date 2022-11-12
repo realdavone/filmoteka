@@ -50,6 +50,12 @@ div.rating, a.rating{
     --fontSizeRating:0.55rem;
     --fontSizeName:0.5rem;
   }
+  &.large{
+    --width:3.25rem;
+    --borderWidth:0.3rem;
+    --fontSizeRating:0.95rem;
+    --fontSizeName:0.75rem;
+  }
   &.low{border-color:crimson}
   &.medium{border-color:goldenrod}
   &.high{border-color:green}

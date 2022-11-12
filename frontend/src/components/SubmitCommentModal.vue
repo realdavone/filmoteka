@@ -1,5 +1,5 @@
 <template>
-  <Modal>
+  <Modal @close="$emit('close')">
     <template #modal>
       <div ref="modal" class="modal"> 
         <header>

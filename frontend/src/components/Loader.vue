@@ -3,15 +3,12 @@
 </template>
 
 <script setup>
-const props = defineProps({
-  height: String,
-  border: String
-})
+const props = defineProps({ height: String, border: String })
 </script>
 
 <style lang="scss" scoped>
 div.loader {
-  border: 0.1rem solid #fff;
+  border: 0.1rem solid var(--alternative-color);
   border-top: 0.1rem solid transparent;
   border-radius: 50%;
   height:calc(1rem - 2 * 0.1rem);

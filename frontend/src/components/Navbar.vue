@@ -2,7 +2,7 @@
   <nav v-auto-animate class="container">
     <div v-if="!isSearchRendered" class="left-menu">
       <NavButton @handleClick="isMenuOpened = !isMenuOpened">
-        <template #icon><span class="material-icons" style="font-size:1.5rem;line-height:1">menu</span></template>
+        <template #icon><span class="material-icons" style="font-size:1.5rem;padding-top:5px;">menu</span></template>
       </NavButton>
     </div>
     <div v-if="isSearchRendered" class="middle">

@@ -181,10 +181,13 @@ div.season-select-holder, div.episode-select-holder{
       align-items:center;
       flex-direction:column;
     }
-    &[data-active=true]{ background:var(--theme-color) }
+    &[data-active=true]{
+      background:var(--theme-color);
+      color:var(--font-color-dark);
+    }
   }
-  div.selected-season, div.selected-episode{ font-weight:700; }
-  div.option:not([data-active=true]):hover{background:var(--card-color-hover)}
+  div.selected-season, div.selected-episode{ font-weight:700 }
+  div.option:not([data-active=true]):hover{ background:var(--card-color-hover) }
   div.options{
     display:flex;
     flex-direction:column;

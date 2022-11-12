@@ -3,7 +3,7 @@
     <div class="poster">
       <img @load="fadeIn" class="poster" :src="`https://www.themoviedb.org/t/p/w300${item.img || item.profile_path || item.poster_path}`" loading="lazy" :alt="item.name || item.title">
       <div class="hover">
-        <span>&#9655;</span>
+        <span class="material-icons">play_arrow</span>
       </div>
     </div>
   </router-link>
@@ -53,23 +53,21 @@ a.title-card{
       align-items:center;
       opacity:0;
       transition:0.4s ease opacity;
-      font-size:50px;
       span{
         color:var(--font-color-dark);
-        font-size:2rem;
+        font-size:2.5rem;
         transition:0.4s ease transform, 0.8s ease box-shadow;
         border-radius:50%;
         transform:scale(1.35);
         box-shadow: inset 0px 0px 0px 0.5rem var(--theme-color);
         outline:0.25rem solid var(--theme-color);
-        outline-offset:0.25rem;
+        outline-offset:0.35rem;
         display:inline-block;
         width:64px;
         height:64px;
         display:flex;
         align-items:center;
         justify-content:center;
-        padding-left:4px;
         font-weight:900;
       }
     }

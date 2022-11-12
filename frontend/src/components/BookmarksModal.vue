@@ -1,5 +1,5 @@
 <template>
-  <Modal>
+  <Modal @close="$emit('close')">
     <template #modal>
       <aside ref="modal" class="modal user-select-none">
         <header>

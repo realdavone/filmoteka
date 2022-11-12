@@ -34,7 +34,7 @@ const isModalOpen = ref(false)
 
 const data = ref([])
 
-const loading = ref(null)
+const loading = ref(false)
 const error = ref(null)
 
 const fetchComments = () => {
@@ -49,9 +49,7 @@ const fetchComments = () => {
   })
 }
 
-onBeforeMount(() => {
-  if(!loading.value) fetchComments()
-})
+onBeforeMount(() => !loading.value && fetchComments())
 
 const openModal = () => isModalOpen.value = !isModalOpen.value
 </script>
