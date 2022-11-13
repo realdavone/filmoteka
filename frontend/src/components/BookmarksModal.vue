@@ -93,18 +93,18 @@ aside.modal{
   section.title-holder{
     overflow-x:hidden;
     overflow-y:scroll;
-    padding:0 10px;
+    padding:0 0.5rem 0 1rem;
     &::-webkit-scrollbar{width:15px;height:15px;}
     &::-webkit-scrollbar-thumb{background:var(--card-color-hover);border:4px solid transparent;border-radius:10px;background-clip:content-box;}
     div.search-input-holder{
       display:flex;
       align-items:center;
-      gap:5px;
+      gap:0.5rem;
       background:var(--card-color-hover);
       padding:0 10px;
-      border-radius:20px;
+      border-radius:1rem;
       overflow:hidden;
-      margin:0 5px 10px;
+      margin:0 0 0.5rem;
       input.search-input{
         color:inherit;
         width:100%;
@@ -122,7 +122,7 @@ aside.modal{
       justify-content:space-between;
       align-items:center;
       gap:1rem;
-      padding:0.75rem;
+      padding:0.5rem;
       transition:0.2s ease background;
       position:relative;
       margin-bottom:0.5rem;
@@ -131,7 +131,7 @@ aside.modal{
       a{
         display:flex;
         align-items:center;
-        gap:8px;
+        gap:0.5rem;
         width:100%;
         span.icon{
           background:var(--theme-color);
@@ -173,15 +173,15 @@ aside.modal{
   div.bin-holder{
     display:flex;
     justify-content:flex-end;
-    padding:0 10px;
+    padding:0 1rem;
+    margin-top:auto;
     button{
       background:crimson;
-      padding:3px 5px;
-      border-radius:0.5rem;
+      padding:0.25rem 0.5rem;
+      border-radius:0.25rem;
       transition:0.2s ease background;
-      font-size:0.65rem;
+      font-size:0.75rem;
       font-weight:700;
-      margin-bottom:2px;
       color:var(--font-color-dark);
     }
   }

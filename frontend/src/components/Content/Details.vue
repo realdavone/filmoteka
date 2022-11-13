@@ -200,6 +200,7 @@ section.title{
     box-sizing:border-box;
     width:initial;
     border-radius:0;
+    margin-top:calc(0px - var(--container-padding));
     margin-left:calc(0px - var(--container-padding));
     margin-right:calc(0px - var(--container-padding));
   }

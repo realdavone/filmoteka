@@ -78,7 +78,7 @@ div.modal{
   border-radius:1rem;
   display:flex;
   flex-direction:column;
-  gap:0.5rem;
+  gap:1rem;
   width:100%;
   max-width:400px;
   div.error{color:crimson}
@@ -117,8 +117,8 @@ div.modal{
       align-items:center;
       justify-content:center;
       color:var(--font-color-dark);
-      font-weight:700;
       align-self:flex-end;
+      font-size:0.75rem;
       &:disabled{
         opacity:0.5;
         cursor:default;

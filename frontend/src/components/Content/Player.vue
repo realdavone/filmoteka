@@ -75,6 +75,7 @@ section.player-holder{
     background-color:#dc143c80;
     padding:0.5rem 1rem;
     border-radius:1rem;
+    color:var(--font-color-dark);
   }
   button.locked-player{
     display:flex;

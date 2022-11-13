@@ -30,11 +30,11 @@ button.action-button{
   min-width:160px;
   height:40px;
   &.warning{
-    background-color:#dc143c80;
+    background-color:#dc143c;
     color:var(--font-color-dark);
   }
   &.success{
-    background-color:#2e8b5780;
+    background-color:#2e8b57;
     color:var(--font-color-dark);
   }
   &.placeholder{
