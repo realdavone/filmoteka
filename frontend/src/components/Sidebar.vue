@@ -2,7 +2,7 @@
   <aside ref="menu">
     <header class="container user-select-none">
       <NavButton @handleClick="closeMenu">
-        <template #icon><span style="font-size:1.5rem">&#10094;</span></template>
+        <template #icon><span style="font-size:1.5rem;padding:0 5px 0 0;line-height:1;">&#10094;</span></template>
       </NavButton>
       <div class="right-menu">
         <template v-if="store.state.credentials.loggedIn">
@@ -16,27 +16,23 @@
     </header>
     <main class="menu-content">
       <section class="menu-links">
-        <SidebarLink v-for="link, i in links" :key="i" :link="link" @close="closeMenu()"/>
-      </section>
-      <OpenCloseSettings>
-        <template #label>Vizuálne nastavenia</template>
-        <template #content>
+        <SidebarMenuItem v-for="link, i in links" :key="i" :link="link" @click="closeMenu()" />
+        <SidebarMenuItem :link="visualMenuButton" @click="isVisualMenuOpened = !isVisualMenuOpened" :class="isVisualMenuOpened && 'active'"/>
+        <div v-auto-animate v-if="isVisualMenuOpened" class="visual-menu">
           <div class="theme-picker">
-            <button class="theme-button dark" @click="store.methods.settings.darkTheme.set(true)" :data-active="store.state.settings.darkTheme === true">
+            <button class="theme-button dark" @click="store.methods.settings.darkTheme.set(true)" :data-active="store.state.settings.darkTheme === true" title="Tmavý režim">
               <span class="material-icons">dark_mode</span>
             </button>
-            <button class="theme-button light" @click="store.methods.settings.darkTheme.set(false)" :data-active="store.state.settings.darkTheme === false">
+            <button class="theme-button light" @click="store.methods.settings.darkTheme.set(false)" :data-active="store.state.settings.darkTheme === false" title="Svetlý režim">
               <span class="material-icons-outlined">light_mode</span>
             </button>
           </div>
           <div class="color-picker">
             <button v-for="(color, i) in store.state.settings.themeColors.colors" :key="i" class="color" :style="`border-color:${color}`" @click="store.methods.settings.themeColor.set(color)" :data-active="store.methods.settings.themeColor.get()===color"></button>
           </div>
-        </template>
-      </OpenCloseSettings>
-      <OpenCloseSettings>
-        <template #label>Posledne navštívené</template>
-        <template #content>
+        </div>
+        <SidebarMenuItem :link="recentItemsMenuButton" @click="isRecentItemsMenuOpened = !isRecentItemsMenuOpened" :class="isRecentItemsMenuOpened && 'active'" />
+        <div v-auto-animate v-if="isRecentItemsMenuOpened" class="recent-items">
           <span v-if="store.state.recentItems.length === 0" class="no-history">Žiadne navštívené</span>
           <div v-else class="grid-list-sec">
             <router-link class="recent-item" v-for="(recentItem, i) in store.state.recentItems" :key="i" :title="recentItem.title" :to="{ path: `/${recentItem.type}/${recentItem.id}` }" @click.native="closeMenu">
@@ -44,8 +40,8 @@
               <span v-else>{{recentItem.title}}</span>
             </router-link>
           </div>
-        </template>
-      </OpenCloseSettings>
+        </div>
+      </section>
       <Footer />
     </main>
   </aside>
@@ -53,8 +49,7 @@
 
 <script setup>
 import NavButton from './Buttons/NavButton.vue'
-import SidebarLink from './Sidebar/SidebarLink.vue'
-import OpenCloseSettings from './Sidebar/OpenCloseSettings.vue'
+import SidebarMenuItem from './Sidebar/SidebarMenuItem.vue'
 import Footer from './Footer.vue'
 import { notify } from "@kyvg/vue3-notification"
 import { onClickOutside } from '@vueuse/core'
@@ -65,32 +60,55 @@ const store = inject('store')
 const menu = ref(null)
 const emit = defineEmits(['closeMenu','menu'])
 
+const isVisualMenuOpened = ref(false)
+const isRecentItemsMenuOpened = ref(false)
+
 const links = [
   {
-    icon:`<span style="font-size:1.25rem" class="material-icons">home</span>`,
-    label:'Domov',
-    route:'/',
-    shown:true
+    icon: `<span style="font-size:1.25rem" class="material-icons">home</span>`,
+    label: 'Domov',
+    isLink: true,
+    route: '/',
+    shown: true
   },
   {
-    icon:`<span style="font-size:1.25rem" class="material-icons">video_library</span>`,
-    label:'Knižnica',
-    route:'/library',
-    shown:true
+    icon: `<span style="font-size:1.25rem" class="material-icons">video_library</span>`,
+    label: 'Knižnica',
+    isLink: true,
+    route: '/library',
+    shown: true
   },
   {
-    icon:`<span style="font-size:1.25rem" class="material-icons">recommend</span>`,
-    label:'Odporúčané',
-    route:'/recommended',
-    shown:true
+    icon: `<span style="font-size:1.25rem" class="material-icons">recommend</span>`,
+    label: 'Odporúčané',
+    isLink: true,
+    route: '/recommended',
+    shown: true
   },
   {
-    icon:'<span style="font-size:1.25rem" class="material-icons">settings</span>',
-    label:'Admin',
-    route:'/admin',
-    shown:store.state.credentials.user?.isAdmin || false
+    icon: '<span style="font-size:1.25rem" class="material-icons">settings</span>',
+    label: 'Admin',
+    isLink: true,
+    route: '/admin',
+    shown: store.state.credentials.user?.isAdmin || false
   }
 ]
+
+const visualMenuButton = {
+  icon: '<span style="font-size:1.25rem" class="material-icons">brush</span>',
+  label: 'Vizuálne nastavenia',
+  isLink: false,
+  route: null,
+  shown: true
+}
+
+const recentItemsMenuButton = {
+  icon: '<span style="font-size:1.25rem" class="material-icons">history</span>',
+  label: 'Posledne navštívené',
+  isLink: false,
+  route: null,
+  shown: true
+}
 
 const logout = () => {  Auth.logout().then(res => notify({ type: 'success', text: res.message })) }
 
@@ -144,6 +162,21 @@ aside{
       }
     }
   }
+  div.visual-menu{
+    display:flex;
+    flex-direction:column;
+    gap:1rem;
+    background:var(--card-color-hover);
+    padding:1rem;
+    border-bottom-right-radius:2rem;
+    border-bottom-left-radius:2rem;
+  }
+  div.recent-items{
+    background:var(--card-color-hover);
+    padding:1rem;
+    border-bottom-right-radius:2rem;
+    border-bottom-left-radius:2rem;
+  }
   header, main.menu-content{
     transition: 0.2s ease background;
     background:var(--card-color);
@@ -162,18 +195,17 @@ aside{
     section.menu-links{
       display:flex;
       flex-direction:column;
-      gap:0.25rem
+      gap:0.5rem;
     }
     div.theme-picker{
       display:flex;
-      gap:10px;
-      padding-top:0.5rem;
+      gap:1rem;
       button.theme-button{
         width:100%;
         padding:4px 8px;
-        border-radius:6px;
+        border-radius:0.5rem;
         display:flex;
-        gap:10px;
+        gap:1rem;
         align-items:center;
         justify-content:center;
         position:relative;
@@ -211,24 +243,10 @@ aside{
         &[data-active=true]{ background-color:var(--theme-color) }
       }
     }
-    div.flex-list{
-      margin-top:6px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      a.history-item{
-        font-size:0.75rem;
-        background:var(--theme-color);
-        padding:4px 8px;
-        border-radius:14px;
-        color:var(--font-color-dark);
-      }
-    }
     div.grid-list-sec{
       display:grid;
       grid-template-columns:repeat(3, 1fr);
-      gap:10px;
-      margin-top:6px;
+      gap:1rem;
       a.recent-item{
         background-color:var(--primary-color);
         overflow:hidden;
@@ -251,9 +269,6 @@ aside{
         }
       }
     }
-  }
-  button.remove-history, button.remove-recent{
-    span{ font-size:1.25rem }
   }
   span.no-history{ font-size:0.8rem }
 }

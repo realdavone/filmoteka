@@ -28,7 +28,8 @@ const links = [
 footer{
   width:100%;
   display:flex;
-  gap:15px;
+  gap:1rem;
+  padding:2rem 1rem;
   align-items:flex-start;
   justify-content:center;
   flex-direction:column;

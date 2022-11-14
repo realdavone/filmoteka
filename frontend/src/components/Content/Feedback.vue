@@ -1,11 +1,11 @@
 <template>
   <div class="rating">
-    <button @click="handleFeedback('like')">
+    <button @click="handleFeedback('like')" title="Páči sa mi">
       <span v-if="likes.includes(store.state.credentials.user._id)" class="material-icons" style="color:crimson">favorite</span>
       <span v-else class="material-icons">favorite_border</span>
       <span>{{likes.length}}</span>
     </button>
-    <button @click="handleFeedback('dislike')">
+    <button @click="handleFeedback('dislike')" title="Nepáči sa mi">
       <span v-if="dislikes.includes(store.state.credentials.user._id)" class="material-icons" style="color:crimson">heart_broken</span>
       <span v-else class="material-icons-outlined">heart_broken</span>
       <span>{{dislikes.length}}</span>

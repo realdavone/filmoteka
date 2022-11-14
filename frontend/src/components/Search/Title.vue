@@ -51,7 +51,7 @@ a.title{
     display:flex;
     justify-content:center;
     align-items:center;
-    border-radius:0.5rem;
+    border-radius:1rem;
     overflow:hidden;
     flex-shrink:0;
     img{

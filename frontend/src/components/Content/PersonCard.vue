@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="{ name: props.type[0].toUpperCase() + props.type.substring(1), params: { id: props.id } }" class="cast-card">
+  <router-link :to="`/person/${props.id}`" class="cast-card">
     <div class="img">
       <slot name="image" />
     </div>
@@ -37,7 +37,11 @@ a.cast-card{
     min-width:80px;
     border-radius:50%;
     overflow:hidden;
-    :slotted(img){ width:100% }
+    :slotted(img){
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
   }
   div.name-holder{
     display:flex;
@@ -60,7 +64,7 @@ a.cast-card{
       }
     }
   }
-  &:hover{ background-color:var(--card-color) }
+  &:hover{ background-color:var(--card-color-hover) }
 }
 @media screen and (max-width: 600px){
   a.cast-card:hover { background-color:initial!important }

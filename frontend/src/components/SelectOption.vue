@@ -35,7 +35,8 @@ div.select{
   cursor:pointer;
   position:relative;
   div.active-selector{
-    font-size:0.75rem;
+    font-size:0.85rem;
+    text-align:center;
   }
   div.values{
     z-index:2;

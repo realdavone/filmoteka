@@ -30,7 +30,7 @@ div.title{
     display:flex;
     justify-content:center;
     align-items:center;
-    border-radius:0.5rem;
+    border-radius:1rem;
   }
   div.text-holder{
     display:flex;
