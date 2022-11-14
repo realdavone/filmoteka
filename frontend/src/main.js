@@ -18,11 +18,6 @@ Promise.all([autoLogin, getGlobalSettings]).then(values => {
   const [attemptLogin, globals] = values
 
   store.state.globalSettings = globals
-  
-  router.beforeEach((to, from) => {
-    if(to.meta.denyAccessAsLoggedIn && store.state.credentials.loggedIn !== false) return '/' 
-    if(to.meta.requiresAdmin && store.state.credentials.loggedIn === false) return '/login'
-  })
 
   createApp(App)
   .use(router)
