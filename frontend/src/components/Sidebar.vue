@@ -15,10 +15,10 @@
       </div>
     </header>
     <main class="menu-content">
-      <section class="menu-links">
+      <section v-auto-animate class="menu-links">
         <SidebarMenuItem v-for="link, i in links" :key="i" :link="link" @click="closeMenu()" />
         <SidebarMenuItem :link="visualMenuButton" @click="isVisualMenuOpened = !isVisualMenuOpened" :class="isVisualMenuOpened && 'active'"/>
-        <div v-auto-animate v-if="isVisualMenuOpened" class="visual-menu">
+        <div v-if="isVisualMenuOpened" class="visual-menu">
           <div class="theme-picker">
             <button class="theme-button dark" @click="store.methods.settings.darkTheme.set(true)" :data-active="store.state.settings.darkTheme === true" title="Tmavý režim">
               <span class="material-icons">dark_mode</span>
@@ -32,7 +32,7 @@
           </div>
         </div>
         <SidebarMenuItem :link="recentItemsMenuButton" @click="isRecentItemsMenuOpened = !isRecentItemsMenuOpened" :class="isRecentItemsMenuOpened && 'active'" />
-        <div v-auto-animate v-if="isRecentItemsMenuOpened" class="recent-items">
+        <div v-if="isRecentItemsMenuOpened" class="recent-items">
           <span v-if="store.state.recentItems.length === 0" class="no-history">Žiadne navštívené</span>
           <div v-else class="grid-list-sec">
             <router-link class="recent-item" v-for="(recentItem, i) in store.state.recentItems" :key="i" :title="recentItem.title" :to="{ path: `/${recentItem.type}/${recentItem.id}` }" @click.native="closeMenu">

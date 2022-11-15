@@ -52,7 +52,7 @@ onClickOutside(optionsMenu, () => isOptionsMenuOpened.value = false)
 
 const submitQuery = () => {
   if(searchQuery.value !== ''){
-    router.push({ path: `/search${searchType.value.value}`, query: { q: searchQuery.value } })
+    router.push(`/search${searchType.value.value}?q=${searchQuery.value}`)
     input.value.blur()
   }
 }

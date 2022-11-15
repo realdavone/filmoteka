@@ -2,17 +2,20 @@
   <section v-auto-animate v-if="episodeInfo['name']" class="episode-info user-select-none">
     <div class="title-holder">
       <div class="title">
-        <b>{{`${episodeInfo['seasonNumber']}.${episodeInfo['episodeNumber']}`}}</b>
-        <span v-if="!loading">{{episodeInfo['name']}}</span>
-        <div v-else class="skeleton-text" style="width:50%;"></div>
+        <template v-if="!loading">
+          <b>{{`${episodeInfo['seasonNumber']}.${episodeInfo['episodeNumber']}`}}</b>
+          <span>{{episodeInfo['name']}}</span>            
+        </template>
+        <div v-else class="skeleton-text" style="width:50%;height:1rem;"></div>
       </div>
       <span v-if="!loading && episodeInfo['airDate']" class="airdate">{{episodeInfo['airDate']}}</span>
-      <div v-else class="skeleton-text" style="width:50px;"></div>
+      <div v-else class="skeleton-text" style="width:50px;align-self:center;"></div>
     </div>
     <div v-if="showEpisodeSpoiler" class="thumb-overview">
       <div class="overview">
         <span v-if="!loading">{{episodeInfo['overview']}}</span>
         <template v-else>
+          <div class="skeleton-text"></div>
           <div class="skeleton-text"></div>
           <div class="skeleton-text"></div>
         </template>
@@ -66,8 +69,8 @@ section.episode-info{
   display:flex;
   flex-direction:column;
   align-items:flex-start;
-  gap:10px;
-  padding:12px 16px;
+  gap:1rem;
+  padding:1rem;
   border-radius:1rem;
   background:var(--card-color);
   transition:0.2s ease height;
@@ -116,7 +119,7 @@ section.episode-info{
       height:127px;
       min-height:127px;
       overflow:hidden;
-      border-radius:8px;
+      border-radius:1rem;
       display:flex;
       justify-content:center;
       align-items:center;

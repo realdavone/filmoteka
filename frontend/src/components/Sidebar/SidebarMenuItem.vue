@@ -25,6 +25,7 @@ a.menu-item, button.menu-item{
   border-radius:2rem;
   overflow:hidden;
   transition:0.2s ease background-color;
+  min-height:46px;
   &.active{
     background:var(--card-color-hover);
     border-bottom-left-radius: 0;
