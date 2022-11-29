@@ -42,7 +42,7 @@ const Auth = {
   },
   refresh(refreshToken){
     return new Promise(async (resolve, reject) => {
-      if(refreshToken === null) { reject('Žiadny token'); return }
+      if(refreshToken === null) return reject('Žiadny token')
 
       try {
         const res = await fetch(`${baseURL}/auth/refresh`, {

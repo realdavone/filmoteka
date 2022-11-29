@@ -9,15 +9,17 @@ import _ from './utils/main'
 
 import './styles/main.css'
 
-const autoLogin = Auth.refresh(localStorage.getItem('refreshToken')).catch(() => { localStorage.removeItem('refreshToken') })
-const getGlobalSettings = store.methods.globalSettings.init()
-
 _.initLoader()
 
-Promise.allSettled([autoLogin, getGlobalSettings]).then(values => {
-  const [attemptLogin, globals] = values
+Promise.allSettled([
+  Auth.refresh(localStorage.getItem('refreshToken')),
+  store.methods.globalSettings.init()
+]).then(result => {
+  const [attemptLogin, globals] = result
 
-  store.state.globalSettings = globals
+  if(attemptLogin.status === 'rejected') localStorage.removeItem('refreshToken')
+
+  store.state.globalSettings = globals.value
 
   createApp(App)
   .use(router)
@@ -25,7 +27,7 @@ Promise.allSettled([autoLogin, getGlobalSettings]).then(values => {
   .use(Notifications)
   .mount('#app')
 
-  if(attemptLogin?.success) notify({ type: 'success', text: attemptLogin['message'] })
+  if(attemptLogin?.value?.success) notify({ type: 'success', text: attemptLogin.value['message'] })
   
-  store.initializeData()
+  store.initResources()
 })

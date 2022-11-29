@@ -84,7 +84,10 @@ const store = inject('store')
 const type = ref(route.name.charAt(0).toLowerCase() + route.name.substr(1))
 const details = ref(props['details'])
 
-const hideNetwork = el => el.target.style.display = 'none'
+const hideNetwork = el => {
+  el.target.style.display = 'none'
+  console.log(el)
+}
 
 store.methods.recentItems.pushItem({
   type: type.value,

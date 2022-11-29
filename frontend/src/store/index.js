@@ -153,7 +153,7 @@ const methods = {
       return new Promise((resolve, reject) => {
         fetch(`${baseURL}/config`).then(res => res.json())
         .then(data => resolve(data.settings))
-        .catch(() => reject({ allowRegistration: false, allowWatchWhileUnregistered: true }))
+        .catch(() => resolve({ allowRegistration: false, allowWatchWhileUnregistered: true }))
       })
     }
   }
@@ -185,7 +185,7 @@ const state = reactive({
   globalSettings: null
 })
 
-const initializeData = () => {
+const initResources = () => {
   methods.countries.set('sk')
   methods.genres.set('movie')
   methods.genres.set('tv')
@@ -194,4 +194,4 @@ const initializeData = () => {
 methods.settings.themeColor.set(localStorage.getItem('themeColor') || state.settings.themeColors.colors[0])
 methods.settings.darkTheme.set(localStorage.getItem('darkTheme') || true)
 
-export default { state, methods, initializeData }
+export default { state, methods, initResources }
