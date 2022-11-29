@@ -34,13 +34,18 @@ export default {
   },
   initLoader(){
     const logo = document.createElement('img')
+    const loaderHolder = document.createElement('section')
+    const text = document.createElement('span')
+    text.innerText = 'Spúšťa sa server'
+
     logo.setAttribute('src', '/icon.svg')
-    logo.setAttribute('class', 'loaderScale')
     logo.setAttribute('width', '75')
     logo.setAttribute('alt', 'Logo')
-    const loader = document.createElement('section')
-    loader.setAttribute('style', 'width:100%;height:100vh;display:flex;justify-content:center;align-items:center')
-    loader.appendChild(logo)
-    document.getElementById('app').appendChild(loader)
+
+    loaderHolder.setAttribute('class', 'loader-holder')
+    loaderHolder.appendChild(logo)
+    loaderHolder.appendChild(text)
+    
+    document.getElementById('app').appendChild(loaderHolder)
   }
 }

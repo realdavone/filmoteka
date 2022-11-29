@@ -14,7 +14,7 @@ const getGlobalSettings = store.methods.globalSettings.init()
 
 _.initLoader()
 
-Promise.all([autoLogin, getGlobalSettings]).then(values => {
+Promise.allSettled([autoLogin, getGlobalSettings]).then(values => {
   const [attemptLogin, globals] = values
 
   store.state.globalSettings = globals
