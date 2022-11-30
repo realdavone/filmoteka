@@ -4,10 +4,6 @@
   </div>
 </template>
 
-<script setup>
-const props = defineProps({ type: String })
-</script>
-
 <style lang="scss" scoped>
 div.player-holder{
   display:flex;

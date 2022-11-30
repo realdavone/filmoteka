@@ -11,8 +11,15 @@
   </component>
 </template>
 
-<script setup>
-const { link } = defineProps({ link: Object })
+<script setup lang="ts">
+const { link } = defineProps<{link: {
+  icon: string
+  isLink: boolean 
+  label: string
+  route: string
+  shown: boolean
+}}>()
+
 const emit = defineEmits(['click'])
 </script>
 

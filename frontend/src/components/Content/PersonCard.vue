@@ -14,8 +14,8 @@
   </router-link>
 </template>
 
-<script setup>
-const props = defineProps({ type: String, id: Number })
+<script setup lang="ts">
+const props = defineProps<{type: string, id: number}>()
 </script>
 
 <style lang="scss" scoped>

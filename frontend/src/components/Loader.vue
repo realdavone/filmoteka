@@ -2,8 +2,11 @@
   <div class="loader" :style="{ height: height, width: height, borderWidth: border}"></div>
 </template>
 
-<script setup>
-const props = defineProps({ height: String, border: String })
+<script setup lang="ts">
+const props = defineProps<{
+  height: string
+  border: string
+}>()
 </script>
 
 <style lang="scss" scoped>

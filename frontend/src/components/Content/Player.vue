@@ -21,25 +21,28 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import useEvent from '../../composables/event'
 import Loader from '../Loader.vue'
 import { ref, inject } from 'vue'
 
-const store = inject('store')
+const store = inject<any>('store')
 const pinned = ref(false)
 const loadedIframe = ref(false)
 
-const props = defineProps({
-  isReady: Object,
-  source: String,
-  type: String,
-  title: String,
-  isPlayerWorking: Boolean
-})
+const props = defineProps<{
+  isReady: {
+    message: null | string
+    status: boolean
+  },
+  source: null | string,
+  title: string,
+  isPlayerWorking: boolean
+}>()
+
 
 useEvent({ target: document, event: 'scroll', callback: () => {
-  if(props.source) pinned.value = document.getElementById('player-holder').offsetTop < window.scrollY
+  if(props.source) pinned.value = document.getElementById('player-holder')!.offsetTop < window.scrollY
 } })
 
 </script>

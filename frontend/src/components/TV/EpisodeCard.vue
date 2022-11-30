@@ -1,5 +1,5 @@
 <template>
-  <section @click="emit('playEpisode', { season: info.season - 1, episode: info.episode - 1 })" class="episode-card user-select-none" :style="`cursor:${playable === true ? 'pointer' : 'default'}`">
+  <section @click="emit('playEpisode', { season: info.season - 1, episode: info.episode - 1 })" class="episode-card user-select-none" :style="`cursor:${playable ? 'pointer' : 'default'}`">
     <div class="episode-info">
       <span class="label">
         <slot name="label" />
@@ -12,8 +12,15 @@
   </section>
 </template>
 
-<script setup>
-const { playable, info } = defineProps({ playable: Boolean, info: { season: Number, episode: Number, date: String } })
+<script setup lang="ts">
+const { playable, info } = defineProps<{
+  playable: boolean
+  info: {
+    season: number
+    episode: number
+    date: string
+  }
+}>()
 const emit = defineEmits(['playEpisode'])
 </script>
 

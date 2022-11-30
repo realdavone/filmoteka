@@ -86,7 +86,6 @@ const details = ref(props['details'])
 
 const hideNetwork = el => {
   el.target.style.display = 'none'
-  console.log(el)
 }
 
 store.methods.recentItems.pushItem({

@@ -1,7 +1,7 @@
 <template>
   <section class="prompt user-select-none" v-if="shown">
     <span><b>Neobmedzené</b> sledovanie filmov a seriálov.</span>
-    <BasicButton text="Prihlásiť sa" @handleClick="$router.push('/login')"/>
+    <BasicButton text="Prihlásiť sa" mutation="hover-color-change"  @handleClick="$router.push('/login')"/>
     <CloseButton v-if="enableClose" class="close" @click="shown = false"  />
   </section>
 </template>
@@ -11,7 +11,7 @@ import CloseButton from '../Buttons/CloseButton.vue'
 import BasicButton from '../Buttons/BasicButton.vue'
 import { ref } from 'vue'
 
-const { enableClose } = defineProps({ enableClose: { type: Boolean, default: true } })
+const { enableClose = true } = defineProps({ enableClose: Boolean })
 
 const shown = ref(true)
 
@@ -47,5 +47,12 @@ section.prompt{
     }
     span{ font-size:0.75rem }
   }
-}  
+}
+
+@media screen and (max-width: 600px) {
+  section.prompt{
+    padding:1rem;
+    font-size:0.85rem;
+  }
+}
 </style>

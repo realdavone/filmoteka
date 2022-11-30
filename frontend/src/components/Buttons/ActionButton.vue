@@ -1,17 +1,23 @@
 <template>
-  <button :class="`action-button ${warning ? 'warning' : ''} ${success ? 'success' : ''}`" @click="$emit('handleClick')">
+  <button :class="`action-button ${props.warning ? 'warning' : ''} ${props.success ? 'success' : ''}`" @click="$emit('handleClick')">
     <slot name="icon" />
     <slot name="label" />
-    <Loader v-if="loading" />
+    <Loader v-if="props.loading" />
   </button>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { withDefaults } from 'vue'
 import Loader from '../Loader.vue'
-const { loading, warning, success } = defineProps({
-  warning: { type: Boolean, default: false },
-  loading: { type: Boolean, default: false },
-  success: { type: Boolean, default: false }
+
+const props = withDefaults(defineProps<{
+  warning: boolean,
+  loading: boolean,
+  success: boolean
+}>(), {
+  warning: () => false,
+  loading: () => false,
+  success: () => false
 })
 </script>
 

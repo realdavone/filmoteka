@@ -11,12 +11,13 @@
   </svg>
 </template>
 
-<script setup>
-const props = defineProps({ 
-  height: {
-    type: Number,
-    default: 40
-  }
+<script setup lang="ts">
+import { withDefaults } from 'vue'
+
+const props = withDefaults(defineProps<{
+  height: number
+}>(), {
+  height: () => 40
 })
 </script>
 

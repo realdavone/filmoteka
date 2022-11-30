@@ -18,13 +18,20 @@
   </div>
 </template>
 
-<script setup>
-const props = defineProps({
-  id: { type: String },
-  imdb: { type: String, default: null },
-  fb: { type: String, default: null },
-  ig: { type: String, default: null },
-  twitter: { type: String, default: null }
+<script setup lang="ts">
+import { withDefaults } from 'vue'
+
+const props = withDefaults(defineProps<{
+  id: string,
+  imdb: string | null,
+  fb: string | null,
+  ig: string | null,
+  twitter: string | null
+}>(), {
+  imdb: () => null,
+  fb: () => null,
+  ig: () => null,
+  twitter: () => null
 })
 </script>
 

@@ -20,7 +20,7 @@
         <div v-if="title?.overview" class="overview">{{title?.overview}}</div>
         <div v-else class="skeleton-text" style="height:1rem;width:80%;"></div>
 
-        <BasicButton :text="`Prejsť na ${title?.media_type === 'movie' ? 'film' : 'seriál'}`" @handleClick="$router.push(`/${title?.media_type}/${title?.id}`)" />
+        <BasicButton text="Zobraziť viac" @handleClick="$router.push(`/${title?.media_type}/${title?.id}`)" />
       </div>      
     </section>
   </section>

@@ -2,8 +2,8 @@
   <div class="icon">{{type?.toLowerCase() === 'movie' ? 'Film' : 'Seriál'}}</div>
 </template>
 
-<script setup>
-const { type } = defineProps({ type: String })
+<script setup lang="ts">
+const { type } = defineProps<{ type: 'Movie' | 'Tv' | 'movie' | 'tv' }>()
 </script>
 
 <style lang="scss" scoped>

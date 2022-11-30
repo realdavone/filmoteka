@@ -1,13 +1,15 @@
 <template>
-  <button :class="`${mutation}`" @click="$emit('handleClick')">{{text}}</button>
+  <button :class="`${props.mutation}`" @click="$emit('handleClick')">{{props.text}}</button>
 </template>
 
-<script setup>
-const { text, mutation } = defineProps({ 
-  text: String, 
-  mutation: {
-    default: 'basic'
-  } 
+<script setup lang="ts">
+import { withDefaults } from 'vue'
+
+const props = withDefaults(defineProps<{
+  text: string
+  mutation?: 'basic' | 'hover-color-change'
+}>(), {
+  mutation: () => 'basic'
 })
 </script>
 
