@@ -1,11 +1,11 @@
 <template>
-  <div class="loader" :style="{ height: height, width: height, borderWidth: border}"></div>
+  <div class="loader" :style="{ height: props.height, width: props.height, borderWidth: props.border}"></div>
 </template>
 
 <script setup lang="ts">
 const props = defineProps<{
-  height: string
-  border: string
+  height?: string
+  border?: string
 }>()
 </script>
 

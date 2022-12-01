@@ -47,5 +47,17 @@ export default {
     loaderHolder.appendChild(text)
     
     document.getElementById('app').appendChild(loaderHolder)
+  },
+  setFailedScreen(error){
+    document.getElementById('app').innerHTML = ''
+
+    const loaderHolder = document.createElement('section')
+    const text = document.createElement('span')
+    text.innerText = error
+
+    loaderHolder.setAttribute('class', 'failed-holder')
+    loaderHolder.appendChild(text)
+    
+    document.getElementById('app').appendChild(loaderHolder)
   }
 }

@@ -1,35 +1,35 @@
 <template>
-  <form class="search-form" @submit.prevent="submitQuery" autocomplete="off">
-    <div class="select user-select-none">
-      <div class="selected-option" @click="isOptionsMenuOpened = !isOptionsMenuOpened" :data-opened="isOptionsMenuOpened">
-        <span class="material-icons" style="font-size:1.25rem">{{searchType['icon']}}</span>        
-      </div>
-      <Transition name="fade">
-        <div ref="optionsMenu" v-if="isOptionsMenuOpened" class="options">
-          <div class="option" v-for="option in options" :key="option.value" :data-active="searchType.value === option.value" @click="searchType = option; isOptionsMenuOpened = false;">
-            <div class="icon-holder">
-              <span class="material-icons" style="font-size:1.25rem">{{option.icon}}</span>
-            </div>
-            <span>{{option.label}}</span>
-          </div>
+  <div class="search">
+    <form class="search-form" @submit.prevent="submitQuery" autocomplete="off">
+      <div class="select user-select-none">
+        <div class="selected-option" @click="isOptionsMenuOpened = !isOptionsMenuOpened" :data-opened="isOptionsMenuOpened">
+          <span class="material-icons" style="font-size:1.25rem">{{searchType['icon']}}</span>        
         </div>
-      </Transition>
-    </div>
-    <input id="search-input" ref="input" v-model="searchQuery"  type="text" placeholder="Vyhľadávanie" required @focus="inputFocus(true)" @focusout="inputFocus(false)">
-  </form>
-  <!--
-  <Transition name="fade">
-    <div v-if="isInputFocused && store.state.recentSearch.length > 0" class="recent">
-      <button v-for="(item, index) in store.state.recentSearch" :key="index" @click="$router.push('/search?q='+item)">{{item}}</button>
-    </div>
-  </Transition>
-  -->
+        <Transition name="fade">
+          <div ref="optionsMenu" v-if="isOptionsMenuOpened" class="options">
+            <div class="option" v-for="option in options" :key="option.value" :data-active="searchType.value === option.value" @click="searchType = option; isOptionsMenuOpened = false;">
+              <div class="icon-holder">
+                <span class="material-icons" style="font-size:1.25rem">{{option.icon}}</span>
+              </div>
+              <span>{{option.label}}</span>
+            </div>
+          </div>
+        </Transition>
+      </div>
+      <input id="search-input" ref="input" v-model="searchQuery"  type="text" placeholder="Vyhľadávanie" required @focus="inputFocus(true)" @focusout="inputFocus(false)">
+    </form>
+    <Transition name="fade">
+      <RecentSearch v-if="isInputFocused && store.state.recentSearch.length > 0" />
+    </Transition>
+</div>
 </template>
 
 <script setup>
 import { onClickOutside } from '@vueuse/core'
 import { ref, onMounted, inject } from 'vue'
 import { useRouter } from 'vue-router'
+
+import RecentSearch from './RecentSearch.vue'
 
 const store = inject('store')
 const router = useRouter()
@@ -63,19 +63,6 @@ onMounted(() => input.value.focus())
 </script>
 
 <style lang="scss" scoped>
-div.recent{
-  position:absolute;
-  left:0;
-  top:calc(100% );
-  background:var(--card-color);
-  width:100%;
-  padding:0.5rem 1rem;
-  font-size:0.75rem;
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:0.75rem;
-}
 div.select{
   position:relative;
   isolation:isolate;
@@ -118,6 +105,12 @@ div.select{
   }
   div.option:not([data-active=true]):hover{background:var(--card-color-hover);}
 }
+div.search{
+  display:flex;
+  flex-direction:column;
+  position:relative;
+  width:100%;
+}
 form.search-form{
   display:flex;
   border-radius:25px;
@@ -136,19 +129,8 @@ form.search-form{
     color:inherit;
     border-radius:25px;
   }
-  button.search-button{
-    padding-top:3px;
-    min-width:36px;
-    min-height:36px;
-    span{
-      font-size:1.25rem;
-      font-weight:900;
-      transition:0.2s ease color;
-    }
-  }
   &:focus-within{
     outline:1px solid var(--theme-color);
-    button.search-button span{color:var(--theme-color);}
   } 
 }
 </style>

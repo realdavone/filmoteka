@@ -17,6 +17,7 @@ Promise.allSettled([
 ]).then(result => {
   const [attemptLogin, globals] = result
 
+  if(globals.status === 'rejected') return _.setFailedScreen(globals.reason)
   if(attemptLogin.status === 'rejected') localStorage.removeItem('refreshToken')
 
   store.state.globalSettings = globals.value

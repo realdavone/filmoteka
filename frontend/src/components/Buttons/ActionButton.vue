@@ -11,9 +11,9 @@ import { withDefaults } from 'vue'
 import Loader from '../Loader.vue'
 
 const props = withDefaults(defineProps<{
-  warning: boolean,
-  loading: boolean,
-  success: boolean
+  warning?: boolean,
+  loading?: boolean,
+  success?: boolean
 }>(), {
   warning: () => false,
   loading: () => false,

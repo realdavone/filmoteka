@@ -150,10 +150,10 @@ const methods = {
   },
   globalSettings: {
     init() {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, reject) => {        
         fetch(`${baseURL}/config`).then(res => res.json())
         .then(data => resolve(data.settings))
-        .catch(() => resolve({ allowRegistration: false, allowWatchWhileUnregistered: true }))
+        .catch(() => reject('Služba nie je dostupná. Skúste neskôr.'))
       })
     }
   }
@@ -172,7 +172,7 @@ const state = reactive({
       colors: ['#ED3F00','#F78764','#2176AE','#FBB13C','#DE4D86','#89BD9E','#B84A62'],
       mainColor: null
     },
-    darkTheme: null
+    darkTheme: true
   },
   notifications:{ 
     recommended: [] 

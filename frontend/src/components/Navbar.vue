@@ -124,7 +124,12 @@ nav{
     gap:0.75rem;
     align-self:center;
     margin-left:0.75rem;
-    button{ font-size:0.75rem }
+    button{
+      font-size:0.75rem;
+      &.register-button:hover{
+        color:var(--theme-color)
+      }
+    }
   }
   div.right-menu{
     display:flex;
