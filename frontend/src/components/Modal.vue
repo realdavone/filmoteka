@@ -7,21 +7,19 @@
 <script setup>
 import _ from '../utils/main.js'
 import { onMounted, onUnmounted } from 'vue'
+import useEvent from '../composables/event'
 
-
-const props = defineProps({ isVisible: Boolean })
 const emit = defineEmits(['close'])
 
-const closeAtEscapeKeydown = e => e.code === 'Escape' && emit('close')
-
 onMounted(() => {
-  _.makeUnscrollable(document.body, true)
-  document.addEventListener('keydown', closeAtEscapeKeydown)
+  _.makeUnscrollable(document.body, true)  
 })
 onUnmounted(() => {
   _.makeUnscrollable(document.body, false)
-  document.removeEventListener('keydown', closeAtEscapeKeydown)
 })
+
+useEvent({ target: document.body, event: 'keydown', callback: (e) => e.code === 'Escape' && emit('close') })
+
 </script>
 
 <style lang="scss" scoped>

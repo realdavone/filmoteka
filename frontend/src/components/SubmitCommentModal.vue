@@ -22,7 +22,7 @@
   </Modal>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, inject, onMounted } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import getData from '../api/main.js'
@@ -31,20 +31,25 @@ import CloseButton from './Buttons/CloseButton.vue'
 import Modal from './Modal.vue'
 import Loader from './Loader.vue'
 
-const { title } = defineProps({ title: Object })
+const { title } = defineProps<{
+  title: {
+    type: 'tv' | 'movie',
+    id: string
+  }
+}>()
 const emit = defineEmits(['close', 'submitted'])
 
-const store = inject('store')
+const store = inject<any>('store')
 
-const loading = ref(false)
-const error = ref(null)
+const loading = ref<boolean>(false)
+const error = ref<string | null>(null)
 
-const modal = ref(null)
-const textarea = ref(null)
+const modal = ref<InstanceType<typeof Modal> | null>(null)
+const textarea = ref<HTMLTextAreaElement | null>(null)
 
 onClickOutside(modal, () => emit('close'))
 
-const content = ref('')
+const content = ref<string>('')
 
 const submitComment = () => {
   error.value = null
@@ -68,7 +73,7 @@ const submitComment = () => {
   .finally(() => loading.value = false)
 }
 
-onMounted(() => textarea.value.focus())
+onMounted(() => textarea.value!.focus())
 </script>
 
 <style lang="scss" scoped>

@@ -13,18 +13,27 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { inject, ref } from 'vue'
 import getData from '../../api/main.js'
 
-const store = inject('store')
+const store = inject<any>('store')
 
-const { state, title } = defineProps({ state: Object, title: Object })
+const { state, title } = defineProps<{
+  state: {
+    likes: Array<string>,
+    dislikes: Array<string>
+  },
+  title: {
+    id: string,
+    type: 'tv' | 'movie'
+  }
+}>()
 
 const likes = ref(state.likes)
 const dislikes = ref(state.dislikes)
 
-const handleFeedback = async action => {
+const handleFeedback = async (action: 'like' | 'dislike') => {
   const data = await getData({
     endpoint: `/title/rate`,
     options: {
@@ -61,7 +70,12 @@ div.rating{
     display:flex;
     align-items:center;
     gap:0.5rem;
-    span:first-of-type{ font-size:2rem; }
+    span:first-of-type{
+      font-size:2rem;
+      width:32px;
+      overflow:hidden;
+      aspect-ratio:1;
+    }
     span:last-of-type{
       font-family:monospace,'Roboto Mono';
       font-size:1rem;
