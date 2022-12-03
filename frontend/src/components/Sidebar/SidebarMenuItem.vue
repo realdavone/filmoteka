@@ -45,6 +45,7 @@ a.menu-item, button.menu-item{
   }
   span:nth-child(1){ font-size:1.25rem }
   span:nth-child(2){ font-size:0.85rem }
-  &:hover, &.router-link-exact-active{ background:var(--card-color-hover) }
+  &:hover{ background:var(--card-color-hover) }
+  &.router-link-exact-active{ background:var(--theme-color) }
 }
 </style>

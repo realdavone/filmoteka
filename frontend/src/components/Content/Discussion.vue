@@ -1,6 +1,5 @@
 <template>
   <section class="container">
-    <Title>Diskusia</Title>
     <button class="add-comment" @click="openModal">Napísať komentár...</button>
     <div class="comments">
       <template v-if="!loading">
@@ -24,7 +23,6 @@ import { ref, onBeforeMount } from 'vue'
 import SubmitCommentModal from '../SubmitCommentModal.vue'
 import Loader from '../Loader.vue'
 import Comment from './Comment.vue'
-import Title from './Title.vue'
 
 import getData from '../../api/main'
 

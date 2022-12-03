@@ -1,17 +1,21 @@
 <template>
   <aside ref="menu">
-    <header class="container user-select-none">
-      <NavButton @handleClick="closeMenu">
-        <template #icon><span style="font-size:1.5rem;padding:0 5px 0 0;line-height:1;">&#10094;</span></template>
-      </NavButton>
-      <div class="right-menu">
+    <header class="user-select-none">
+      <div class="left-col">
+        <Logo :height="40"/>
+      </div>
+      <div class="middle-col">
         <template v-if="store.state.credentials.loggedIn">
           <div class="user">
-            <span class="material-icons">account_circle</span>
             <span style="font-size:0.75rem">{{store.state.credentials.user.email.split('@')[0]}}</span>
           </div>
-          <button class="logout-button" @click="logout(); closeMenu()">Odhlásiť sa</button>
+          <button class="logout-button" @click="logout(); closeMenu()">Odhlásiť</button>
         </template>
+      </div>
+      <div class="right-col">
+        <NavButton @handleClick="closeMenu">
+          <template #icon><span style="font-size:1.5rem;padding:0 5px 0 0;line-height:1;">&#10094;</span></template>
+        </NavButton>
       </div>
     </header>
     <main class="menu-content">
@@ -51,6 +55,8 @@
 import NavButton from './Buttons/NavButton.vue'
 import SidebarMenuItem from './Sidebar/SidebarMenuItem.vue'
 import Footer from './Footer.vue'
+import Logo from './Logo.vue'
+
 import { notify } from "@kyvg/vue3-notification"
 import { onClickOutside } from '@vueuse/core'
 import { ref, inject, onMounted, onUnmounted } from 'vue'
@@ -140,11 +146,18 @@ aside{
     align-items:center;
     min-height:var(--nav-height);
     gap:1rem;
-    div.right-menu{
-      margin-left:auto;
+    padding:0 1rem;
+    div.left-col{
+      margin-right:auto;
       display:flex;
       align-items:center;
-      gap:0.75rem;
+      gap:1rem;
+    }
+    div.middle-col{
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      gap:1rem;
       div.user{
         display:flex;
         align-items:center;
@@ -160,6 +173,12 @@ aside{
         padding:3px 6px;
         border-radius:0.25rem;
       }
+    }
+    div.right-col{
+      margin-left:auto;
+      display:flex;
+      align-items:center;
+      gap:1rem;
     }
   }
   div.visual-menu{

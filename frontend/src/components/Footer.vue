@@ -4,7 +4,6 @@
       <li v-for="(link, i) in links" :key="i"><router-link tabindex="0" :to="link.address">{{ link.label }}</router-link></li>
     </ul>
     <div class="logos">
-      <Logo :height="40"/>
       <a href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer">
         <img class="tmdb-logo" src="../assets/tmdb.svg" alt="TMDB">
       </a>

@@ -102,6 +102,7 @@ section.panel{
     justify-content:center;
     align-items:center;
     transition:0.2s ease background-color, 0.4s ease transform;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
     &.left{
       left:20px;
       padding:0 4px 2px 0;

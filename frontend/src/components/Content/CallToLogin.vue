@@ -2,16 +2,20 @@
   <section class="prompt user-select-none" v-if="shown">
     <span><b>Neobmedzené</b> sledovanie filmov a seriálov.</span>
     <BasicButton text="Prihlásiť sa" mutation="hover-color-change"  @handleClick="$router.push('/login')"/>
-    <CloseButton v-if="enableClose" class="close" @click="shown = false"  />
+    <CloseButton v-if="props.enableClose" class="close" @click="shown = false"  />
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import CloseButton from '../Buttons/CloseButton.vue'
 import BasicButton from '../Buttons/BasicButton.vue'
-import { ref } from 'vue'
+import { ref, withDefaults } from 'vue'
 
-const { enableClose = true } = defineProps({ enableClose: Boolean })
+const props = withDefaults(defineProps<{
+  enableClose?: boolean
+}>(), {
+  enableClose: () => true
+})
 
 const shown = ref(true)
 

@@ -1,40 +1,32 @@
 <template>
   <section class="title user-select-none">
     <div v-if="details['status'] || details['release_date'] || details['number_of_episodes'] || details['runtime'] || details['countries'].length > 0 || details['languages'].length > 0" class="details">
-      <DetailsItem v-if="details['status']">
-        <template #label>Status</template>
+      <DetailsItem v-if="details['status']" label="Status">
         <template #content>{{details['status']}}</template>
       </DetailsItem>
-      <DetailsItem v-if="details['revenue']">
-        <template #label>Zárobok</template>
+      <DetailsItem v-if="details['revenue']" label="Zárobok">
         <template #content>{{details['revenue']}}</template>
       </DetailsItem>
-      <DetailsItem v-if="details['release_date']">
-        <template #label>Dátum vydania</template>
+      <DetailsItem v-if="details['release_date']" label="Dátum vydania">
         <template #content>{{details['release_date']}}</template>
       </DetailsItem>
-      <DetailsItem v-if="details['number_of_episodes']">
-        <template #label>Počet epizód</template>
+      <DetailsItem v-if="details['number_of_episodes']" label="Počet epizód">
         <template #content>{{details['number_of_episodes']}}</template>
       </DetailsItem>
-      <DetailsItem v-if="details['runtime']">
-        <template #label>Dĺžka</template>
+      <DetailsItem v-if="details['runtime']" label="Dĺžka">
         <template #content>{{details['runtime']}}</template>
       </DetailsItem>
-      <DetailsItem v-if="details['languages'].length !== 0">
-        <template #label>Audio</template>
+      <DetailsItem v-if="details['languages'].length !== 0" label="Audio">
         <template #content>
           <span v-for="language in details['languages']" :key="language['iso_639_1']" style="display:block">{{language['english_name']}}</span>
         </template>
       </DetailsItem>
-      <DetailsItem v-if="details['countries'].length !== 0">
-        <template #label>Pôvod</template>
+      <DetailsItem v-if="details['countries'].length !== 0" label="Pôvod">
         <template #content>
           <span v-for="(country, index) in details['countries']" :key="index" style="display:block">{{store.state.countries[(country.iso_3166_1 || country).toLowerCase()]}}</span>
         </template>
       </DetailsItem>
-      <DetailsItem v-if="details['genres'].length !== 0">
-        <template #label>Žanre</template>
+      <DetailsItem v-if="details['genres'].length !== 0" label="Žanre">
         <template #content>
           <router-link v-for="genre in details['genres']" :key="genre.id" :to="`/library?type=${type}&genre=${genre.id}`" style="display:block">{{genre.name}}</router-link>
         </template>
@@ -93,13 +85,11 @@ store.methods.recentItems.pushItem({
 
 const tvStatusIcon = new Map()
 tvStatusIcon.set('Pokračuje','more_horiz')
-  .set('Naplánovany','event')
-  .set('V produkcií','build')
-  .set('Skončil','check_circle')
-  .set('Zrušený','cancel')
-  .set('Pilot','filter_1')
-
-const getCat = rating => parseFloat(rating) < 2.5 ? 'low' : parseFloat(rating) < 7.0 ? 'medium' : 'high'
+.set('Naplánovany','event')
+.set('V produkcií','build')
+.set('Skončil','check_circle')
+.set('Zrušený','cancel')
+.set('Pilot','filter_1')
 </script>
 
 <style lang="scss" scoped>

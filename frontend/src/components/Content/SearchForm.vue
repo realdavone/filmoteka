@@ -16,7 +16,7 @@
           </div>
         </Transition>
       </div>
-      <input id="search-input" ref="input" v-model="searchQuery"  type="text" placeholder="Vyhľadávanie" required @focus="inputFocus(true)" @focusout="inputFocus(false)">
+      <input id="search-input" ref="input" v-model="searchQuery"  type="text" placeholder="Vyhľadávanie" required @focus="isInputFocused = true" @focusout="isInputFocused = false">
     </form>
     <Transition name="fade">
       <RecentSearch v-if="isInputFocused && store.state.recentSearch.length > 0" />
@@ -56,8 +56,6 @@ const submitQuery = () => {
     input.value.blur()
   }
 }
-
-const inputFocus = state => isInputFocused.value = state
 
 onMounted(() => input.value.focus())
 </script>

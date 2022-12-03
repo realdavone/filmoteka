@@ -24,6 +24,7 @@ div.recent{
   justify-content:center;
   gap:0.75rem;
   border-radius:1rem;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
 
   button{
     background:var(--card-color-hover);
