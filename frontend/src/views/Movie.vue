@@ -58,9 +58,6 @@
           </template>
         </ActionMenu>
       </template>
-      <template #rating>
-        <Rating :rating="details?.['ratings']?.[0]?.['rating']" :url="details?.['ratings']?.[0]?.['url']" size="large" />
-      </template>
       <template #title>
         <span v-if="!loading" class="title">{{details['title']}}</span>
       </template>

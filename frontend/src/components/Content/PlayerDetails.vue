@@ -22,7 +22,6 @@
           <div class="skeleton-text" style="height:calc(0.75rem * 1.4);width:120px;"></div>
         </slot>
         <div class="overview">
-          <slot name="rating" />
           <slot name="shortOverview">
             <div style="width:100%">
               <div class="skeleton-text" style="height:calc(0.7rem * 1.4);margin-bottom:0.5rem;"></div>

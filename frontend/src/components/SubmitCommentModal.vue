@@ -80,7 +80,7 @@ onMounted(() => textarea.value!.focus())
 div.modal{
   padding:0.75rem 1rem 1rem;
   background-color:var(--background-color);
-  border-radius:1rem;
+  border-radius:0.75rem;
   display:flex;
   flex-direction:column;
   gap:1rem;

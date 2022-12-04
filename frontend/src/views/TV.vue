@@ -4,9 +4,6 @@
       <template #poster>
         <img v-if="details?.poster" class="poster" :src="`https://www.themoviedb.org/t/p/w300${details['poster']}`" :alt="details['title']">
       </template>
-      <template #rating>
-        <Rating :rating="details?.['ratings']?.[0]?.['rating']" :url="details?.['ratings']?.[0]?.['url']" />
-      </template>
       <template #feedback>
         <Feedback v-if="!loading && store.state.credentials.loggedIn && (new Date()) > new Date(result['first_air_date'])" :state="{ likes: details?.likes, dislikes: details?.dislikes }" :title="{ id: $route.params.id, type: 'tv' }"/>
       </template>

@@ -5,9 +5,7 @@
         <span :class="`${store.state.credentials.user?.email === comment.author?.email && 'me'}`">{{comment.author?.email}}</span>
         <span> @ {{new Date(comment.createdAt).toLocaleString('sk-SK')}}</span>
       </div>
-      <button v-if="store.state.credentials.user?.email === comment.author?.email" :disabled="loading" @click="deleteComment(comment._id)">
-        <span class="material-icons">delete_outline</span>
-      </button>
+      <button v-if="store.state.credentials.user?.email === comment.author?.email" :disabled="loading" @click="deleteComment(comment._id)">Zmazať</button>
     </header>
     <div class="content">{{comment.content}}</div>
   </div>
@@ -26,7 +24,7 @@ const deleteComment = id => {
   loading.value = true
   getData({ endpoint: `/comments`, options: {
     method: 'DELETE',
-    body: JSON.stringify({id})
+    body: JSON.stringify({ id })
   }})
   .then(res => {
     if(res.success) emit('deleted')
@@ -45,6 +43,9 @@ div.comment{
   flex-direction:column;
   gap:0.5rem;
   align-self:stretch;
+  padding:1rem;
+  background-color:var(--card-color);
+  border-radius:0.75rem;
   header{
     display:flex;
     align-items:flex-start;
@@ -70,7 +71,9 @@ div.comment{
     }
     button{
       color:crimson;
-      span{ font-size:1rem }
+      font-size:0.65rem;
+      text-transform:uppercase;
+      font-weight:700;
     }
   }
 }
