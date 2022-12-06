@@ -70,7 +70,7 @@ div.select{
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
     border-radius:8px;
     overflow:hidden;
-    top:calc(100% + 10px);
+    top:calc(100% + 5px);
   }
   div.selected-option, div.option{
     height:36px;
@@ -111,7 +111,7 @@ div.search{
 }
 form.search-form{
   display:flex;
-  border-radius:25px;
+  border-radius:1.75rem;
   background:var(--card-color-hover);
   width:100%;
   transition:0.2s ease all;
@@ -125,10 +125,11 @@ form.search-form{
     width:100%; 
     font-size:0.95rem;
     color:inherit;
-    border-radius:25px;
   }
   &:focus-within{
     outline:1px solid var(--theme-color);
+    border-bottom-left-radius:0;
+    border-bottom-right-radius:0;
   } 
 }
 </style>

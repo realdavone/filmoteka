@@ -77,7 +77,6 @@ div.comments{
   align-items:center;
   gap:1rem;
   max-height:300px;
-  min-height:2.5rem;
   overflow:auto;
   &::-webkit-scrollbar{width:15px;height:15px;}
   &::-webkit-scrollbar-thumb{background:var(--card-color-hover);border:4px solid transparent;border-radius:10px;background-clip:content-box;}

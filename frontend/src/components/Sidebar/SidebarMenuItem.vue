@@ -28,11 +28,11 @@ a.menu-item, button.menu-item{
   display:flex;
   align-items:center;
   gap:1rem;
-  padding:0.75rem;
+  padding:0.5rem 0.75rem;
   border-radius:2rem;
   overflow:hidden;
   transition:0.2s ease background-color;
-  min-height:46px;
+  min-height:38px;
   &.active{
     background:var(--card-color-hover);
     border-bottom-left-radius: 0;
@@ -46,6 +46,6 @@ a.menu-item, button.menu-item{
   span:nth-child(1){ font-size:1.25rem }
   span:nth-child(2){ font-size:0.85rem }
   &:hover{ background:var(--card-color-hover) }
-  &.router-link-exact-active{ background:var(--theme-color) }
+  &.router-link-exact-active{ background:var(--theme-color); color:white }
 }
 </style>

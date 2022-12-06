@@ -17,15 +17,14 @@ div.recent{
   top:calc(100% + 1px);
   background:var(--card-color);
   width:100%;
-  padding:0.5rem 1rem;
+  padding:0.75rem 1rem;
   font-size:0.75rem;
   display:flex;
   flex-wrap:wrap;
   justify-content:center;
   gap:0.75rem;
-  border-radius:1rem;
-  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
-
+  border-bottom-left-radius:1.75rem;
+  border-bottom-right-radius:1.75rem;
   button{
     background:var(--card-color-hover);
     padding:0.25rem 0.5rem;

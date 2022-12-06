@@ -19,7 +19,7 @@
             <span>Prihlásiť</span>
             <Loader v-if="loginStart" />
           </button>
-          <div id="buttonDiv" style="align-self:center"></div>
+          <div id="buttonDiv" style="align-self:center;height:32px;"></div>
         </form>
         <router-link tabindex="0" v-if="store.state.globalSettings?.allowRegistration" to="/register" class="link">Ešte nemáte účet?</router-link>
       </section>

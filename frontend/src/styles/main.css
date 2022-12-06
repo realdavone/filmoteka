@@ -5,8 +5,8 @@
   --dark-card-color:#202020;
   --dark-card-color-hover:#302e2e;
 
-  --light-card-color:#F5F0F6;
-  --light-card-color-hover:#eae4ec;
+  --light-card-color:#e3dfe4;
+  --light-card-color-hover:#d0cbd2;
 
   --dark-background:#1b1b1b;
   --light-background:#fffdfd;
@@ -21,6 +21,8 @@
 
   --vertical-card-width:200px;
   --player-width:770px;
+
+  --scrollbar-width:15px;
   
   --card-panel-gap:1.5rem;
   --container-padding:2rem;
@@ -50,7 +52,10 @@ body{
 }
 a,button,select,div,summary{ -webkit-tap-highlight-color: transparent }
 img{ color:transparent }
-body.modal-open{overflow:hidden}
+body.modal-open{
+  overflow:hidden;
+  padding-right:var(--scrollbar-width);
+}
 body[data-dark-theme=true]{
   --background-color:var(--dark-background);
   --background-color-alpha:var(--dark-background-alpha);
@@ -130,7 +135,7 @@ div.skeleton-text:first-of-type{
 .slide-enter-active, .slide-leave-active{ transition:transform 0.2s ease }
 .slide-enter-from, .slide-leave-to{ transform:translateX(-300px) }
 
-::-webkit-scrollbar{width:15px;height:15px;}
+::-webkit-scrollbar{width:var(--scrollbar-width);height:var(--scrollbar-width);}
 ::-webkit-scrollbar-thumb{background:var(--theme-color-transparent);border:4px solid transparent;border-radius:10px;background-clip:content-box;}
 ::-webkit-scrollbar-thumb:hover{background:var(--theme-color);border:4px solid transparent;border-radius:10px;background-clip:content-box;}
 

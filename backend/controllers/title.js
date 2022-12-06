@@ -13,16 +13,21 @@ const OMDB_API_KEY = process.env.OMDB_API_KEY
 
 export const getTitle = async (req, res) => {
   const { type, id } = req.params
-  
-  const response = await fetch(`${TMDB_BASE_API}/${type}/${id}?api_key=${TMDB_API_KEY}&append_to_response=credits,recommendations,external_ids,translations,content_ratings,images&include_image_language=en,null&language=sk-SK`)
-  const data = await response.json()
-  const omdbResponse = await fetch(`https://www.omdbapi.com/?i=${data.external_ids.imdb_id}&apikey=${OMDB_API_KEY}`)
-  const omdbData = await omdbResponse.json()
 
-  const foundTitle = await Title.findOne({ type, id })
-  if(foundTitle === null) return res.json({ ...data, omdb: { ...omdbData }, ...foundTitle?._doc, isRecommended: false })
-  const isRecommended = await RecommendedTitle.findOne({ title: foundTitle._id })
-  res.json({ ...data, omdb: { ...omdbData }, ...foundTitle?._doc, isRecommended: isRecommended === null ? false : true })
+  try {
+    const response = await fetch(`${TMDB_BASE_API}/${type}/${id}?api_key=${TMDB_API_KEY}&append_to_response=credits,recommendations,external_ids,translations,content_ratings,images&include_image_language=en,null&language=sk-SK`)
+    const data = await response.json()
+  
+    if(data.success === false) return res.status(404).json({ success: false, message: data.status_message })
+  
+    const omdbResponse = await fetch(`https://www.omdbapi.com/?i=${data.external_ids.imdb_id}&apikey=${OMDB_API_KEY}`)
+    const omdbData = await omdbResponse.json()
+  
+    const foundTitle = await Title.findOne({ type, id })
+    if(foundTitle === null) return res.json({ ...data, omdb: { ...omdbData }, ...foundTitle?._doc, isRecommended: false })
+    const isRecommended = await RecommendedTitle.findOne({ title: foundTitle._id })
+    res.status(200).json({ ...data, omdb: { ...omdbData }, ...foundTitle?._doc, isRecommended: isRecommended === null ? false : true })    
+  } catch (error) { res.status(500).json({ success: false, message: 'Niečo sa pokazilo' }) }
 }
 
 export const getRecommended = async (req, res) => {

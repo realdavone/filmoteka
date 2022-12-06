@@ -74,15 +74,10 @@ onBeforeMount(() => { getResults(route.query.q) })
 section.title-holder{
   display:flex;
   flex-direction:row;
-  gap:20px;
+  gap:1rem;
   header{
-    background:var(--card-color-hover);
-    padding:8px 12px;
-    border-radius:8px;
     font-weight:900;
     font-size:1rem;
-    color:var(--theme-color);
-    font-family: 'Oswald', sans-serif;
   }
   a.show-more{
     color:var(--theme-color);
