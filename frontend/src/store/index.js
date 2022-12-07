@@ -72,8 +72,8 @@ const methods = {
         state.recentSearch.splice(state.recentSearch.indexOf(item), 1)
       }
       state.recentSearch.unshift(item)
-      if(state.recentSearch.length > 5){
-        state.recentSearch = state.recentSearch.splice(0,5)
+      if(state.recentSearch.length > 6){
+        state.recentSearch = state.recentSearch.splice(0,6)
       }
       localStorage.setItem('recentSearch', JSON.stringify(state.recentSearch))
     },

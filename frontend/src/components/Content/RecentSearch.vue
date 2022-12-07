@@ -1,13 +1,18 @@
 <template>
   <div class="recent">
-    <button v-for="(item, index) in store.state.recentSearch" :key="index" @click="$router.push(`/search?q=${item}`)">{{item}}</button>
+    <button v-for="(item, index) in store.state.recentSearch" :key="index" @click="emit('handleRecentItem', item)">{{item}}</button>
+    <span v-if="store.state.recentSearch.length === 0">História vyhľadávania je prázdna</span>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { inject } from 'vue'
 
-const store = inject('store')
+const store = inject<any>('store')
+
+const emit = defineEmits<{
+  (e: "handleRecentItem", item: string): void
+}>()
 </script>
 
 <style lang="scss" scoped>

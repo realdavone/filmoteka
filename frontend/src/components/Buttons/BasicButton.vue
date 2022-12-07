@@ -21,6 +21,7 @@ button{
   font-size:0.75rem;
   position: relative;
   z-index:1;
+  white-space:nowrap;
   &.basic{
     background-color:var(--theme-color);
     color:var(--font-color-dark);

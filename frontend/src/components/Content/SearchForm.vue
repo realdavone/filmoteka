@@ -19,7 +19,7 @@
       <input id="search-input" ref="input" v-model="searchQuery"  type="text" placeholder="Vyhľadávanie" required @focus="isInputFocused = true" @focusout="isInputFocused = false">
     </form>
     <Transition name="fade">
-      <RecentSearch v-if="isInputFocused && store.state.recentSearch.length > 0" />
+      <RecentSearch v-show="isInputFocused" @handleRecentItem="handleRecentItem" />
     </Transition>
 </div>
 </template>
@@ -47,6 +47,11 @@ const options = [
 ]
 
 const searchType = ref(options[0])
+
+const handleRecentItem = item => {
+  searchQuery.value = item
+  submitQuery()
+}
 
 onClickOutside(optionsMenu, () => isOptionsMenuOpened.value = false)
 
