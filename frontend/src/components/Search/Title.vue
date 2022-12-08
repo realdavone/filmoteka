@@ -1,7 +1,7 @@
 <template>
   <router-link :to="`/${title.type}/${title.id}`" class="title">
     <div class="image-holder">
-      <img v-if="title.poster_path" :src="`https://www.themoviedb.org/t/p/w300_and_h300_face${title.poster_path}`" :alt="title.title" loading="lazy">
+      <img v-if="title.poster_path" :src="`https://www.themoviedb.org/t/p/w300_and_h300_face${title.poster_path}`" :alt="title.title" loading="lazy" draggable="false">
     </div>
     <section class="details">
       <div class="title-holder" :title="`${title.title || title.name} (${(new Date(title.release_date || title.first_air_date)).getFullYear()})`">
@@ -15,7 +15,7 @@
       <div class="overview" v-if="title.overview">{{title.overview}}</div>
     </section>
     <div v-if="title.backdrop_path" class="background-img">
-      <img :src="`https://www.themoviedb.org/t/p/w780${title.backdrop_path}`" :alt="title.title" loading="lazy">
+      <img :src="`https://www.themoviedb.org/t/p/w780${title.backdrop_path}`" :alt="title.title" loading="lazy" draggable="false">
     </div>
   </router-link>
 </template>

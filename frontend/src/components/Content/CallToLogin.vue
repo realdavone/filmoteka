@@ -26,7 +26,7 @@ defineExpose({ shown })
 section.prompt{
   padding:1.5rem 3rem;
   background-color:var(--card-color-hover);
-  font-size:1.05rem;
+  font-size:.95rem;
   display:flex;
   align-items:center;
   justify-content:center;

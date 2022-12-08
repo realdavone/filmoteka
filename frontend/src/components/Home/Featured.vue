@@ -1,7 +1,7 @@
 <template>
   <section class="featured container user-select-none">
     <div v-if="title?.backdrop_path" class="background-image">
-      <img @error="hide" :src="`https://www.themoviedb.org/t/p/w1440_and_h320_multi_faces${title?.backdrop_path}`" alt="Obrázok v pozadí">
+      <img @error="hide" :src="`https://www.themoviedb.org/t/p/w1440_and_h320_multi_faces${title?.backdrop_path}`" alt="Obrázok v pozadí" draggable="false">
     </div>
     <section class="title-holder">
       <div class="poster">

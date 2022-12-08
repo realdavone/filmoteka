@@ -1,21 +1,31 @@
 <template>
-  <router-link :to="`/person/${props.id}`" class="cast-card">
+  <router-link :to="`/person/${person.id}`" class="cast-card">
     <div class="img">
-      <slot name="image" />
+      <img :src="`https://www.themoviedb.org/t/p/w300_and_h300_face${person.profile_path}`" :alt="person.name" draggable="false">
     </div>
     <div class="name-holder">
-      <span class="name">
-        <slot name="name" />
-      </span>
-      <span class="character">
-        <slot name="character"/>
-      </span>
+      <span class="name">{{person.name}}</span>
+      <span class="character">{{person.character}}</span>
     </div>
   </router-link>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{type: string, id: number}>()
+const { person } = defineProps<{
+  person: {
+    adult: boolean,
+    character: string,
+    credit_id: string,
+    gender: number,
+    id: number,
+    known_for_department: string,
+    name: string,
+    order: number,
+    original_name: string,
+    popularity: number,
+    profile_path: string,
+  }
+}>()
 </script>
 
 <style lang="scss" scoped>
@@ -37,7 +47,7 @@ a.cast-card{
     min-width:80px;
     border-radius:50%;
     overflow:hidden;
-    :slotted(img){
+    img{
       width:100%;
       height:100%;
       object-fit:cover;

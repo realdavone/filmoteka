@@ -2,8 +2,8 @@
   <div class="search">
     <form class="search-form" @submit.prevent="submitQuery" autocomplete="off">
       <div class="select user-select-none">
-        <div class="selected-option" @click="isOptionsMenuOpened = !isOptionsMenuOpened" :data-opened="isOptionsMenuOpened">
-          <span class="material-icons" style="font-size:1.25rem">{{searchType['icon']}}</span>        
+        <div class="selected-option" @click="isOptionsMenuOpened = !isOptionsMenuOpened">
+          <span class="material-icons" style="font-size:1.5rem;">menu</span>      
         </div>
         <Transition name="fade">
           <div ref="optionsMenu" v-if="isOptionsMenuOpened" class="options">
@@ -83,11 +83,12 @@ div.select{
     align-items:center;
     padding:0 10px;
     cursor:pointer;
-    gap:10px;
+    gap:1rem;
     span{font-size:0.8rem;}
     div.icon-holder{
       width:20px;
       text-align:center;
+      padding-top:5px;
     }
     &[data-active=true]{
       background:var(--theme-color);
@@ -95,17 +96,6 @@ div.select{
     }
   }
   div.option{padding-right:50px;}
-  div.selected-option{
-    &::after{
-      transition:0.2s ease transform;
-      content:'\f0d7';
-      font-family: "Font Awesome 5 Free";
-      font-weight: 900; 
-      font-size:0.8rem;
-    }
-    &[data-opened=false]::after{transform:rotate(0deg);}
-    &[data-opened=true]::after{transform:rotate(180deg);}
-  }
   div.option:not([data-active=true]):hover{background:var(--card-color-hover);}
 }
 div.search{

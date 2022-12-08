@@ -2,7 +2,7 @@
   <section class="user-select-none container">
     <div class="outter">
       <div v-if="bg" class="background-image">
-        <img @error="bg = false" :src="`https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${bg}`" alt="Obrázok v pozadí">
+        <img @error="bg = false" :src="`https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${bg}`" alt="Obrázok v pozadí" draggable="false">
       </div>
       <div class="left-col">
         <div class="poster">
@@ -116,11 +116,6 @@ section.container{
   line-height:1.1;
   font-size:1.75rem;
   font-weight:700;
-}
-:slotted(img.poster){
-  width:100%;
-  height:100%;
-  object-fit:cover;
 }
 :slotted(span.tagline){
   font-size:0.75rem;

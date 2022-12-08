@@ -2,7 +2,7 @@
   <main class="title">
     <PlayerDetails :type="'tv'" :bg="result?.backdrop_path">
       <template #poster>
-        <img v-if="details?.poster" class="poster" :src="`https://www.themoviedb.org/t/p/w300${details['poster']}`" :alt="details['title']">
+        <Poster v-if="details?.poster" :src="details['poster']" :alt="details['title']" />
       </template>
       <template #feedback>
         <Feedback v-if="!loading && store.state.credentials.loggedIn && (new Date()) > new Date(result['first_air_date'])" :state="{ likes: details?.likes, dislikes: details?.dislikes }" :title="{ id: $route.params.id, type: 'tv' }"/>
@@ -97,11 +97,7 @@
       <CastPanel v-once v-if="cast.length !== 0">
         <template #title>Herci</template>
         <template #card>
-          <PersonCard v-for="item in cast" :key="item.id" :type="'person'" :id="item.id">
-            <template #image><img :src="`https://www.themoviedb.org/t/p/w300_and_h300_face${item.profile_path}`" :alt="item.name"></template>
-            <template #name>{{item.name}}</template>
-            <template #character>{{item.character}}</template>
-          </PersonCard>
+          <PersonCard v-for="item in cast" :key="item.id" :person="item" />
         </template>
       </CastPanel>
       <CardPanel v-if="similarTV.length !== 0">
@@ -131,7 +127,7 @@ import PlayerDetails from '../components/Content/PlayerDetails.vue'
 import ActionButton from '../components/Buttons/ActionButton.vue'
 import Feedback from '../components/Content/Feedback.vue'
 import Discussion from '../components/Content/Discussion.vue'
-import Rating from '../components/Content/Rating.vue' 
+import Poster from '../components/Content/Poster.vue'
 
 const route = useRoute()
 const router = useRouter()

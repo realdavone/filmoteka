@@ -4,23 +4,23 @@
       <div class="left-col">
         <Logo :height="40"/>
       </div>
-      <div class="middle-col">
-        <template v-if="store.state.credentials.loggedIn">
-          <div class="user">
-            <span style="font-size:0.75rem">{{store.state.credentials.user.email.split('@')[0]}}</span>
-          </div>
-          <button class="logout-button" @click="logout(); closeMenu()">Odhlásiť</button>
-        </template>
-      </div>
       <div class="right-col">
         <NavButton @handleClick="closeMenu">
-          <template #icon><span style="font-size:1.5rem;padding:0 5px 0 0;line-height:1;">&#10094;</span></template>
+          <template #icon><span style="font-size:1.5rem;padding:0 0 5px 0;line-height:1;">&times;</span></template>
         </NavButton>
       </div>
     </header>
     <main class="menu-content">
-      <section v-auto-animate class="menu-links">
-        <SidebarMenuItem v-for="link, i in links" :key="i" :link="link" @click="closeMenu()" />
+      <section v-if="store.state.credentials.loggedIn" class="welcome">
+        <span class="greeting">Serus, {{store.state.credentials.user.email}}</span>
+        <button class="logout-button" @click="logout(); closeMenu()" title="Odhlásiť">
+          <span class="material-icons-outlined">logout</span>
+        </button>
+      </section>
+      <section class="menu-tabs">
+        <SidebarMenuTile v-for="link, i in links" :key="i" :link="link" @click="closeMenu()" />
+      </section>
+      <section v-auto-animate class="menu-items">
         <SidebarMenuItem :link="visualMenuButton" @click="isVisualMenuOpened = !isVisualMenuOpened" :class="isVisualMenuOpened && 'active'"/>
         <div v-if="isVisualMenuOpened" class="visual-menu">
           <div class="theme-picker">
@@ -54,6 +54,7 @@
 <script setup>
 import NavButton from './Buttons/NavButton.vue'
 import SidebarMenuItem from './Sidebar/SidebarMenuItem.vue'
+import SidebarMenuTile from './Sidebar/SidebarMenuTile.vue'
 import Footer from './Footer.vue'
 import Logo from './Logo.vue'
 
@@ -71,32 +72,39 @@ const isRecentItemsMenuOpened = ref(false)
 
 const links = [
   {
-    icon: `<span style="font-size:1.25rem" class="material-icons">home</span>`,
+    icon: `<span class="material-icons">home</span>`,
     label: 'Domov',
     isLink: true,
     route: '/',
     shown: true
   },
   {
-    icon: `<span style="font-size:1.25rem" class="material-icons">video_library</span>`,
+    icon: `<span class="material-icons">video_library</span>`,
     label: 'Knižnica',
     isLink: true,
     route: '/library',
     shown: true
   },
   {
-    icon: `<span style="font-size:1.25rem" class="material-icons">recommend</span>`,
+    icon: `<span class="material-icons">recommend</span>`,
     label: 'Odporúčané',
     isLink: true,
     route: '/recommended',
     shown: true
   },
   {
-    icon: '<span style="font-size:1.25rem" class="material-icons">settings</span>',
+    icon: '<span class="material-icons">settings</span>',
     label: 'Admin',
     isLink: true,
     route: '/admin',
     shown: store.state.credentials.user?.isAdmin || false
+  },
+  {
+    icon: '<span class="material-icons">lock</span>',
+    label: 'DMCA',
+    isLink: true,
+    route: '/dmca',
+    shown: true
   }
 ]
 
@@ -153,27 +161,6 @@ aside{
       align-items:center;
       gap:1rem;
     }
-    div.middle-col{
-      margin:0 auto;
-      display:flex;
-      align-items:center;
-      gap:1rem;
-      div.user{
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        gap:0.5rem;
-        span:last-of-type{
-          line-height:1;
-        }
-      }
-      button.logout-button{
-        font-size:0.65rem;
-        outline:1px solid var(--font-color);
-        padding:3px 6px;
-        border-radius:0.25rem;
-      }
-    }
     div.right-col{
       margin-left:auto;
       display:flex;
@@ -203,18 +190,38 @@ aside{
   main.menu-content{
     display:flex;
     flex-direction:column;
-    gap:0.5rem;
+    gap:1rem;
     overflow-y:scroll;
-    padding:0.75rem 0.75rem 0.5rem;
+    padding:1.5rem 0.75rem 0.5rem;
     background:var(--card-color);
     min-height:calc(100vh - var(--nav-height));
     overflow-x:hidden;
     &::-webkit-scrollbar{width:15px;height:15px;}
     &::-webkit-scrollbar-thumb{background:var(--card-color-hover);border:4px solid transparent;border-radius:10px;background-clip:content-box;}
-    section.menu-links{
+    section.welcome{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:1rem;
+      span.greeting{
+        font-size:0.85rem;
+      }
+      button.logout-button{
+        line-height:1;
+        span{
+          font-size:1rem;
+        }
+      }
+    }
+    section.menu-items{
       display:flex;
       flex-direction:column;
       gap:0.5rem;
+    }
+    section.menu-tabs{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:1rem
     }
     div.theme-picker{
       display:flex;
