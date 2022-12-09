@@ -187,16 +187,16 @@ const fetchData = async (id) => {
           rating: omdb['imdbRating'],
           url: `https://www.imdb.com/title/${result.value['external_ids']['imdb_id']}`
         },
-        ...(omdb?.['Ratings'].find(rating => rating['Source'] === 'Rotten Tomatoes')?.['Value'] ? {
+        ...(omdb?.['Ratings'].find(rating => rating['Source'] === 'Rotten Tomatoes')?.['Value'] ? [{
           name: 'Rotten Tomatoes',
-          rating: omdb?.['Ratings'].find(rating => rating['Source'] === 'Rotten Tomatoes')?.['Value'] || null,
+          rating: omdb?.['Ratings'].find(rating => rating['Source'] === 'Rotten Tomatoes')?.['Value'],
           url: null
-        } : []),
-        ...(omdb?.['Ratings'].find(rating => rating['Source'] === 'Metacritic')?.['Value'] ? {
+        }] : []),
+        ...(omdb?.['Ratings'].find(rating => rating['Source'] === 'Metacritic')?.['Value'] ? [{
           name: 'Metascore',
-          rating: omdb?.['Ratings'].find(rating => rating['Source'] === 'Metacritic')?.['Value'] || null,
+          rating: omdb?.['Ratings'].find(rating => rating['Source'] === 'Metacritic')?.['Value'],
           url: null
-        }: [])
+        }]: [])
       ],
       year: omdb['Year'],
       rated: !omdb['Rated']||omdb['Rated']==='N/A'?'Not Rated':omdb['Rated'],
