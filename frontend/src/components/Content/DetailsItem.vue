@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-const { label } = defineProps<{label: string}>()
+const { label } = defineProps<{ label: string }>()
 </script>
 
 <style lang="scss" scoped>
@@ -20,7 +20,12 @@ div.item{
   div.content{
     font-size:0.75rem;
     line-height:1.4;
-    color:var(--secondary-text-color);
   }
+}
+:slotted(span), :slotted(a){
+  opacity:0.5;
+}
+:slotted(a):hover{
+  opacity:1;
 }
 </style>

@@ -30,12 +30,11 @@ nav.subnav{
   align-self:center;
   div.buttons{
     display:flex;
-    justify-content:center;
     gap:0.5rem;
     flex-wrap:wrap;
     button.placeholder{
       height:40px;
-      width:3rem;
+      aspect-ratio:1;
       background-color:var(--card-color);
       border-radius:0.5rem;
       cursor:default;

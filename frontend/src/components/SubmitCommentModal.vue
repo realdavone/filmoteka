@@ -94,7 +94,7 @@ div.modal{
     div.user{
       display:flex;
       align-items:center;
-      gap:0.25rem;
+      gap:0.5rem;
       span:first-of-type{ font-size:1.25rem; }
       span:last-of-type{ font-size:0.85rem; }
     }
@@ -104,7 +104,7 @@ div.modal{
     flex-direction:column;
     gap:1rem;
     textarea{
-      outline:2px solid var(--card-color);
+      background-color:var(--card-color);
       border-radius:1rem;
       padding:0.75rem;
       color:var(--font-color);

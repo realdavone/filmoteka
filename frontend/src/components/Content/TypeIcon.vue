@@ -9,8 +9,8 @@ const { type } = defineProps<{ type: 'Movie' | 'Tv' | 'movie' | 'tv' }>()
 <style lang="scss" scoped>
   div.icon{
     outline:1px solid gray;
-    border-radius:2px;
-    padding:1px 6px 1px;
+    border-radius:4px;
+    padding:2px 5px 1px 6px;
     font-size:0.75rem;
   }
 </style>

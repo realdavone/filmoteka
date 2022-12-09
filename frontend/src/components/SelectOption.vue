@@ -35,7 +35,7 @@ div.select{
   cursor:pointer;
   position:relative;
   div.active-selector{
-    font-size:0.85rem;
+    font-size:0.75rem;
     text-align:center;
   }
   div.values{
@@ -50,7 +50,7 @@ div.select{
     width:100%;
     min-width:100%;
     grid-template-columns:repeat(auto-fill, minmax(100px, 1fr));
-    gap:0.5rem;
+    gap:0.65rem;
     overflow:auto;
     max-height:50vh;
     div.option{
@@ -58,9 +58,13 @@ div.select{
       border-radius:0.25rem;
       text-align:left;
       font-size:0.75rem;
+      transition:0.2s ease background-color;
       &.active{
         background-color:var(--theme-color);
         color:var(--font-color-dark)
+      }
+      &:hover:not(.active){
+        background-color:var(--card-color-hover);
       }
     }
   }

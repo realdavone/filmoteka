@@ -31,7 +31,7 @@ a.menu-item, button.menu-item{
   padding:0.5rem 0.75rem;
   border-radius:2rem;
   overflow:hidden;
-  transition:0.2s ease background-color;
+  transition:0.2s ease all;
   min-height:38px;
   &.active{
     background:var(--card-color-hover);

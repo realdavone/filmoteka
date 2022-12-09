@@ -5,14 +5,14 @@
     </div>
     <section class="title-holder">
       <div class="poster">
-        <img v-if="title?.poster_path" :src="`https://www.themoviedb.org/t/p/w300${title?.poster_path}`" :alt="title?.name || title?.title">
+        <Poster v-if="title?.poster_path" :src="title?.poster_path" :alt="title?.name || title?.title" />
       </div>
       <div class="content">
         <div v-if="title?.name || title?.title" class="title">{{title?.name || title?.title}}</div>
         <div v-else class="skeleton-text" style="height:1.75rem;width:25%;min-width:180px;"></div>
 
-        <div v-if="title?.vote_average !== undefined" class="rating">
-          <Rating :rating="Math.round(title?.vote_average * 10) / 10"/>
+        <div v-if="title?.vote_average" class="rating">
+          <Rating size="normal" :rating="Math.round(title?.vote_average * 10) / 10"/>
           <TypeIcon :type="title?.media_type"/>
         </div>
         <div v-else class="skeleton-text" style="height:1.75rem;width:60px;"></div>
@@ -30,6 +30,7 @@
 import TypeIcon from '../Content/TypeIcon.vue'
 import BasicButton from '../Buttons/BasicButton.vue'
 import Rating from '../Content/Rating.vue'
+import Poster from '../Content/Poster.vue'
 
 const hide = el => el.target.style.display = 'none'
 

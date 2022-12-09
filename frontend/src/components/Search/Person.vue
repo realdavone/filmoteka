@@ -1,5 +1,5 @@
 <template>
-  <router-link class="person-result" :to="`/person/${person.id}`">
+  <router-link tabindex="0" class="person-result" :to="`/person/${person.id}`">
     <div class="img-holder">
       <img v-if="person.profile_path" :src="`https://www.themoviedb.org/t/p/w90_and_h90_face${person.profile_path}`" :alt="person.name" loading="lazy" draggable="false">
     </div>

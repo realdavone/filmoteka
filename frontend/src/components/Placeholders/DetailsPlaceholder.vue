@@ -13,9 +13,6 @@
       </div>
     </div>
     <div class="skeleton-text" style="height:1.25rem;width:160px"></div>
-    <div class="overview">
-      <div class="skeleton-text" v-for="row in 3" :key="row"></div>
-    </div>
     <div class="creators">
       <div v-for="i in 2" :key="i" class="creator">
         <div>

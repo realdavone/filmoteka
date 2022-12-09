@@ -2,19 +2,19 @@
   <section class="title user-select-none">
     <div v-if="details['status'] || details['release_date'] || details['number_of_episodes'] || details['runtime'] || details['countries'].length > 0 || details['languages'].length > 0" class="details">
       <DetailsItem v-if="details['status']" label="Status">
-        <template #content>{{details['status']}}</template>
+        <template #content><span>{{details['status']}}</span></template>
       </DetailsItem>
       <DetailsItem v-if="details['revenue']" label="Zárobok">
-        <template #content>{{details['revenue']}}</template>
+        <template #content><span>{{details['revenue']}}</span></template>
       </DetailsItem>
       <DetailsItem v-if="details['release_date']" label="Dátum vydania">
-        <template #content>{{details['release_date']}}</template>
+        <template #content><span>{{details['release_date']}}</span></template>
       </DetailsItem>
       <DetailsItem v-if="details['number_of_episodes']" label="Počet epizód">
-        <template #content>{{details['number_of_episodes']}}</template>
+        <template #content><span>{{details['number_of_episodes']}}</span></template>
       </DetailsItem>
       <DetailsItem v-if="details['runtime']" label="Dĺžka">
-        <template #content>{{details['runtime']}}</template>
+        <template #content><span>{{details['runtime']}}</span></template>
       </DetailsItem>
       <DetailsItem v-if="details['languages'].length !== 0" label="Audio">
         <template #content>
@@ -40,11 +40,6 @@
       </div>
     </section>
 
-    <div class="overview">
-      <span class="label">Prehľad</span>
-      {{details['overview'] || 'Popis nie je dostupný.'}}
-    </div>
-
     <div v-if="details['creators'].length > 0" class="creators">
       <div class="creator" v-for="creator in details.creators" :key="creator.id">
         <div class="name-job">
@@ -69,18 +64,17 @@ import Rating from './Rating.vue'
 import { inject, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
-const props = defineProps({ details: Object })
+const { details } = defineProps({ details: Object })
 
 const route = useRoute()
 const store = inject('store')
 const type = ref(route.name.charAt(0).toLowerCase() + route.name.substr(1))
-const details = ref(props['details'])
 
 store.methods.recentItems.pushItem({
   type: type.value,
-  title: details.value.title,
+  title: details.title,
   id: route.params.id,
-  poster: details.value.poster
+  poster: details.poster
 })
 
 const tvStatusIcon = new Map()

@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="`/${title.type}/${title.id}`" class="title">
+  <router-link tabindex="0" :to="`/${title.type}/${title.id}`" class="title">
     <div class="image-holder">
       <img v-if="title.poster_path" :src="`https://www.themoviedb.org/t/p/w300_and_h300_face${title.poster_path}`" :alt="title.title" loading="lazy" draggable="false">
     </div>

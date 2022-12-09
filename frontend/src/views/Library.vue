@@ -1,14 +1,20 @@
 <template>
   <main class="container wrapper">
     <TitleB style="margin-bottom:0">Knižnica</TitleB>
-    <section class="filter">
-      <SelectOption v-model="filterParams.type" @update:modelValue="typeChange" :options="titleTypes" />
-      <SelectOption v-model="filterParams.genre" :options="store.state.genres[filterParams.type]" />
-      <SelectOption v-model="filterParams.sort" :options="sortTypes" />
-      <button @click="filter(filterParams.type, filterParams.sort, 1, filterParams.genre)" class="filter-button">
-        <span class="label">Filter</span>
+    <div class="filter" v-auto-animate>
+      <button @click="filterVisible = !filterVisible" :class="`${filterVisible && 'active'} toggle-filter-button`">
+        <span>Filter</span>
+        <span class="material-icons-outlined">tune</span>
       </button>
-    </section>
+      <section v-if="filterVisible" class="filter">
+        <SelectOption v-model="filterParams.type" @update:modelValue="typeChange" :options="titleTypes" />
+        <SelectOption v-model="filterParams.genre" :options="store.state.genres[filterParams.type]" />
+        <SelectOption v-model="filterParams.sort" :options="sortTypes" />
+        <button @click="filter(filterParams.type, filterParams.sort, 1, filterParams.genre)" class="filter-button">
+          <span class="label">Filter</span>
+        </button>
+      </section>
+    </div>
     <ItemPanel :placeholderData="{count: 8, type: 'title'}">
       <template #item>
         <Title v-for="title in titles" :key="title.id" :title="{ ...title, type: route.query.type || 'movie' }" />
@@ -56,6 +62,7 @@ const filterParams = reactive({
 
 const totalPages = ref(null)
 const titles = ref([])
+const filterVisible = ref(false)
 
 const loaded = ref(false)
 
@@ -87,17 +94,38 @@ onBeforeMount(() => { fetchTitles(url.value) })
 main{
   display:flex;
   flex-direction:column;
+  gap:1rem;
+}
+button.toggle-filter-button{
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+  align-self:flex-start;
+  padding:0.25rem 0.5rem;
+  border-radius:0.25rem;
+  background-color:var(--card-color);
+  transition:0.2s ease background-color;
+  span{
+    font-size:0.95rem;
+  }
+  &.active{
+    background-color:var(--theme-color);
+    color:white;
+  }
+  &:hover:not(.active){
+    background-color:var(--card-color-hover);
+  }
+}
+div.filter{
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
 }
 section.filter{
   background-color:var(--background-color);
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
   gap:1rem;
-  position:sticky;
-  top:calc(var(--nav-height) - 1px);
-  padding-top:1rem;
-  padding-bottom:1rem;
-  z-index:5;
   button.filter-button{
     background:var(--theme-color);
     color:white;

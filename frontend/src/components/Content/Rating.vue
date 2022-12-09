@@ -1,27 +1,42 @@
 <template>
-  <component :is="url ? 'a' : 'div'" :href="url && url" target="_blank" :class="`rating ${getCat(parseInt(rating))} ${size}`" v-if="rating">
-    <span class="rating">{{isNaN(rating) ? rating : Math.floor(rating * 10) / 10}}</span>
+  <component :is="url ? 'a' : 'div'" :href="url && url" target="_blank" :class="`rating ${getCategory(rating)} ${size}`" v-if="rating">
+    <span class="rating">{{parseRating(rating)}}</span>
     <span v-if="name" class="name">{{name}}</span>
   </component>
 </template>
 
-<script setup>
-const { rating, name, url, size } = defineProps({ rating: Number | String, url: String, name: String, size: { type: String, default: 'normal' } })
+<script setup lang="ts">
+import { withDefaults } from 'vue'
 
-const getCat = rating => {
-  if(isNaN(rating) || rating === 0) return
+type Category = 'low' | 'medium' | 'high'
+
+const { rating, name, url, size } = withDefaults(defineProps<{
+  rating: number | string
+  name?: string
+  url?: string
+  size?: 'small' | 'normal' | 'large'
+}>(), {
+  size: () => 'normal'
+})
+
+const parseRating = (rating: number | string): number | 'N/A' => {
+  if(typeof(rating) === 'string') rating = parseFloat(rating)
+
+  return isNaN(rating) ? 'N/A' : Math.floor(rating * 10) / 10
+}
+
+const getCategory = (rating: number | string): Category | '' => {
+  if(typeof(rating) === 'string') rating = parseFloat(rating)
+
+  if(isNaN(rating) || rating === 0) return ''
   if(rating > 10) rating = rating / 10
-  return parseFloat(rating) < 2.5 ? 'low' : parseFloat(rating) < 7.0 ? 'medium' : 'high'
+
+  return rating < 2.5 ? 'low' : rating < 7.0 ? 'medium' : 'high'
 }
 </script>
 
 <style lang="scss" scoped>
 div.rating, a.rating{
-  --width:2.75rem;
-  --borderWidth:0.25rem;
-  --fontSizeRating:0.85rem;
-  --fontSizeName:0.65rem;
-
   background-color:var(--card-color);
   aspect-ratio:1;
   display:flex;
@@ -43,6 +58,12 @@ div.rating, a.rating{
     top:calc(100% + 0.5rem);
     text-align:center;
     font-size:var(--fontSizeName);
+  }
+  &.normal{
+    --width:2.75rem;
+    --borderWidth:0.25rem;
+    --fontSizeRating:0.85rem;
+    --fontSizeName:0.65rem;
   }
   &.small{
     --width:1.75rem;

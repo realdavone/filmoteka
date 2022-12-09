@@ -24,18 +24,22 @@ section.page-control{
     font-weight:900;
   }
   button.arrow-button{
-    background:var(--card-color);
+    background-color:var(--card-color);
     width:40px;
     height:30px;
     display:inline-flex;
     align-items:center;
     justify-content:center;
-    border-radius:8px;
-  }
-  button.arrow-button.disabled{
-    cursor:default;
-    background:transparent;
-    opacity:0.5;
+    border-radius:0.5rem;
+    transition:0.2s ease background-color;
+    &.disabled{
+      cursor:default;
+      background:transparent;
+      opacity:0.5;
+    }
+    &:hover:not(.disabled){
+      background-color:var(--card-color-hover);
+    }
   }
 }
 </style>

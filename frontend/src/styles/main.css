@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,900;1,700&display=swap');
+
 :root{
   --primary-color:#3b3b3b;
   --player-background-color:#282828;
@@ -35,7 +37,7 @@
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family:Tahoma,Verdana,sans-serif;
+  font-family:'Nunito',Verdana,sans-serif;
   line-height:1.4;
 }
 body{
