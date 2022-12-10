@@ -52,7 +52,7 @@
     </div>
 
     <div v-if="details['networks'].length !== 0" class="networks">
-      <img v-for="network, i in details['networks']" :key="network.id" onerror="javascript:this.remove()" :src="`https://www.themoviedb.org/t/p/original${network.logo_path.split('.')[0]}.svg`" :alt="network.name" :title="network.name">
+      <img v-for="network, i in details['networks']" :key="network.id" onerror="javascript:this.remove()" :src="`https://www.themoviedb.org/t/p/original${network.logo_path.split('.')[0]}.svg`" :alt="network.name" :title="network.name" draggable="false">
     </div>
   </section>
 </template>

@@ -86,6 +86,7 @@ section.episode-info{
       align-items:center;
       gap:10px;
       width:90%;
+      min-height:23px;
       b{ 
         font-family:monospace,'Roboto Mono';
         color:var(--theme-color);

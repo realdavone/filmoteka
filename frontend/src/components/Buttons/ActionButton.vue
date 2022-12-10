@@ -1,8 +1,7 @@
 <template>
   <button :class="`action-button ${props.warning ? 'warning' : ''} ${props.success ? 'success' : ''}`" @click="$emit('handleClick')">
-    <slot name="icon" />
-    <slot name="label" />
-    <Loader v-if="props.loading" />
+    <slot v-if="!props.loading" name="icon" />
+    <Loader v-else border="3px" height="12px" />
   </button>
 </template>
 
@@ -25,48 +24,32 @@ const props = withDefaults(defineProps<{
 button.action-button{
   transition:0.2s ease background-color;
   overflow:hidden;
-  background-color:var(--card-color);
   display:flex;
   align-items:center;
   justify-content:center;
+  flex-direction:column;
   gap:0.5rem;
   padding:0.75rem;
-  border-radius:0.5rem;
+  border-radius:50%;
   line-height:1;
-  min-width:160px;
-  height:40px;
-  &.warning{
-    background-color:#dc143c;
-    color:var(--font-color-dark);
-  }
-  &.success{
-    background-color:#2e8b57;
-    color:var(--font-color-dark);
-  }
+  aspect-ratio:1;
+  height:var(--button-height);
+  transition:0.2s ease all;
+  &.warning{ color:#b41333; }
+  &.success{ color:#1c663c; }
   &.placeholder{
-    background:var(--card-color);
+    background-color:var(--card-color);
     cursor:default;
   }
   &:disabled, &[disabled]{
     cursor:default;
-    opacity:0.5;
+    opacity:0.25;
     background-color:transparent;
   }
-  &:hover:not(.warning, .success, .placeholder, :disabled){ background-color:var(--card-color-hover) }
-}
-:slotted(span.label){ font-size:0.75rem }
-:slotted(span.icon){
-  font-size:1rem;
-  display:none;
+  &:hover:not(:disabled){ transform:scale(1.25); }
+  :slotted(span.icon){ font-size:1.5rem }
 }
 @media screen and (max-width: 600px){
-  :slotted(span.label){ display:none }
-  :slotted(span.icon){ display:initial; font-size:1.1rem; }
-  button.action-button{
-    min-width:40px;
-    border-radius:2rem;
-    padding:0.75rem;
-    transition:0.2s ease all;
-  }
+  :slotted(span.icon){ font-size:1rem!important }
 }
 </style>

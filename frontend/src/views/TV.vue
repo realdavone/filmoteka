@@ -19,7 +19,7 @@
             <template v-if="store.state.credentials.loggedIn">
               <ActionButton
               :loading="isPlayerWorking.isLoading"
-              title="Fungujúci prehrávač"
+              title="Nahlásiť prehrávač"
               :warning="!isPlayerWorking.value"
               @handleClick="toggleWorkingPlayer({ id: route.params.id, img: details['poster'], type: route.name, title: details['title'] })">
                 <template #icon><span class="material-icons icon">report_problem</span></template>
@@ -34,7 +34,7 @@
                 <template #label><span class="label">{{isRecommended.value ? 'Odporúčané' : 'Odporúčiť'}}</span></template>
               </ActionButton>
               <ActionButton
-              title="Prezrené"
+              title="Označit ako prezrené"
               :success="store.methods.watched.exists({ type: route.name, id: route.params.id })"
               @handleClick="store.methods.watched.toggle({ id: route.params.id, type: route.name, title: details['title']})">
                 <template #icon><span class="material-icons icon">visibility</span></template>

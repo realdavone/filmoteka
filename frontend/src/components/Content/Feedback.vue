@@ -64,14 +64,14 @@ const handleFeedback = async (action: 'like' | 'dislike') => {
 <style lang="scss" scoped>
 div.rating{
   display:flex;
-  gap:1rem;
+  gap:0.5rem;
   align-items:center;
   button{
     display:flex;
     align-items:center;
-    gap:0.5rem;
+    gap:0.15rem;
     span:first-of-type{
-      font-size:2rem;
+      font-size:1.5rem;
       width:32px;
       overflow:hidden;
       aspect-ratio:1;

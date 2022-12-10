@@ -6,18 +6,19 @@
       </div>
       <div class="content">
         <div class="top-row">
-          <div class="poster">
-            <slot name="poster" />
+          <div class="left-col">
+            <div class="poster">
+              <slot name="poster" />
+            </div>
+            <slot name="feedback" />
           </div>
           <div class="right-col">
-            <div>
-              <slot name="title">
-                <div class="skeleton-text" style="height:calc(1.5rem * 1.1);width:180px;margin-bottom:0.5rem"></div>
-              </slot>
-              <slot name="subtitle">
-                <div class="skeleton-text" style="height:calc(0.75rem * 1.4);width:100px;"></div>
-              </slot>
-            </div>
+            <slot name="title">
+              <div class="skeleton-text" style="height:calc(1.5rem * 1.1);width:180px;margin-bottom:0.5rem"></div>
+            </slot>
+            <slot name="subtitle">
+              <div class="skeleton-text" style="height:calc(0.75rem * 1.4);width:100px;"></div>
+            </slot>
             <slot name="tagline">
               <div class="skeleton-text" style="height:calc(0.75rem * 1.4);width:120px;"></div>
             </slot>
@@ -29,7 +30,6 @@
                 </div>
               </slot>
             </div>
-            <slot name="feedback" />
           </div>        
         </div>
         <slot name="actionMenu" />
@@ -83,7 +83,6 @@ section.container{
     overflow:hidden;
     position:relative;
     box-shadow: 0px 0px 15px 1px rgba(0,0,0,0.75);
-    align-self:flex-start;
   }
   div.outter{
     display:flex;
@@ -113,13 +112,22 @@ section.container{
     }
   }
   div.right-col{
+    --right-col-gap:1.5rem;
+
     display:flex;
     flex-direction:column;
     align-items:flex-start;
-    gap:1.5rem;
+    gap:var(--right-col-gap);
     z-index:1;
     position:relative;
     width:100%;
+  }
+  div.left-col{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:1rem;
+    align-self:flex-start;
   }
 }
 :slotted(span.title){
@@ -140,7 +148,9 @@ div.overview{
   align-self:stretch;
 }
 :slotted(div.under-title){
-  span{ font-size:0.75rem;
+  //margin-top:calc(0px - var(--right-col-gap));
+  span{
+    font-size:0.75rem;
     &.rated{
       padding:1px 0.3rem;
       border-radius:4px;

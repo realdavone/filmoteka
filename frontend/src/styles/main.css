@@ -107,7 +107,7 @@ main.title{
 }
 div.skeleton-text{
   background-color:var(--font-color);
-  opacity:0.75;
+  opacity:0.25;
   border-radius:1rem;
   height:0.9rem;
 }

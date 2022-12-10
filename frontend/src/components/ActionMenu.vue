@@ -1,11 +1,9 @@
 <template>
-  <nav class="subnav user-select-none">
     <div class="buttons">
       <slot>
         <button class="placeholder" v-for="index in 4" :key="index"></button>
       </slot>
     </div>
-  </nav>
 </template>
 
 <script setup>
@@ -22,23 +20,24 @@ defineExpose({ copyUrl })
 </script>
 
 <style lang="scss">
-nav.subnav{
+div.buttons{
+  --button-height:56px;
+
   display:flex;
-  flex-direction:row;
-  align-items:center;
-  overflow:hidden;
-  align-self:center;
+  gap:0.5rem;
+  justify-content:center;
+  flex-wrap:wrap;
+  button.placeholder{
+    height:var(--button-height);
+    aspect-ratio:1;
+    background-color:var(--card-color);
+    border-radius:50%;
+    cursor:default;
+  }
+}
+@media screen and (max-width: 600px){
   div.buttons{
-    display:flex;
-    gap:0.5rem;
-    flex-wrap:wrap;
-    button.placeholder{
-      height:40px;
-      aspect-ratio:1;
-      background-color:var(--card-color);
-      border-radius:0.5rem;
-      cursor:default;
-    }
+    --button-height:40px;
   }
 }
 </style>

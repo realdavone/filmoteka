@@ -1,5 +1,5 @@
 <template>
-  <section @click="emit('playEpisode', { season: info.season - 1, episode: info.episode - 1 })" class="episode-card user-select-none" :style="`cursor:${playable ? 'pointer' : 'default'}`">
+  <section @click="emit('playEpisode', { season: info.season - 1, episode: info.episode - 1 })" :class="`episode-card ${playable && 'playable'} user-select-none`">
     <div class="episode-info">
       <span class="label">
         <slot name="label" />
@@ -31,19 +31,22 @@ section.episode-card{
   align-items:stretch;
   position:relative;
   gap:0.5rem;
+  background-color:var(--card-color);
+  padding:0.5rem 0.75rem;
+  border-radius:0.75rem;
+  &.playable{
+    cursor:pointer;
+    transition:0.2s ease background-color;
+    &:hover{
+      background-color:var(--card-color-hover);
+    }
+  }
   span.label{
     font-size:0.75rem;
     font-weight:900;
     text-transform:uppercase;
     margin-bottom:2px;
     line-height:1;
-  }
-  &::before{
-    content:'';
-    min-width:5px;
-    max-width:5px;
-    background-color:var(--theme-color);
-    border-radius:3px;
   }
   div.info{
     display:flex;

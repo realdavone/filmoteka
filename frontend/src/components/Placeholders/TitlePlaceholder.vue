@@ -42,6 +42,7 @@ div.title{
       width:1.75rem;
       aspect-ratio:1;
       background-color:var(--card-color-hover);
+      border-radius:50%;
     }
     div.text{
       display:flex;
