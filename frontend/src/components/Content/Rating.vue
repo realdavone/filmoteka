@@ -48,6 +48,7 @@ div.rating, a.rating{
   line-height:1;
   border-style:solid;
   min-width:var(--width);
+  max-width:var(--width);
   border-width:var(--borderWidth);
   span.rating{
     font-size:var(--fontSizeRating);

@@ -8,26 +8,24 @@
         <Poster v-if="title?.poster_path" :src="title?.poster_path" :alt="title?.name || title?.title" />
       </div>
       <div class="content">
-        <div v-if="title?.name || title?.title" class="title">{{title?.name || title?.title}}</div>
+        <div v-if="title?.name || title?.title" class="title">
+          <span>{{title?.name || title?.title}}</span>
+        </div>
         <div v-else class="skeleton-text" style="height:1.75rem;width:25%;min-width:180px;"></div>
 
-        <div v-if="title?.vote_average" class="rating">
-          <Rating size="normal" :rating="Math.round(title?.vote_average * 10) / 10"/>
-          <TypeIcon :type="title?.media_type"/>
+        <div v-if="title?.overview" class="overview">
+          <Rating size="large" :rating="Math.round(title?.vote_average * 10) / 10"/>
+          <span>{{title?.overview}}</span>
         </div>
-        <div v-else class="skeleton-text" style="height:1.75rem;width:60px;"></div>
-
-        <div v-if="title?.overview" class="overview">{{title?.overview}}</div>
         <div v-else class="skeleton-text" style="height:1rem;width:80%;"></div>
 
-        <BasicButton text="Zobraziť viac" @handleClick="$router.push(`/${title?.media_type}/${title?.id}`)" />
+        <BasicButton class="cta" text="Zobraziť viac" @handleClick="$router.push(`/${title?.media_type}/${title?.id}`)" />
       </div>      
     </section>
   </section>
 </template>
 
 <script setup>
-import TypeIcon from '../Content/TypeIcon.vue'
 import BasicButton from '../Buttons/BasicButton.vue'
 import Rating from '../Content/Rating.vue'
 import Poster from '../Content/Poster.vue'
@@ -128,12 +126,17 @@ section.featured{
         }
       }
       div.overview{
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        font-size:0.85rem;
+        display:flex;
+        align-items:center;
+        gap:1rem;
+        span{
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          font-size:0.85rem;
+        }
       }
       button.go-to-button{
         align-self:flex-start;
@@ -152,14 +155,11 @@ section.featured{
 }
 @media screen and (max-width: 600px) {
   div.poster{ display:none }
-  div.title{ font-size:1.25rem!important }
   section.title-holder{
     gap:1rem!important
   }
-  button.go-to-button{
-    align-self:stretch!important;
-    justify-content:center;
-  }
+  .cta{ align-self:center; }
   div.overview{ font-size:0.75rem!important }
+  div.background-image{ img{ filter:blur(0px)!important } }
 }
 </style>

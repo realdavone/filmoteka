@@ -148,7 +148,7 @@ div.overview{
   align-self:stretch;
 }
 :slotted(div.under-title){
-  //margin-top:calc(0px - var(--right-col-gap));
+  margin-top:calc(0px - (var(--right-col-gap) / 2));
   span{
     font-size:0.75rem;
     &.rated{

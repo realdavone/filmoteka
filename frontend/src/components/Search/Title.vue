@@ -1,7 +1,7 @@
 <template>
   <router-link tabindex="0" :to="`/${title.type}/${title.id}`" class="title">
     <div class="image-holder">
-      <img v-if="title.poster_path" :src="`https://www.themoviedb.org/t/p/w300_and_h300_face${title.poster_path}`" :alt="title.title" loading="lazy" draggable="false">
+      <img @load="fadeIn" v-if="title.poster_path" :src="`https://www.themoviedb.org/t/p/w300_and_h300_face${title.poster_path}`" :alt="title.title" loading="lazy" draggable="false">
     </div>
     <section class="details">
       <div class="title-holder" :title="`${title.title || title.name} (${(new Date(title.release_date || title.first_air_date)).getFullYear()})`">
@@ -15,7 +15,7 @@
       <div class="overview" v-if="title.overview">{{title.overview}}</div>
     </section>
     <div v-if="title.backdrop_path" class="background-img">
-      <img :src="`https://www.themoviedb.org/t/p/w780${title.backdrop_path}`" :alt="title.title" loading="lazy" draggable="false">
+      <img @load="fadeIn" :src="`https://www.themoviedb.org/t/p/w780${title.backdrop_path}`" :alt="title.title" loading="lazy" draggable="false">
     </div>
   </router-link>
 </template>
@@ -26,6 +26,8 @@ import Rating from '../Content/Rating.vue'
 import { inject } from 'vue'
 
 const { title } = defineProps({ title: Object })
+
+const fadeIn = el => el.target.style.opacity = 1
 
 const store = inject('store')
 </script>
@@ -58,6 +60,8 @@ a.title{
       width:100%;
       height:100%;
       object-fit:cover;
+      opacity:0;
+      transition:0.4s ease opacity;
     }
   }
   section.details{
@@ -119,6 +123,8 @@ a.title{
       width:100%;
       height:100%;
       object-fit:cover;
+      opacity:0;
+      transition:0.4s ease opacity;
     }
   }
 }
