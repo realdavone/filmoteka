@@ -182,17 +182,17 @@ const fetchData = async (id) => {
           rating: (Math.floor(parseFloat(result.value['vote_average']) * 10) / 10),
           url: `https://www.themoviedb.org/tv/${route.params.id}`
         },
-        {
+        ...(omdb['imdbRating'] ? [{
           name: 'IMDB',
           rating: omdb['imdbRating'],
-          url: `https://www.imdb.com/title/${result.value['external_ids']['imdb_id']}`
-        },
-        ...(omdb?.['Ratings'].find(rating => rating['Source'] === 'Rotten Tomatoes')?.['Value'] ? [{
+          url: `https://www.imdb.com/title/${result.value['imdb_id']}`
+        }] : []),
+        ...(omdb?.['Ratings'] && omdb?.['Ratings'].find(rating => rating['Source'] === 'Rotten Tomatoes')?.['Value'] ? [{
           name: 'Rotten Tomatoes',
           rating: omdb?.['Ratings'].find(rating => rating['Source'] === 'Rotten Tomatoes')?.['Value'],
           url: null
         }] : []),
-        ...(omdb?.['Ratings'].find(rating => rating['Source'] === 'Metacritic')?.['Value'] ? [{
+        ...(omdb?.['Ratings'] && omdb?.['Ratings'].find(rating => rating['Source'] === 'Metacritic')?.['Value'] ? [{
           name: 'Metascore',
           rating: omdb?.['Ratings'].find(rating => rating['Source'] === 'Metacritic')?.['Value'],
           url: null

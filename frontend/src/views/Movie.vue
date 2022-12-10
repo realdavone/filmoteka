@@ -177,17 +177,17 @@ const fetchData = async (id) => {
           rating: (Math.floor(parseFloat(result.value['vote_average'])*10)/10).toString(),
           url: `https://www.themoviedb.org/movie/${route.params.id}`
         },
-        {
+        ...(omdb['imdbRating'] ? [{
           name: 'IMDB',
           rating: omdb['imdbRating'],
           url: `https://www.imdb.com/title/${result.value['imdb_id']}`
-        },
-        ...(omdb?.['Ratings'].find(rating => rating['Source'] === 'Rotten Tomatoes')?.['Value'] ? [{
+        }] : []),
+        ...(omdb?.['Ratings'] && omdb?.['Ratings'].find(rating => rating['Source'] === 'Rotten Tomatoes')?.['Value'] ? [{
           name: 'Rotten Tomatoes',
           rating: omdb?.['Ratings'].find(rating => rating['Source'] === 'Rotten Tomatoes')?.['Value'],
           url: null
         }] : []),
-        ...(omdb?.['Ratings'].find(rating => rating['Source'] === 'Metacritic')?.['Value'] ? [{
+        ...(omdb?.['Ratings'] && omdb?.['Ratings'].find(rating => rating['Source'] === 'Metacritic')?.['Value'] ? [{
           name: 'Metascore',
           rating: omdb?.['Ratings'].find(rating => rating['Source'] === 'Metacritic')?.['Value'],
           url: null
@@ -210,7 +210,7 @@ const fetchData = async (id) => {
     result.value['isRecommended'] === undefined ? isRecommended.value = false : isRecommended.value = result.value['isRecommended']
 
     document.title = `${details.value['title']}${details.value['year']?' ('+details.value['year']+')':''} / Filmotéka`
-  } catch (error) { router.push({ name: 'NotFound' }) }
+  } catch (error) { console.log(error)}//router.push({ name: 'NotFound' }) }
 }
 
 const toggleWorkingPlayer = async obj => {
