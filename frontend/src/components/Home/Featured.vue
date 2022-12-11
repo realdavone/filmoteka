@@ -1,11 +1,11 @@
 <template>
   <section class="featured container user-select-none">
     <div v-if="title?.backdrop_path" class="background-image">
-      <img @error="hide" :src="`https://www.themoviedb.org/t/p/w1440_and_h320_multi_faces${title?.backdrop_path}`" alt="Obrázok v pozadí" draggable="false">
+      <CoverPoster :src="title?.backdrop_path" size="w1440_and_h320_multi_faces" alt="Obrázok v pozadí" :fadeInOnLoad="true" />
     </div>
     <section class="title-holder">
       <div class="poster">
-        <Poster v-if="title?.poster_path" :src="title?.poster_path" :alt="title?.name || title?.title" />
+        <Poster v-if="title?.poster_path" :src="title?.poster_path" :alt="title?.name || title?.title" :fadeInOnLoad="true" />
       </div>
       <div class="content">
         <div v-if="title?.name || title?.title" class="title">
@@ -29,8 +29,7 @@
 import BasicButton from '../Buttons/BasicButton.vue'
 import Rating from '../Content/Rating.vue'
 import Poster from '../Content/Poster.vue'
-
-const hide = el => el.target.style.display = 'none'
+import CoverPoster from '../Content/CoverPoster.vue'
 
 const { title } = defineProps({ title: Object })
 </script>
@@ -49,12 +48,6 @@ section.featured{
     right:0;
     -webkit-mask-image: linear-gradient(#00000030, #00000080 50%, transparent);
     mask-image: linear-gradient(#00000030, #00000080 50%, transparent);
-    img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      filter:blur(5px)
-    }
   }
   section.title-holder{
     position: relative;
@@ -72,11 +65,6 @@ section.featured{
       border-radius:16px;
       background-color:var(--card-color);
       box-shadow: 0px 0px 15px 1px rgba(0,0,0,0.75);
-      img{
-        width:100%;
-        height:100%;
-        object-fit:cover;
-      }
     }
     div.content{
       display:flex;

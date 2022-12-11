@@ -1,23 +1,29 @@
 <template>
-  <div class="loader" :style="{ minHeight: props?.height, minWidth: props?.height, borderWidth: props?.border}"></div>
+  <div
+  class="loader"
+  :style="{
+    minHeight: props?.height || '1rem',
+    minWidth: props?.height || '1rem',
+    borderWidth: props?.border || '0.25rem',
+    borderRadius: '50%',
+    borderStyle: 'solid',
+    borderColor: color || 'var(--font-color)',
+    borderTopColor: 'transparent',
+  }"></div>
 </template>
 
 <script setup lang="ts">
 const props = defineProps<{
   height?: string
   border?: string
+  color?: string
 }>()
 </script>
 
 <style lang="scss" scoped>
 div.loader {
-  border: 0.1rem solid var(--alternative-color);
-  border-top: 0.1rem solid transparent;
-  border-radius: 50%;
-  height:calc(1rem - 2 * 0.1rem);
-  width:calc(1rem - 2 * 0.1rem);
   aspect-ratio:1;
-  animation: spin 0.6s linear infinite;
+  animation: spin 1s linear infinite;
 }
 @keyframes spin {
   0% { transform: rotate(0deg); }

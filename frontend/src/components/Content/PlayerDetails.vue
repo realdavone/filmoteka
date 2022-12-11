@@ -2,7 +2,7 @@
   <section class="user-select-none container">
     <div class="outter">
       <div v-if="bg" class="background-image">
-        <img @error="bg = false" :src="`https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${bg}`" alt="Obrázok v pozadí" draggable="false">
+        <CoverPoster size="w1920_and_h800_multi_faces" :src="bg" alt="Obrázok v pozadí" :fade-in-on-load="true" />
       </div>
       <div class="content">
         <div class="top-row">
@@ -49,6 +49,7 @@
 <script setup>
 import PlayerPlaceholder from '../Placeholders/PlayerPlaceholder.vue'
 import DetailsPlaceholder from '../Placeholders/DetailsPlaceholder.vue'
+import CoverPoster from './CoverPoster.vue'
 
 const { type, bg } = defineProps({ type: String, bg: String | undefined })
 </script>
@@ -68,11 +69,6 @@ section.container{
     z-index:0;
     -webkit-mask-image: linear-gradient(#00000030, #00000080 50%, transparent);
     mask-image: linear-gradient(#00000030, #00000080 50% transparent);
-    img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-    }
   }
   div.poster{
     aspect-ratio:2/3;

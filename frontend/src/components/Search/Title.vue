@@ -1,7 +1,7 @@
 <template>
   <router-link tabindex="0" :to="`/${title.type}/${title.id}`" class="title">
     <div class="image-holder">
-      <img @load="fadeIn" v-if="title.poster_path" :src="`https://www.themoviedb.org/t/p/w300_and_h300_face${title.poster_path}`" :alt="title.title" loading="lazy" draggable="false">
+      <Poster :src="title.poster_path" :alt="title.title" :fade-in-on-load="true" aspect-ratio="1" />
     </div>
     <section class="details">
       <div class="title-holder" :title="`${title.title || title.name} (${(new Date(title.release_date || title.first_air_date)).getFullYear()})`">
@@ -9,19 +9,21 @@
         <span style="color:var(--secondary-text-color)" v-if="title.release_date || title.first_air_date">&#32;({{(new Date(title.release_date || title.first_air_date)).getFullYear()}})</span>
       </div>
       <div v-if="title.vote_average" class="rating">
-        <Rating :rating="title.vote_average" :size="'small'"/>
+        <Rating :rating="title.vote_average" size="small" />
         <span v-if="store.methods.watched.exists({ type: title.type[0].toUpperCase() + title.type.substring(1), id: title.id.toString() })" style="color:var(--theme-color);font-size:1rem;" class="material-icons icon">visibility</span>
       </div>
       <div class="overview" v-if="title.overview">{{title.overview}}</div>
     </section>
     <div v-if="title.backdrop_path" class="background-img">
-      <img @load="fadeIn" :src="`https://www.themoviedb.org/t/p/w780${title.backdrop_path}`" :alt="title.title" loading="lazy" draggable="false">
+      <CoverPoster :src="title.backdrop_path" :alt="title.title" :fade-in-on-load="true" size="w1440_and_h320_multi_faces" />
     </div>
   </router-link>
 </template>
 
 <script setup>
 import Rating from '../Content/Rating.vue'
+import Poster from '../Content/Poster.vue'
+import CoverPoster from '../Content/CoverPoster.vue'
 
 import { inject } from 'vue'
 
@@ -119,13 +121,6 @@ a.title{
     z-index:-1;
     opacity:0.1;
     transition:0.2s ease opacity;
-    img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      opacity:0;
-      transition:0.4s ease opacity;
-    }
   }
 }
 @media screen and (max-width: 600px) {

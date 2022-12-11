@@ -1,24 +1,22 @@
 <template>
   <img
   :class="`poster ${fadeInOnLoad && 'faded-before-load'}`"
+  :src="`https://www.themoviedb.org/t/p/${size}${src}`"
+  :alt="alt"
   v-bind="{
     ...fadeInOnLoad ? { onLoad: fadeIn } : {}
   }"
-  :src="`https://www.themoviedb.org/t/p/w300${aspectRatio === '1' ? '_and_h300_face' : ''}${src}`"
-  :alt="alt"
+  loading="lazy" 
   draggable="false"
-  loading="lazy"
-  @error="remove"
-  />
+  @error="remove" />
 </template>
 
 <script setup lang="ts">
-
-const { src, alt, fadeInOnLoad, aspectRatio } = defineProps<{
+const { src, alt, fadeInOnLoad, size } = defineProps<{
   src: string,
   alt: string,
   fadeInOnLoad?: boolean,
-  aspectRatio?: '2/3' | '1'
+  size: string
 }>()
 
 const fadeIn = (el) => el.target.style.opacity = 1

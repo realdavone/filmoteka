@@ -2,7 +2,7 @@
   <main class="title">
     <PlayerDetails :type="'tv'" :bg="result?.backdrop_path">
       <template #poster>
-        <Poster v-if="details?.poster" :src="details['poster']" :alt="details['title']" />
+        <Poster v-if="details?.poster" :src="details['poster']" :alt="details['title']" :fadeInOnLoad="true" />
       </template>
       <template #feedback>
         <Feedback v-if="!loading && store.state.credentials.loggedIn && (new Date()) > new Date(result['first_air_date'])" :state="{ likes: details?.likes, dislikes: details?.dislikes }" :title="{ id: $route.params.id, type: 'tv' }"/>

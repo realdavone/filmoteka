@@ -17,7 +17,7 @@
           </div>
           <button :disabled="loginStart" type="submit">
             <span>Prihlásiť</span>
-            <Loader v-if="loginStart" />
+            <Loader v-if="loginStart" color="white" border="3px" />
           </button>
           <div id="buttonDiv" style="align-self:center;height:32px;"></div>
         </form>
