@@ -6,6 +6,7 @@
   }"
   :src="`https://www.themoviedb.org/t/p/w300${aspectRatio === '1' ? '_and_h300_face' : ''}${src}`"
   :alt="alt"
+  :style="`aspect-ratio:${aspectRatio === '1' ? '1' : '2/3'}`"
   draggable="false"
   loading="lazy"
   @error="remove"

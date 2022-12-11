@@ -7,7 +7,7 @@
         <Comment v-if="data.length > 0" v-for="comment in data" :key="comment.id" :comment="comment" @deleted="fetchComments"/>
         <span v-else class="no-comments">Žiadne komentáre</span>
       </template>
-      <Loader v-else :height="'1.5rem'" :border="'0.25rem'" />
+      <Loader v-else height="1.5rem" border="0.25rem" />
     </div>
   </section>
   <Teleport to="body">

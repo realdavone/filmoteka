@@ -1,7 +1,7 @@
 <template>
   <section class="featured container user-select-none">
     <div v-if="title?.backdrop_path" class="background-image">
-      <CoverPoster :src="title?.backdrop_path" size="w1440_and_h320_multi_faces" alt="Obrázok v pozadí" :fadeInOnLoad="true" />
+      <CoverPoster class="unblur-mobile" :src="title?.backdrop_path" size="w1440_and_h320_multi_faces" alt="Obrázok v pozadí" :fadeInOnLoad="true" />
     </div>
     <section class="title-holder">
       <div class="poster">
@@ -141,6 +141,7 @@ section.featured{
     }
   }
 }
+.unblur-mobile{ filter:blur(5px) }
 @media screen and (max-width: 600px) {
   div.poster{ display:none }
   section.title-holder{
@@ -148,6 +149,6 @@ section.featured{
   }
   .cta{ align-self:center; }
   div.overview{ font-size:0.75rem!important }
-  div.background-image{ img{ filter:blur(0px)!important } }
+  .unblur-mobile{ filter:blur(0px)!important }
 }
 </style>

@@ -4,7 +4,7 @@
       <section class="container collection-holder">
         <div class="img-details">
           <div class="img">
-            <img v-if=" collection.poster" :src="`https://www.themoviedb.org/t/p/w300_and_h450_bestv2${collection.poster}`" alt="Plagát kolekcie">
+            <Poster v-if=" collection.poster" :src="collection.poster" alt="Plagát kolekcie" :fadeInOnLoad="true" />
           </div>
           <div class="details">
             <span v-if="collection.title" class="heading">{{collection.title}}</span>
@@ -29,11 +29,11 @@
 import { onBeforeMount, reactive, onActivated } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import _ from '../utils/main.js'
+import getData from '../api/main.js'
 
 import Title from '../components/Search/Title.vue'
 import ItemPanel from '../components/Content/ItemPanel.vue'
-
-import getData from '../api/main.js'
+import Poster from '../components/Content/Poster.vue'
 
 const route = useRoute()
 const router = useRouter()

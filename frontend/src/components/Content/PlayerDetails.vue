@@ -10,7 +10,9 @@
             <div class="poster">
               <slot name="poster" />
             </div>
-            <slot name="feedback" />
+            <slot name="feedback">
+              <div class="skeleton-text" style="height:1.5rem;width:100px;"></div>
+            </slot>
           </div>
           <div class="right-col">
             <slot name="title">
