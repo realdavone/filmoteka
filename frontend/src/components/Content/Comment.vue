@@ -11,16 +11,19 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import getData from '../../api/main.js'
 
 import { inject, ref } from 'vue'
-const { comment } = defineProps({ comment: Object })
+
+import { Comment } from '../../types/comment'
+
+const { comment } = defineProps<{ comment: Comment }>()
 const emit = defineEmits(['deleted'])
 
 const loading = ref(false)
 
-const deleteComment = id => {
+const deleteComment = (id: Comment['_id']): void => {
   loading.value = true
   getData({ endpoint: `/comments`, options: {
     method: 'DELETE',
@@ -34,7 +37,7 @@ const deleteComment = id => {
   .finally(() => loading.value = false)
 }
 
-const store = inject('store')
+const store = inject<any>('store')
 </script>
 
 <style lang="scss" scoped>

@@ -29,7 +29,7 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Title from '../components/Content/Title.vue'
 
 const url = location.host

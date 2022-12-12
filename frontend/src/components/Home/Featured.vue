@@ -5,11 +5,11 @@
     </div>
     <section class="title-holder">
       <div class="poster">
-        <Poster v-if="title?.poster_path" :src="title?.poster_path" :alt="title?.name || title?.title" :fadeInOnLoad="true" />
+        <Poster v-if="title?.poster_path" :src="title?.poster_path" :alt="title.media_type === 'movie' ? title.title : title.name" :fadeInOnLoad="true" />
       </div>
       <div class="content">
-        <div v-if="title?.name || title?.title" class="title">
-          <span>{{title?.name || title?.title}}</span>
+        <div v-if="title?.media_type" class="title">
+          <span>{{title.media_type === 'movie' ? title.title : title.name}}</span>
         </div>
         <div v-else class="skeleton-text" style="height:1.75rem;width:25%;min-width:180px;"></div>
 
@@ -25,13 +25,15 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { Title } from '../../types/title'
+
 import BasicButton from '../Buttons/BasicButton.vue'
 import Rating from '../Content/Rating.vue'
 import Poster from '../Content/Poster.vue'
 import CoverPoster from '../Content/CoverPoster.vue'
 
-const { title } = defineProps({ title: Object })
+const { title } = defineProps<{ title: Title }>()
 </script>
 
 <style lang="scss" scoped>

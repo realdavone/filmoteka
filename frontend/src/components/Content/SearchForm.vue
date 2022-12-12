@@ -7,11 +7,11 @@
         </div>
         <Transition name="fade">
           <div ref="optionsMenu" v-if="isOptionsMenuOpened" class="options">
-            <div class="option" v-for="option in options" :key="option.value" :data-active="searchType.value === option.value" @click="searchType = option; isOptionsMenuOpened = false;">
+            <div class="option" v-for="(option, key) in options" :key="option.value" :data-active="searchType.value === option.value" @click="searchType = option; isOptionsMenuOpened = false;">
               <div class="icon-holder">
                 <span class="material-icons" style="font-size:1.25rem">{{option.icon}}</span>
               </div>
-              <span>{{option.label}}</span>
+              <span>{{key}}</span>
             </div>
           </div>
         </Transition>
@@ -24,31 +24,36 @@
 </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onClickOutside } from '@vueuse/core'
-import { ref, onMounted, inject } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 import RecentSearch from './RecentSearch.vue'
 
-const store = inject('store')
+interface Options {
+  value: string
+  icon: string
+}
+
+const options: Record<'Všetko' | 'Filmy' | 'Seriály' | 'Osoby', Options> = {
+  Všetko: { value: '', icon: 'search' },
+  Filmy: { value: '/movie', icon: 'movie' },
+  Seriály: { value: '/tv', icon: 'tv' },
+  Osoby: { value: '/person', icon: 'person' }
+}
+
 const router = useRouter()
 const searchQuery = ref('')
-const input = ref(null)
+const input = ref<null | HTMLInputElement>(null)
 const isInputFocused = ref(false)
 
 const isOptionsMenuOpened = ref(false)
-const optionsMenu = ref(null)
-const options = [
-  { label:'Všetko', value:'', icon:'search' },
-  { label:'Filmy', value:'/movie', icon: 'movie' },
-  { label:'Seriály', value:'/tv', icon: 'tv' },
-  { label:'Osoby', value:'/person', icon: 'person'}
-]
+const optionsMenu = ref<null | HTMLDivElement>(null)
 
-const searchType = ref(options[0])
+const searchType = ref(options[Object.keys(options)[0]])
 
-const handleRecentItem = item => {
+const handleRecentItem = (item: string) => {
   searchQuery.value = item
   submitQuery()
 }
@@ -58,11 +63,11 @@ onClickOutside(optionsMenu, () => isOptionsMenuOpened.value = false)
 const submitQuery = () => {
   if(searchQuery.value !== ''){
     router.push(`/search${searchType.value.value}?q=${searchQuery.value}`)
-    input.value.blur()
+    input.value!.blur()
   }
 }
 
-onMounted(() => input.value.focus())
+onMounted(() => input.value!.focus())
 </script>
 
 <style lang="scss" scoped>

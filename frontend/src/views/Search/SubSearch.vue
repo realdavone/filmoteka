@@ -6,7 +6,7 @@
           <Person v-for="item in items" :key="item.id" :person="{...item}" />
         </template>
         <template v-else>
-          <Title v-for="item in items" :key="item.id" :title="{...item, type: route.matched[1].props.default.type}" />    
+          <Title v-for="item in items" :key="item.id" :title="{...item, media_type: route.matched[1].props.default.type}" />    
         </template>
         <NoResults v-if="items.length === 0 && loaded"/>
       </template>

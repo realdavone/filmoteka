@@ -1,7 +1,7 @@
 <template>
-  <router-link tabindex="0" :title="item.name || item.title" :class="`title-card user-select-none ${store.methods.watched.exists({ type: item.media_type || item.type, id: item.id }) ? 'seen' : ''}`" :to="`/${item.media_type || item.type}/${item.id}`">
+  <router-link tabindex="0" :title="item.media_type === 'movie' ? item.title : item.name" :class="`title-card user-select-none ${store.methods.watched.exists({ type: item.type || item.media_type, id: item.id }) ? 'seen' : ''}`" :to="`/${item.type || item.media_type}/${item.id}`">
     <div class="poster">
-      <Poster :src="item.img || item.profile_path || item.poster_path" :alt="item.name || item.title" :fadeInOnLoad="true" />
+      <Poster :src="item.img || item.profile_path || item.poster_path" :alt="item.media_type === 'movie' ? item.title : item.name" :fadeInOnLoad="true" />
       <div class="hover">
         <span class="material-icons">play_arrow</span>
       </div>
@@ -9,13 +9,21 @@
   </router-link>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Poster from './Poster.vue'
+
+import { Title } from '../../types/title';
 
 import { inject } from 'vue'
 
-const store = inject('store')
-const { item } = defineProps({ item: Object })
+const store = inject<any>('store')
+const { item } = defineProps<{
+  item: Title & {
+    img?: string,
+    profile_path?: string,
+    type?: Title['media_type']
+  }
+}>()
 </script>
 
 <style lang="scss" scoped>

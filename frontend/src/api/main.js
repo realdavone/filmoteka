@@ -7,7 +7,7 @@ const makeRequest = ({ endpoint, options }) => {
     method: options?.method || 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'access-token': store.state.credentials.accessToken,
+      ...store.state.credentials.accessToken ? { 'access-token': store.state.credentials.accessToken } : {},
     },
     body: options?.body
   })
@@ -24,7 +24,7 @@ const makeRequest = ({ endpoint, options }) => {
               method: options?.method || 'GET',
               headers: {
                 'Content-Type': 'application/json',
-                'access-token': store.state.credentials.accessToken,
+                ...store.state.credentials.accessToken ? { 'access-token': store.state.credentials.accessToken } : {},
               },
               body: options?.body
             })

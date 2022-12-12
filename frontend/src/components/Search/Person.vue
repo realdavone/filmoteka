@@ -6,14 +6,16 @@
     <div class="name-holder">
       <span class="name">{{person.name}}</span>
       <div class="titles">
-        <span v-for="title in person['known_for']" :key="title.id" class="bullet-after">{{ title.title || title.name }}</span>
+        <span v-for="title in person['known_for']" :key="title.id" class="bullet-after">{{ title.media_type === 'movie' ? title.title : title.name }}</span>
       </div>
     </div>
   </router-link>
 </template>
 
-<script setup>
-const { person } = defineProps({ person: Object })
+<script setup lang="ts">
+import { PersonSearchType } from '../../types/person'
+
+const { person } = defineProps<{ person: PersonSearchType }>()
 </script>
 
 <style lang="scss" scoped>

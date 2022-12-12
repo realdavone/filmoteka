@@ -3,9 +3,9 @@
     <section class="inner-wrap">
       <section class="button-holder-outter">
         <div class="button-holder-inner">
-          <button :class="{'active': subpath === button.path}" v-for="(button, index) in categoryButtons" :key="index" @click="filterResults(button.path)">
+          <button :class="{'active': $route.path.split('/')[2] === button.path}" v-for="(button, key) in categoryButtons" :key="key" @click="filterResults(button.path)">
             <span class="material-icons">{{button.icon}}</span>
-            <span>{{button.name}}</span>
+            <span>{{key}}</span>
           </button>
         </div>
       </section>
@@ -17,26 +17,33 @@
   </main>
 </template>
 
-<script setup>
-import { ref, computed, onBeforeMount, inject } from 'vue'
+<script setup lang="ts">
+import { onBeforeMount, inject } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import Title from '../components/Content/Title.vue'
 
-const store = inject('store');
-const route = useRoute();
-const router = useRouter();
-const categoryButtons = ref([{name:'Filmy',icon:'movie',path:'movie'},{name:'Seriály',icon:'tv',path:'tv'},{name:'Osoby',icon:'person',path:'person'}])
+interface CategoryDetails {
+  icon: string
+  path: string
+}
+ 
+const categoryButtons: Record<'Filmy' | 'Seriály' | 'Osoby', CategoryDetails> = {
+  Filmy: { icon: 'movie', path: 'movie' },
+  Seriály: { icon: 'tv', path: 'tv' },
+  Osoby: { icon: 'person', path: 'person' }
+}
 
-const filterResults = category => { router.push({ path: `/search/${category}`, query: { q: route.query.q, page: 1 } }) }
+const store = inject<any>('store')
+const route = useRoute()
+const router = useRouter()
+
+const filterResults = (category: CategoryDetails['path']) => { router.push({ path: `/search/${category}`, query: { q: route.query.q, page: 1 } }) }
 
 onBeforeMount(() => {
   store.methods.recentSearch.pushItem(route.query.q)
   document.title = `${route.query.q} - Vyhľadávanie / Filmotéka`
 })
-
-const subpath = computed(() => { return route.path.split('/')[2] })
-
 </script>
 
 <style lang="scss" scoped>

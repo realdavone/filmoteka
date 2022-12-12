@@ -1,37 +1,37 @@
 <template>
-  <router-link tabindex="0" :to="`/${title.type}/${title.id}`" class="title">
+  <router-link tabindex="0" :to="`/${title.media_type}/${title.id}`" class="title">
     <div class="image-holder">
-      <Poster :src="title.poster_path" :alt="title.title" :fade-in-on-load="true" aspect-ratio="1" />
+      <Poster :src="title.poster_path" :alt="(title.media_type === 'movie' ? title.title : title.name)" :fade-in-on-load="true" aspect-ratio="1" />
     </div>
     <section class="details">
-      <div class="title-holder" :title="`${title.title || title.name} (${(new Date(title.release_date || title.first_air_date)).getFullYear()})`">
-        <span class="title">{{title.title || title.name}}</span>  
-        <span style="color:var(--secondary-text-color)" v-if="title.release_date || title.first_air_date">&#32;({{(new Date(title.release_date || title.first_air_date)).getFullYear()}})</span>
+      <div class="title-holder" :title="`${title.media_type === 'movie' ? title.title : title.name} (${(new Date(title.media_type === 'movie' ? title.release_date : title.first_air_date)).getFullYear()})`">
+        <span class="title">{{title.media_type === 'movie' ? title.title : title.name}}</span>  
+        <span style="color:var(--secondary-text-color)" v-if="title.media_type === 'movie' ? title.release_date : title.first_air_date">&#32;({{(new Date(title.media_type === 'movie' ? title.release_date : title.first_air_date)).getFullYear()}})</span>
       </div>
       <div v-if="title.vote_average" class="rating">
         <Rating :rating="title.vote_average" size="small" />
-        <span v-if="store.methods.watched.exists({ type: title.type[0].toUpperCase() + title.type.substring(1), id: title.id.toString() })" style="color:var(--theme-color);font-size:1rem;" class="material-icons icon">visibility</span>
+        <span v-if="store.methods.watched.exists({ type: title.media_type[0].toUpperCase() + title.media_type.substring(1), id: title.id.toString() })" style="color:var(--theme-color);font-size:1rem;" class="material-icons icon">visibility</span>
       </div>
       <div class="overview" v-if="title.overview">{{title.overview}}</div>
     </section>
     <div v-if="title.backdrop_path" class="background-img">
-      <CoverPoster :src="title.backdrop_path" :alt="title.title" :fade-in-on-load="true" size="w1440_and_h320_multi_faces" />
+      <CoverPoster :src="title.backdrop_path" :alt="(title.media_type === 'movie' ? title.title : title.name)" :fade-in-on-load="true" size="w1440_and_h320_multi_faces" />
     </div>
   </router-link>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Rating from '../Content/Rating.vue'
 import Poster from '../Content/Poster.vue'
 import CoverPoster from '../Content/CoverPoster.vue'
 
+import { Title } from '../../types/title'
+
 import { inject } from 'vue'
 
-const { title } = defineProps({ title: Object })
+const { title } = defineProps<{ title: Title }>()
 
-const fadeIn = el => el.target.style.opacity = 1
-
-const store = inject('store')
+const store = inject<any>('store')
 </script>
 
 <style lang="scss" scoped>

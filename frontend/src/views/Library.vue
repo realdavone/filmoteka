@@ -17,7 +17,7 @@
     </div>
     <ItemPanel :placeholderData="{count: 8, type: 'title'}">
       <template #item>
-        <Title v-for="title in titles" :key="title.id" :title="{ ...title, type: route.query.type || 'movie' }" />
+        <Title v-for="title in titles" :key="title.id" :title="{ ...title, media_type: route.query.type || 'movie' } as TitleType" />
         <NoResults v-if="titles.length === 0 && loaded === true" />
       </template>
     </ItemPanel>
@@ -25,8 +25,8 @@
   </main>
 </template>
 
-<script setup>
-import { ref, inject, computed, onBeforeMount, reactive } from 'vue'
+<script setup lang="ts">
+import { ref, inject, onBeforeMount, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import SelectOption from '../components/SelectOption.vue'
@@ -37,15 +37,18 @@ import ItemPanel from '../components/Content/ItemPanel.vue'
 import PageControl from '../components/PageControl.vue'
 import getData from '../api/main.js'
 
+import { Title as TitleType } from '../types/title'
+import { ApiListResponse } from '../types/response'
+
 const route = useRoute()
 const router = useRouter()
-const store = inject('store')
+const store = inject<any>('store')
 
-const titleTypes = new Map()
+const titleTypes = new Map<string, string>()
 .set('movie', 'Filmy')
 .set('tv', 'Seriály')
 
-const sortTypes = new Map()
+const sortTypes = new Map<string, string>()
 .set('popularity.desc', 'Popularita ↓')
 .set('popularity.asc', 'Popularita ↑')
 .set('release_date.desc', 'Vydanie ↓')
@@ -53,28 +56,31 @@ const sortTypes = new Map()
 .set('revenue.desc', 'Tržby ↓')
 .set('revenue.asc', 'Tržby ↑')
 
-const filterParams = reactive({
-  type: route.query.type || 'movie',
-  genre: parseInt(route.query.genre) || 28,
-  sort: route.query.sort || 'popularity.desc',
+interface Filter {
+  type: 'movie' | 'tv'
+  genre: number
+  sort: string
+  page: number
+}
+
+const filterParams = reactive<Filter>({
+  type: route.query.type as Filter['type'] || 'movie',
+  genre: route.query.genre ? parseInt(route.query.genre as string) : 28,
+  sort: route.query.sort as string || 'popularity.desc',
   page: 1
 })
 
-const totalPages = ref(null)
-const titles = ref([])
+const totalPages = ref<null | number>(null)
+const titles = ref<TitleType[]>([])
 const filterVisible = ref(false)
 
 const loaded = ref(false)
 
-const typeChange = newType => !store.state.genres[newType].has(filterParams.genre) && (filterParams.genre = store.state.genres[filterParams.type].entries().next().value[0])
+const typeChange = (newType): void => !store.state.genres[newType].has(filterParams.genre) && (filterParams.genre = store.state.genres[filterParams.type].entries().next().value[0])
 
-const url = computed(() => {
-  return `/discover/${route.query.type || 'movie'}?sort=${route.query.sort || 'popularity.desc'}&page=${route.query.page || 1}&genre=${route.query.genre || 28}`
-})
-
-const fetchTitles = (url) => {
-  getData({ endpoint: url })
-  .then(data => {
+const fetchTitles = (url: string): void => {
+  getData({ endpoint: url, options: undefined })
+  .then((data: ApiListResponse<TitleType[]>) => {
     titles.value = titles.value.concat(data.results.filter(title => title.poster_path))
     totalPages.value = data.total_pages
     filterParams.page = data.page
@@ -83,11 +89,11 @@ const fetchTitles = (url) => {
   .finally(() => loaded.value = true)
 }
 
-const filter = (type, sort, page, genre) => { router.push({ name: 'Library', query: { type, sort, genre, page } }) }
+const filter = (type: Filter['type'], sort: Filter['sort'], page: Filter['page'], genre: Filter['genre']): void => { router.push({ name: 'Library', query: { type, sort, genre, page } }) }
 
-const navigate = pageNumber => { router.push({ name: 'Library', query: { ...route.query, page: pageNumber } }) }
+const navigate = (page: number): void => { router.push({ name: 'Library', query: { ...route.query, page } }) }
 
-onBeforeMount(() => { fetchTitles(url.value) })
+onBeforeMount(() => { fetchTitles(`/discover/${route.query.type || 'movie'}?sort=${route.query.sort || 'popularity.desc'}&page=${route.query.page || 1}&genre=${route.query.genre || 28}`) })
 </script>
 
 <style lang="scss" scoped>

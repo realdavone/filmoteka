@@ -1,16 +1,21 @@
 <template>
   <section class="items">
     <slot name="item">
-      <component v-for="n in props['placeholderData']['count']" :key="n" :is="props['placeholderData']['type'] === 'person' ? PersonPlaceholder : TitlePlaceholder"></component>
+      <component v-for="n in placeholderData['count']" :key="n" :is="placeholderData['type'] === 'person' ? PersonPlaceholder : TitlePlaceholder"></component>
     </slot>
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import TitlePlaceholder from '../Placeholders/TitlePlaceholder.vue'
 import PersonPlaceholder from '../Placeholders/PersonPlaceholder.vue'
 
-const props = defineProps({ placeholderData: Object })
+const { placeholderData } = defineProps<{
+  placeholderData: {
+    count: number
+    type: 'title' | 'person'
+  }
+}>()
 </script>
 
 <style lang="scss" scoped>

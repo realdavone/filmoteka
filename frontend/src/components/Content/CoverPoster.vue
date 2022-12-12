@@ -13,8 +13,8 @@
 
 <script setup lang="ts">
 const { src, alt, fadeInOnLoad, size } = defineProps<{
-  src: string,
-  alt: string,
+  src: string | null,
+  alt?: string,
   fadeInOnLoad?: boolean,
   size: string
 }>()

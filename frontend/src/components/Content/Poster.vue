@@ -16,8 +16,8 @@
 <script setup lang="ts">
 
 const { src, alt, fadeInOnLoad, aspectRatio } = defineProps<{
-  src: string,
-  alt: string,
+  src: string | null,
+  alt?: string,
   fadeInOnLoad?: boolean,
   aspectRatio?: '2/3' | '1'
 }>()
