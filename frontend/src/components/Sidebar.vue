@@ -51,7 +51,7 @@
   </aside>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import NavButton from './Buttons/NavButton.vue'
 import SidebarMenuItem from './Sidebar/SidebarMenuItem.vue'
 import SidebarMenuTile from './Sidebar/SidebarMenuTile.vue'
@@ -61,7 +61,7 @@ import Logo from './Logo.vue'
 import { notify } from "@kyvg/vue3-notification"
 import { onClickOutside } from '@vueuse/core'
 import { ref, inject, onMounted, onUnmounted } from 'vue'
-import Auth from '../auth/main.js'
+import Auth from '../auth/main.ts'
 
 const store = inject('store')
 const menu = ref(null)

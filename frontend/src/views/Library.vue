@@ -35,7 +35,7 @@ import TitleB from '../components/Content/Title.vue'
 import NoResults from '../components/NoResults.vue'
 import ItemPanel from '../components/Content/ItemPanel.vue'
 import PageControl from '../components/PageControl.vue'
-import getData from '../api/main.js'
+import getData from '../api/main'
 
 import { Title as TitleType } from '../types/title'
 import { ApiListResponse } from '../types/response'

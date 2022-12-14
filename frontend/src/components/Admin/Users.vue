@@ -4,12 +4,12 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import User from './Users/User.vue' 
 import { ref, inject } from 'vue'
 import getData from '../../api/main.js'
 
-const store = inject('store')
+const store = inject<any>('store')
 const users = ref([])
 
 users.value = await getData({ endpoint: '/user/all', options: { method: 'GET', headers: { 'Content-Type': 'application/json', 'access-token': store.state.credentials.accessToken } } })

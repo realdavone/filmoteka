@@ -17,7 +17,7 @@
   </Teleport>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onBeforeMount } from 'vue'
 
 import SubmitCommentModal from '../SubmitCommentModal.vue'

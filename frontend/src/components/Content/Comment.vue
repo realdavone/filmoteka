@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import getData from '../../api/main.js'
+import getData from '../../api/main'
 
 import { inject, ref } from 'vue'
 

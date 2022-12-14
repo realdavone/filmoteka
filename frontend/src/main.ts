@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import router from './router'
+import router from './router/index'
 import Notifications, { notify } from '@kyvg/vue3-notification'
 import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
 import store from './store/index'
@@ -27,8 +27,6 @@ Promise.allSettled([
   .use(autoAnimatePlugin)
   .use(Notifications)
   .mount('#app')
-
-  if(attemptLogin?.value?.success) notify({ type: 'success', text: attemptLogin.value['message'] })
   
   store.initResources()
 })

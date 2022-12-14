@@ -1,38 +1,27 @@
 <template>
   <div class="socials">
-    <a v-if="props.id" :href="'https://www.themoviedb.org/person/'+props.id" class="social-link tmdb" target="_blank">
+    <a v-if="socials.facebook_id" :href="`https://www.themoviedb.org/person/${socials.facebook_id}`" class="social-link tmdb" target="_blank">
       <img src="../../assets/tmdb.svg" height="18" alt="TMDB">
     </a>
-    <a v-if="props.imdb" class="social-link imdb" :href="`https://www.imdb.com/name/${props.imdb}`"  target="_blank" title="IMDB">
+    <a v-if="socials.imdb_id" class="social-link imdb" :href="`https://www.imdb.com/name/${socials.imdb_id}`"  target="_blank" title="IMDB">
       <img src="../../assets/imdb.svg" height="18" alt="IMDB">
     </a>
-    <a v-if="props.fb" class="social-link facebook" :href="`https://www.facebook.com/${props.fb}`" target="_blank" title="Facebook">
+    <a v-if="socials.facebook_id" class="social-link facebook" :href="`https://www.facebook.com/${socials.facebook_id}`" target="_blank" title="Facebook">
       <i class="fa-brands fa-facebook-f"></i>
     </a>
-    <a v-if="props.ig" class="social-link instagram" :href="`https://www.instagram.com/${props.ig}`" target="_blank" title="Instagram">
+    <a v-if="socials.instagram_id" class="social-link instagram" :href="`https://www.instagram.com/${socials.instagram_id}`" target="_blank" title="Instagram">
       <i class="fa-brands fa-instagram"></i>
     </a>
-    <a v-if="props.twitter" class="social-link twitter" :href="`https://twitter.com/${props.twitter}`" target="_blank" title="Twitter">
+    <a v-if="socials.twitter_id" class="social-link twitter" :href="`https://twitter.com/${socials.twitter_id}`" target="_blank" title="Twitter">
       <i class="fa-brands fa-twitter"></i>
     </a>
   </div>
 </template>
 
 <script setup lang="ts">
-import { withDefaults } from 'vue'
+import { Person } from '../../types/person'
 
-const props = withDefaults(defineProps<{
-  id: string,
-  imdb: string | null,
-  fb: string | null,
-  ig: string | null,
-  twitter: string | null
-}>(), {
-  imdb: () => null,
-  fb: () => null,
-  ig: () => null,
-  twitter: () => null
-})
+const { socials } = defineProps<{ socials: Pick<Person, 'external_ids'>['external_ids'] }>()
 </script>
 
 <style lang="scss" scoped>

@@ -26,7 +26,7 @@
 export default { name: 'Admin'} 
 </script>
 
-<script setup>
+<script setup lang="ts">
 import Config from '../components/Admin/Config.vue'
 import Analytics from '../components/Admin/Analytics.vue'
 import Recommended from '../components/Admin/Recommended.vue'

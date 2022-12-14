@@ -4,8 +4,8 @@
   </div>
 </template>
 
-<script setup>
-import _ from '../utils/main.js'
+<script setup lang="ts">
+import _ from '../utils/main'
 import { onMounted, onUnmounted } from 'vue'
 import useEvent from '../composables/event'
 

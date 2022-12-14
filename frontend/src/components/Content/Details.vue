@@ -57,7 +57,7 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import DetailsItem from './DetailsItem.vue'
 import Rating from './Rating.vue'
 

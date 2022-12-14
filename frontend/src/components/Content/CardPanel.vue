@@ -17,25 +17,33 @@
       </slot>
     </div>
     <template v-if="!gridView">
-      <button class="scroll left" title="Vľavo" @click="scrollTo(cardHolder, -180)">&#10094;</button>
-      <button class="scroll right" title="Vpravo" @click="scrollTo(cardHolder, 180)">&#10095;</button>
+      <button class="scroll left" title="Vľavo" @click="scrollTo(cardHolder!, -180)">&#10094;</button>
+      <button class="scroll right" title="Vpravo" @click="scrollTo(cardHolder!, 180)">&#10095;</button>
     </template>
   </section>
 </template>
 
-<script setup>
-import { ref } from 'vue'
+<script setup lang="ts">
+import { ref, withDefaults } from 'vue'
 import Title from '../Content/Title.vue'
 import VerticalCardPlaceholder from '../Placeholders/VerticalCardPlaceholder.vue'
 
-const { allowGrid, isGrid, placeholderInfo } = defineProps({ allowGrid: { type: Boolean, default: false },
-  isGrid: { type: Boolean, default: false }, placeholderInfo: Object 
+const { allowGrid, isGrid, placeholderInfo } = withDefaults(defineProps<{
+  allowGrid?: boolean
+  isGrid?: boolean
+  placeholderInfo: {
+    type: string,
+    count: number
+  }
+}>(), {
+  allowGrid: () => false,
+  isGrid: () => false
 })
 
-const cardHolder = ref(null)
+const cardHolder = ref<null | HTMLDivElement>(null)
 const gridView = ref(isGrid)
 
-const scrollTo = (element, distance) => element.scrollTo({ left: element.scrollLeft += distance, behavior: 'smooth' })
+const scrollTo = (element: HTMLElement, distance: number) => element.scrollTo({ left: element.scrollLeft += distance, behavior: 'smooth' })
 </script>
 
 <style lang="scss" scoped>

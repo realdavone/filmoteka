@@ -100,7 +100,7 @@
           <PersonCard v-for="item in cast" :key="item.id" :person="item" />
         </template>
       </CastPanel>
-      <CardPanel v-if="similarTV.length !== 0">
+      <CardPanel v-if="similarTV.length !== 0" :placeholderInfo="{ type: 'title', count: 8 }">
         <template #title>Podobné</template>
         <template #card><VerticalCard v-for="item in similarTV" :key="item.id" :item="item"/></template>
       </CardPanel>
@@ -108,9 +108,9 @@
   </main>
 </template>
 
-<script setup>
-import getData from '../api/main.js'
-import _ from '../utils/main.js'
+<script setup lang="ts">
+import getData from '../api/main'
+import _ from '../utils/main'
 
 import { ref, reactive, onBeforeMount, inject, onActivated } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -151,7 +151,7 @@ const isPlayerWorking = reactive({
   value: true
 })
 
-const fetchData = async (id) => {
+const fetchData = async (id: string) => {
   try {
     result.value = await getData({ endpoint: `/title/find/tv/${id}` })
 
@@ -262,7 +262,7 @@ status.set('Returning Series', 'Pokračuje')
   .set('Canceled', 'Zrušený')
   .set('Pilot', 'Pilot')
 
-onBeforeMount(() => { fetchData(route.params.id) })
+onBeforeMount(() => { fetchData(route.params.id as string) })
 onActivated(() => {
   if(details.value !== null) document.title = `${details.value['title']}${details.value['year']?' ('+details.value['year']+')':''} / Filmotéka`
 })

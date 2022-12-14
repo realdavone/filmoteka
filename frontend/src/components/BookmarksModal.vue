@@ -36,7 +36,7 @@
   </Modal>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { inject, computed, ref, defineAsyncComponent } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 
@@ -44,9 +44,22 @@ const Modal = defineAsyncComponent(() => import('./Modal.vue'))
 const TypeIcon = defineAsyncComponent(() => import('./Content/TypeIcon.vue'))
 const CloseButton = defineAsyncComponent(() => import('./Buttons/CloseButton.vue'))
 
-const store = inject('store')
+type BaseTitle = {
+  title: string
+  type: 'Movie' | 'Tv'
+  img: string
+  id: string
+  season?: number
+  episode?: number
+}
 
-const modal = ref(null)
+interface FavoriteTitle extends BaseTitle {
+  inactive?: boolean
+}
+
+const store = inject<any>('store')
+
+const modal = ref<null | HTMLElement>(null)
 const searchInput = ref('')
 
 const emit = defineEmits(['close'])
@@ -56,14 +69,7 @@ onClickOutside(modal, () => {
   emit('close')
 })
 
-const items = computed(() => {
-  let result = []
-  for(let title of store.state['favourites']){
-    if(title.title.toLowerCase().includes(searchInput.value.toLowerCase())) result.push(title)
-    else result.push({ ...title, inactive: true })
-  }
-  return result
-})
+const items = computed(() => store.state['favourites'].map((title: BaseTitle) => title.title.toLowerCase().includes(searchInput.value.toLowerCase()) ? title : { ...title, inactive: true }))
 </script>
 
 <style lang="scss" scoped>

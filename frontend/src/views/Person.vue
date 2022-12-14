@@ -3,16 +3,17 @@
     <template #details>
       <PersonDetails
       v-if="!loading"
-      :name="result.name"
-      :biography="result.biography"
-      :img="result.profile_path"
-      :birthday="result.birthday"
-      :deathday="result.deathday"
-      :placeOfBirth="result.place_of_birth"
-      :imdb="result.imdb_id"
-      :id="route.params.id"
-      :extId="result.external_ids"
-      :imgs="result.images.profiles"
+      :person="{
+        name: result!.name,
+        biography: result!.biography,
+        profile_path: result!.profile_path,
+        birthday: result!.birthday,
+        place_of_birth: result!.place_of_birth,
+        deathday: result!.deathday,
+        external_ids: result!.external_ids,
+        id: result!.id,
+        imdb_id: result!.imdb_id
+      }"
       />
     </template>
 
@@ -20,52 +21,59 @@
       <div v-if="!loading" class="flex-column">
         <section class="selectors">
           <div class="primary">
-            <button @click="selector.primary = 'movie'" :data-active="selector.primary === 'movie'">Filmy</button>
-            <button @click="selector.primary = 'tv'" :data-active="selector.primary === 'tv'">TV</button>
+            <button @click="selector.type = 'movie'" :data-active="selector.type === 'movie'">Filmy</button>
+            <button @click="selector.type = 'tv'" :data-active="selector.type === 'tv'">TV</button>
           </div>
           <div class="secondary">
-            <button @click="selector.secondary = 'cast'" :data-active="selector.secondary === 'cast'">Herectvo</button>
-            <button @click="selector.secondary = 'crew'" :data-active="selector.secondary === 'crew'">Tvorba</button>
+            <button @click="selector.role = 'cast'" :data-active="selector.role === 'cast'">Herectvo</button>
+            <button @click="selector.role = 'crew'" :data-active="selector.role === 'crew'">Tvorba</button>
           </div>
         </section>
-        <Filmography v-if="selector.primary === 'movie' && selector.secondary === 'cast'" :items="result.movie_credits.cast" :type="selector.primary" />
-        <Filmography v-if="selector.primary === 'tv' && selector.secondary === 'cast'" :items="result.tv_credits.cast" :type="selector.primary" />
-        <Filmography v-if="selector.primary === 'movie' && selector.secondary === 'crew'" :items="result.movie_credits.crew" :type="selector.primary" />
-        <Filmography v-if="selector.primary === 'tv' && selector.secondary === 'crew'" :items="result.tv_credits.crew" :type="selector.primary" />
+        <Filmography
+        :items="([
+        ...result!.movie_credits.cast.map(title => Object.assign(title, { media_type: 'movie', job_type: 'cast' })),
+        ...result!.movie_credits.crew.map(title => Object.assign(title, { media_type: 'movie', job_type: 'crew' })),
+        ...result!.tv_credits.cast.map(title => Object.assign(title, { media_type: 'tv', job_type: 'cast' })),
+        ...result!.tv_credits.crew.map(title => Object.assign(title, { media_type: 'tv', job_type: 'crew' }))
+        ] as [])"
+        :filter="selector" />
       </div>
     </template>
   </PersonProfile>
-
 </template>
 
-<script setup>
+<script setup lang="ts">
 import PersonDetails from '../components/Person/PersonDetails.vue'
 import PersonProfile from '../components/Person/PersonProfile.vue'
 import Filmography from '../components/Person/Filmography.vue'
 
-import { ref, onBeforeMount } from 'vue'
+import { ref, reactive, onBeforeMount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
-import getData from '../api/main.js'
+import getData from '../api/main'
+
+import { Person } from '../types/person'
 
 const route = useRoute()
 const router = useRouter()
-const result = ref({})
+const result = ref<null | Person>(null)
 const loading = ref(true)
 
-const selector = ref({ primary: 'movie', secondary: 'cast' })
+const selector = reactive<{
+  type: 'movie' | 'tv'
+  role: 'cast' | 'crew'
+}>({ type: 'movie', role: 'cast' })
 
-const fetchData = async id => {
+const fetchData = async (id: string) => {
   try {
-    const data = await getData({ endpoint: `/person/${id}` })
-    
-    result.value = data
-    document.title = `${result.value.name} / Filmotéka`
-    loading.value = false
+    result.value = await getData({ endpoint: `/person/${id}` })
+
+    loading.value = false    
+    document.title = `${result.value!.name} / Filmotéka`
   } catch (error) { router.push({ name: 'NotFound' }) }
 }
 
-onBeforeMount(() => { fetchData(route.params.id) })
+onBeforeMount(() => { fetchData(route.params.id as string) })
 </script>
 
 <style lang="scss" scoped>

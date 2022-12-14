@@ -11,7 +11,7 @@
               <slot name="poster" />
             </div>
             <slot name="feedback">
-              <div class="skeleton-text" style="height:1.5rem;width:100px;"></div>
+              <!--<div class="skeleton-text" style="height:1.5rem;width:100px;"></div>-->
             </slot>
           </div>
           <div class="right-col">
@@ -48,12 +48,15 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import PlayerPlaceholder from '../Placeholders/PlayerPlaceholder.vue'
 import DetailsPlaceholder from '../Placeholders/DetailsPlaceholder.vue'
 import CoverPoster from './CoverPoster.vue'
 
-const { type, bg } = defineProps({ type: String, bg: String | undefined })
+const { type, bg } = defineProps<{
+  type: 'tv' | 'movie'
+  bg?: string
+}>()
 </script>
 
 <style lang="scss" scoped>

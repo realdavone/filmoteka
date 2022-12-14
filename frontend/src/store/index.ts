@@ -159,7 +159,7 @@ const methods = {
   }
 }
 
-const state = reactive({
+const state = reactive<any>({
   favourites: methods.favourites.populate(),
   watched: methods.watched.populate(),
   countries: {},

@@ -1,33 +1,46 @@
 <template>
   <main class="wrapper">
     <div v-if="items.length === 0 && loading === false" class="no-items container">Sekcia odporúčaných je prázdna</div>
-    <CardPanel v-else :allowGrid="false" :isGrid="true" :placeholderInfo="{ count: 8 }">
+    <CardPanel v-else :allowGrid="false" :isGrid="true" :placeholderInfo="{ type: 'title', count: 8 }">
       <template #title>Odporúčané za posledný deň</template>
       <template #card>
-        <VerticalCard v-for="item in items" :item="item.title" :key="item.id" />
+        <VerticalCard v-for="item in items" :item="(item.title as any)" :key="item._id" />
       </template>
     </CardPanel>
   </main>
 </template>
 
-<script> 
+<script lang="ts"> 
 export default { name: "Recommended" } 
 </script>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onBeforeMount, onUnmounted, inject } from 'vue'
+import { useRouter } from 'vue-router'
+
 import VerticalCard from '../components/Content/VerticalCard.vue'
 import CardPanel from '../components/Content/CardPanel.vue'
 
 import getData from '../api/main'
+import { TitleFromDB } from '../types/title'
 
-const store = inject('store')
-const items = ref([])
+type RecommendedList = {
+  createdAt: string
+  title: TitleFromDB
+  __v: number
+  _id: string
+}
+
+const router = useRouter()
+const store = inject<any>('store')
+const items = ref<RecommendedList[]>([])
 const loading = ref(true)
 
 const fetchRecommended = async () => {
-  items.value = await getData({ endpoint: '/title/recommended' })
-  loading.value = false
+  try {
+    items.value = await getData({ endpoint: '/title/recommended' })
+    loading.value = false    
+  } catch (error) { router.push('/404') }
 }
 
 onBeforeMount(() => { fetchRecommended() })

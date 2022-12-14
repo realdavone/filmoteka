@@ -16,7 +16,7 @@
         <section class="titles-holder">
           <ItemPanel :placeholderData="{ count: 2, type: 'title' }">
             <template #item>
-              <Title v-for="movie in collection.titles" :key="movie.id" :title="{ ...movie, type: 'movie' }" />          
+              <Title v-for="movie in collection.titles" :key="movie.id" :title="{ ...movie, media_type: 'movie' }" />          
             </template>
           </ItemPanel>
         </section>
@@ -25,23 +25,37 @@
   </main>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onBeforeMount, reactive, onActivated } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import _ from '../utils/main.js'
-import getData from '../api/main.js'
+import _ from '../utils/main'
+import getData from '../api/main'
 
 import Title from '../components/Search/Title.vue'
 import ItemPanel from '../components/Content/ItemPanel.vue'
 import Poster from '../components/Content/Poster.vue'
 
+import { MovieTitle } from '../types/title'
+import { Collection } from '../types/collection'
+
 const route = useRoute()
 const router = useRouter()
-const collection = reactive({ title: null, overview: null, titles: [], poster: null })
 
-const fetchData = async(id) => {
+const collection = reactive<{
+  title: null | string
+  overview: null | string
+  titles: Array<MovieTitle>
+  poster: null | string
+}>({
+  title: null,
+  overview: null,
+  titles: [],
+  poster: null
+})
+
+const fetchData = async (id: string) => {
   try {
-    const data = await getData({ endpoint: `/collection/${id}` })
+    const data = await getData<Collection>({ endpoint: `/collection/${id}` })
 
     const translations = _.getTranslations(data['translations']['translations'])
 
@@ -50,12 +64,12 @@ const fetchData = async(id) => {
     collection.titles = data.parts
     collection.poster = data.poster_path
 
-    } catch (error) { router.push({ name: 'NotFound' }) }
+  } catch (error) { router.push({ name: 'NotFound' }) }
   
   document.title=`${collection.title} / Filmotéka`
 }
 
-onBeforeMount(() => { fetchData(route.params.id) })
+onBeforeMount(() => { fetchData(route.params.id as string) })
 onActivated(() => {
   if(collection.title !== null) document.title = `${collection.title} / Filmotéka`
 })

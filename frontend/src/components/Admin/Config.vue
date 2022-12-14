@@ -15,14 +15,14 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { notify } from "@kyvg/vue3-notification"
-import getData from '../../api/main.js'
+import getData from '../../api/main'
 import { inject } from 'vue'
 
-const store = inject('store')
+const store = inject<any>('store')
 
-const updateProperty = async (property, value) => {
+const updateProperty = async (property: any, value: any) => {
   try {
     await getData({
       endpoint: '/config/update',
@@ -37,7 +37,7 @@ const updateProperty = async (property, value) => {
 
 const clearTokens = async () => {
   try {
-    const data = await getData({
+    const data = await getData<any>({
       endpoint: '/config/clear-tokens',
       options: {
         method: 'DELETE',

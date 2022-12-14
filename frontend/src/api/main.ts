@@ -2,7 +2,19 @@ const baseURL = import.meta.env.VITE_BASE_URL
 import Auth from '../auth/main'
 import store from '../store/index'
 
-const makeRequest = ({ endpoint, options }) => {
+type Options = {
+  method?: 'GET' | 'PATCH' | 'POST' | 'PUT' | 'CONNECT' | 'DELETE' | 'OPTIONS' | 'HEAD' | 'TRACE'
+  headers?: Object
+  body?: string
+}
+
+const makeRequest = <T>({
+  endpoint,
+  options
+}:{
+  endpoint: string,
+  options?: Options
+}): Promise<T> => {
   let request = new Request(`${baseURL}${endpoint}`, {
     method: options?.method || 'GET',
     headers: {

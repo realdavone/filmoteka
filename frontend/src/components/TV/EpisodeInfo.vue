@@ -32,10 +32,10 @@
   </section>
 </template>
 
-<script setup>
-import _ from '../../utils/main.js'
+<script setup lang="ts">
+import _ from '../../utils/main'
 import { ref, watchEffect } from 'vue'
-import getData from '../../api/main.js'
+import getData from '../../api/main'
 
 const props = defineProps({ id: String, season: Number, episode: Number })
 

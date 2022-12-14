@@ -74,7 +74,7 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import EpisodeInfo from './EpisodeInfo.vue'
 import EpisodeCard from './EpisodeCard.vue'
 import Player from '../Content/Player.vue'

@@ -15,9 +15,9 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router'
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, ref } from 'vue'
 
 import Title from '../../components/Search/Title.vue'
 import Person from '../../components/Search/Person.vue'
@@ -25,7 +25,7 @@ import ItemPanel from '../../components/Content/ItemPanel.vue'
 import NoResults from '../../components/NoResults.vue'
 import PageControl from '../../components/PageControl.vue'
 
-import getData from '../../api/main.js'
+import getData from '../../api/main'
 
 const loaded = ref(false)
 const items = ref([])

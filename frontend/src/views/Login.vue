@@ -17,7 +17,7 @@
           </div>
           <button :disabled="loginStart" type="submit">
             <span>Prihlásiť</span>
-            <Loader v-if="loginStart" color="white" border="3px" />
+            <Loader v-if="loginStart" color="white" :border="'3px'" />
           </button>
           <div id="buttonDiv" style="align-self:center;height:32px;"></div>
         </form>
@@ -27,19 +27,25 @@
   </main>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import CloseButton from '../components/Buttons/CloseButton.vue'
 import Loader from '../components/Loader.vue'
 import { notify } from "@kyvg/vue3-notification"
 import { reactive, inject, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import Auth from '../auth/main.js'
+import Auth from '../auth/main'
 import '../styles/auth.scss'
 
 const router = useRouter()
-const store = inject('store')
+const store = inject<any>('store')
 
-const credentials = reactive({ email: null, password: null })
+const credentials = reactive<{
+  email: string
+  password: string
+}>({
+  email: '',
+  password: ''
+})
 const loginStart = ref(false)
 const history = window.history
 

@@ -106,9 +106,9 @@
   </main>
 </template>
 
-<script setup>
-import getData from '../api/main.js'
-import _ from '../utils/main.js'
+<script setup lang="ts">
+import getData from '../api/main'
+import _ from '../utils/main'
 
 import { ref, reactive, onBeforeMount, inject, onActivated } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -210,7 +210,7 @@ const fetchData = async (id) => {
     result.value['isRecommended'] === undefined ? isRecommended.value = false : isRecommended.value = result.value['isRecommended']
 
     document.title = `${details.value['title']}${details.value['year']?' ('+details.value['year']+')':''} / Filmotéka`
-  } catch (error) { console.log(error)}//router.push({ name: 'NotFound' }) }
+  } catch (error) { router.push({ name: 'NotFound' }) }
 }
 
 const toggleWorkingPlayer = async obj => {

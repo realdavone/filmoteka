@@ -2,8 +2,19 @@ const baseURL = import.meta.env.VITE_BASE_URL
 import store from '../store/index'
 import router from '../router/index'
 
-const Auth = {
-  login({ email, password }){
+interface AuthResponse {
+  success: boolean
+  message: string
+}
+
+export default {
+  login({
+    email,
+    password
+  }:{
+    email: string,
+    password: string
+  }): Promise<AuthResponse>{
     return new Promise(async (resolve, reject) => {
       try {
         const res = await fetch(`${baseURL}/auth/login`, {
@@ -22,7 +33,7 @@ const Auth = {
       } catch (error) { reject({ success: false, message: error }) }
     })
   },
-  logout(){
+  logout(): Promise<AuthResponse>{
     return new Promise(async (resolve, reject) => {
       try {
         const res = await fetch(`${baseURL}/auth/logout`, {
@@ -40,7 +51,7 @@ const Auth = {
       } catch (error) { reject({ success: false, message: error }) }
     })
   },
-  refresh(refreshToken){
+  refresh(refreshToken: string | null): Promise<AuthResponse>{
     return new Promise(async (resolve, reject) => {
       if(refreshToken === null) return reject('Žiadny token')
 
@@ -60,7 +71,13 @@ const Auth = {
       } catch (error) { reject({ success: false, message: error }) }
     })
   },
-  register({ email, password }){
+  register({
+    email,
+    password
+  }:{
+    email: string,
+    password: string
+  }): Promise<AuthResponse>{
     return new Promise(async (resolve, reject) => {
       try {
         const res = await fetch(`${baseURL}/auth/register`, {
@@ -76,7 +93,7 @@ const Auth = {
       } catch (error) { reject({ success: false, message: error }) }
     })
   },
-  google(token){
+  google(token: string): Promise<AuthResponse>{
     return new Promise(async(resolve, reject) => {
       try {
         const res = await fetch(`${baseURL}/auth/google`, {
@@ -96,5 +113,3 @@ const Auth = {
     })
   }
 }
-
-export default Auth

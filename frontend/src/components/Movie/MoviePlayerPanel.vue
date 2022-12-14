@@ -11,18 +11,18 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import Player from '../Content/Player.vue'
  
-const props = defineProps({
-  id: String,
-  isReleased: Boolean,
-  title: String,
-  isPlayerWorking: Boolean
-})
+const props = defineProps<{
+  id: string
+  isReleased: boolean
+  title: string
+  isPlayerWorking: boolean
+}>()
 
-const playerSource = ref(null)
+const playerSource = ref<null | string>(null)
 
 const setPlayer = () => { playerSource.value = `https://www.2embed.to/embed/imdb/movie?id=${props.id}` }
 </script>

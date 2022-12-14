@@ -9,18 +9,18 @@
   <p v-if="recommended.length === 0">Žiadne odporúčane</p>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
-import getData from '../../api/main.js'
-import store from '../../store/index.js'
+import getData from '../../api/main'
+import store from '../../store/index'
 
 const recommended = ref([])
 
 recommended.value = await getData({ endpoint: '/title/recommended' })
 
-const getDifference = (timestamp) => new Intl.RelativeTimeFormat('sk', { localeMatcher: "best fit", style: "short" }).format(-Math.floor((new Date() - new Date(timestamp)) / (1000*60*60)), 'hours')
+const getDifference = (timestamp: string) => new Intl.RelativeTimeFormat('sk', { localeMatcher: "best fit", style: "short" }).format(-Math.floor((new Date() - new Date(timestamp)) / (1000*60*60)), 'hours')
 
-const removeItem = async (id) => {
+const removeItem = async (id: string) => {
   const data = await getData({ endpoint: '/title/recommend', options: {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json', 'access-token': store.state.credentials.accessToken },

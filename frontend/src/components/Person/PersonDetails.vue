@@ -3,65 +3,49 @@
     <section class="profile">
       <div class="photo-socials">
         <div class="profile-photo">
-          <img v-if="person['photo']" :src="`https://www.themoviedb.org/t/p/w600_and_h600_bestv2${person['photo']}`" :alt="person['name']">
+          <img v-if="person.profile_path" :src="`https://www.themoviedb.org/t/p/w600_and_h600_bestv2${person.profile_path}`" :alt="person.name">
         </div>
-        <Socials :id="person['tmdb']" :imdb="person['extIds']['imdb_id']" :fb="person['extIds']['facebook_id']" :ig="person['extIds']['instagram_id']" :twitter="person['extIds']['twitter_id']" />
+        <Socials :socials="person.external_ids" />
       </div>
       <div class="profile-details">
-        <div class="profile-name">{{person['name']}}</div>
+        <div class="profile-name">{{person.name}}</div>
         <div class="details">
-          <div class="info-outter" v-if="person['birthday'] || person['birthplace']">
+          <div class="info-outter" v-if="person.birthday || person.place_of_birth">
             <span class="icon">&lowast;</span>
             <div>
-              <span v-if="!person['deathday'] && person['birthday']" class="comma-after" >{{person['age']}}</span>
-              <span v-if="person['birthday']" class="comma-after">{{person['birthday']}}</span>
-              <span v-if="person['birthplace']" class="comma-after">{{person['birthplace']}}</span>
+              <span v-if="!person.deathday && person.birthday" class="comma-after" >{{getAge(person.birthday, person.deathday)}}</span>
+              <span v-if="person.birthday" class="comma-after">{{new Date(person.birthday).toLocaleDateString('sk-SK')}}</span>
+              <span v-if="person.place_of_birth" class="comma-after">{{person.place_of_birth}}</span>
             </div>
           </div>
-          <div class="info-outter" v-if="person['deathday']">
+          <div class="info-outter" v-if="person.deathday">
             <span class="icon">&#10013;</span>
             <div>
-              <span class="comma-after">{{person['deathday']}}</span>              
-              <span class="comma-after">{{person['age']}}</span>
+              <span class="comma-after">{{new Date(person.deathday).toLocaleDateString('sk-SK')}}</span>              
+              <span class="comma-after">{{getAge(person.birthday, person.deathday)}}</span>
             </div>
           </div>
         </div>
-        <div class="profile-biography">{{person['bio'] || `Pre ${person['name']} nie je k dispozicií žiadna biografia`}}</div>
+        <div class="profile-biography">{{person.biography || `Pre ${person.name} nie je k dispozicií biografia`}}</div>
       </div>
     </section>
   </main>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Socials from '../Person/Socials.vue'
 
-import { ref } from 'vue'
+import { Person } from '../../types/person'
 
-const props = defineProps({
-  name: String,
-  biography: String,
-  img: String,
-  birthday: String,
-  deathday: String,
-  placeOfBirth: String,
-  imdb: String,
-  id: String | Number,
-  extId: Object,
-  imgs: Array
-})
-const person = ref({
-  name: props['name'],
-  bio: props['biography'],
-  photo: props['img'],
-  birthday: props['birthday'] ? new Date(props['birthday']).toLocaleDateString('sk-SK') : null,
-  deathday: props['deathday'] ? new Date(props['deathday']).toLocaleDateString('sk-SK') : null,
-  age:~~(((props.deathday ? (new Date(props.deathday)) : Date.now()) - (new Date(props.birthday))) / (31557600000)),
-  birthplace: props['placeOfBirth'],
-  imdb: props['imdb'],
-  tmdb: props['id'],
-  extIds: props['extId'],
-  imgs: props['imgs']
-})
+type PersonProps = Pick<Person, 'name' | 'biography' | 'profile_path' | 'birthday' | 'place_of_birth' | 'deathday' | 'external_ids' | 'id' | 'imdb_id'>
+
+const { person } = defineProps<{ person: PersonProps }>()
+
+const getAge = (birthday: string | null, deathday: string | null): number | null => {
+  if(birthday === null) return null
+
+  return Math.floor(((deathday === null ? new Date().getTime() : new Date(deathday).getTime()) - new Date(birthday).getTime()) / (1000 * 60 * 60 * 24 * 365))
+}
 </script>
 
 <style lang="scss" scoped>

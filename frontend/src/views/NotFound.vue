@@ -6,7 +6,7 @@
   </main>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import BasicButton from '../components/Buttons/BasicButton.vue'
 </script>
 

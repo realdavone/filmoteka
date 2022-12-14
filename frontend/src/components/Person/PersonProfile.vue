@@ -9,7 +9,7 @@
   </main>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import PersonDetailsPlaceholder from '../Placeholders/PersonDetailsPlaceholder.vue'
 import FilmographyPlaceholder from '../Placeholders/FilmographyPlaceholder.vue'
 </script>

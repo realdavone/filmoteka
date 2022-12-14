@@ -42,7 +42,7 @@ import Title from '../../components/Search/Title.vue'
 import Person from '../../components/Search/Person.vue'
 import ItemPanel from '../../components/Content/ItemPanel.vue'
 
-import getData from '../../api/main.js'
+import getData from '../../api/main'
 
 import { onBeforeMount, ref, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
