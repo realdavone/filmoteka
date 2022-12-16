@@ -18,7 +18,7 @@ onUnmounted(() => {
   _.makeUnscrollable(document.body, false)
 })
 
-useEvent({ target: document.body, event: 'keydown', callback: (e) => e.code === 'Escape' && emit('close') })
+useEvent({ target: document.body, event: 'keydown', callback: (e: any) => e.code === 'Escape' && emit('close') })
 
 </script>
 

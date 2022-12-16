@@ -22,10 +22,12 @@ const titleSchema = new Schema({
     default: true
   },
   likes:{
-    type: [String]
+    type: [String],
+    default: []
   },
   dislikes:{
-    type: [String]
+    type: [String],
+    default: []
   },
 }, { collection: 'titles' });
 

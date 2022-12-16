@@ -11,14 +11,15 @@ const methods = {
       try { return JSON.parse(localStorage.favourites) }
       catch (error) { return [] }
     },
-    toggle({ id, type, title, img }){
+    toggle({ id, type, title, img }: FavouriteItem){
       const doesExist = methods.favourites.exists({ type, id })
+
       if(doesExist) state.favourites = state.favourites.filter(title => title.id !== id)
       else state.favourites.push({ id, type, title, img })
       localStorage.setItem('favourites', JSON.stringify(state.favourites))
       notify({ type: doesExist === false ? 'success' : 'warn', text: doesExist === false ? 'Pridané do záložiek' : 'Odobrané zo záložiek' })
     },
-    update(id, season, episode){
+    update(id: number, season: number, episode: number){
       state.favourites = state.favourites.map(title => {
         if(title.id === id && title.type === 'Tv') return { ...title, episode, season }
         return title
@@ -29,7 +30,7 @@ const methods = {
       state.favourites = []
       localStorage.setItem('favourites', JSON.stringify(state.favourites))
     },
-    exists(title){ return state.favourites.some(item => item['type'] === title.type && item['id'] === title.id) }
+    exists(title: Pick<FavouriteItem, 'type' | 'id'>){ return state.favourites.some(item => item['type'] === title.type && item['id'] === title.id) }
   },
   watched: {
     populate(){
@@ -39,26 +40,27 @@ const methods = {
       }
       else return []
     },
-    toggle({ id, type, title }){
+    toggle({ id, type, title }: WatchedItem){
       const doesExist = methods.watched.exists({ type, id })
+
       if(doesExist) state.watched = state.watched.filter(title => title.id !== id)
       else state.watched.push({ id, type, title })
       localStorage.setItem('watched', JSON.stringify(state.watched))
       notify({ type: doesExist === false ? 'success' : 'warn', text: doesExist === false ? 'Označený ako prezrený' : 'Označený ako neprezrený' })
     },
-    exists({ type, id }){ 
+    exists({ type, id }: Omit<WatchedItem, 'title'>){ 
       return state.watched.some(item => item['type'].toLowerCase() === type?.toLowerCase() && item['id'].toString() === id?.toString())
     }
   },
   countries: {
-    async set(code){ 
+    async set(code: string){ 
       const res = await fetch(`${baseURL}/resources/country-codes/${code}`)
       const data = await res.json()
       state.countries = data.codes
     }
   },
   genres: {
-    async set(keyword){ state.genres[keyword] = await _.getGenres(keyword) }
+    async set(keyword: 'movie' | 'tv'){ state.genres[keyword] = await _.getGenres(keyword) }
   },
   recentSearch: {
     populate(){
@@ -67,7 +69,7 @@ const methods = {
         catch (error) { return [] }
       else return []
     },
-    pushItem(item){
+    pushItem(item: string){
       if(state.recentSearch.indexOf(item) !== -1){
         state.recentSearch.splice(state.recentSearch.indexOf(item), 1)
       }
@@ -89,7 +91,7 @@ const methods = {
         catch (error) { return [] }
       else return []
     },
-    pushItem(item){
+    pushItem(item: RecentItem){
       if(state.recentItems.some(title => title.id === item.id)){
         state.recentItems.splice(state.recentItems.findIndex(title => title.id === item.id && title.type === item.type), 1)
       }
@@ -111,16 +113,18 @@ const methods = {
       notify({ type: 'warn', text: state.settings.pinnedPlayer ? 'Prehraváč bol pripnutý' : 'Prehraváč bol odopnutý' })
     },
     themeColor: {
-      set(color){
-        state.settings.themeColors.mainColor=color;
-        document.querySelector(':root').style.setProperty('--theme-color', state.settings.themeColors.mainColor)
-        document.querySelector(':root').style.setProperty('--theme-color-transparent', state.settings.themeColors.mainColor+'90')
+      set(color: string){
+        state.settings.themeColors.mainColor = color
+
+        const root = document.querySelector(':root') as HTMLElement
+        root.style.setProperty('--theme-color', state.settings.themeColors.mainColor)
+        root.style.setProperty('--theme-color-transparent', state.settings.themeColors.mainColor+'90')
         localStorage.setItem('themeColor', state.settings.themeColors.mainColor)
       },
       get(){ return state.settings.themeColors.mainColor }
     },
     darkTheme: {
-      set(isDark){
+      set(isDark: 'true' | 'false'){
         const isDarkTheme = JSON.parse(isDark)
         state.settings.darkTheme = isDarkTheme
         document.body.setAttribute('data-dark-theme', isDarkTheme)
@@ -131,12 +135,12 @@ const methods = {
   },
   notifications: {
     recommended: {
-      add(title) { state.notifications.recommended.push(title) },
+      add(title: any) { state.notifications.recommended.push(title) },
       reset() { state.notifications.recommended = [] }
     }
   },
   credentials: {
-    set(user, accessToken) { 
+    set(user: User, accessToken: string) { 
       state.credentials.user = user
       state.credentials.accessToken = accessToken
       state.credentials.loggedIn = true
@@ -159,22 +163,89 @@ const methods = {
   }
 }
 
-const state = reactive<any>({
+type FavouriteItem = {
+  id: number 
+  img: string
+  title: string
+  type: 'Movie' | 'Tv' 
+  episode?: number
+  season?: number
+}
+
+type WatchedItem = Omit<FavouriteItem, 'img'>
+
+type RecentItem = {
+  id: number 
+  poster: string
+  title: string
+  type: 'Movie' | 'Tv' 
+}
+
+type LocalSettings = {
+  darkTheme: boolean
+  pinnedPlayer: boolean
+  themeColors: {
+    colors: Array<string>
+    mainColor: null | string 
+  }
+}
+
+type Notifications= {
+  recommended: Array<any>
+}
+
+interface User {
+  _id: string
+  email: string
+  isAdmin: boolean
+}
+
+interface Credentials {
+  user: null | User
+  accessToken: null | string
+  loggedIn: boolean
+}
+
+interface GlobalSettings {
+  allowRegistration: boolean
+  allowWatchWhileUnregistered: boolean
+}
+
+export interface GlobalState {
+  favourites: Array<FavouriteItem>
+  watched: Array<WatchedItem>
+  countries: Map<string, string>
+  genres: {
+    movie: Map<number, { key: number, value: string }>
+    tv: Map<number, { key: number, value: string }>
+  }
+  recentSearch: Array<string>
+  recentItems: Array<RecentItem>
+  settings: LocalSettings
+  notifications: Notifications
+  credentials: Credentials
+  globalSettings: null | GlobalSettings
+}
+
+const state = reactive<GlobalState>({
   favourites: methods.favourites.populate(),
   watched: methods.watched.populate(),
-  countries: {},
-  genres: {},
+  countries: new Map(),
+  genres: {
+    movie: new Map(),
+    tv: new Map()
+  },
   recentSearch: methods.recentSearch.populate(),
   recentItems: methods.recentItems.populate(),
-  settings:{
-    pinnedPlayer: localStorage.getItem('pinnedPlayer') !== null ? JSON.parse(localStorage.getItem('pinnedPlayer')) : false,
+  settings: {
+    pinnedPlayer: localStorage.getItem('pinnedPlayer') !== null ? JSON.parse(localStorage.getItem('pinnedPlayer') as string) : false,
     themeColors: {
       colors: ['#ED3F00','#F78764','#2176AE','#FBB13C','#DE4D86','#89BD9E','#B84A62'],
       mainColor: null
     },
     darkTheme: true
   },
-  notifications:{ 
+  notifications: { 
     recommended: [] 
   },
   credentials: {
@@ -185,13 +256,13 @@ const state = reactive<any>({
   globalSettings: null
 })
 
-const initResources = () => {
+const initResources = (): void => {
   methods.countries.set('sk')
   methods.genres.set('movie')
   methods.genres.set('tv')
 }
 
 methods.settings.themeColor.set(localStorage.getItem('themeColor') || state.settings.themeColors.colors[0])
-methods.settings.darkTheme.set(localStorage.getItem('darkTheme') || true)
+methods.settings.darkTheme.set(localStorage.getItem('darkTheme') as 'true' | 'false' || true)
 
 export default { state, methods, initResources }

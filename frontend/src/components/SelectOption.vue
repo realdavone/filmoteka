@@ -3,23 +3,26 @@
     <div class="active-selector" @click="areValuesVisible = !areValuesVisible">{{options.get(modelValue)}}</div>
     <Transition name="fade">
       <div ref="values" v-show="areValuesVisible" class="values">
-        <div v-for="option in options" :key="option" @click="handleChange(option)" :class="`option ${options.get(modelValue) === option[1] && 'active'}`">{{option[1]}}</div>
+        <div v-for="option in options" :key="option[0]" @click="handleChange(option)" :class="`option ${options.get(modelValue) === option[1] && 'active'}`">{{option[1]}}</div>
       </div>
     </Transition>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onClickOutside } from '@vueuse/core'
 import { ref } from 'vue'
 
-const { options, modelValue } = defineProps({ options: Map, modelValue: String | Number })
+const { options, modelValue } = defineProps<{
+  options: Map<string | number, string>
+  modelValue: string | number
+}>()
 const emit = defineEmits(['update:modelValue'])
 
 const values = ref(null)
 const areValuesVisible = ref(false)
 
-const handleChange = value => {
+const handleChange = (value: Array<any>) => {
   emit('update:modelValue', value[0])
   areValuesVisible.value = false
 }

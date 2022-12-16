@@ -6,19 +6,6 @@
     </div>
 </template>
 
-<script setup lang="ts">
-import { notify } from "@kyvg/vue3-notification"
-
-const copyUrl = () => {
-  const nav = navigator
-  const win = window
-  nav.clipboard.writeText(win.location.href)
-  notify({ type: 'warn', text: 'URL adresa bola skopírovaná' })
-}
-
-defineExpose({ copyUrl })
-</script>
-
 <style lang="scss">
 div.buttons{
   --button-height:56px;

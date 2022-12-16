@@ -1,19 +1,19 @@
 <template>
-  <section v-auto-animate v-if="episodeInfo['name']" class="episode-info user-select-none">
+  <section v-auto-animate class="episode-info user-select-none">
     <div class="title-holder">
       <div class="title">
         <template v-if="!loading">
-          <b>{{`${episodeInfo['seasonNumber']}.${episodeInfo['episodeNumber']}`}}</b>
-          <span>{{episodeInfo['name']}}</span>            
+          <b>{{`${episodeInfo?.season_number}.${episodeInfo?.episode_number}`}}</b>
+          <span>{{episodeInfo?.name}}</span>            
         </template>
         <div v-else class="skeleton-text" style="width:50%;height:1rem;"></div>
       </div>
-      <span v-if="!loading && episodeInfo['airDate']" class="airdate">{{episodeInfo['airDate']}}</span>
+      <span v-if="!loading && episodeInfo?.air_date" class="airdate">{{new Date(episodeInfo['air_date']).toLocaleDateString('sk-SK', { weekday: 'short', year: '2-digit', month: 'short', day: 'numeric' })}}</span>
       <div v-else class="skeleton-text" style="width:50px;align-self:center;"></div>
     </div>
     <div v-if="showEpisodeSpoiler" class="thumb-overview">
       <div class="overview">
-        <span v-if="!loading">{{episodeInfo['overview']}}</span>
+        <span v-if="!loading">{{episodeInfo!.overview.length > 0 ? episodeInfo?.overview : 'Popis nedostupný'}}</span>
         <template v-else>
           <div class="skeleton-text"></div>
           <div class="skeleton-text"></div>
@@ -22,7 +22,7 @@
       </div>
       <div class="thumbnail">
         <Transition name="fade">
-          <img v-if="episodeInfo['thumbnail'] && !loading" :src="`https://www.themoviedb.org/t/p/w454_and_h254_bestv2${episodeInfo['thumbnail']}`" :alt="episodeInfo['name']">        
+          <img v-if="episodeInfo?.still_path && !loading" :src="`https://www.themoviedb.org/t/p/w454_and_h254_bestv2${episodeInfo?.still_path}`" :alt="episodeInfo['name']">        
         </Transition>
       </div>
     </div>
@@ -37,31 +37,44 @@ import _ from '../../utils/main'
 import { ref, watchEffect } from 'vue'
 import getData from '../../api/main'
 
-const props = defineProps({ id: String, season: Number, episode: Number })
+import { EpisodeType, EpisodeTranslation } from '../../types/episode'
 
-const episodeInfo = ref({})
+const props = defineProps<{
+  id: number
+  season: number
+  episode: number
+}>()
+
+const episodeInfo = ref<EpisodeType | null>(null)
+
 const showEpisodeSpoiler = ref(false)
 const loading = ref(true)
 
-const getEpisodeInfo = async (id, season, episode) => {
+const getEpisodeInfo = async ({
+  id,
+  season,
+  episode
+}: {
+  id: number
+  season: number,
+  episode: number
+}) => {
   try {
     loading.value = true
-    const data = await getData({ endpoint: `/title/episode/${id}/${season}/${episode}` })
-    const translations = _.getTranslations(data['translations']['translations'])
+    episodeInfo.value = await getData<EpisodeType>({ endpoint: `/title/episode/${id}/${season}/${episode}` })
+    
+    const translations = _.getTranslations<EpisodeTranslation>(episodeInfo.value.translations.translations, 'iso_639_1', ['sk', 'cz', 'en'])
 
     episodeInfo.value = {
-      seasonNumber: data['season_number'],
-      episodeNumber: data['episode_number'],
-      name: translations?.['data']?.['name'] || data['name'],
-      airDate: data['air_date'] !== '' ? new Date(data['air_date']).toLocaleDateString('sk-SK', { weekday: 'short', year: '2-digit', month: 'short', day: 'numeric' }) : null,
-      overview: translations?.['data']?.['overview'] || data?.overview || 'Popis nie je dostupný',
-      thumbnail: data?.['still_path'] || null
+      ...episodeInfo.value,
+      name: translations?.data.name || `Epizóda ${episodeInfo.value.episode_number}`,
+      overview: translations?.data.overview || episodeInfo.value.overview
     }
   } catch (error) { console.log(error) }
   finally{ loading.value = false }
 }
 
-watchEffect(() => { getEpisodeInfo(props.id, props.season, props.episode) }, { flush: 'post' })
+watchEffect(() => { getEpisodeInfo({ id: props.id, season: props.season, episode: props.episode }) }, { flush: 'post' })
 </script>
 
 <style lang="scss" scoped>

@@ -1,21 +1,21 @@
 <template>
   <router-link tabindex="0" :to="`/${title.media_type}/${title.id}`" class="title">
     <div class="image-holder">
-      <Poster :src="title.poster_path" :alt="(title.media_type === 'movie' ? title.title : title.name)" :fade-in-on-load="true" aspect-ratio="1" />
+      <Poster :src="title.poster_path || null" :alt="title.title" fade-in-on-load aspect-ratio="1" />
     </div>
     <section class="details">
-      <div class="title-holder" :title="`${title.media_type === 'movie' ? title.title : title.name} (${(new Date(title.media_type === 'movie' ? title.release_date : title.first_air_date)).getFullYear()})`">
-        <span class="title">{{title.media_type === 'movie' ? title.title : title.name}}</span>  
-        <span style="color:var(--secondary-text-color)" v-if="title.media_type === 'movie' ? title.release_date : title.first_air_date">&#32;({{(new Date(title.media_type === 'movie' ? title.release_date : title.first_air_date)).getFullYear()}})</span>
+      <div class="title-holder">
+        <span class="title">{{title.title}}</span>  
+        <span style="color:var(--secondary-text-color)" v-if="title.release_date">&#32;({{(new Date(title.release_date)).getFullYear()}})</span>
       </div>
       <div v-if="title.vote_average" class="rating">
         <Rating :rating="title.vote_average" size="small" />
-        <span v-if="store.methods.watched.exists({ type: title.media_type[0].toUpperCase() + title.media_type.substring(1), id: title.id.toString() })" style="color:var(--theme-color);font-size:1rem;" class="material-icons icon">visibility</span>
+        <span v-if="store.methods.watched.exists({ type: title.media_type, id: title.id.toString() })" style="color:var(--theme-color);font-size:1rem;" class="material-icons icon">visibility</span>
       </div>
       <div class="overview" v-if="title.overview">{{title.overview}}</div>
     </section>
     <div v-if="title.backdrop_path" class="background-img">
-      <CoverPoster :src="title.backdrop_path" :alt="(title.media_type === 'movie' ? title.title : title.name)" :fade-in-on-load="true" size="w1440_and_h320_multi_faces" />
+      <CoverPoster :src="title.backdrop_path" :alt="title.title" :fade-in-on-load="true" size="w1440_and_h320_multi_faces" />
     </div>
   </router-link>
 </template>
@@ -25,11 +25,20 @@ import Rating from '../Content/Rating.vue'
 import Poster from '../Content/Poster.vue'
 import CoverPoster from '../Content/CoverPoster.vue'
 
-import { Title } from '../../types/title'
-
 import { inject } from 'vue'
 
-const { title } = defineProps<{ title: Title }>()
+const { title } = defineProps<{
+  title: {
+    media_type: 'movie' | 'tv'
+    id: string | number
+    poster_path?: string
+    title: string
+    release_date?: string
+    vote_average: number
+    overview?: string
+    backdrop_path?: string
+  }
+}>()
 
 const store = inject<any>('store')
 </script>

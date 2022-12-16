@@ -3,16 +3,14 @@
     <section class="player-holder-wrap">
       <Player
       :isPlayerWorking="props.isPlayerWorking"
-      :title="props.title"
       :isReady="{
         status: areThereAnyEpisodes && props['hasFirstEpisodeAired'],
-        message: areThereAnyEpisodes && props['hasFirstEpisodeAired'] ? null:
+        message: areThereAnyEpisodes && props['hasFirstEpisodeAired'] ? null :
           areThereAnyEpisodes && !props['hasFirstEpisodeAired'] ? 'Seriál zatiaľ nevyšiel' :
             !areThereAnyEpisodes && props['hasFirstEpisodeAired'] ? 'Seriál nemá žiadne epizódy' :
         'Nastala chyba'
       }"
       :source="playerSource"
-      :type="'tv'"
       @setPlayer="setPlayer"
       />
     </section>
@@ -21,9 +19,9 @@
       <div class="season-select-holder user-select-none">
         <div class="selected-season" @click="isSeasonListOpened =! isSeasonListOpened">
           <div class="poster-holder">
-            <img v-if="seasons[currentSeasonAndEpisode.season]['poster_path']" :src="`https://image.tmdb.org/t/p/w45_and_h45_face${seasons[currentSeasonAndEpisode.season]['poster_path']}`" :alt="`Obrázok ${seasons[currentSeasonAndEpisode.season]['season_number']}. série`">          
+            <img v-if="seasons?.[currentSeasonAndEpisode.season]['poster_path']" :src="`https://image.tmdb.org/t/p/w45_and_h45_face${seasons?.[currentSeasonAndEpisode.season]['poster_path']}`" :alt="`Obrázok ${seasons[currentSeasonAndEpisode.season]['season_number']}. série`">          
           </div>
-          <span>Séria {{seasons[currentSeasonAndEpisode.season]['season_number']}}</span>
+          <span>Séria {{seasons?.[currentSeasonAndEpisode.season]['season_number']}}</span>
         </div>
         <Transition name="fade">
           <div v-if="isSeasonListOpened" class="options" ref="seasonList">
@@ -52,24 +50,29 @@
         </Transition>
       </div>
       <button @click="setPlayer" class="play-button" title="Prehrať">&#9654;</button>
-      <button :class="{'disabled':currentSeasonAndEpisode.season + 1 === seasons.length && currentSeasonAndEpisode.episode + 1 === numberOfEpisodes}" class="next-previous-episode" :disabled="currentSeasonAndEpisode.season + 1 === seasons.length && currentSeasonAndEpisode.episode + 1 === numberOfEpisodes" @click="handleControls('forwards')" title="Ďalšia epizóda">&raquo;</button>
+      <button :class="{'disabled':currentSeasonAndEpisode.season + 1 === seasons?.length && currentSeasonAndEpisode.episode + 1 === numberOfEpisodes}" class="next-previous-episode" :disabled="currentSeasonAndEpisode.season + 1 === seasons?.length && currentSeasonAndEpisode.episode + 1 === numberOfEpisodes" @click="handleControls('forwards')" title="Ďalšia epizóda">&raquo;</button>
     </div>
     <EpisodeInfo :id="props.id" :season="currentSeasonAndEpisode.season + 1" :episode="currentSeasonAndEpisode.episode + 1" v-if="store.state.globalSettings?.allowWatchWhileUnregistered || store.state.credentials.loggedIn"/>
     <section v-if="(props['lastEpisode'] !== null || props['nextEpisode'] !== null) && (store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn)" class="episode-card-holder">
       <EpisodeCard 
       v-if="props['lastEpisode']"
+      label="Posledná epizóda"
       :playable="true"
-      :info="{ season: props['lastEpisode']['season_number'], episode: props['lastEpisode']['episode_number'], date: props['lastEpisode']['air_date'], poster: props['lastEpisode']['still_path']}"
-      @playEpisode="playEpisode">
-        <template #label>Posledná epizóda</template>
-      </EpisodeCard>
+      :info="{
+        season: props['lastEpisode']['season_number'],
+        episode: props['lastEpisode']['episode_number'],
+        date: props['lastEpisode']['air_date'],
+      }"
+      @playEpisode="playEpisode" />
       <EpisodeCard
       v-if="props['nextEpisode']"
+      label="Nasledujúca epizóda"
       :playable="false"
-      :info="{ season: props['nextEpisode']['season_number'], episode: props['nextEpisode']['episode_number'], date: props['nextEpisode']['air_date']}"
-      >
-        <template #label>Nasledujúca epizóda</template>
-      </EpisodeCard>
+      :info="{
+        season: props['nextEpisode']['season_number'],
+        episode: props['nextEpisode']['episode_number'],
+        date: props['nextEpisode']['air_date']
+      }"/>
     </section>
   </section>
 </template>
@@ -82,22 +85,37 @@ import Player from '../Content/Player.vue'
 import { ref, onBeforeMount, inject, computed, reactive } from 'vue'
 import { onClickOutside } from '@vueuse/core'
  
-const props = defineProps({ id: String, seasons: Object, title: String, nextEpisode: Object, lastEpisode: Object, hasFirstEpisodeAired: Boolean, isPlayerWorking: Boolean })
-const store = inject('store')
+import { FullTvTitleType } from '../../types/title'
+
+const props = defineProps<{
+  id: number
+  hasFirstEpisodeAired: boolean
+  lastEpisode?: FullTvTitleType['last_episode_to_air']
+  nextEpisode?: FullTvTitleType['next_episode_to_air']
+  seasons?: FullTvTitleType['seasons'] | undefined
+  isPlayerWorking: boolean
+}>()
+const store = inject<any>('store')
 
 const currentSeasonAndEpisode = reactive({ season: 0, episode: 0 })
 
-const playerSource = ref(null)
+const playerSource = ref<null | string>(null)
 const areThereAnyEpisodes = ref(true)
 
-const seasons = ref(props.seasons.filter(season => season.episode_count !== 0))
+const seasons = ref(props.seasons && props.seasons.filter(season => season.season_number !== 0).filter(season => season.episode_count !== 0))
 
-const seasonList = ref(null)
-const episodeList = ref(null)
+const seasonList = ref<null | HTMLDivElement>(null)
+const episodeList = ref<null | HTMLDivElement>(null)
 const isSeasonListOpened = ref(false)
 const isEpisodeListOpened = ref(false)
 
-const playEpisode = ({ season, episode }) => {
+const playEpisode = ({
+  season,
+  episode
+}:{
+  season: number
+  episode: number
+}) => {
   currentSeasonAndEpisode.season = season
   currentSeasonAndEpisode.episode = episode
   setPlayer()
@@ -106,44 +124,49 @@ const playEpisode = ({ season, episode }) => {
 const setPlayer = () => {
   playerSource.value = `https://www.2embed.to/embed/tmdb/tv?id=${props.id}&s=${currentSeasonAndEpisode.season + 1}&e=${currentSeasonAndEpisode.episode + 1}`
 
-  if(store.state.favourites.some(item => item.id === props.id.toString())){
-    store.methods.favourites.update(
-      props.id,
-      currentSeasonAndEpisode.season + 1,
-      currentSeasonAndEpisode.episode + 1
-    )
+  if(store.state.favourites.some((item: any) => item.id === props.id.toString())){
+    store.methods.favourites.update(props.id, currentSeasonAndEpisode.season + 1, currentSeasonAndEpisode.episode + 1)
   }
 }
 
-const handleControls = action => {
-  if(action === 'backwards') {
-    if(currentSeasonAndEpisode.episode !== 0) currentSeasonAndEpisode.episode-- 
-    else { currentSeasonAndEpisode.season--; currentSeasonAndEpisode.episode = numberOfEpisodes.value - 1 }
-  }
-  else {
-    if((currentSeasonAndEpisode.episode + 1) !== numberOfEpisodes.value) currentSeasonAndEpisode.episode++
-    else { currentSeasonAndEpisode.season++; currentSeasonAndEpisode.episode = 0 }
+const handleControls = (action: 'backwards' | 'forwards') => {
+  switch (action) {
+    case 'backwards': {
+      if(currentSeasonAndEpisode.episode !== 0) currentSeasonAndEpisode.episode-- 
+      else {
+        currentSeasonAndEpisode.season--
+        currentSeasonAndEpisode.episode = numberOfEpisodes.value - 1 
+      }
+      break
+    }
+    case 'forwards': {
+      if((currentSeasonAndEpisode.episode + 1) !== numberOfEpisodes.value) currentSeasonAndEpisode.episode++
+      else {
+        currentSeasonAndEpisode.season++
+        currentSeasonAndEpisode.episode = 0
+      }
+      break
+    }
   }
 }
 
 onBeforeMount(() => {
-  if(seasons.value.length === 0) areThereAnyEpisodes.value = false
+  if(seasons.value?.length === 0) areThereAnyEpisodes.value = false
   else {
-    if(store.state.favourites.findIndex(item => item.id === props.id.toString()) !== -1){
-      currentSeasonAndEpisode.season = parseInt(store.state.favourites[store.state.favourites.findIndex(item => item.id === props.id.toString())].season) -1 || 0;
-      currentSeasonAndEpisode.episode = parseInt(store.state.favourites[store.state.favourites.findIndex(item => item.id === props.id.toString())].episode) -1 || 0;
+    if(store.state.favourites.findIndex((item: any) => item.id.toString() === props.id.toString()) !== -1){
+      currentSeasonAndEpisode.season = parseInt(store.state.favourites[store.state.favourites.findIndex((item: any) => item.id === props.id.toString())].season) -1 || 0;
+      currentSeasonAndEpisode.episode = parseInt(store.state.favourites[store.state.favourites.findIndex((item: any) => item.id === props.id.toString())].episode) -1 || 0;
     }
   }
 })
 
 const numberOfEpisodes = computed(() => {
-  if(currentSeasonAndEpisode.season !== null) return seasons.value[currentSeasonAndEpisode.season]['episode_count']
-  else return null
+  if(currentSeasonAndEpisode.season !== null) return seasons.value?.[currentSeasonAndEpisode.season]['episode_count'] || 0
+  else return 0
 })
 
 onClickOutside(seasonList, () => isSeasonListOpened.value = false)
 onClickOutside(episodeList, () => isEpisodeListOpened.value = false)
-
 </script>
 
 <style lang="scss" scoped>

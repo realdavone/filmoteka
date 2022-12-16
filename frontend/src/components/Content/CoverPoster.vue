@@ -19,9 +19,9 @@ const { src, alt, fadeInOnLoad, size } = defineProps<{
   size: string
 }>()
 
-const fadeIn = (el) => el.target.style.opacity = 1
+const fadeIn = (el: any) => el.target.style.opacity = 1
 
-const remove = (el) => el.target.remove()
+const remove = (el: any) => el.target.remove()
 </script>
 
 <style lang="scss" scoped>

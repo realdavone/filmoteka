@@ -2,44 +2,30 @@
   <section class="title-holder user-select-none">
     <section class="left-col">
       <header>Filmy</header>
-      <ItemPanel :placeholderData="{ count: 3, type: 'title' }">
-        <template #item>
-          <Title v-for="movie in results.movies" :key="movie.id" :title="{...movie, media_type: 'movie'}" />
-          <router-link v-if="loaded" :to="{ path:'/search/movie', query:{ q: route.query.q, page: 1 } }" class="show-more">
-            <span>Zobraziť filmy</span>
-            &#10095;
-          </router-link>
-        </template>
-      </ItemPanel>
+      <ItemPanel type="title" :placeholderData="{ count: 3 }" :items="result.movies" />
+      <router-link v-if="loaded" :to="`/search/movie?q=${route.query.q}&page=1`" class="show-more">
+        <span>Zobraziť filmy</span>
+        &#10095;
+      </router-link>
       <header>Seriály</header>
-      <ItemPanel :placeholderData="{ count: 3, type: 'title' }">
-        <template #item>
-          <Title v-for="tv in results.tvs" :key="tv.id" :title="{...tv, media_type: 'tv'}" />
-          <router-link v-if="loaded" :to="{ path:'/search/tv', query:{ q: route.query.q, page: 1 } }" class="show-more">
-            <span>Zobraziť seriály</span>
-            &#10095;
-          </router-link>
-        </template>
-      </ItemPanel>      
+      <ItemPanel type="title" :placeholderData="{ count: 3 }" :items="result.tvs" />
+      <router-link v-if="loaded" :to="`/search/tv?q=${route.query.q}&page=1`" class="show-more">
+        <span>Zobraziť seriály</span>
+        &#10095;
+      </router-link>
     </section>
     <section class="right-col">
       <header>Osoby</header>
-      <ItemPanel :placeholderData="{ count: 4,type: 'person' }">
-        <template #item>
-          <Person v-for="person in results.people" :key="person.id" :person="person" />
-          <router-link v-if="loaded" :to="{ path:'/search/person', query:{ q: route.query.q, page: 1 } }" class="show-more">
-            <span>Zobraziť osoby</span>
-            &#10095;
-          </router-link>
-        </template>
-      </ItemPanel>
+      <ItemPanel type="person" :placeholderData="{ count: 4 }" :items="result.people" />
+      <router-link v-if="loaded" :to="`/search/person?q=${route.query.q}&page=1`" class="show-more">
+        <span>Zobraziť osoby</span>
+        &#10095;
+      </router-link>
     </section>
   </section>
 </template>
 
 <script setup lang="ts">
-import Title from '../../components/Search/Title.vue'
-import Person from '../../components/Search/Person.vue'
 import ItemPanel from '../../components/Content/ItemPanel.vue'
 
 import getData from '../../api/main'
@@ -54,25 +40,25 @@ import { ApiListResponse } from '../../types/response'
 const route = useRoute()
 const router = useRouter()
 
-const results = reactive<{
-  movies: MovieTitle[]
-  tvs: TvTitle[]
-  people: PersonSearchType[]
+const result = reactive<{
+  movies: MovieTitle[] | null
+  tvs: TvTitle[] | null
+  people: PersonSearchType[] | null
 }>({
-  movies: [],
-  tvs: [],
-  people: []
+  movies: null,
+  tvs: null,
+  people: null
 })
 
 const loaded = ref(false)
 
 const getResults = async (query: string): Promise<void> => {
   try {
-    const data: ApiListResponse<Array<MovieTitle | TvTitle | PersonSearchType>> = await getData({ endpoint: `/search/multi?query=${query}`, options: undefined })
+    const data: ApiListResponse<Array<MovieTitle | TvTitle | PersonSearchType>> = await getData({ endpoint: `/search/multi?query=${query}` })
 
-    results.movies = data.results.filter(movie => movie['media_type'] === 'movie' && movie['poster_path'] !== null).slice(0,3) as MovieTitle[]
-    results.tvs = data.results.filter(tv => tv['media_type'] === 'tv' && tv['poster_path'] !== null).slice(0,3) as TvTitle[]
-    results.people = data.results.filter(person => person['media_type'] === 'person' && person['profile_path'] !== null).slice(0,4) as PersonSearchType[]
+    result.movies = data.results.filter(movie => movie['media_type'] === 'movie' && movie['poster_path'] !== null).slice(0,3) as MovieTitle[]
+    result.tvs = data.results.filter(tv => tv['media_type'] === 'tv' && tv['poster_path'] !== null).slice(0,3) as TvTitle[]
+    result.people = data.results.filter(person => person['media_type'] === 'person' && person['profile_path'] !== null).slice(0,4) as PersonSearchType[]
 
     loaded.value = true
   } catch (error) { router.push({ name: 'NotFound' }) }

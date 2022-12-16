@@ -14,14 +14,26 @@ import { ref } from 'vue'
 import getData from '../../api/main'
 import store from '../../store/index'
 
-const recommended = ref([])
+import { TitleFromDB } from '../../types/title'
 
-recommended.value = await getData({ endpoint: '/title/recommended' })
+type RecommendedTitles = Array<{
+  _id: string
+  title: TitleFromDB
+  createdAt: string
+  __v: string
+}>
 
-const getDifference = (timestamp: string) => new Intl.RelativeTimeFormat('sk', { localeMatcher: "best fit", style: "short" }).format(-Math.floor((new Date() - new Date(timestamp)) / (1000*60*60)), 'hours')
+const recommended = ref<RecommendedTitles>([])
+
+recommended.value = await getData<RecommendedTitles>({ endpoint: '/title/recommended' })
+
+const getDifference = (timestamp: string) => new Intl.RelativeTimeFormat('sk', {
+  localeMatcher: "best fit",
+  style: "short"
+}).format(-Math.floor((new Date().valueOf() - new Date(timestamp).valueOf()) / (1000*60*60)), 'hours')
 
 const removeItem = async (id: string) => {
-  const data = await getData({ endpoint: '/title/recommend', options: {
+  const data = await getData<{ success: boolean }>({ endpoint: '/title/recommend', options: {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json', 'access-token': store.state.credentials.accessToken },
     body: JSON.stringify({ id })

@@ -1,5 +1,6 @@
 <template>
   <img
+  v-if="src"
   :class="`poster ${fadeInOnLoad && 'faded-before-load'}`"
   v-bind="{
     ...fadeInOnLoad ? { onLoad: fadeIn } : {}
@@ -16,15 +17,15 @@
 <script setup lang="ts">
 
 const { src, alt, fadeInOnLoad, aspectRatio } = defineProps<{
-  src: string | null,
+  src?: string | null,
   alt?: string,
   fadeInOnLoad?: boolean,
   aspectRatio?: '2/3' | '1'
 }>()
 
-const fadeIn = (el) => el.target.style.opacity = 1
+const fadeIn = (el: any) => el.target.style.opacity = 1
 
-const remove = (el) => el.target.remove()
+const remove = (el: any) => el.target.remove()
 </script>
 
 <style lang="scss" scoped>

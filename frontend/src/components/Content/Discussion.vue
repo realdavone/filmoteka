@@ -1,5 +1,6 @@
 <template>
-  <section class="container">
+  <section class="discussion">
+    <h3>Diskusia</h3>
     <button class="add-comment" @click="openModal">Napísať komentár...</button>
     <div class="comments">
       <template v-if="!loading">
@@ -26,11 +27,20 @@ import Comment from './Comment.vue'
 
 import getData from '../../api/main'
 
-const { title } = defineProps({ title: Object })
+import { Comment as CommentType } from '../../types/comment'
+
+type CommentResponse = Array<CommentType>
+
+const { title } = defineProps<{
+  title: {
+    type: 'movie' | 'tv'
+    id: string
+  }
+}>()
 
 const isModalOpen = ref(false)
 
-const data = ref([])
+const data = ref<CommentResponse>([])
 
 const loading = ref(false)
 const error = ref(null)
@@ -38,7 +48,7 @@ const error = ref(null)
 const fetchComments = () => {
   loading.value = true
   error.value = null
-  getData({ endpoint: `/comments/${title.type}/${title.id}` })
+  getData<CommentResponse>({ endpoint: `/comments/${title.type}/${title.id}` })
   .then(response => data.value = response)
   .catch(err => error.value = err)
   .finally(() => {
@@ -53,10 +63,19 @@ const openModal = () => isModalOpen.value = !isModalOpen.value
 </script>
 
 <style lang="scss" scoped>
+section.discussion{
+  background-color:var(--card-color);
+  padding:1rem;
+  margin:0 var(--container-padding);
+  border-radius:1rem;
+  h3{
+    margin-bottom:1rem
+  }
+}
 span.no-comments{
   font-size:0.9rem;
   align-self:flex-start;
-  color:var(--alternative-color)
+  color:var(--alternative-color);
 }
 div.error{
   align-self:flex-start;

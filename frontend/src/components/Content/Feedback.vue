@@ -1,14 +1,14 @@
 <template>
   <div class="rating">
     <button @click="handleFeedback('like')" title="Páči sa mi">
-      <span v-if="likes.includes(store.state.credentials.user._id)" class="material-icons" style="color:crimson">favorite</span>
+      <span v-if="likesCount.includes(store.state.credentials.user._id)" class="material-icons" style="color:crimson">favorite</span>
       <span v-else class="material-icons">favorite_border</span>
-      <span>{{likes.length}}</span>
+      <span>{{likesCount.length}}</span>
     </button>
     <button @click="handleFeedback('dislike')" title="Nepáči sa mi">
-      <span v-if="dislikes.includes(store.state.credentials.user._id)" class="material-icons" style="color:crimson">heart_broken</span>
+      <span v-if="dislikesCount.includes(store.state.credentials.user._id)" class="material-icons" style="color:crimson">heart_broken</span>
       <span v-else class="material-icons-outlined">heart_broken</span>
-      <span>{{dislikes.length}}</span>
+      <span>{{dislikesCount.length}}</span>
     </button>
   </div>
 </template>
@@ -19,22 +19,20 @@ import getData from '../../api/main.js'
 
 const store = inject<any>('store')
 
-const { state, title } = defineProps<{
-  state: {
-    likes: Array<string>,
-    dislikes: Array<string>
-  },
+const { likes, dislikes, title } = defineProps<{
+  likes?: Array<string>,
+  dislikes?: Array<string>
   title: {
     id: string,
     type: 'tv' | 'movie'
   }
 }>()
 
-const likes = ref(state.likes)
-const dislikes = ref(state.dislikes)
+const likesCount = ref(likes || [])
+const dislikesCount = ref(dislikes || [])
 
 const handleFeedback = async (action: 'like' | 'dislike') => {
-  const data = await getData({
+  const data = await getData<{ success: true } | { success: false, message: string }>({
     endpoint: `/title/rate`,
     options: {
       method: 'PATCH',
@@ -45,15 +43,15 @@ const handleFeedback = async (action: 'like' | 'dislike') => {
   if(data.success){
     switch(action){
       case 'like': {
-        if(likes.value.includes(store.state.credentials.user?._id)) likes.value = likes.value.filter(like => like !== store.state.credentials.user._id)
-        else likes.value.push(store.state.credentials.user._id)
-        dislikes.value = dislikes.value.filter(dislike => dislike !== store.state.credentials.user._id)
+        if(likesCount.value.includes(store.state.credentials.user?._id)) likesCount.value = likesCount.value.filter(like => like !== store.state.credentials.user._id)
+        else likesCount.value.push(store.state.credentials.user._id)
+        dislikesCount.value = dislikesCount.value.filter(dislike => dislike !== store.state.credentials.user._id)
         break
       }
       case 'dislike': {
-        if(dislikes.value.includes(store.state.credentials.user?._id)) dislikes.value = dislikes.value.filter(dislike => dislike !== store.state.credentials.user._id)
-        else dislikes.value.push(store.state.credentials.user._id)
-        likes.value = likes.value.filter(like => like !== store.state.credentials.user._id)
+        if(dislikesCount.value.includes(store.state.credentials.user?._id)) dislikesCount.value = dislikesCount.value.filter(dislike => dislike !== store.state.credentials.user._id)
+        else dislikesCount.value.push(store.state.credentials.user._id)
+        likesCount.value = likesCount.value.filter(like => like !== store.state.credentials.user._id)
         break
       }
     }

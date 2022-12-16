@@ -44,17 +44,22 @@ const store = inject<any>('store')
 const loading = ref<boolean>(false)
 const error = ref<string | null>(null)
 
-const modal = ref<InstanceType<typeof Modal> | null>(null)
+const modal = ref<HTMLElement | null>(null)
 const textarea = ref<HTMLTextAreaElement | null>(null)
 
 onClickOutside(modal, () => emit('close'))
 
-const content = ref<string>('')
+const content = ref('')
 
 const submitComment = () => {
   error.value = null
   loading.value = true
-  getData({
+  getData<{
+    success: true
+  } | {
+    success: false
+    message: string
+  }>({
     endpoint: '/comments/add',
     options: {
       method: 'POST',

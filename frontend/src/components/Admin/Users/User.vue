@@ -13,19 +13,26 @@
   </div>
 </template>
 
-<script setup>
-import getData from '../../../api/main.js'
+<script setup lang="ts">
+import getData from '../../../api/main'
 import { inject, ref } from 'vue'
 
-const store = inject('store') 
-const { user } = defineProps({ user: Object })
-const isAdmin = ref(user.isAdmin)
+const store = inject<any>('store') 
+const { user } = defineProps<{
+  user: {
+    _id: string,
+    email: string,
+    isAdmin: boolean,
+    isOwner: boolean
+  }
+}>()
+const isAdmin = ref<boolean>(user.isAdmin)
 
 const emit = defineEmits(['removeUser'])
 
-const toggleAdmin = async id => {
+const toggleAdmin = async (id: string) => {
   try {
-    const data = await getData({
+    const data = await getData<{ success: boolean, message: string }>({
       endpoint: '/user/toggleadmin',
       options: {
         method: 'PATCH',
@@ -36,9 +43,9 @@ const toggleAdmin = async id => {
     if(data.success) isAdmin.value = !isAdmin.value
   } catch (error) { console.log(error) }
 }
-const removeUser = async id => {
+const removeUser = async (id: string) => {
   try {
-    const data = await getData({
+    const data = await getData<{ success: boolean, message: string }>({
       endpoint: '/user/delete',
       options: {
         method: 'DELETE',

@@ -26,7 +26,12 @@ export const getTitle = async (req, res) => {
     const foundTitle = await Title.findOne({ type, id })
     if(foundTitle === null) return res.json({ ...data, omdb: { ...omdbData }, ...foundTitle?._doc, isRecommended: false })
     const isRecommended = await RecommendedTitle.findOne({ title: foundTitle._id })
-    res.status(200).json({ ...data, omdb: { ...omdbData }, ...foundTitle?._doc, isRecommended: isRecommended === null ? false : true })    
+    res.status(200).json({
+      ...data,
+      omdb: { ...omdbData },
+      ...foundTitle?._doc,
+      isRecommended: isRecommended === null ? false : true
+    })    
   } catch (error) { res.status(500).json({ success: false, message: 'Niečo sa pokazilo' }) }
 }
 

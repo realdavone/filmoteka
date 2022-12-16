@@ -1,13 +1,31 @@
 <template>
-  <section class="page-control">
-    <button :class="{ 'disabled': parseInt(pages.current) === 1 }" :disabled="parseInt(pages.current) === 1" @click="$emit('navigate', (parseInt(pages.current) - 1))" class="arrow-button">&#10094;</button>
-    <span class="current-page">{{pages.current}}</span>
-    <button :class="{ 'disabled': parseInt(pages.current) === parseInt(pages.totalPages) }" :disabled="parseInt(pages.current) === parseInt(pages.totalPages)" class="arrow-button" @click="$emit('navigate', (parseInt(pages.current) + 1))">&#10095;</button>
+  <section class="page-control" v-if="parseInt(props.pages.total as string) !== 0">
+    <button
+    :class="{ 'disabled': parseInt(props.pages.current as string) === 1 }"
+    :disabled="parseInt(props.pages.current as string) === 1"
+    @click="$emit('navigate', (parseInt(props.pages.current as string) - 1))"
+    class="arrow-button">
+      &#10094;
+    </button>
+    <span class="current-page">{{props.pages.current}}</span>
+    <button
+    :class="{ 'disabled': parseInt(props.pages.current as string) === parseInt(props.pages.total as string) }"
+    :disabled="parseInt(props.pages.current as string) === parseInt(props.pages.total as string)"
+    class="arrow-button"
+    @click="$emit('navigate', (parseInt(props.pages.current as string) + 1))">
+      &#10095;
+    </button>
   </section>
 </template>
 
-<script setup>
-  const { pages } = defineProps({ pages: Object })
+<script setup lang="ts">
+const props = defineProps<{
+  pages: {
+    current: string | number
+    total: string | number
+  }
+}>()
+
 </script>
 
 <style lang="scss" scoped>
@@ -22,6 +40,7 @@ section.page-control{
     font-size:1.25rem;
     width:40px;
     font-weight:900;
+    user-select:none;
   }
   button.arrow-button{
     background-color:var(--card-color);
@@ -34,8 +53,8 @@ section.page-control{
     transition:0.2s ease background-color;
     &.disabled{
       cursor:default;
-      background:transparent;
-      opacity:0.5;
+      visibility:hidden;
+      pointer-events:none;
     }
     &:hover:not(.disabled){
       background-color:var(--card-color-hover);

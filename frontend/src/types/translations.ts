@@ -4,8 +4,8 @@ export type TitleTranslation = {
   name: string
   english_name: string
   data: {
-      title: string
-      overview: string
-      homepage: string
+    title: string
+    overview: string
+    homepage: string
   }
 }

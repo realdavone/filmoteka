@@ -1,13 +1,28 @@
 <template>
   <main class="home">
-    <Featured :title="featured" />
+    <Featured :title="{
+      backdrop_path: featured?.backdrop_path,
+      poster_path: featured?.poster_path,
+      media_type: featured?.media_type,
+      title: featured?.media_type === 'movie' ? featured?.title : featured?.name,
+      overview: featured?.overview,
+      vote_average: featured?.vote_average,
+      id: featured?.id
+    }" />
     <CallToLogin v-if="!store.state.credentials.loggedIn" :enableClose="false" />
-    <CardPanel :allowGrid="true" :isGrid="true" :placeholderInfo="{ type: 'title', count: 8 }">
-      <template #title>Trendy</template>
-      <template #card>
-        <VerticalCard v-for="item in trendingTitles" :item="item" :key="item.id" />
-      </template>
-    </CardPanel>
+    <CardPanel
+    heading="Trending"
+    allowGrid
+    isGrid
+    :cards="trendingTitles && trendingTitles!.map(card => {
+      return {
+        media_type: card.media_type,
+        id: card.id,
+        poster_path: card.poster_path || '',
+        title: card.media_type === 'movie' ? card.title : card.name
+      }
+    })"
+    :placeholderInfo="{ type: 'title', count: 8 }" />
   </main>
   
 </template>
@@ -19,7 +34,6 @@ import getData from '../api/main'
 
 import Featured from '../components/Home/Featured.vue'
 import CardPanel from '../components/Content/CardPanel.vue'
-import VerticalCard from '../components/Content/VerticalCard.vue'
 import CallToLogin from '../components/Content/CallToLogin.vue'
 
 import { Title } from '../types/title'
@@ -28,8 +42,8 @@ import { ApiListResponse } from '../types/response'
 const store = inject<any>('store')
 const router = useRouter()
 
-const trendingTitles = ref<Title[]>([])
-const featured = ref<Title>({} as Title)
+const trendingTitles = ref<Title[] | null>(null)
+const featured = ref<Title | null>(null)
 
 const fetchData = async () => {
   try {

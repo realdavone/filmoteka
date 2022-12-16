@@ -14,9 +14,9 @@ const routes = [
     component: () => import('../views/Search.vue'),
     children: [
       { path: '', name: 'Multi', component: () => import('../views/Search/MultiSearch.vue') },
-      { path: 'movie', props: { type: 'movie' }, component: () => import('../views/Search/SubSearch.vue') },
-      { path: 'tv', props: { type: 'tv' }, component: () => import('../views/Search/SubSearch.vue') },
-      { path: 'person', props: { type: 'person' }, component: () => import('../views/Search/SubSearch.vue') }
+      { path: 'movie', meta: { type: 'movie' }, component: () => import('../views/Search/SubSearch.vue') },
+      { path: 'tv', meta: { type: 'tv' }, component: () => import('../views/Search/SubSearch.vue') },
+      { path: 'person', meta: { type: 'person' }, component: () => import('../views/Search/SubSearch.vue') }
     ],
     meta: { title: 'Vyhľadávanie' }
   },
@@ -91,7 +91,7 @@ const routes = [
       denyAccessAsLoggedIn: true,
       title: 'Registrácia'
     },
-    beforeEnter: () => { if(!store.state.globalSettings.allowRegistration) return '/' }
+    beforeEnter: () => { if(!store.state.globalSettings!.allowRegistration) return '/' }
   },
   {
     path: '/admin',
@@ -120,8 +120,6 @@ router.beforeEach((to, from) => {
   if(to.meta.requiresAdmin && store.state.credentials.loggedIn === false) return '/login'
 })
 
-router.afterEach((to, from) => {
-  document.title = `${to.meta?.title} / Filmotéka`
-})
+router.afterEach((to, from) => document.title = `${to.meta?.title} / Filmotéka`)
 
 export default router

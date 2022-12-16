@@ -51,7 +51,7 @@ const isInputFocused = ref(false)
 const isOptionsMenuOpened = ref(false)
 const optionsMenu = ref<null | HTMLDivElement>(null)
 
-const searchType = ref(options[Object.keys(options)[0]])
+const searchType = ref(options['Všetko'])
 
 const handleRecentItem = (item: string) => {
   searchQuery.value = item

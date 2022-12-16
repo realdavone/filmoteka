@@ -39,10 +39,10 @@
     </div>
     <section class="player-details-holder">
       <slot name="player">
-        <PlayerPlaceholder :type="type" />
+        <PlayerPlaceholder />
       </slot>
       <slot name="details">
-        <DetailsPlaceholder :type="type" />
+        <DetailsPlaceholder />
       </slot>
     </section>
   </section>
@@ -53,9 +53,8 @@ import PlayerPlaceholder from '../Placeholders/PlayerPlaceholder.vue'
 import DetailsPlaceholder from '../Placeholders/DetailsPlaceholder.vue'
 import CoverPoster from './CoverPoster.vue'
 
-const { type, bg } = defineProps<{
-  type: 'tv' | 'movie'
-  bg?: string
+const { bg } = defineProps<{
+  bg?: string | null
 }>()
 </script>
 

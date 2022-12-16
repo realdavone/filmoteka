@@ -1,109 +1,121 @@
 <template>
   <main class="title">
-    <PlayerDetails :type="'tv'" :bg="result?.backdrop_path">
+    <PlayerDetails :bg="result?.backdrop_path">
       <template #poster>
-        <Poster v-if="details?.poster" :src="details['poster']" :alt="details['title']" :fadeInOnLoad="true" />
+        <Poster v-if="result?.poster_path" :src="result.poster_path" :alt="result?.name" :fadeInOnLoad="true" />
       </template>
       <template #feedback>
-        <Feedback v-if="!loading && store.state.credentials.loggedIn && (new Date()) > new Date(result['first_air_date'])" :state="{ likes: details?.likes, dislikes: details?.dislikes }" :title="{ id: $route.params.id, type: 'tv' }"/>
+        <Feedback v-if="!loading && store.state.credentials.loggedIn && (new Date()) > new Date(result!.first_air_date)" :likes="result?.likes" :dislikes="result?.dislikes" :title="{ id: $route.params.id as string, type: 'tv' }"/>
       </template>
       <template #actionMenu>
-        <ActionMenu ref="actionMenu">
+        <ActionMenu>
           <template v-if="!loading">
-            <ActionButton
-            title="Skopírovať URL adresu"
-            @handleClick="$refs.actionMenu.copyUrl()">
-              <template #icon><span class="material-icons icon">link</span></template>
-              <template #label><span class="label">Skopírovať URL</span></template>
-            </ActionButton>
+            <ActionButton title="Skopírovať URL adresu" @handleClick="handleEvent('COPY_URL')" icon="link" />
             <template v-if="store.state.credentials.loggedIn">
-              <ActionButton
-              :loading="isPlayerWorking.isLoading"
-              title="Nahlásiť prehrávač"
-              :warning="!isPlayerWorking.value"
-              @handleClick="toggleWorkingPlayer({ id: route.params.id, img: details['poster'], type: route.name, title: details['title'] })">
-                <template #icon><span class="material-icons icon">report_problem</span></template>
-                <template #label><span class="label">Nahlásiť prehrávač</span></template>
-              </ActionButton>
-              <ActionButton
-              :loading="isRecommended.isLoading"
-              title="Odporúčiť"
-              :disabled="isRecommended.value"
-              @handleClick="addAsRecommended({ id: route.params.id, img: details['poster'], type: route.name, title: details['title'] })">
-                <template #icon><span class="material-icons icon">thumb_up</span></template>
-                <template #label><span class="label">{{isRecommended.value ? 'Odporúčané' : 'Odporúčiť'}}</span></template>
-              </ActionButton>
-              <ActionButton
-              title="Označit ako prezrené"
-              :success="store.methods.watched.exists({ type: route.name, id: route.params.id })"
-              @handleClick="store.methods.watched.toggle({ id: route.params.id, type: route.name, title: details['title']})">
-                <template #icon><span class="material-icons icon">visibility</span></template>
-                <template #label><span class="label">Označiť ako {{store.methods.watched.exists({ type: route.name, id: route.params.id }) ? 'neprezrené' : 'prezrené'}}</span></template>
-              </ActionButton>
-              <ActionButton
-              title="Pripnutie prehrávača"
-              :success="store.state.settings.pinnedPlayer"
-              @handleClick="store.methods.settings.pinnedPlayerToggle()">
-                <template #icon><span class="material-icons icon">push_pin</span></template>
-                <template #label><span class="label">{{store.state.settings.pinnedPlayer ? 'Odopnúť' : 'Pripnúť'}} prehrávač</span></template>
-              </ActionButton>
-              <ActionButton
-              title="Pridanie k záložkam"
-              :success="store.methods.favourites.exists({ type: route.name, id: route.params.id })"
-              @handleClick="store.methods.favourites.toggle({ id: route.params.id, img: details['poster'], type: route.name, title: details['title'] })">
-                <template #icon><span class="material-icons icon">{{store.methods.favourites.exists({ type: route.name, id: route.params.id }) ? 'bookmark_remove' : 'bookmark_add'}}</span></template>
-                <template #label><span class="label">{{store.methods.favourites.exists({ type: route.name, id: route.params.id }) ? 'Odobrať zo záložiek' : 'Pridať k záložkam'}}</span></template>
-              </ActionButton>     
+              <ActionButton title="Nahlásiť prehrávač" :loading="isPlayerWorking.isLoading" icon="report_problem" :warning="!isPlayerWorking.value" @handleClick="handleEvent('TOGGLE_WORKING_PLAYER')" />
+              <ActionButton title="Odporúčiť" :loading="isRecommended.isLoading"  icon="thumb_up" :disabled="isRecommended.value" @handleClick="handleEvent('ADD_RECOMMENDED')" />
+              <ActionButton title="Označit ako prezrené" :success="store.methods.watched.exists({ type: route.name, id: route.params.id })" icon="visibility" @handleClick="handleEvent('TOGGLE_WATCHED')" />
+              <ActionButton title="Pripnutie prehrávača" :success="store.state.settings.pinnedPlayer" icon="push_pin" @handleClick="handleEvent('TOGGLE_PINNED_PLAYER')" />
+              <ActionButton title="Pridanie k záložkam" :success="store.methods.favourites.exists({ type: route.name, id: route.params.id })" icon="bookmark" @handleClick="handleEvent('TOGGLE_BOOKMARK')" />  
             </template>
           </template>
         </ActionMenu>
       </template>
       <template #title>
-        <span v-if="!loading" class="title">{{details['title']}}</span>
+        <span v-if="!loading" class="title">{{result?.name}}</span>
       </template>
       <template #subtitle>
         <template v-if="!loading">
           <div class="under-title">
-            <span class="rated">{{details['rated']}}</span>
-            <span v-if="details['year']" class="bullet-after">{{details['year']}}</span>
-            <span v-if="details['title'] !== details['original_title']" class="bullet-after">{{details['original_title']}}</span>
+            <span class="rated">{{!result?.omdb['Rated']||result?.omdb['Rated']==='N/A'?'Not Rated':result?.omdb['Rated']}}</span>
+            <span v-if="result?.omdb.Year" class="bullet-after">{{result.omdb.Year}}</span>
+            <span v-if="result?.name !== result?.original_name" class="bullet-after">{{result?.original_name}}</span>
           </div>
         </template>
       </template>
       <template #tagline>
-        <span v-if="!loading" class="tagline">{{details?.tagline}}</span>
+        <span v-if="!loading" class="tagline">{{result?.tagline}}</span>
       </template>
       <template #shortOverview>
-        <span v-if="!loading" class="overview">{{details?.overview || 'Žiadny prehľad'}}</span>
+        <span v-if="!loading" class="overview">{{result?.overview || 'Žiadny prehľad'}}</span>
       </template>
       <template #player>
         <TVPlayerPanel
         v-if="!loading"
         :isPlayerWorking="isPlayerWorking.value"
-        :id="result.id.toString()"
-        :seasons="seasons" 
-        :title="details['title']"
-        :lastEpisode="result['last_episode_to_air']"
-        :nextEpisode="result['next_episode_to_air']"
-        :hasFirstEpisodeAired="(new Date()) > new Date(result['first_air_date'])"
+        :id="parseInt(result!.id)"
+        :seasons="result?.seasons"
+        :lastEpisode="result?.['last_episode_to_air']"
+        :nextEpisode="result?.['next_episode_to_air']"
+        :hasFirstEpisodeAired="result?.first_air_date ? (new Date()) > new Date(result?.first_air_date) : false"
         />
       </template>
       <template #details>
-        <Details v-if="!loading" :details="details" />
+        <Details v-if="!loading" :details="{
+          status: result?.status,
+          release_date: result?.first_air_date,
+          number_of_episodes: result?.number_of_episodes,
+          runtime: result?.episode_run_time[0] && `${Math.floor(result?.episode_run_time[0] / 60)}h ${result?.episode_run_time[0] % 60}m`,
+          languages: result?.spoken_languages,
+          countries: result?.production_countries,
+          genres: result?.genres,
+          networks: result?.networks.filter(network => network.logo_path !== ''),
+          creators: result?.created_by.map(creator => { return {
+              id: creator.id,
+              name: creator.name,
+              profile_path: creator.profile_path,
+              jobs: ['Tvorca']
+            }
+          }),
+          ratings: [
+            {
+              name: 'TMDB',
+              rating: result?.vote_average,
+              url: `https://www.themoviedb.org/tv/${route.params.id}`
+            },
+            ...(result?.omdb['imdbRating'] ? [{
+              name: 'IMDB',
+              rating: result?.omdb['imdbRating'],
+              url: `https://www.imdb.com/title/${result?.external_ids.imdb_id}`
+            }] : []),
+            ...(result?.omdb?.['Ratings'] && result?.omdb?.['Ratings'].find(rating => rating['Source'] === 'Rotten Tomatoes')?.['Value'] ? [{
+              name: 'Rotten Tomatoes',
+              rating: result?.omdb?.['Ratings'].find(rating => rating['Source'] === 'Rotten Tomatoes')?.['Value'],
+              url: null
+            }] : []),
+            ...(result?.omdb?.['Ratings'] && result?.omdb?.['Ratings'].find(rating => rating['Source'] === 'Metacritic')?.['Value'] ? [{
+              name: 'Metascore',
+              rating: result?.omdb?.['Ratings'].find(rating => rating['Source'] === 'Metacritic')?.['Value'],
+              url: null
+            }]: [])
+          ]
+        }" />
       </template>
     </PlayerDetails>
     <template v-if="!loading">
-      <Discussion v-if="store.state.credentials.loggedIn && $route.params.id" :title="{ type: 'tv', id: $route.params.id }" />
-      <CastPanel v-once v-if="cast.length !== 0">
-        <template #title>Herci</template>
-        <template #card>
-          <PersonCard v-for="item in cast" :key="item.id" :person="item" />
-        </template>
-      </CastPanel>
-      <CardPanel v-if="similarTV.length !== 0" :placeholderInfo="{ type: 'title', count: 8 }">
-        <template #title>Podobné</template>
-        <template #card><VerticalCard v-for="item in similarTV" :key="item.id" :item="item"/></template>
-      </CardPanel>
+      <Discussion v-if="store.state.credentials.loggedIn && $route.params.id" :title="{ type: 'tv', id: $route.params.id as string }" />
+      <CastPanel
+      v-once
+      heading="Herci"
+      :cast="result?.credits.cast.filter(castMember => castMember.profile_path !== null).splice(0, 16).map(member => {
+        return {
+          character: member.character,
+          id: member.id,
+          name: member.name,
+          profile_path: member.profile_path
+        }
+      })" />
+      <CardPanel
+      heading="Podobné"
+      :cards="result!.recommendations.results.filter(tv => tv.poster_path !== null).splice(0, 16).map(card => {
+        return {
+          media_type: 'tv',
+          id: card.id,
+          poster_path: card.poster_path,
+          title: card.name
+        }
+      })"
+      :placeholderInfo="{ type: 'title', count: 8 }" />
     </template>
   </main>
 </template>
@@ -119,8 +131,6 @@ import { notify } from "@kyvg/vue3-notification"
 import Details from '../components/Content/Details.vue'
 import CardPanel from '../components/Content/CardPanel.vue'
 import CastPanel from '../components/Content/CastPanel.vue'
-import VerticalCard from '../components/Content/VerticalCard.vue'
-import PersonCard from '../components/Content/PersonCard.vue'
 import TVPlayerPanel from '../components/TV/TVPlayerPanel.vue'
 import ActionMenu from '../components/ActionMenu.vue'
 import PlayerDetails from '../components/Content/PlayerDetails.vue'
@@ -129,141 +139,127 @@ import Feedback from '../components/Content/Feedback.vue'
 import Discussion from '../components/Content/Discussion.vue'
 import Poster from '../components/Content/Poster.vue'
 
+import { FullTvTitleType, TvTitleTranslation } from '../types/title'
+import { RecommendedResponse, WorkingPlayerResponse } from '../types/response'
+
 const route = useRoute()
 const router = useRouter()
-const store = inject('store')
+const store = inject<any>('store')
 
-const result = ref({})
+const result = ref<null | FullTvTitleType>(null)
 const loading = ref(true)
-const cast = ref([])
-const seasons = ref([])
-const similarTV = ref([])
-const networks = ref([])
-const details = ref(null)
 
-const isRecommended = reactive({
-  isLoading: false,
-  value: false
-})
-
-const isPlayerWorking = reactive({
-  isLoading: false,
-  value: true
-})
+const isRecommended = reactive({ isLoading: false, value: false })
+const isPlayerWorking = reactive({ isLoading: false, value: true })
 
 const fetchData = async (id: string) => {
   try {
-    result.value = await getData({ endpoint: `/title/find/tv/${id}` })
+    result.value = await getData<FullTvTitleType>({ endpoint: `/title/find/tv/${id}` })
 
-    const omdb = result.value.omdb
+    const translations = _.getTranslations<TvTitleTranslation>(result.value['translations']['translations'], 'iso_639_1', ['sk', 'ez', 'en'])
 
-    cast.value = result.value.credits.cast.filter(castMember => castMember.profile_path!==null).splice(0, 16)
-    similarTV.value = result.value.recommendations.results.filter(movie => movie.poster_path!==null).splice(0, 16)
-    seasons.value = result.value.seasons.filter(season => season.season_number!==0)
-    networks.value = result.value.networks.filter(network => network.logo_path!=='')
-
-    const translations = _.getTranslations(result.value['translations']['translations'])
-
-    details.value = {
-      title: translations?.['data']?.['title'] || translations?.['data']?.['name'] || result.value['title'] || result.value['name'],
-      original_title: result.value['original_name'],
-      poster: result.value['poster_path'],
-      genres: result.value['genres'] || [],
-      runtime: result.value['episode_run_time'][0]?Math.floor(result.value['episode_run_time'][0]/60)+'h '+result.value['episode_run_time'][0]%60+'m':null,
-      overview: translations?.['data']?.['overview'] || result.value['overview'],
-      countries: result.value['origin_country'],
-      tagline: translations?.['data']?.['tagline'] || result.value['tagline'],
-      imdb: result.value['external_ids']['imdb_id'],
-      networks: result.value.networks.filter(network => network.logo_path!==''),
-      creators: _.sortCreators(result.value['created_by'].slice(0,5)),
-      ratings: [
-        {
-          name: 'TMDB',
-          rating: (Math.floor(parseFloat(result.value['vote_average']) * 10) / 10),
-          url: `https://www.themoviedb.org/tv/${route.params.id}`
-        },
-        ...(omdb['imdbRating'] ? [{
-          name: 'IMDB',
-          rating: omdb['imdbRating'],
-          url: `https://www.imdb.com/title/${result.value['imdb_id']}`
-        }] : []),
-        ...(omdb?.['Ratings'] && omdb?.['Ratings'].find(rating => rating['Source'] === 'Rotten Tomatoes')?.['Value'] ? [{
-          name: 'Rotten Tomatoes',
-          rating: omdb?.['Ratings'].find(rating => rating['Source'] === 'Rotten Tomatoes')?.['Value'],
-          url: null
-        }] : []),
-        ...(omdb?.['Ratings'] && omdb?.['Ratings'].find(rating => rating['Source'] === 'Metacritic')?.['Value'] ? [{
-          name: 'Metascore',
-          rating: omdb?.['Ratings'].find(rating => rating['Source'] === 'Metacritic')?.['Value'],
-          url: null
-        }]: [])
-      ],
-      year: omdb['Year'],
-      rated: !omdb['Rated']||omdb['Rated']==='N/A'?'Not Rated':omdb['Rated'],
-      number_of_episodes: result.value['number_of_episodes'],
-      status: status.get(result.value['status']),
-      languages: result.value['spoken_languages'],
-      likes: result.value?.['likes'] || [],
-      dislikes: result.value?.['dislikes'] || []
+    result.value = {
+      ...result.value,
+      name: translations?.data.name || result.value.name,
+      overview: translations?.data.overview || result.value.overview,
+      tagline: translations?.data.tagline || result.value.tagline
     }
 
-    loading.value = false
+    store.methods.recentItems.pushItem({
+      type: route.name,
+      title: result.value.name,
+      id: route.params.id,
+      poster: result.value.poster_path
+    })
     
     result.value['isPlayerWorking'] === undefined ? isPlayerWorking.value = true : isPlayerWorking.value = result.value['isPlayerWorking']
     result.value['isRecommended'] === undefined ? isRecommended.value = false : isRecommended.value = result.value['isRecommended']
 
-    document.title = `${details.value['title']}${details.value['year']?' ('+details.value['year']+')':''} / Filmotéka`
+    document.title = `${result.value?.name} / Filmotéka`
+
+    loading.value = false
   } catch (error) { router.push({ name: 'NotFound' }) }
 }
 
-const toggleWorkingPlayer = async obj => {
-  try {
-    isPlayerWorking.isLoading = true
-    const data = await getData({ 
-      endpoint: `/title/non-working/`,
-      options: {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'access-token': store.state.credentials.accessToken },
-        body: JSON.stringify(obj)
-      }
-    })
-    isPlayerWorking.value = data.isPlayerWorking
-    if(data.isPlayerWorking === false) { notify({ type: 'error', text: 'Prehrávač označený ako nefunkčný' }) }
-    else { notify({ type: 'success', text: 'Prehrávač označený ako funkčný' }) }       
-  } catch (error) { console.log(error) }
-  finally{ isPlayerWorking.isLoading = false }
-}
+const handleEvent = async (event: 'ADD_RECOMMENDED' | 'TOGGLE_WORKING_PLAYER' | 'COPY_URL' | 'TOGGLE_WATCHED' | 'TOGGLE_PINNED_PLAYER' | 'TOGGLE_BOOKMARK'): Promise<void> => {
+  let notifyPayload: null | {
+    type: 'success' | 'warn' | 'error',
+    text: string
+  } = null
 
-const addAsRecommended = async obj => {
-  const { title, ...rest } = obj
-  try {
-    isRecommended.isLoading = true
-    const res = await getData({
-      endpoint: '/title/recommend',
-      options: {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'access-token': store.state.credentials.accessToken },
-        body: JSON.stringify({ savedTitle: title, ...rest })
+  switch(event) {
+    case 'ADD_RECOMMENDED': {
+      try {
+        isRecommended.isLoading = true
+        const res = await getData<RecommendedResponse>({
+          endpoint: '/title/recommend',
+          options: {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'access-token': store.state.credentials.accessToken },
+            body: JSON.stringify({ id: result.value?.id, img: result.value?.poster_path, type: route.name, savedTitle: result.value?.name })
+          }
+        })
+        if(res.success) {
+          notifyPayload = { type: 'success', text: 'Úspešne pridané do odporúčaných' }
+          isRecommended.value = true
+        }
+      } catch (error) { console.log(error) }
+      finally{
+        isRecommended.isLoading = false
+        break
       }
-    })
-    if(res.success) {
-      notify({ type: 'success', text: 'Úspešne pridané do odporúčaných' })
-      isRecommended.value = true
     }
-  } catch (error) { console.log(error) }
-  finally{ isRecommended.isLoading = false }
-}
+    case 'TOGGLE_WORKING_PLAYER': {
+      try {
+        isPlayerWorking.isLoading = true
+        const data = await getData<WorkingPlayerResponse>({ 
+          endpoint: `/title/non-working/`,
+          options: {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'access-token': store.state.credentials.accessToken },
+            body: JSON.stringify({ id: route.params.id, img: result.value?.poster_path, type: route.name, title: result.value?.name })
+          }
+        })
 
-const status = new Map()
-status.set('Returning Series', 'Pokračuje')
-  .set('Planned', 'Naplánovany')
-  .set('In Production', 'V produkcií')
-  .set('Ended', 'Skončil')
-  .set('Canceled', 'Zrušený')
-  .set('Pilot', 'Pilot')
+        isPlayerWorking.value = data.isPlayerWorking
+
+        if(!data.isPlayerWorking) {
+          notifyPayload = { type: 'error', text: 'Prehrávač označený ako nefunkčný' }
+        }
+        else { 
+          notifyPayload = { type: 'success', text: 'Prehrávač označený ako funkčný' }
+        }       
+      } catch (error) { console.log(error) }
+      finally{
+        isPlayerWorking.isLoading = false
+        break
+      }
+    }
+    case 'COPY_URL': {
+      const nav = navigator
+      const win = window
+      nav.clipboard.writeText(win.location.href)
+      notifyPayload = { type: 'warn', text: 'URL adresa bola skopírovaná' }
+      break
+    }
+    case 'TOGGLE_WATCHED': {
+      store.methods.watched.toggle({ id: route.params.id, type: route.name, title: result.value?.name})
+      break
+    }
+    case 'TOGGLE_PINNED_PLAYER': {
+      store.methods.settings.pinnedPlayerToggle()
+      break
+    }
+    case 'TOGGLE_BOOKMARK': {
+      store.methods.favourites.toggle({ id: route.params.id, img: result.value?.poster_path, type: route.name, title: result.value?.name })
+      break
+    }
+  }
+  notifyPayload && notify(notifyPayload)
+}
 
 onBeforeMount(() => { fetchData(route.params.id as string) })
 onActivated(() => {
-  if(details.value !== null) document.title = `${details.value['title']}${details.value['year']?' ('+details.value['year']+')':''} / Filmotéka`
+  if(result.value !== null) document.title = `${result.value?.name} / Filmotéka`
 })
 </script>

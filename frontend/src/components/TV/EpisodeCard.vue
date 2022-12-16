@@ -1,9 +1,7 @@
 <template>
   <section @click="emit('playEpisode', { season: info.season - 1, episode: info.episode - 1 })" :class="`episode-card ${playable && 'playable'} user-select-none`">
     <div class="episode-info">
-      <span class="label">
-        <slot name="label" />
-      </span>
+      <span class="label">{{label}}</span>
       <div class="info">
         <span>{{`${info.season}.${info.episode}`}}</span>          
         <span>{{new Date(info.date).toLocaleDateString('sk-SK', { weekday: 'short', year: '2-digit', month: 'short', day: 'numeric' })}}</span>
@@ -13,7 +11,8 @@
 </template>
 
 <script setup lang="ts">
-const { playable, info } = defineProps<{
+const { playable, info, label } = defineProps<{
+  label: string
   playable: boolean
   info: {
     season: number

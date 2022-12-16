@@ -23,9 +23,14 @@ const emit = defineEmits(['deleted'])
 
 const loading = ref(false)
 
-const deleteComment = (id: Comment['_id']): void => {
+const deleteComment = (id: string): void => {
   loading.value = true
-  getData({ endpoint: `/comments`, options: {
+  getData<{
+    success: true
+  } | {
+    success: false
+    message: string
+  }>({ endpoint: `/comments`, options: {
     method: 'DELETE',
     body: JSON.stringify({ id })
   }})

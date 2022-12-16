@@ -1,190 +1,175 @@
 <template>
-  <section class="title user-select-none">
-    <div v-if="details['status'] || details['release_date'] || details['number_of_episodes'] || details['runtime'] || details['countries'].length > 0 || details['languages'].length > 0" class="details">
-      <DetailsItem v-if="details['status']" label="Status">
-        <template #content><span>{{details['status']}}</span></template>
-      </DetailsItem>
-      <DetailsItem v-if="details['revenue']" label="Zárobok">
-        <template #content><span>{{details['revenue']}}</span></template>
-      </DetailsItem>
-      <DetailsItem v-if="details['release_date']" label="Dátum vydania">
-        <template #content><span>{{details['release_date']}}</span></template>
-      </DetailsItem>
-      <DetailsItem v-if="details['number_of_episodes']" label="Počet epizód">
-        <template #content><span>{{details['number_of_episodes']}}</span></template>
-      </DetailsItem>
-      <DetailsItem v-if="details['runtime']" label="Dĺžka">
-        <template #content><span>{{details['runtime']}}</span></template>
-      </DetailsItem>
-      <DetailsItem v-if="details['languages'].length !== 0" label="Audio">
-        <template #content>
-          <span v-for="language in details['languages']" :key="language['iso_639_1']" style="display:block">{{language['english_name']}}</span>
-        </template>
-      </DetailsItem>
-      <DetailsItem v-if="details['countries'].length !== 0" label="Pôvod">
-        <template #content>
-          <span v-for="(country, index) in details['countries']" :key="index" style="display:block">{{store.state.countries[(country.iso_3166_1 || country).toLowerCase()]}}</span>
-        </template>
-      </DetailsItem>
-      <DetailsItem v-if="details['genres'].length !== 0" label="Žanre">
-        <template #content>
-          <router-link v-for="genre in details['genres']" :key="genre.id" :to="`/library?type=${type}&genre=${genre.id}`" style="display:block">{{genre.name}}</router-link>
-        </template>
-      </DetailsItem>
+  <div class="details">
+    <div class="item" v-if="details.status">
+      <span class="label">Status</span>
+      {{status.get(details.status)}}
     </div>
-
-    <section class="ratings">
+    <div class="item" v-if="details.languages?.length">
+      <span class="label">Audio</span>
+      <span v-for="language in details.languages" :key="language.iso_639_1">{{language.english_name}}</span>
+    </div>
+    <div class="item" v-if="details.countries?.length">
+      <span class="label">Pôvod</span>
+      <span v-for="country in details.countries" :key="country.iso_3166_1">{{store.state.countries[country.iso_3166_1.toLowerCase()]}}</span>
+    </div>
+    <div class="item" v-if="details.revenue">
+      <span class="label">Zárobok</span>
+      {{new Intl.NumberFormat('sk-SK', { notation: "compact", compactDisplay: "short", style: "currency", currency: "USD" }).format(details.revenue)}}
+    </div>
+    <div class="item" v-if="details.release_date">
+      <span class="label">Premiéra</span>
+      {{new Date(details.release_date).toLocaleDateString('sk-SK')}}
+    </div>
+    <div class="item" v-if="details.number_of_episodes">
+      <span class="label">Počet epizód</span>
+      {{details.number_of_episodes}}
+    </div>
+    <div class="item" v-if="details.runtime">
+      <span class="label">Trvanie</span>
+      {{details.runtime}}
+    </div>
+    <div class="item" v-if="details.genres?.length">
+      <span class="label">Žánre</span>
+      <router-link :to="`/library?type=${$route.name?.toString().toLowerCase()}&genre=${genre.id}`" :key="genre.id" v-for="genre in details.genres">{{genre.name}}</router-link>
+    </div>
+    <div class="item full-width">
       <span class="label">Hodnotenia</span>
       <div class="ratings">
-        <Rating v-for="(rating, index) in details['ratings']" :key="index" :rating="rating['rating']" :url="rating['url']" :name="rating['name']"/>
+        <Rating v-for="(rating, i) in details.ratings" :key="i" size="normal" :name="rating.name" :url="rating.url || undefined" :rating="rating.rating || 'N/A'" />
       </div>
-    </section>
-
-    <div v-if="details['creators'].length > 0" class="creators">
-      <div class="creator" v-for="creator in details.creators" :key="creator.id">
-        <div class="name-job">
-          <router-link :to="{ name: 'Person', params: { id: creator['id'] } }" class="name">{{creator.name}}</router-link>
-          <div class="jobs">
-            <span v-for="(job, index) in creator.jobs" :key="index" class="department comma-after">{{job || 'Tvorca'}}</span>
+    </div>
+    <div class="item full-width" v-if="details.creators">
+      <span class="label">Tvorci</span>
+      <div class="creators">
+        <div class="creator" v-for="creator in details.creators" :key="creator.id">
+          <router-link :to="`/person/${creator.id}`" class="name">{{creator.name}}</router-link>
+          <div class="job">
+            <span v-for="job in creator.jobs" :key="job">{{job}}</span>
           </div>
         </div>
       </div>
     </div>
-
-    <div v-if="details['networks'].length !== 0" class="networks">
-      <img v-for="network, i in details['networks']" :key="network.id" onerror="javascript:this.remove()" :src="`https://www.themoviedb.org/t/p/original${network.logo_path.split('.')[0]}.svg`" :alt="network.name" :title="network.name" draggable="false">
-    </div>
-  </section>
+  </div>
 </template>
 
 <script setup lang="ts">
-import DetailsItem from './DetailsItem.vue'
+import { inject } from 'vue'
 import Rating from './Rating.vue'
 
-import { inject, ref } from 'vue'
-import { useRoute } from 'vue-router'
+type Props = {
+  details: {
+    status?: string
+    revenue?: number
+    runtime?: string | number
+    number_of_episodes?: number
+    release_date?: string
+    genres?: Array<{
+      id: number
+      name: string
+    }>
+    languages?: Array<{
+      english_name: string;
+      iso_639_1: string
+      name: string
+    }>
+    countries?: Array<{
+      iso_3166_1: string
+      name: string
+    }>
+    networks?:Array<{
+      name: string
+      id: number
+      logo_path: string | null
+      origin_country: string
+    }>
+    creators?: Array<{
+      id: number
+      name: string
+      profile_path: string | null
+      jobs: Array<string>
+    }>
+    ratings?: Array<{
+      name: string
+      rating: number | string | undefined
+      url: string | null
+    }>
+  }
+}
 
-const { details } = defineProps({ details: Object })
+const { details } = defineProps<Props>()
 
-const route = useRoute()
-const store = inject('store')
-const type = ref(route.name.charAt(0).toLowerCase() + route.name.substr(1))
+const store = inject<any>('store')
 
-store.methods.recentItems.pushItem({
-  type: type.value,
-  title: details.title,
-  id: route.params.id,
-  poster: details.poster
-})
-
-const tvStatusIcon = new Map()
-tvStatusIcon.set('Pokračuje','more_horiz')
-.set('Naplánovany','event')
-.set('V produkcií','build')
-.set('Skončil','check_circle')
-.set('Zrušený','cancel')
-.set('Pilot','filter_1')
+const status = new Map()
+status.set('Returning Series', 'Pokračuje')
+  .set('Planned', 'Naplánovany')
+  .set('In Production', 'V produkcií')
+  .set('Ended', 'Skončil')
+  .set('Canceled', 'Zrušený')
+  .set('Pilot', 'Pilot')
+  .set('Rumored', 'Údajný')
+  .set('Post Production', 'Postprodukcia')
+  .set('Released', 'Vydaný')
 </script>
 
 <style lang="scss" scoped>
-section.title{
-  display:flex;
-  align-items:flex-start;
-  flex-direction:column;
+div.details{
+  background-color:var(--card-color);
+  padding:1rem;
+  display:grid;
+  grid-template-columns:[start] repeat(auto-fill, minmax(180px, 1fr)) [end];
   gap:1rem;
-  max-width:1000px;
   width:100%;
   border-radius:1rem;
-  padding:1rem;
-  background-color:var(--card-color);
-  margin:0 auto;
-  span.label{
-    font-weight:700;
-    font-size:1.05rem;
-  }
-  section.ratings{
-    align-self:stretch;
-    padding-bottom:1.5rem;
-    div.ratings{
-      margin-top:1rem;
-      display:flex;
-      align-items:flex-star;
-      gap:1rem;
-    }
-  }
-  div.networks{
-    display:flex;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:15px;
-    align-self:flex-end;
-    &:empty{ display:none; }
-    img{
-      max-height:30px;
-      width:auto;
-      max-width:200px;
-    }
-  }
-  div.details{
-    width:100%;
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
-    gap:1rem;
-  }
-  div.overview{
+  div.item{
+    background-color:var(--card-color-hover);
+    padding:0.5rem 1rem;
     display:flex;
     flex-direction:column;
-    gap:10px;
-    padding-right:5px;
-    font-size:0.8rem;
-  }
-  div.creators{
-    width:100%;
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
-    gap:10px;
-    div.creator{
+    border-radius:0.5rem;
+    align-items:flex-start;
+    font-size:0.85rem;
+    text-align:left;
+    overflow:hidden;
+    span.label{
+      font-weight:700;
+      margin-bottom:0.5rem;
+      font-size:1.05rem;
+    }
+    div.ratings{
+      margin-bottom:1.5rem;
+      display:flex;gap:1rem;
+      flex-wrap:wrap;
+    }
+    div.creators{
       display:flex;
-      gap:8px;
-      div.photo{
-        width:30px;
-        min-width:30px;
-        height:30px;
-        border-radius:15px;
-        overflow:hidden;
-        background:var(--card-color);
-        img{
-          width:100%;
-          height:100%;
-        }
-      }
-      div.name-job{
+      flex-wrap:wrap;
+      gap:1rem;
+      div.creator{
         display:flex;
         flex-direction:column;
+        align-items:flex-start;
+        gap:0.25rem;
         a.name{
-          font-size:0.85rem;
           font-weight:700;
-          align-self:flex-start;
         }
-        div.jobs{
-          line-height:1;
-          span.department{
-            font-size:0.8rem;
-            color:var(--secondary-text-color);
+        div.job{
+          span{
+            font-size:0.75rem;
+            &::after{
+              content:', ';
+            }
+            &:last-of-type::after{
+              content:'';
+            }         
           }
         }
       }
     }
-  }
-}
-@media screen and (max-width: 600px){
-  section.title{
-    box-sizing:border-box;
-    width:initial;
-    border-radius:0;
-    margin-top:calc(0px - var(--container-padding));
-    margin-left:calc(0px - var(--container-padding));
-    margin-right:calc(0px - var(--container-padding));
+    &.full-width{
+      grid-column-start:1;
+      grid-column-end: span end
+    }
   }
 }
 </style>

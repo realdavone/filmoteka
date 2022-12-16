@@ -8,17 +8,13 @@
           </div>
           <div class="details">
             <span v-if="collection.title" class="heading">{{collection.title}}</span>
-            <div v-else class="skeleton" style="height:1.5rem;width:50%"></div>
+            <div v-else class="skeleton-text" style="height:1.5rem;width:50%"></div>
             <p v-if="collection.overview">{{collection.overview}}</p>
-            <div v-else v-for="i in 2" :key="i" class="skeleton" :style="`height:1rem;width:${100 - 10 * (i - 1)}%`"></div>
+            <div v-else v-for="i in 2" :key="i" class="skeleton-text" :style="`height:1rem;width:${100 - 10 * (i - 1)}%`"></div>
           </div>
         </div>
         <section class="titles-holder">
-          <ItemPanel :placeholderData="{ count: 2, type: 'title' }">
-            <template #item>
-              <Title v-for="movie in collection.titles" :key="movie.id" :title="{ ...movie, media_type: 'movie' }" />          
-            </template>
-          </ItemPanel>
+          <ItemPanel type="title" :placeholderData="{ count: 2 }" :items="collection.titles" />
         </section>
       </section>
     </section>
@@ -31,12 +27,12 @@ import { useRoute, useRouter } from 'vue-router'
 import _ from '../utils/main'
 import getData from '../api/main'
 
-import Title from '../components/Search/Title.vue'
 import ItemPanel from '../components/Content/ItemPanel.vue'
 import Poster from '../components/Content/Poster.vue'
 
 import { MovieTitle } from '../types/title'
 import { Collection } from '../types/collection'
+import { TitleTranslation } from '../types/translations'
 
 const route = useRoute()
 const router = useRouter()
@@ -44,12 +40,12 @@ const router = useRouter()
 const collection = reactive<{
   title: null | string
   overview: null | string
-  titles: Array<MovieTitle>
+  titles: null | Array<MovieTitle>
   poster: null | string
 }>({
   title: null,
   overview: null,
-  titles: [],
+  titles: null,
   poster: null
 })
 
@@ -57,12 +53,14 @@ const fetchData = async (id: string) => {
   try {
     const data = await getData<Collection>({ endpoint: `/collection/${id}` })
 
-    const translations = _.getTranslations(data['translations']['translations'])
-
+    const translations = _.getTranslations<TitleTranslation>(data['translations']['translations'], 'iso_639_1', ['sk', 'cz', 'en'])
+      
+    collection.poster = data.poster_path
     collection.title = translations?.['data']?.['title'] || data.name
     collection.overview = translations?.['data']?.['overview'] || data.overview
-    collection.titles = data.parts
-    collection.poster = data.poster_path
+    collection.titles = data.parts.map(title => {
+      return { ...title, media_type: 'movie' }
+    })
 
   } catch (error) { router.push({ name: 'NotFound' }) }
   
@@ -81,10 +79,6 @@ section.collection-holder{
   gap:var(--container-padding);
   justify-content:space-between;
   align-items:flex-start;
-  div.skeleton{
-    background-color:var(--font-color);
-    border-radius:6px;
-  }
   div.img-details{
     width:100%;
     max-width:800px;

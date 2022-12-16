@@ -1,5 +1,5 @@
 import { io } from "socket.io-client"
 
-const socket = io.connect(import.meta.env.VITE_SOCKET_ADDRESS)
+const socket = io(import.meta.env.VITE_SOCKET_ADDRESS)
 
 export default socket

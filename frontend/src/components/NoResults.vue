@@ -1,9 +1,9 @@
 <template>
   <section>
-    <span class="user-select-none">{{props.text||'Žiadne výsledky'}}</span>
+    <span class="user-select-none">{{text || 'Žiadne výsledky'}}</span>
   </section>
 </template>
 
-<script setup>
-const props = defineProps({ text: String })
+<script setup lang="ts">
+const { text } = defineProps<{ text?: string }>()
 </script>

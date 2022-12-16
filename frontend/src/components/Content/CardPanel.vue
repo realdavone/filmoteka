@@ -1,22 +1,32 @@
 <template>
-  <section class="container panel">
+  <section class="container panel" v-if="props.cards?.length !== 0">
     <div class="upper-row">
-      <Title style="margin-bottom:0"><slot name="title" /></Title>
-      <div v-if="allowGrid" class="view-buttons">
-        <button @click="gridView = true" :data-active="gridView">
+      <Title style="margin-bottom:0">{{props.heading}}</Title>
+      <div v-if="props.allowGrid" class="view-buttons">
+        <button @click="isGrid = true" :data-active="isGrid">
           <span class="material-icons">grid_view</span>
         </button>
-        <button @click="gridView = false" :data-active="!gridView">
+        <button @click="isGrid = false" :data-active="!isGrid">
           <span class="material-icons">view_column</span>
         </button>
       </div>
     </div>
-    <div ref="cardHolder" :class="`${gridView ? 'grid' : 'scroll container' } card-holder`">
-      <slot name="card">
-        <VerticalCardPlaceholder v-for="n in placeholderInfo['count']" :key="n" class="skeleton"/>
-      </slot>
+    <div ref="cardHolder" :class="`${isGrid ? 'grid' : 'scroll container' } card-holder`">
+      <VerticalCardPlaceholder v-if="props.cards === null" v-for="n in props.placeholderInfo.count" :key="n" class="skeleton"/>
+      <Card
+      class="card"
+      v-else
+      v-for="item in props.cards"
+      :key="item.id"
+      :item="{
+        media_type: item.media_type,
+        id: item.id,
+        poster_path: item.poster_path,
+        title: item.title
+      }"
+      />
     </div>
-    <template v-if="!gridView">
+    <template v-if="!isGrid">
       <button class="scroll left" title="Vľavo" @click="scrollTo(cardHolder!, -180)">&#10094;</button>
       <button class="scroll right" title="Vpravo" @click="scrollTo(cardHolder!, 180)">&#10095;</button>
     </template>
@@ -27,10 +37,19 @@
 import { ref, withDefaults } from 'vue'
 import Title from '../Content/Title.vue'
 import VerticalCardPlaceholder from '../Placeholders/VerticalCardPlaceholder.vue'
+import Card from './Card.vue'
 
-const { allowGrid, isGrid, placeholderInfo } = withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   allowGrid?: boolean
   isGrid?: boolean
+  heading?: string
+  loading?: boolean
+  cards: Array<{
+    media_type: 'movie' | 'tv'
+    id: string | number
+    poster_path?: string
+    title: string
+  }> | null
   placeholderInfo: {
     type: string,
     count: number
@@ -40,8 +59,9 @@ const { allowGrid, isGrid, placeholderInfo } = withDefaults(defineProps<{
   isGrid: () => false
 })
 
+const isGrid = ref(props.isGrid)
+
 const cardHolder = ref<null | HTMLDivElement>(null)
-const gridView = ref(isGrid)
 
 const scrollTo = (element: HTMLElement, distance: number) => element.scrollTo({ left: element.scrollLeft += distance, behavior: 'smooth' })
 </script>
@@ -61,7 +81,9 @@ section.panel{
       padding-top:0.35rem;
       button{
         &:last-of-type{
-          span{font-size:2rem}
+          span{
+            font-size:2rem
+          }
         }
         &[data-active=true]{ color:var(--theme-color) }
       }
@@ -79,7 +101,7 @@ section.panel{
       scroll-behavior: smooth;
       margin:0 calc(0px - var(--container-padding))!important;
       &::-webkit-scrollbar{ display:none; }
-      :slotted(a.title-card){
+      .card{
         width:var(--vertical-card-width);
         min-width:var(--vertical-card-width);
       }

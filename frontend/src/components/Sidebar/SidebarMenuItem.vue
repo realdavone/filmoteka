@@ -12,13 +12,15 @@
 </template>
 
 <script setup lang="ts">
-const { link } = defineProps<{link: {
-  icon: string
-  isLink: boolean 
-  label: string
-  route: string
-  shown: boolean
-}}>()
+const { link } = defineProps<{
+  link: {
+    icon: string
+    isLink: boolean 
+    label: string
+    route: string | null
+    shown: boolean
+  }
+}>()
 
 const emit = defineEmits(['click'])
 </script>

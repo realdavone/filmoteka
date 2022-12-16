@@ -11,7 +11,7 @@
       </button>
     </div>
     <div v-if="props.source && !loadedIframe" class="loading">
-      <Loader :height="'2rem'" :border="'0.3rem'" color="white"/>
+      <Loader height="2rem" border="0.3rem" color="white"/>
     </div>
     <iframe @load="loadedIframe = true" v-if="props.source" :class="{ pinned: pinned && store.state.settings.pinnedPlayer }" :src="props['source']" frameborder="0" loading="lazy" allowfullscreen></iframe>
     <div v-if="!props['isReady']['status']" class="message">
@@ -36,7 +36,6 @@ const props = defineProps<{
     status: boolean
   },
   source: null | string,
-  title: string,
   isPlayerWorking: boolean
 }>()
 

@@ -1,35 +1,39 @@
 import getData from '../api/main.js'
 
 export default {
-  async getCountries(code){
-    const data = await getData({ endpoint: `/country-codes/${code}` })
+  async getCountries(code: string){
+    const data = await getData<any>({ endpoint: `/country-codes/${code}` })
     return data.codes
   },
-  async getGenres(keyword){
-    const data = await getData({ endpoint: `/resources/genre/${keyword}` })
+  async getGenres(keyword: 'movie' | 'tv'){
+    const data = await getData<any>({ endpoint: `/resources/genre/${keyword}` })
     const genres = new Map()
     for(let genre of data.genres){
       genres.set(genre.id, genre.name)
     }
     return genres
   },
-  makeUnscrollable(element, arg){ element.classList.toggle('modal-open', arg) },
-  getTranslations(translations){
+  makeUnscrollable(element: HTMLElement, arg: any){ element.classList.toggle('modal-open', arg) },
+  getTranslations<T extends { data: { overview: string } }>(translations: Array<T>, key: keyof T, codes: Array<string>): T{
     return translations
-    .filter(translation => translation['iso_639_1'] === 'en' || translation['iso_639_1'] === 'sk' || translation['iso_639_1'] === 'cs')
-    .filter(translation => translation['data']['overview'] !== '')
-    .sort((a, b) => a['iso_639_1'] === 'sk' ? -1 : b['iso_639_1'] === 'sk' ? 1 : 0)
-    .shift()
+      .filter(translation => codes.includes(translation[key] as string))
+      .filter(translation => translation.data.overview !== '')
+      .sort((a, b) => a[key] === codes[0] ? -1 : b[key] === codes[0] ? 1 : 0)[0]
   },
-  sortCreators(creators){
-    if(!Array.isArray(creators)) return []
-    
-    let arr = []
+  sortCreators<T>(creators: Array<any>): Array<T>{    
+    let arr: any[] = []
+
     creators.forEach(creator => {
       let indexOfItem = arr.findIndex(element => element.id === creator.id)
-      if(indexOfItem === -1) arr.push({ id: creator['id'], name: creator['name'], jobs: [creator['job']], photo: creator['profile_path'] })
+      if(indexOfItem === -1) arr.push({
+        id: creator['id'],
+        name: creator['name'],
+        jobs: [creator['job']],
+        profile_path: creator['profile_path']
+      })
       else arr[indexOfItem]['jobs'].push(creator['job'])
     })
+    
     return arr
   },
   initLoader(){
@@ -46,10 +50,10 @@ export default {
     loaderHolder.appendChild(logo)
     loaderHolder.appendChild(text)
     
-    document.getElementById('app').appendChild(loaderHolder)
+    document.getElementById('app')!.appendChild(loaderHolder)
   },
-  setFailedScreen(error){
-    document.getElementById('app').innerHTML = ''
+  setFailedScreen(error: string){
+    document.getElementById('app')!.innerHTML = ''
 
     const loaderHolder = document.createElement('section')
     const text = document.createElement('span')
@@ -58,6 +62,6 @@ export default {
     loaderHolder.setAttribute('class', 'failed-holder')
     loaderHolder.appendChild(text)
     
-    document.getElementById('app').appendChild(loaderHolder)
+    document.getElementById('app')!.appendChild(loaderHolder)
   }
 }

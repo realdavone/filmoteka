@@ -15,13 +15,9 @@
         </button>
       </section>
     </div>
-    <ItemPanel :placeholderData="{count: 8, type: 'title'}">
-      <template #item>
-        <Title v-for="title in titles" :key="title.id" :title="{ ...title, media_type: route.query.type || 'movie' } as TitleType" />
-        <NoResults v-if="titles.length === 0 && loaded === true" />
-      </template>
-    </ItemPanel>
-    <PageControl v-if="titles.length !== 0" @navigate="navigate" :pages="{ current: filterParams.page, total: totalPages }"/>
+    <ItemPanel type="title" :placeholderData="{count: 8 }" :items="titles" />
+    <NoResults v-if="loaded && !titles?.length" />
+    <PageControl v-if="titles?.length" @navigate="navigate" :pages="{ current: filterParams.page, total: totalPages }"/>
   </main>
 </template>
 
@@ -30,11 +26,11 @@ import { ref, inject, onBeforeMount, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import SelectOption from '../components/SelectOption.vue'
-import Title from '../components/Search/Title.vue'
 import TitleB from '../components/Content/Title.vue'
-import NoResults from '../components/NoResults.vue'
 import ItemPanel from '../components/Content/ItemPanel.vue'
 import PageControl from '../components/PageControl.vue'
+import NoResults from '../components/NoResults.vue'
+
 import getData from '../api/main'
 
 import { Title as TitleType } from '../types/title'
@@ -70,18 +66,23 @@ const filterParams = reactive<Filter>({
   page: 1
 })
 
-const totalPages = ref<null | number>(null)
-const titles = ref<TitleType[]>([])
+const totalPages = ref<number>(1)
+const titles = ref<TitleType[] | null>(null)
 const filterVisible = ref(false)
 
 const loaded = ref(false)
 
-const typeChange = (newType): void => !store.state.genres[newType].has(filterParams.genre) && (filterParams.genre = store.state.genres[filterParams.type].entries().next().value[0])
+const typeChange = (newType: string): void => !store.state.genres[newType].has(filterParams.genre) && (filterParams.genre = store.state.genres[filterParams.type].entries().next().value[0])
 
 const fetchTitles = (url: string): void => {
-  getData({ endpoint: url, options: undefined })
-  .then((data: ApiListResponse<TitleType[]>) => {
-    titles.value = titles.value.concat(data.results.filter(title => title.poster_path))
+  getData<ApiListResponse<TitleType[]>>({ endpoint: url })
+  .then(data => {
+    const mapped = data.results.filter(title => title.poster_path).map(title => {
+      return { ...title, media_type: filterParams.type }
+    })
+
+    titles.value = mapped as []
+
     totalPages.value = data.total_pages
     filterParams.page = data.page
   })

@@ -61,9 +61,10 @@ import Logo from './Logo.vue'
 import { notify } from "@kyvg/vue3-notification"
 import { onClickOutside } from '@vueuse/core'
 import { ref, inject, onMounted, onUnmounted } from 'vue'
-import Auth from '../auth/main.ts'
+import Auth from '../auth/main'
+import useEvent from '../composables/event'
 
-const store = inject('store')
+const store = inject<any>('store')
 const menu = ref(null)
 const emit = defineEmits(['closeMenu','menu'])
 
@@ -126,10 +127,9 @@ const recentItemsMenuButton = {
 
 const logout = () => {  Auth.logout().then(res => notify({ type: 'success', text: res.message })) }
 
-const closeAtEscapeKeydown = (e) => { if(e.code === 'Escape') closeMenu() }
+const closeAtEscapeKeydown = (e: any) => { if(e.code === 'Escape') closeMenu() }
 
-onMounted(() => { document.addEventListener('keydown', closeAtEscapeKeydown) })
-onUnmounted(() => { document.removeEventListener('keydown', closeAtEscapeKeydown) })
+useEvent({ target: document, event: 'keydown', callback: closeAtEscapeKeydown })
 
 onClickOutside(menu, () => { closeMenu() })
 

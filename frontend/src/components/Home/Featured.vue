@@ -1,39 +1,47 @@
 <template>
   <section class="featured container user-select-none">
-    <div v-if="title?.backdrop_path" class="background-image">
-      <CoverPoster class="unblur-mobile" :src="title?.backdrop_path" size="w1440_and_h320_multi_faces" alt="Obrázok v pozadí" :fadeInOnLoad="true" />
+    <div v-if="props.title && props.title?.backdrop_path" class="background-image">
+      <CoverPoster class="unblur-mobile" :src="props.title?.backdrop_path" size="w1440_and_h320_multi_faces" alt="Obrázok v pozadí" :fadeInOnLoad="true" />
     </div>
     <section class="title-holder">
       <div class="poster">
-        <Poster v-if="title?.poster_path" :src="title?.poster_path" :alt="title.media_type === 'movie' ? title.title : title.name" :fadeInOnLoad="true" />
+        <Poster v-if="props.title && props.title?.poster_path" :src="props.title?.poster_path" :alt="title?.title" :fadeInOnLoad="true" />
       </div>
       <div class="content">
-        <div v-if="title?.media_type" class="title">
-          <span>{{title.media_type === 'movie' ? title.title : title.name}}</span>
+        <div v-if="props.title && props.title?.media_type" class="title">
+          <span>{{title?.title}}</span>
         </div>
-        <div v-else class="skeleton-text" style="height:1.75rem;width:25%;min-width:180px;"></div>
+        <div v-else class="skeleton-text" style="height:1.75rem; width:25%; min-width:180px"></div>
 
-        <div v-if="title?.overview" class="overview">
-          <Rating size="large" :rating="Math.round(title?.vote_average * 10) / 10"/>
-          <span>{{title?.overview}}</span>
+        <div v-if="props.title && props.title?.overview" class="overview">
+          <Rating v-if="props.title!.vote_average" size="large" :rating="Math.round(props.title!.vote_average * 10) / 10"/>
+          <span>{{props.title?.overview}}</span>
         </div>
         <div v-else class="skeleton-text" style="height:1rem;width:80%;"></div>
 
-        <BasicButton class="cta" text="Zobraziť viac" @handleClick="$router.push(`/${title?.media_type}/${title?.id}`)" />
+        <BasicButton v-if="props.title" class="cta" text="Zobraziť viac" @handleClick="$router.push(`/${props.title?.media_type}/${props.title?.id}`)" />
       </div>      
     </section>
   </section>
 </template>
 
 <script setup lang="ts">
-import { Title } from '../../types/title'
-
 import BasicButton from '../Buttons/BasicButton.vue'
 import Rating from '../Content/Rating.vue'
 import Poster from '../Content/Poster.vue'
 import CoverPoster from '../Content/CoverPoster.vue'
 
-const { title } = defineProps<{ title: Title }>()
+const props = defineProps<{
+  title: {
+    backdrop_path?: string | null
+    poster_path?: string | null
+    media_type?: 'tv' | 'movie'
+    title?: string
+    overview?: string
+    vote_average?: number
+    id?: number
+  } | null
+}>()
 </script>
 
 <style lang="scss" scoped>

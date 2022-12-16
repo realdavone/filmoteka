@@ -26,7 +26,7 @@
           <template #notification><span class="notification" v-if="store.state.notifications.recommended.length > 0"></span></template>
         </NavButton>
         <NavButton title="Záložky" @handleClick="bookmarksVisible = true">
-          <template #icon><span :style="favStyles" id="favCount">{{favCount}}</span></template>
+          <template #icon><span id="favCount">{{favCount}}</span></template>
         </NavButton>
       </template>
       <div v-if="!isSearchRendered && !store.state.credentials.loggedIn" class="auth-buttons">
@@ -47,51 +47,37 @@
   </Teleport>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, inject, computed, defineAsyncComponent, onMounted, onUnmounted } from 'vue'
 
 import NavButton from './Buttons/NavButton.vue'
 import BasicButton from './Buttons/BasicButton.vue'
+import { DefaultEventsMap } from '@socket.io/component-emitter'
 const BookmarksModal = defineAsyncComponent(() => import('./BookmarksModal.vue'))
 const Sidebar = defineAsyncComponent(() => import('./Sidebar.vue'))
 const SearchForm = defineAsyncComponent(() => import('./Content/SearchForm.vue'))
 
-const store = inject('store')
-const socket = inject('socket')
+const store = inject<any>('store')
+const socket = inject<DefaultEventsMap>('socket')
 
 const isSearchRendered = ref(false)
 const isMenuOpened = ref(false)
 const bookmarksVisible = ref(false)
 
-const favStyles = {
-  display: 'block',
-  fontWeight: '700',
-  borderRadius: '50%',
-  maxWidth: '25px',
-  maxHeight: '25px',
-  minWidth:'25px',
-  minHeight: '25px',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  color: 'white',
-  fontSize: '0.65rem',
-  backgroundColor: 'var(--theme-color)',
-  fontFamily: `monospace,'Roboto Mono'`
-}
-
-const favCount = computed(() => {
+const favCount = computed<number>(() => {
   document.getElementById('favCount')?.classList.add('scaleup')
   return store.state.favourites.length
-}) 
+})
 
-socket.on('newRecommended', (data) => {
+socket!.on('newRecommended', (data: any) => {
   const { type, id } = data.title.title
   store.methods.notifications.recommended.add({ type, id }) 
 })
 
+const handleClass = (e: any) => e.target.classList.remove('scaleup')
+
 onMounted(() => { 
-  document.getElementById('favCount')?.addEventListener('animationend', e => e.target.classList.remove('scaleup') ) 
+  document.getElementById('favCount')?.addEventListener('animationend', handleClass ) 
 
   const el = document.getElementsByTagName('nav')[0]
   const observer = new IntersectionObserver( 
@@ -100,10 +86,26 @@ onMounted(() => {
   )
   observer.observe(el)
 })
-onUnmounted(() => { document.getElementById('favCount')?.removeEventListener('animationend') })
+onUnmounted(() => { document.getElementById('favCount')?.removeEventListener('animationend', handleClass) })
 </script>
 
 <style lang="scss" scoped>
+#favCount{
+  font-weight: 700;
+  border-radius: 50%;
+  max-width: 25px;
+  max-height: 25px;
+  min-width:25px;
+  min-height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 0.65rem;
+  background-color: var(--theme-color);
+  font-family: monospace,'Roboto Mono'
+}
+
 nav{
   height:var(--nav-height);
   width:100%;

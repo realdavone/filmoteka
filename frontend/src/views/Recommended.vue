@@ -1,12 +1,20 @@
 <template>
   <main class="wrapper">
-    <div v-if="items.length === 0 && loading === false" class="no-items container">Sekcia odporúčaných je prázdna</div>
-    <CardPanel v-else :allowGrid="false" :isGrid="true" :placeholderInfo="{ type: 'title', count: 8 }">
-      <template #title>Odporúčané za posledný deň</template>
-      <template #card>
-        <VerticalCard v-for="item in items" :item="(item.title as any)" :key="item._id" />
-      </template>
-    </CardPanel>
+    <div v-if="!items && loading === false" class="no-items container">Sekcia odporúčaných je prázdna</div>
+    <CardPanel
+    v-else
+    heading="Odporúčané za posledný deň"
+    :allowGrid="false"
+    :isGrid="true"
+    :placeholderInfo="{ type: 'title', count: 8 }"
+    :cards="items === null ? [] : items.map(card => {
+      return {
+        media_type: card.title.type,
+        id: card.title.id,
+        poster_path: card.title.img,
+        title: card.title.type
+      }
+    })" />
   </main>
 </template>
 
@@ -18,7 +26,6 @@ export default { name: "Recommended" }
 import { ref, onBeforeMount, onUnmounted, inject } from 'vue'
 import { useRouter } from 'vue-router'
 
-import VerticalCard from '../components/Content/VerticalCard.vue'
 import CardPanel from '../components/Content/CardPanel.vue'
 
 import getData from '../api/main'
@@ -33,13 +40,14 @@ type RecommendedList = {
 
 const router = useRouter()
 const store = inject<any>('store')
-const items = ref<RecommendedList[]>([])
+const items = ref<RecommendedList[] | null>(null)
 const loading = ref(true)
+
 
 const fetchRecommended = async () => {
   try {
     items.value = await getData({ endpoint: '/title/recommended' })
-    loading.value = false    
+    loading.value = false
   } catch (error) { router.push('/404') }
 }
 

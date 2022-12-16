@@ -39,7 +39,7 @@ const getCategory = (rating: number | string): Category | '' => {
 div.rating, a.rating{
   background-color:var(--card-color);
   aspect-ratio:1;
-  display:flex;
+  display:inline-flex;
   justify-content:center;
   align-items:center;
   border-radius:50%;
