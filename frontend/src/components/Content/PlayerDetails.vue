@@ -10,8 +10,8 @@
             <div class="poster">
               <slot name="poster" />
             </div>
-            <slot name="feedback">
-              <div class="skeleton-text" style="height:1.5rem;width:100px;"></div>
+            <slot v-if="store.state.credentials.loggedIn" name="feedback">
+              <div class="skeleton-text" style="height:2rem;width:100px;"></div>
             </slot>
           </div>
           <div class="right-col">
@@ -49,9 +49,13 @@
 </template>
 
 <script setup lang="ts">
+import { inject } from 'vue'
+
 import PlayerPlaceholder from '../Placeholders/PlayerPlaceholder.vue'
 import DetailsPlaceholder from '../Placeholders/DetailsPlaceholder.vue'
 import CoverPoster from './CoverPoster.vue'
+
+const store = inject<any>('store')
 
 const { bg } = defineProps<{
   bg?: string | null

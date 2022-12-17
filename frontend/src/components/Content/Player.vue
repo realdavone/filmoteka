@@ -5,10 +5,13 @@
         <div v-if="!isPlayerWorking" class="player-warning">Prehrávač bol označený ako nefunkčný</div>
       </Transition>
       <button v-if="store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn" @click="$emit('setPlayer')" class="play-button">&#9654;</button>
-      <button v-else class="locked-player" @click="$router.push('/login')">
+      <div v-else class="logged-out">
         <span class="material-icons-outlined">lock</span>
-        <span>Prihláste sa pre sledovanie</span>
-      </button>
+        <div class="right">
+          <div class="logged-out-message">Pre sledovanie je nutné sa prihlásiť</div>
+          <button class="locked-player" @click="$router.push('/login')">Prihlásiť sa</button>
+        </div>
+      </div>
     </div>
     <div v-if="props.source && !loadedIframe" class="loading">
       <Loader height="2rem" border="0.3rem" color="white"/>
@@ -78,23 +81,30 @@ section.player-holder{
     border-radius:1rem;
     color:var(--font-color-dark);
   }
-  button.locked-player{
+  div.logged-out{
     display:flex;
+    gap:0.75rem;
     align-items:center;
-    gap:10px;
-    position:relative;
-    z-index:2;
-    border:2px solid #ffffff10;
-    padding:0.5rem 0.75rem;
-    border-radius:0.5rem;
-    text-align:center;
-    color:var(--font-color-dark);
-    transition:0.2s ease all;
-    span:first-of-type{ font-size:1rem; }
-    span:last-of-type{ font-size:0.75rem; }
-    &:hover{
-      border:2px solid var(--theme-color);
-      background-color:#ffffff10;
+    color:white;
+    span{
+      font-size:4.5rem;
+    }
+    div.right{
+      display:flex;
+      flex-direction:column;
+      gap:0.5rem;
+      align-items:flex-start;
+      button{
+        background-color:white;
+        padding:0.25rem 0.75rem;
+        border-radius:2rem;
+        color:black;
+        transition:0.2s ease all;
+        &:hover{
+          background-color:var(--theme-color);
+          color:white
+        }
+      }
     }
   }
   div.not-pressed{
