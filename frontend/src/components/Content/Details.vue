@@ -68,7 +68,7 @@ type Props = {
       name: string
     }>
     languages?: Array<{
-      english_name: string;
+      english_name: string
       iso_639_1: string
       name: string
     }>
@@ -128,13 +128,13 @@ div.details{
     flex-direction:column;
     border-radius:0.5rem;
     align-items:flex-start;
-    font-size:0.85rem;
+    font-size:0.75rem;
     text-align:left;
     overflow:hidden;
     span.label{
       font-weight:700;
       margin-bottom:0.5rem;
-      font-size:1.05rem;
+      font-size:1rem;
     }
     div.ratings{
       margin-bottom:1.5rem;
@@ -155,13 +155,8 @@ div.details{
         }
         div.job{
           span{
-            font-size:0.75rem;
-            &::after{
-              content:', ';
-            }
-            &:last-of-type::after{
-              content:'';
-            }         
+            &::after{ content:', ' }
+            &:last-of-type::after{ content:'' }         
           }
         }
       }

@@ -35,7 +35,7 @@ button.action-button{
   line-height:1;
   aspect-ratio:1;
   height:var(--button-height);
-  transition:0.2s ease all;
+  transition:0.4s ease transform, 0.2s ease color;
   &.warning{ color:#b41333; }
   &.success{ color:#1c663c; }
   &.placeholder{

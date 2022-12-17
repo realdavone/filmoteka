@@ -11,7 +11,7 @@
               <slot name="poster" />
             </div>
             <slot name="feedback">
-              <!--<div class="skeleton-text" style="height:1.5rem;width:100px;"></div>-->
+              <div class="skeleton-text" style="height:1.5rem;width:100px;"></div>
             </slot>
           </div>
           <div class="right-col">
@@ -200,7 +200,10 @@ section.player-details-holder{
     max-width:100px!important;
   }
   :slotted(span.title){ font-size:1.25rem }
-  div.right-col{ gap:1rem!important }
+  div.right-col{
+    gap:1rem!important;
+    align-self:flex-start;
+  }
   :slotted(span.overview){ font-size:0.75rem }
 }
 </style>

@@ -90,6 +90,7 @@ section.featured{
         -webkit-box-orient: vertical;
         text-overflow: ellipsis;
         overflow: hidden;
+        line-height:1;
       }
       div.genres{
         font-size:0.65rem;

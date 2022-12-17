@@ -154,7 +154,7 @@ const fetchData = async (id: string) => {
   try {
     result.value = await getData<FullMovieType>({ endpoint: `/title/find/movie/${id}` })
         
-    const translations = _.getTranslations<MovieTitleTranslation>(result.value.translations.translations, 'iso_639_1', ['sk', 'cz', 'en'])
+    const translations = _.getTranslations<MovieTitleTranslation>(result.value.translations.translations, 'iso_639_1', ['sk', 'cs', 'en'])
 
     result.value = {
       ...result.value,

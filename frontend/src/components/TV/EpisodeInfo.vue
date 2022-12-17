@@ -63,7 +63,7 @@ const getEpisodeInfo = async ({
     loading.value = true
     episodeInfo.value = await getData<EpisodeType>({ endpoint: `/title/episode/${id}/${season}/${episode}` })
     
-    const translations = _.getTranslations<EpisodeTranslation>(episodeInfo.value.translations.translations, 'iso_639_1', ['sk', 'cz', 'en'])
+    const translations = _.getTranslations<EpisodeTranslation>(episodeInfo.value.translations.translations, 'iso_639_1', ['sk', 'cs', 'en'])
 
     episodeInfo.value = {
       ...episodeInfo.value,

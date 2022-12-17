@@ -156,7 +156,7 @@ const fetchData = async (id: string) => {
   try {
     result.value = await getData<FullTvTitleType>({ endpoint: `/title/find/tv/${id}` })
 
-    const translations = _.getTranslations<TvTitleTranslation>(result.value['translations']['translations'], 'iso_639_1', ['sk', 'ez', 'en'])
+    const translations = _.getTranslations<TvTitleTranslation>(result.value['translations']['translations'], 'iso_639_1', ['sk', 'cs', 'en'])
 
     result.value = {
       ...result.value,
