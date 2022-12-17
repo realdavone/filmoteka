@@ -14,18 +14,11 @@ import { ref } from 'vue'
 import getData from '../../api/main'
 import store from '../../store/index'
 
-import { TitleFromDB } from '../../types/title'
+import { RecommendedTitle } from '../../types/title'
 
-type RecommendedTitles = Array<{
-  _id: string
-  title: TitleFromDB
-  createdAt: string
-  __v: string
-}>
+const recommended = ref<Array<RecommendedTitle>>([])
 
-const recommended = ref<RecommendedTitles>([])
-
-recommended.value = await getData<RecommendedTitles>({ endpoint: '/title/recommended' })
+recommended.value = await getData<Array<RecommendedTitle>>({ endpoint: '/title/recommended' })
 
 const getDifference = (timestamp: string) => new Intl.RelativeTimeFormat('sk', {
   localeMatcher: "best fit",

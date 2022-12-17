@@ -1,20 +1,13 @@
 <template>
   <main class="wrapper">
-    <div v-if="!items && loading === false" class="no-items container">Sekcia odporúčaných je prázdna</div>
+    <div v-if="items?.length === 0 && loading === false" class="no-items container">Sekcia odporúčaných je prázdna</div>
     <CardPanel
     v-else
     heading="Odporúčané za posledný deň"
     :allowGrid="false"
     :isGrid="true"
     :placeholderInfo="{ type: 'title', count: 8 }"
-    :cards="items === null ? [] : items.map(card => {
-      return {
-        media_type: card.title.type,
-        id: card.title.id,
-        poster_path: card.title.img,
-        title: card.title.type
-      }
-    })" />
+    :cards="(items as [])"/>
   </main>
 </template>
 
@@ -29,24 +22,26 @@ import { useRouter } from 'vue-router'
 import CardPanel from '../components/Content/CardPanel.vue'
 
 import getData from '../api/main'
-import { TitleFromDB } from '../types/title'
-
-type RecommendedList = {
-  createdAt: string
-  title: TitleFromDB
-  __v: number
-  _id: string
-}
+import { RecommendedTitle } from '../types/title'
 
 const router = useRouter()
 const store = inject<any>('store')
-const items = ref<RecommendedList[] | null>(null)
+const items = ref<Array<RecommendedTitle> | null>(null)
 const loading = ref(true)
-
 
 const fetchRecommended = async () => {
   try {
-    items.value = await getData({ endpoint: '/title/recommended' })
+    const data = await getData<Array<RecommendedTitle>>({ endpoint: '/title/recommended' })
+    
+    items.value = data.map(card => {
+      return {
+        media_type: card.title.type,
+        id: card.title.id,
+        poster_path: card.title.img,
+        title: card.title.type
+      }
+    }) as []
+
     loading.value = false
   } catch (error) { router.push('/404') }
 }

@@ -359,3 +359,10 @@ export type TitleFromDB = {
 }
 
 export type Title = TvTitle | MovieTitle
+
+export type RecommendedTitle = {
+  _id: string
+  title: TitleFromDB
+  createdAt: string
+  __v: string
+}
