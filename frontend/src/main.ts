@@ -20,7 +20,7 @@ Promise.allSettled([
   if(globals.status === 'rejected') return _.setFailedScreen(globals.reason)
   if(attemptLogin.status === 'rejected') localStorage.removeItem('refreshToken')
 
-  store.state.globalSettings = globals.value
+  store.state.globalSettings = globals.value as any
 
   createApp(App)
   .use(router)

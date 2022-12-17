@@ -64,8 +64,13 @@ onMounted(() => {
     }
   })
   google.accounts.id.renderButton(
-    document.getElementById("buttonDiv"),
-    { theme: 'filled_blue', size: "medium", text: 'continue_with', shape: 'pill' }
+    document.getElementById("buttonDiv") as HTMLElement, {
+      theme: 'filled_blue',
+      size: "medium",
+      text: 'continue_with',
+      shape: 'pill',
+      type: 'standard'
+    }
   )
 })
 
