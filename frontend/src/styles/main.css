@@ -19,6 +19,9 @@
   --font-color-dark:#ffffff;
   --font-color-light:#000000;
 
+  --action-button-success:#0a8941;
+  --action-button-error:#b41333;
+
   --nav-height:60px;
 
   --vertical-card-width:200px;

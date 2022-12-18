@@ -36,8 +36,8 @@ button.action-button{
   aspect-ratio:1;
   height:var(--button-height);
   transition:0.4s ease transform, 0.2s ease color;
-  &.warning{ color:#b41333; }
-  &.success{ color:#1c663c; }
+  &.warning{ color:var(--action-button-error); }
+  &.success{ color:var(--action-button-success); }
   &.placeholder{
     background-color:var(--card-color);
     cursor:default;

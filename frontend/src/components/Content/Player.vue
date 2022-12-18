@@ -8,7 +8,7 @@
       <div v-else class="logged-out">
         <span class="material-icons-outlined">lock</span>
         <div class="right">
-          <div class="logged-out-message">Pre sledovanie je nutné sa prihlásiť</div>
+          <span class="logged-out-message">Pre sledovanie je nutné sa prihlásiť</span>
           <button class="locked-player" @click="$router.push('/login')">Prihlásiť sa</button>
         </div>
       </div>
@@ -83,7 +83,7 @@ section.player-holder{
   }
   div.logged-out{
     display:flex;
-    gap:0.75rem;
+    gap:0.5rem;
     align-items:center;
     color:white;
     span{
@@ -94,9 +94,13 @@ section.player-holder{
       flex-direction:column;
       gap:0.5rem;
       align-items:flex-start;
+      span.logged-out-message{
+        font-weight:700;
+        font-size:1rem;
+      }
       button{
         background-color:white;
-        padding:0.25rem 0.75rem;
+        padding:0.25rem 1rem;
         border-radius:2rem;
         color:black;
         transition:0.2s ease all;
