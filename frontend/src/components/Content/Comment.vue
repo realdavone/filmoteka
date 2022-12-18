@@ -52,7 +52,7 @@ div.comment{
   gap:0.5rem;
   align-self:stretch;
   padding:1rem;
-  background-color:var(--card-color);
+  background-color:var(--card-color-hover);
   border-radius:0.75rem;
   header{
     display:flex;

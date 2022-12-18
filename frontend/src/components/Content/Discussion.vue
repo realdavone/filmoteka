@@ -82,7 +82,7 @@ div.error{
   color:crimson
 }
 button.add-comment{
-  background-color:var(--card-color-hover);
+  background-color:var(--background-color);
   padding:0.75rem 1.25rem;
   width:100%;
   border-radius:3rem;
