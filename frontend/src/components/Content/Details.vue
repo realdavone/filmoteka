@@ -49,6 +49,20 @@
         </div>
       </div>
     </div>
+    <div class="item full-width" v-if="details.networks">
+      <span class="label">Siete</span>
+      <div class="networks">
+        <img
+        v-for="network in details.networks.filter(network => network.logo_path)"
+        :key="network.id"
+        class="network"
+        v-bind="{ ...network.logo_path ? { src: `https://www.themoviedb.org/t/p/original${network.logo_path.split('.')[0]}.svg` } : {} }"
+        :alt="network.name"
+        :title="network.name"
+        onerror="javascript:this.remove()"
+        draggable="false">
+      </div>
+    </div>
   </div>
 </template>
 
@@ -159,6 +173,17 @@ div.details{
             &:last-of-type::after{ content:'' }         
           }
         }
+      }
+    }
+    div.networks{
+      display:flex;
+      flex-wrap:wrap;
+      gap:1rem;
+      padding-bottom:0.5rem;
+      img.network{
+        max-height:30px;
+        width:auto;
+        object-fit:cover;
       }
     }
     &.full-width{

@@ -8,7 +8,15 @@
         </template>
         <div v-else class="skeleton-text" style="width:50%;height:1rem;"></div>
       </div>
-      <span v-if="!loading && episodeInfo?.air_date" class="airdate">{{new Date(episodeInfo['air_date']).toLocaleDateString('sk-SK', { weekday: 'short', year: '2-digit', month: 'short', day: 'numeric' })}}</span>
+      <span v-if="!loading" class="airdate">
+        {{episodeInfo?.air_date ? new Date(episodeInfo['air_date']).toLocaleDateString('sk-SK', {
+            weekday: 'short',
+            year: '2-digit',
+            month: 'short',
+            day: 'numeric'
+          }) : ''
+        }}
+      </span>
       <div v-else class="skeleton-text" style="width:50px;align-self:center;"></div>
     </div>
     <div v-if="showEpisodeSpoiler" class="thumb-overview">
@@ -119,6 +127,9 @@ section.episode-info{
       font-size:0.8rem;
       color:var(--secondary-text-color);
       white-space:nowrap;
+      &:empty{
+        display:none;
+      }
     }
   }
   div.thumb-overview{

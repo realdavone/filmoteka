@@ -1,5 +1,5 @@
 export type EpisodeType = {
-  air_date: string
+  air_date: string | null
   crew: [
     {
       job: string
