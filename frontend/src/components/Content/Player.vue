@@ -5,10 +5,10 @@
         <div v-if="!isPlayerWorking" class="player-warning">Prehrávač bol označený ako nefunkčný</div>
       </Transition>
       <button v-if="store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn" @click="$emit('setPlayer')" class="play-button">&#9654;</button>
-      <div v-else class="logged-out">
-        <span class="material-icons-outlined">lock</span>
+      <div v-else class="message">
+        <span class="material-icons-outlined icon">lock</span>
         <div class="right">
-          <span class="logged-out-message">Pre sledovanie je nutné sa prihlásiť</span>
+          <span class="message">Pre sledovanie je nutné sa prihlásiť</span>
           <button class="locked-player" @click="$router.push('/login')">Prihlásiť sa</button>
         </div>
       </div>
@@ -17,9 +17,11 @@
       <Loader height="2rem" border="0.3rem" color="white"/>
     </div>
     <iframe @load="loadedIframe = true" v-if="props.source" :class="{ pinned: pinned && store.state.settings.pinnedPlayer }" :src="props['source']" frameborder="0" loading="lazy" allowfullscreen></iframe>
-    <div v-if="!props['isReady']['status']" class="message">
-      <span class="material-icons-outlined">event</span>
-      <span>{{ props['isReady']['message'] }}</span>
+    <div v-if="!props.isReady.status" class="message">
+      <span class="material-icons-outlined icon">event</span>
+      <div class="right">
+        <span class="message">{{ props.isReady.message }}</span>
+      </div>
     </div>
   </section>
 </template>
@@ -81,20 +83,20 @@ section.player-holder{
     border-radius:1rem;
     color:var(--font-color-dark);
   }
-  div.logged-out{
+  div.message{
     display:flex;
     gap:0.5rem;
     align-items:center;
     color:white;
-    span{
-      font-size:4.5rem;
+    span.icon{
+      font-size:4rem;
     }
     div.right{
       display:flex;
       flex-direction:column;
-      gap:0.5rem;
+      gap:0.25rem;
       align-items:flex-start;
-      span.logged-out-message{
+      span.message{
         font-weight:700;
         font-size:1rem;
       }
@@ -142,18 +144,6 @@ section.player-holder{
       width:auto;
       box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
     }
-  }
-  div.message{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:0.5rem;
-    color:var(--font-color-dark);
-    background-color:#ffffff05;
-    width:100%;
-    padding:1.5rem 1rem;
-    span:first-of-type{ font-size:1.25rem }
-    span:last-of-type{ font-size:0.75rem }
   }
 }
 @media screen and (max-width: 500px) {

@@ -50,7 +50,7 @@
       </div>
     </div>
     <div class="item full-width" v-if="details.networks">
-      <span class="label">Siete</span>
+      <span class="label">Produkčné spoločnosti</span>
       <div class="networks">
         <img
         v-for="network in details.networks.filter(network => network.logo_path)"

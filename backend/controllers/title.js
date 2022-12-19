@@ -15,7 +15,7 @@ export const getTitle = async (req, res) => {
   const { type, id } = req.params
 
   try {
-    const response = await fetch(`${TMDB_BASE_API}/${type}/${id}?api_key=${TMDB_API_KEY}&append_to_response=credits,recommendations,external_ids,translations,content_ratings,images&include_image_language=en,null&language=sk-SK`)
+    const response = await fetch(`${TMDB_BASE_API}/${type}/${id}?api_key=${TMDB_API_KEY}&append_to_response=credits,recommendations,external_ids,translations,content_ratings&language=sk-SK`)
     const data = await response.json()
   
     if(data.success === false) return res.status(404).json({ success: false, message: data.status_message })

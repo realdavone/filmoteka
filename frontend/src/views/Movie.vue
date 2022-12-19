@@ -57,6 +57,7 @@
           countries: result?.production_countries,
           genres: result?.genres,
           creators: _.sortCreators(result!.credits.crew.sort((a, b) => b['popularity'] - a['popularity']).slice(0, 5)),
+          networks: result?.production_companies,
           ratings: [
             {
               name: 'TMDB',

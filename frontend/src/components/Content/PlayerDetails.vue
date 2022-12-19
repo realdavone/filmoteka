@@ -200,8 +200,8 @@ section.player-details-holder{
     gap:1rem!important;
   }
   div.poster{
-    min-width:100px!important;
-    max-width:100px!important;
+    min-width:106px!important;
+    max-width:106px!important;
   }
   :slotted(span.title){ font-size:1.25rem }
   div.right-col{
