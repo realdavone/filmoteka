@@ -102,7 +102,13 @@ button.toggle-button::before{
 button.toggle-button[data-active=false]::before{ transform:translateX(0) }
 button.toggle-button[data-active=true]{ background-color:var(--theme-color) }
 button.toggle-button[data-active=true]::before{ transform:translateX(13px) }
-
+button.retry-app-button{
+  background-color: var(--theme-color);
+  color:white;
+  padding:0.25rem 0.75rem;
+  cursor:pointer;
+  border-radius:0.5rem;
+}
 main.title{
   display:flex;
   flex-direction:column;

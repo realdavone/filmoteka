@@ -37,6 +37,8 @@ export default {
     return arr
   },
   initLoader(){
+    document.getElementById('app')!.innerHTML = ''
+
     const logo = document.createElement('img')
     const loaderHolder = document.createElement('section')
     const text = document.createElement('span')
@@ -52,16 +54,22 @@ export default {
     
     document.getElementById('app')!.appendChild(loaderHolder)
   },
-  setFailedScreen(error: string){
+  setFailedScreen(error: string, retry: () => void){
     document.getElementById('app')!.innerHTML = ''
 
     const loaderHolder = document.createElement('section')
     const text = document.createElement('span')
+    const button = document.createElement('button')
+
     text.innerText = error
+    button.innerText = 'Skúsiť znova'
 
     loaderHolder.setAttribute('class', 'failed-holder')
     loaderHolder.appendChild(text)
+
+    button.onclick = () => retry()
+    button.setAttribute('class', 'retry-app-button')
     
-    document.getElementById('app')!.appendChild(loaderHolder)
+    document.getElementById('app')!.appendChild(loaderHolder).appendChild(button)
   }
 }

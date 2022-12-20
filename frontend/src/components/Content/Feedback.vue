@@ -62,15 +62,16 @@ const handleFeedback = async (action: 'like' | 'dislike') => {
 <style lang="scss" scoped>
 div.rating{
   display:flex;
-  gap:0.75rem;
   align-items:center;
-  background-color:var(--card-color-hover);
-  padding:0.35rem 0.65rem;
+  background-color:var(--card-color);
   border-radius:2rem;
+  overflow:hidden;
   button{
     display:flex;
     align-items:center;
     gap:0.35rem;
+    transition:0.2s ease background-color;
+    padding:0.25rem 0.5rem;
     span:first-of-type{
       font-size:1.25rem;
       overflow:hidden;
@@ -78,6 +79,9 @@ div.rating{
     span:last-of-type{
       font-family:monospace,'Roboto Mono';
       font-size:1rem;
+    }
+    &:hover{
+      background-color:var(--card-color-hover);
     }
   }
 }

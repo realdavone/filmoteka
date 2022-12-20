@@ -9,24 +9,26 @@ import _ from './utils/main'
 
 import './styles/main.css'
 
-_.initLoader()
+(function startApp(){
+  _.initLoader()
 
-Promise.allSettled([
-  Auth.refresh(localStorage.getItem('refreshToken')),
-  store.methods.globalSettings.init()
-]).then(result => {
-  const [attemptLogin, globals] = result
+  Promise.allSettled([
+    Auth.refresh(localStorage.getItem('refreshToken')),
+    store.methods.globalSettings.init()
+  ]).then(result => {
+    const [attemptLogin, globals] = result
 
-  if(globals.status === 'rejected') return _.setFailedScreen(globals.reason)
-  if(attemptLogin.status === 'rejected') localStorage.removeItem('refreshToken')
+    if(globals.status === 'rejected') return _.setFailedScreen(globals.reason, startApp)
+    if(attemptLogin.status === 'rejected') localStorage.removeItem('refreshToken')
 
-  store.state.globalSettings = globals.value as any
+    store.state.globalSettings = globals.value as any
 
-  createApp(App)
-  .use(router)
-  .use(autoAnimatePlugin)
-  .use(Notifications)
-  .mount('#app')
-  
-  store.initResources()
-})
+    createApp(App)
+    .use(router)
+    .use(autoAnimatePlugin)
+    .use(Notifications)
+    .mount('#app')
+    
+    store.initResources()
+  })
+})()
