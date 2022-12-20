@@ -112,8 +112,6 @@ type Props = {
 
 const { details } = defineProps<Props>()
 
-console.log(details.networks)
-
 const store = inject<any>('store')
 
 const status = new Map()

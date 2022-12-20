@@ -43,7 +43,6 @@ section.episode-card{
   span.label{
     font-size:0.75rem;
     font-weight:900;
-    text-transform:uppercase;
     margin-bottom:2px;
     line-height:1;
   }
