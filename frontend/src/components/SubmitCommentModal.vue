@@ -4,7 +4,7 @@
       <div ref="modal" class="modal"> 
         <header>
           <div class="user">
-            <span class="material-icons">account_circle</span>
+            <Avatar :id="store.state.credentials.user?._id"/>
             <span>{{store.state.credentials.user?.email}}</span>
           </div>
           <CloseButton @click="emit('close')"/>
@@ -30,6 +30,7 @@ import getData from '../api/main.js'
 import CloseButton from './Buttons/CloseButton.vue'
 import Modal from './Modal.vue'
 import Loader from './Loader.vue'
+import Avatar from './Avatar.vue'
 
 const { title } = defineProps<{
   title: {
@@ -99,7 +100,7 @@ div.modal{
     div.user{
       display:flex;
       align-items:center;
-      gap:0.5rem;
+      gap:0.25rem;
       span:first-of-type{ font-size:1.25rem; }
       span:last-of-type{ font-size:0.85rem; }
     }

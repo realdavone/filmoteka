@@ -12,7 +12,10 @@
     </header>
     <main class="menu-content">
       <section v-if="store.state.credentials.loggedIn" class="welcome">
-        <span class="greeting">Serus, {{store.state.credentials.user.email}}</span>
+        <div class="greeting">
+          <Avatar :id="store.state.credentials.user._id" />
+          <span class="name">{{store.state.credentials.user.email}}</span>
+        </div>
         <button class="logout-button" @click="logout(); closeMenu()" title="Odhlásiť">
           <span class="material-icons-outlined">logout</span>
         </button>
@@ -57,6 +60,7 @@ import SidebarMenuItem from './Sidebar/SidebarMenuItem.vue'
 import SidebarMenuTile from './Sidebar/SidebarMenuTile.vue'
 import Footer from './Footer.vue'
 import Logo from './Logo.vue'
+import Avatar from './Avatar.vue'
 
 import { notify } from "@kyvg/vue3-notification"
 import { onClickOutside } from '@vueuse/core'
@@ -203,8 +207,13 @@ aside{
       justify-content:space-between;
       align-items:center;
       margin-bottom:1rem;
-      span.greeting{
-        font-size:0.85rem;
+      div.greeting{
+        display:flex;
+        gap:0.5rem;
+        align-items:center;
+        span.name{
+          font-size:0.75rem;
+        }
       }
       button.logout-button{
         line-height:1;

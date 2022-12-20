@@ -7,10 +7,8 @@
     </div>
     <div v-if="isSearchRendered" class="middle">
       <SearchForm />
-      <NavButton title="Vyhľadávanie" @handleClick="isSearchRendered = false">
-        <template #icon>
-          <span style="color:var(--theme-color);font-size:1.5rem">&#10095;</span>
-        </template>
+      <NavButton title="Zatvoriť vyhľadávanie" @handleClick="isSearchRendered = false">
+        <template #icon><span style="color:var(--theme-color);font-size:1.5rem;">&#10095;</span></template>
       </NavButton>
     </div>
     <div v-if="!isSearchRendered" class="right-menu">

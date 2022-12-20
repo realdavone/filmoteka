@@ -60,7 +60,7 @@
         :alt="network.name"
         :title="network.name"
         onerror="javascript:this.remove()"
-        draggable="false">
+        draggable="false" />
       </div>
     </div>
   </div>
@@ -111,6 +111,8 @@ type Props = {
 }
 
 const { details } = defineProps<Props>()
+
+console.log(details.networks)
 
 const store = inject<any>('store')
 
@@ -184,6 +186,9 @@ div.details{
         max-height:30px;
         width:auto;
         object-fit:cover;
+      }
+      &:empty{
+        display:none;
       }
     }
     &.full-width{

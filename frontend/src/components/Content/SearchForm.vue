@@ -1,8 +1,8 @@
 <template>
-  <div class="search">
+  <div class="search" >
     <form class="search-form" @submit.prevent="submitQuery" autocomplete="off">
       <div class="select user-select-none">
-        <div class="selected-option" @click="isOptionsMenuOpened = !isOptionsMenuOpened">
+        <div class="selected-option" @click.prevent="isOptionsMenuOpened = !isOptionsMenuOpened">
           <span class="material-icons" style="font-size:1.5rem;">menu</span>      
         </div>
         <Transition name="fade">
@@ -21,7 +21,7 @@
     <Transition name="fade">
       <RecentSearch v-show="isInputFocused" @handleRecentItem="handleRecentItem" />
     </Transition>
-</div>
+  </div>
 </template>
 
 <script setup lang="ts">

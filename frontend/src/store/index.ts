@@ -79,6 +79,10 @@ const methods = {
       }
       localStorage.setItem('recentSearch', JSON.stringify(state.recentSearch))
     },
+    removeItem(item: string){
+      state.recentSearch = state.recentSearch.filter(recentItem => recentItem !== item)
+      localStorage.setItem('recentSearch', JSON.stringify(state.recentSearch))
+    },
     clear(){
       state.recentSearch = []
       localStorage.removeItem('recentSearch')
