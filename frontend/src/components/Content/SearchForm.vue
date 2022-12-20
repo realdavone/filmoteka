@@ -18,9 +18,13 @@
       </div>
       <input id="search-input" ref="input" v-model="searchQuery"  type="text" placeholder="Vyhľadávanie" required @focus="isInputFocused = true" @focusout="isInputFocused = false">
     </form>
-    <Transition name="fade">
-      <RecentSearch v-show="isInputFocused" @handleRecentItem="handleRecentItem" />
-    </Transition>
+    <div v-show="isInputFocused" class="context">
+      <div v-show="searchQuery.length" class="search-current" @mousedown.prevent="null" @click="submitQuery">
+        <span class="material-icons" style="font-size:1.25rem">{{ searchType.icon }}</span>
+        Vyhľadávať "{{ searchQuery }}"
+      </div>
+      <RecentSearch @handleRecentItem="handleRecentItem" />
+    </div>
   </div>
 </template>
 
@@ -37,10 +41,22 @@ interface Options {
 }
 
 const options: Record<'Všetko' | 'Filmy' | 'Seriály' | 'Osoby', Options> = {
-  Všetko: { value: '', icon: 'search' },
-  Filmy: { value: '/movie', icon: 'movie' },
-  Seriály: { value: '/tv', icon: 'tv' },
-  Osoby: { value: '/person', icon: 'person' }
+  Všetko: {
+    value: '',
+    icon: 'search'
+  },
+  Filmy: {
+    value: '/movie',
+    icon: 'movie'
+  },
+  Seriály: {
+    value: '/tv',
+    icon: 'tv'
+  },
+  Osoby: {
+    value: '/person',
+    icon: 'person'
+  }
 }
 
 const router = useRouter()
@@ -71,6 +87,27 @@ onMounted(() => input.value!.focus())
 </script>
 
 <style lang="scss" scoped>
+div.context{
+  position:absolute;
+  left:0;
+  top:calc(100% + 1px);
+  width:100%;
+  background-color:var(--card-color);
+  border-bottom-left-radius:1.75rem;
+  border-bottom-right-radius:1.75rem;
+  div.search-current{
+    display:flex;
+    align-items:center;
+    gap:0.75rem;
+    font-size:0.85rem;
+    padding:0.75rem 1rem;
+    transition:0.2s ease background-color;
+    &:hover{
+      background-color:var(--card-color-hover);
+      cursor:pointer;
+    }
+  }
+}
 div.select{
   position:relative;
   isolation:isolate;
