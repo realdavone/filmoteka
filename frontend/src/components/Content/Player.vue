@@ -147,9 +147,14 @@ section#player-holder{
   }
 }
 @media screen and (max-width: 500px) {
-  iframe.pinned{height:auto!important;width:100%!important;}
+  iframe.pinned{
+    height:auto!important;
+    width:100%!important;
+  }
 }
 @media screen and (max-width: 1300px){
-  section.player-holder{width:100%!important;}
+  section#player-holder{
+    width:100%!important;
+  }
 }
 </style>
