@@ -44,39 +44,39 @@ div.rating, a.rating{
   align-items:center;
   border-radius:50%;
   position:relative;
-  font-family:monospace, 'Roboto Mono';
   line-height:1;
   border-style:solid;
   min-width:var(--width);
   max-width:var(--width);
   border-width:var(--borderWidth);
   span.rating{
-    font-size:var(--fontSizeRating);
+    font-size:var(--font-size-rating);
     font-weight:700;
+    letter-spacing:1px;
   }
   span.name{
     position:absolute;
     top:calc(100% + 0.5rem);
     text-align:center;
-    font-size:var(--fontSizeName);
+    font-size:var(--font-size-name);
   }
   &.normal{
     --width:2.75rem;
     --borderWidth:0.25rem;
-    --fontSizeRating:0.85rem;
-    --fontSizeName:0.65rem;
+    --font-size-rating:0.7rem;
+    --font-size-name:0.55rem;
   }
   &.small{
     --width:1.75rem;
     --borderWidth:0.15rem;
-    --fontSizeRating:0.55rem;
-    --fontSizeName:0.5rem;
+    --font-size-rating:0.55rem;
+    --font-size-name:0.65rem;
   }
   &.large{
     --width:3.25rem;
     --borderWidth:0.3rem;
-    --fontSizeRating:0.95rem;
-    --fontSizeName:0.75rem;
+    --font-size-rating:0.85rem;
+    --font-size-name:0.75rem;
   }
   &.low{border-color:crimson}
   &.medium{border-color:goldenrod}

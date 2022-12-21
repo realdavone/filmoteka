@@ -66,6 +66,7 @@ div.rating{
   background-color:var(--card-color);
   border-radius:2rem;
   overflow:hidden;
+  max-width:100px;
   button{
     display:flex;
     align-items:center;

@@ -23,9 +23,10 @@
           <template #icon><span class="material-icons" style="padding-top:5px">recommend</span></template>
           <template #notification><span class="notification" v-if="store.state.notifications.recommended.length > 0"></span></template>
         </NavButton>
-        <NavButton title="Záložky" @handleClick="bookmarksVisible = true">
-          <template #icon><span id="favCount">{{favCount}}</span></template>
-        </NavButton>
+        <div id="fav-count" @click="bookmarksVisible = true">
+          <span>Záložky</span>
+          <span>{{store.state.favourites.length}}</span>
+        </div>
       </template>
       <div v-if="!isSearchRendered && !store.state.credentials.loggedIn" class="auth-buttons">
         <button v-if="store.state.globalSettings?.allowRegistration" class="register-button" @click="$router.push('/register')">Registrovať</button>
@@ -46,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject, computed, defineAsyncComponent, onMounted, onUnmounted } from 'vue'
+import { ref, inject, defineAsyncComponent, onMounted, onUnmounted } from 'vue'
 
 import NavButton from './Buttons/NavButton.vue'
 import BasicButton from './Buttons/BasicButton.vue'
@@ -61,11 +62,6 @@ const socket = inject<DefaultEventsMap>('socket')
 const isSearchRendered = ref(false)
 const isMenuOpened = ref(false)
 const bookmarksVisible = ref(false)
-
-const favCount = computed<number>(() => {
-  document.getElementById('favCount')?.classList.add('scaleup')
-  return store.state.favourites.length
-})
 
 socket!.on('newRecommended', (data: any) => {
   const { type, id } = data.title.title
@@ -88,20 +84,19 @@ onUnmounted(() => { document.getElementById('favCount')?.removeEventListener('an
 </script>
 
 <style lang="scss" scoped>
-#favCount{
-  font-weight: 700;
-  border-radius: 50%;
-  max-width: 25px;
-  max-height: 25px;
-  min-width:25px;
-  min-height: 25px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-size: 0.65rem;
-  background-color: var(--theme-color);
-  font-family: monospace,'Roboto Mono'
+#fav-count{
+  color:white;
+  background-color:var(--theme-color);
+  display:flex;
+  align-self:center;
+  gap:0.5rem;
+  font-size:0.75rem;
+  padding:0.35rem 0.75rem;
+  border-radius:1rem;
+  cursor:pointer;
+  font-weight:700;
+  margin-left:0.75rem;
+  user-select:none;
 }
 
 nav{
@@ -166,9 +161,5 @@ nav{
     position:fixed;
     min-height:100%;
   }
-}
-@keyframes scaleup{
-  0%, 100% { transform:scale(1) }
-  50% { transform:scale(1.25) }
 }
 </style>

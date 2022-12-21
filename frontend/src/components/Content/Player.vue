@@ -1,5 +1,5 @@
 <template>
-  <section id="player-holder" class="player-holder user-select-none">
+  <section id="player-holder" class="user-select-none">
     <div v-if="!props.source && props['isReady']['status'] === true" class="not-pressed">
       <Transition name="fade">
         <div v-if="!isPlayerWorking" class="player-warning">Prehrávač bol označený ako nefunkčný</div>
@@ -52,7 +52,7 @@ useEvent({ target: document, event: 'scroll', callback: () => {
 </script>
 
 <style lang="scss" scoped>
-section.player-holder{
+section#player-holder{
   width:var(--player-width);
   max-width:var(--player-width);
   aspect-ratio:16/9!important;
