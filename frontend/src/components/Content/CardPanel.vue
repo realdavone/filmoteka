@@ -133,9 +133,11 @@ section.panel{
     align-items:center;
     transition:0.2s ease background-color, 0.4s ease transform;
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+    padding-top:2px;
     &.left{
       left:20px;
-      padding:0 4px 2px 0;
+      padding-right:5px;
+      padding-bottom:1px;
     }
     &.right{right:20px;}
     &:hover{

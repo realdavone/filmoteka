@@ -11,7 +11,7 @@
               <slot name="poster" />
             </div>
             <slot v-if="store.state.credentials.loggedIn" name="feedback">
-              <div class="skeleton-text" style="height:2rem;width:100px;"></div>
+              <div class="skeleton-text" style="height:28px;width:100px;"></div>
             </slot>
           </div>
           <div class="right-col">

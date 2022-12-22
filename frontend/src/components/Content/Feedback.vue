@@ -6,7 +6,7 @@
       <span>{{likesCount.length}}</span>
     </button>
     <button @click="handleFeedback('dislike')" title="Nepáči sa mi">
-      <span v-if="dislikesCount.includes(store.state.credentials.user._id)" class="material-icons" style="color:crimson">heart_broken</span>
+      <span v-if="dislikesCount.includes(store.state.credentials.user._id)" class="material-icons" style="color:seagreen">heart_broken</span>
       <span v-else class="material-icons-outlined">heart_broken</span>
       <span>{{dislikesCount.length}}</span>
     </button>
@@ -78,8 +78,8 @@ div.rating{
       overflow:hidden;
     }
     span:last-of-type{
-      font-family:monospace,'Roboto Mono';
-      font-size:1rem;
+      font-size:0.75rem;
+      font-weight:700;
     }
     &:hover{
       background-color:var(--card-color-hover);
