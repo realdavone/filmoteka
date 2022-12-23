@@ -64,7 +64,7 @@ import Avatar from './Avatar.vue'
 
 import { notify } from "@kyvg/vue3-notification"
 import { onClickOutside } from '@vueuse/core'
-import { ref, inject, onMounted, onUnmounted } from 'vue'
+import { ref, inject } from 'vue'
 import Auth from '../auth/main'
 import useEvent from '../composables/event'
 
@@ -129,7 +129,7 @@ const recentItemsMenuButton = {
   shown: true
 }
 
-const logout = () => {  Auth.logout().then(res => notify({ type: 'success', text: res.message })) }
+const logout = () => Auth.logout().then(res => notify({ type: 'success', text: res.message }))
 
 const closeAtEscapeKeydown = (e: any) => { if(e.code === 'Escape') closeMenu() }
 

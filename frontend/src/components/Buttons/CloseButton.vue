@@ -13,7 +13,8 @@ button{
   transition:0.2s ease background-color;
   line-height:1;
   color:crimson;
-  font-size:1.15rem;
+  font-size:1.25rem;
+  font-weight:bold;
   &:active{background-color:#dc143c40;}
 } 
 </style>

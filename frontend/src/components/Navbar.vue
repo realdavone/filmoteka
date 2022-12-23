@@ -25,6 +25,7 @@
         </NavButton>
         <div id="fav-count" @click="bookmarksVisible = true">
           <span>Záložky</span>
+          <span class="material-icons-outlined" style="font-size:1rem">bookmarks</span>
           <span>{{store.state.favourites.length}}</span>
         </div>
       </template>
@@ -47,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject, defineAsyncComponent, onMounted, onUnmounted } from 'vue'
+import { ref, inject, defineAsyncComponent, onMounted } from 'vue'
 
 import NavButton from './Buttons/NavButton.vue'
 import BasicButton from './Buttons/BasicButton.vue'
@@ -68,11 +69,7 @@ socket!.on('newRecommended', (data: any) => {
   store.methods.notifications.recommended.add({ type, id }) 
 })
 
-const handleClass = (e: any) => e.target.classList.remove('scaleup')
-
 onMounted(() => { 
-  document.getElementById('favCount')?.addEventListener('animationend', handleClass ) 
-
   const el = document.getElementsByTagName('nav')[0]
   const observer = new IntersectionObserver( 
     ([e]) => e.target.classList.toggle('scroll', e.intersectionRatio < 1),
@@ -80,7 +77,6 @@ onMounted(() => {
   )
   observer.observe(el)
 })
-onUnmounted(() => { document.getElementById('favCount')?.removeEventListener('animationend', handleClass) })
 </script>
 
 <style lang="scss" scoped>

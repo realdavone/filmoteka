@@ -53,10 +53,6 @@ type BaseTitle = {
   episode?: number
 }
 
-interface FavoriteTitle extends BaseTitle {
-  inactive?: boolean
-}
-
 const store = inject<any>('store')
 
 const modal = ref<null | HTMLElement>(null)
@@ -158,11 +154,10 @@ aside.modal{
         }
         span.text{font-size:0.8rem;font-weight:700;}
         span.last-watched{
-          font-family:monospace;
           display:block;
           font-weight:bold;
           color:var(--theme-color);
-          font-size:0.8rem;
+          font-size:0.75rem;
         }
       }
       button.remove-item{
@@ -182,13 +177,16 @@ aside.modal{
     padding:0 1rem;
     margin-top:auto;
     button{
-      background:crimson;
+      background-color:#dc143cb0;
       padding:0.25rem 0.5rem;
       border-radius:0.25rem;
-      transition:0.2s ease background;
+      transition:0.2s ease background-color;
       font-size:0.75rem;
       font-weight:700;
-      color:var(--font-color-dark);
+      color:white;
+      &:hover{
+        background-color:crimson;
+      }
     }
   }
   span.no-items{

@@ -105,9 +105,10 @@ button.toggle-button[data-active=true]::before{ transform:translateX(13px) }
 button.retry-app-button{
   background-color: var(--theme-color);
   color:white;
-  padding:0.25rem 0.75rem;
+  padding:0.5rem 0.75rem;
   cursor:pointer;
   border-radius:0.5rem;
+  font-weight:700;
 }
 main.title{
   display:flex;
