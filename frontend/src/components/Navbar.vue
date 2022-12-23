@@ -104,7 +104,7 @@ nav{
   top:-1px;
   z-index:100;
   gap:10px;
-  transition:0.2s ease background-color;
+  transition:0.6s ease background-color;
   isolation:isolate;
   &.scroll{
   background-color:var(--background-color-alpha);

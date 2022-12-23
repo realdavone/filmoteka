@@ -29,7 +29,7 @@ a.menu-item, button.menu-item{
   align-items:center;
   flex-direction:column;
   justify-content:center;
-  gap:0.75rem;
+  gap:0.25rem;
   padding:0.5rem 0.75rem;
   border-radius:0.75rem;
   overflow:hidden;
@@ -45,7 +45,7 @@ a.menu-item, button.menu-item{
     text-align:center;
     line-height:1;
   }
-  span:last-of-type{
+  span.label{
     font-size:0.7rem;
     opacity:0.75;
   }

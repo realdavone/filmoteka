@@ -2,7 +2,10 @@
   <section id="player-holder" class="user-select-none">
     <div v-if="!props.source && props['isReady']['status'] === true" class="not-pressed">
       <Transition name="fade">
-        <div v-if="!isPlayerWorking" class="player-warning">Prehrávač bol označený ako nefunkčný</div>
+        <div v-if="!isPlayerWorking" class="player-warning">
+          <span class="material-icons-outlined">warning</span>
+          <span>Prehrávač bol označený ako nefunkčný</span>
+        </div>
       </Transition>
       <button v-if="store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn" @click="$emit('setPlayer')" class="play-button">&#9654;</button>
       <div v-else class="message">
@@ -74,14 +77,20 @@ section#player-holder{
   }
   div.player-warning{
     position:absolute;
-    top:1rem;
+    top:0;
     z-index:2;
     font-size:0.75rem;
-    text-align:center;
-    background-color:#dc143c80;
+    background-color:#dc143c;
     padding:0.5rem 1rem;
-    border-radius:1rem;
     color:var(--font-color-dark);
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:0.5rem;
+    justify-content:center;
+    span:first-of-type{
+      font-size:1rem;
+    }
   }
   div.message{
     display:flex;
@@ -114,7 +123,7 @@ section#player-holder{
     }
   }
   div.not-pressed{
-    padding:15px;
+    padding:1rem;
     width:100%;
     height:100%;
     display:flex;

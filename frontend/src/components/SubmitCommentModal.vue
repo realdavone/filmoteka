@@ -14,7 +14,7 @@
           <textarea ref="textarea" v-model="content" type="text" placeholder="Napíš komentár..."></textarea>
           <button :disabled="content.length === 0 || loading === true">
             Komentovať
-            <Loader v-if="loading" />
+            <Loader v-if="loading" border="3px" />
           </button>
         </form>
       </div>
@@ -98,11 +98,12 @@ div.modal{
     justify-content:space-between;
     align-items:center;
     div.user{
+      user-select:none;
       display:flex;
       align-items:center;
-      gap:0.25rem;
+      gap:0.5rem;
       span:first-of-type{ font-size:1.25rem; }
-      span:last-of-type{ font-size:0.85rem; }
+      span:last-of-type{ font-size:0.75rem; }
     }
   }
   form{

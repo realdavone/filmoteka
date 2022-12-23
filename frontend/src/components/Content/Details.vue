@@ -128,15 +128,12 @@ status.set('Returning Series', 'Pokračuje')
 
 <style lang="scss" scoped>
 div.details{
-  background-color:var(--card-color);
-  padding:1rem;
   display:grid;
   grid-template-columns:[start] repeat(auto-fill, minmax(180px, 1fr)) [end];
   gap:1rem;
   width:100%;
-  border-radius:1rem;
   div.item{
-    background-color:var(--card-color-hover);
+    background-color:var(--card-color);
     padding:0.5rem 1rem;
     display:flex;
     flex-direction:column;

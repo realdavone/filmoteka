@@ -6,7 +6,7 @@
       </div>
       <div class="right-col">
         <NavButton @handleClick="closeMenu">
-          <template #icon><span style="font-size:1.5rem;padding:0 0 5px 0;line-height:1;">&times;</span></template>
+          <template #icon><span style="font-size:1.5rem;font-weight:700;:5px;line-height:1;">&times;</span></template>
         </NavButton>
       </div>
     </header>
@@ -21,7 +21,7 @@
         </button>
       </section>
       <section class="menu-tabs">
-        <SidebarMenuTile v-for="link, i in links" :key="i" :link="link" @click="closeMenu()" />
+        <SidebarMenuTile v-for="link, i in links" :key="i" :link="link" @click="closeMenu" />
       </section>
       <section v-auto-animate class="menu-items">
         <SidebarMenuItem :link="visualMenuButton" @click="isVisualMenuOpened = !isVisualMenuOpened" :class="isVisualMenuOpened && 'active'"/>

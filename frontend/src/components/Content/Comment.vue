@@ -68,6 +68,7 @@ div.comment{
       div.date{
         font-size:0.65rem;
         opacity:0.5;
+        margin-bottom:0.5rem;
       }
       div.user{
         display:flex;

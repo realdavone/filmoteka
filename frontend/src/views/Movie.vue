@@ -12,7 +12,7 @@
           <template v-if="!loading">
             <ActionButton title="Skopírovať URL adresu" @handleClick="handleEvent('COPY_URL')" icon="link" />
             <template v-if="store.state.credentials.loggedIn">
-              <ActionButton title="Nahlásiť prehrávač" :loading="isPlayerWorking.isLoading" icon="report_problem" :warning="!isPlayerWorking.value" @handleClick="handleEvent('TOGGLE_WORKING_PLAYER')" />
+              <ActionButton title="Nahlásiť prehrávač" :loading="isPlayerWorking.isLoading" icon="report" :warning="!isPlayerWorking.value" @handleClick="handleEvent('TOGGLE_WORKING_PLAYER')" />
               <ActionButton title="Odporúčiť" :loading="isRecommended.isLoading"  icon="thumb_up" :disabled="isRecommended.value" @handleClick="handleEvent('ADD_RECOMMENDED')" />
               <ActionButton title="Označit ako prezrené" :success="store.methods.watched.exists({ type: route.name, id: route.params.id })" icon="visibility" @handleClick="handleEvent('TOGGLE_WATCHED')" />
               <ActionButton title="Pripnutie prehrávača" :success="store.state.settings.pinnedPlayer" icon="push_pin" @handleClick="handleEvent('TOGGLE_PINNED_PLAYER')" />
@@ -62,7 +62,7 @@
             {
               name: 'TMDB',
               rating: result?.vote_average,
-              url: `https://www.themoviedb.org/tv/${route.params.id}`
+              url: `https://www.themoviedb.org/movie/${route.params.id}`
             },
             ...(result?.omdb['imdbRating'] ? [{
               name: 'IMDB',

@@ -1,7 +1,7 @@
 <template>
   <section @click="emit('playEpisode', { season: info.season - 1, episode: info.episode - 1 })" :class="`episode-card ${playable && 'playable'} user-select-none`">
     <div class="episode-info">
-      <span class="label">{{label}}</span>
+      <div class="label">{{label}}</div>
       <div class="info">
         <span>{{`${info.season}.${info.episode}`}}</span>          
         <span>{{new Date(info.date).toLocaleDateString('sk-SK', { weekday: 'short', year: '2-digit', month: 'short', day: 'numeric' })}}</span>
@@ -40,10 +40,10 @@ section.episode-card{
       background-color:var(--card-color-hover);
     }
   }
-  span.label{
+  div.label{
     font-size:0.75rem;
     font-weight:900;
-    margin-bottom:2px;
+    margin-bottom:0.5rem;
     line-height:1;
   }
   div.info{
@@ -53,7 +53,6 @@ section.episode-card{
     align-items:center;
     line-height:1;
     span:first-of-type{
-      font-family:monospace,'Roboto Mono';
       color:var(--theme-color);
       font-weight:700;
     }
