@@ -19,7 +19,7 @@ const methods = {
       localStorage.setItem('favourites', JSON.stringify(state.favourites))
       notify({ type: doesExist === false ? 'success' : 'warn', text: doesExist === false ? 'Pridané do záložiek' : 'Odobrané zo záložiek' })
     },
-    update(id: number, season: number, episode: number){
+    update(id: string, season: number, episode: number){
       state.favourites = state.favourites.map(title => {
         if(title.id === id && title.type === 'Tv') return { ...title, episode, season }
         return title
@@ -168,7 +168,7 @@ const methods = {
 }
 
 type FavouriteItem = {
-  id: number 
+  id: string
   img: string
   title: string
   type: 'Movie' | 'Tv' 

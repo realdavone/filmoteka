@@ -75,7 +75,6 @@ section.discussion{
 span.no-comments{
   font-size:0.9rem;
   align-self:flex-start;
-  color:var(--alternative-color);
 }
 div.error{
   align-self:flex-start;

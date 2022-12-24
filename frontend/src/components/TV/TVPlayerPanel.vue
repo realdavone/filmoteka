@@ -125,7 +125,7 @@ const setPlayer = () => {
   playerSource.value = `https://www.2embed.to/embed/tmdb/tv?id=${props.id}&s=${currentSeasonAndEpisode.season + 1}&e=${currentSeasonAndEpisode.episode + 1}`
 
   if(store.state.favourites.some((item: any) => item.id === props.id.toString())){
-    store.methods.favourites.update(props.id, currentSeasonAndEpisode.season + 1, currentSeasonAndEpisode.episode + 1)
+    store.methods.favourites.update(props.id.toString(), currentSeasonAndEpisode.season + 1, currentSeasonAndEpisode.episode + 1)
   }
 }
 
