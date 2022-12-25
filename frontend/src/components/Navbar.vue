@@ -107,8 +107,9 @@ nav{
   transition:0.6s ease background-color;
   isolation:isolate;
   &.scroll{
-  background-color:var(--background-color-alpha);
-  backdrop-filter:blur(5px);
+    height:calc(var(--nav-height) + 1px);
+    background-color:var(--background-color-alpha);
+    backdrop-filter:blur(5px);
   }
   div.auth-buttons{
     display:flex;
