@@ -38,7 +38,7 @@
         <Rating v-for="(rating, i) in details.ratings" :key="i" size="normal" :name="rating.name" :url="rating.url || undefined" :rating="rating.rating || 'N/A'" />
       </div>
     </div>
-    <div class="item full-width" v-if="details.creators">
+    <div class="item full-width" v-if="details.creators?.length">
       <span class="label">Tvorci</span>
       <div class="creators">
         <div class="creator" v-for="creator in details.creators" :key="creator.id">
@@ -49,7 +49,7 @@
         </div>
       </div>
     </div>
-    <div class="item full-width" v-if="details.networks">
+    <div class="item full-width" v-if="details.networks?.length">
       <span class="label">Produkčné spoločnosti</span>
       <div class="networks">
         <img
