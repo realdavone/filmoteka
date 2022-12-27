@@ -6,6 +6,7 @@
       </template>
       <template #feedback>
         <Feedback v-if="!loading && store.state.credentials.loggedIn && (new Date()) > new Date(result!.first_air_date)" :likes="result?.likes" :dislikes="result?.dislikes" :title="{ id: $route.params.id as string, type: 'tv' }"/>
+        <div v-else style="display:none"></div>
       </template>
       <template #actionMenu>
         <ActionMenu>

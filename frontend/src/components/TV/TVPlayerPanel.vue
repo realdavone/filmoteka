@@ -14,7 +14,7 @@
       @setPlayer="setPlayer"
       />
     </section>
-    <div v-if="areThereAnyEpisodes && (store.state.globalSettings?.allowWatchWhileUnregistered || store.state.credentials.loggedIn)" class="season-episode">
+    <div v-if="props.hasFirstEpisodeAired && areThereAnyEpisodes && (store.state.globalSettings?.allowWatchWhileUnregistered || store.state.credentials.loggedIn)" class="season-episode">
       <button :class="{ 'disabled' : currentSeasonAndEpisode.season === 0 && currentSeasonAndEpisode.episode === 0 }" class="next-previous-episode" :disabled="currentSeasonAndEpisode.season === 0 && currentSeasonAndEpisode.episode === 0" @click="handleControls('backwards')" title="Predchádzajúca epizóda">&laquo;</button>
       <div class="season-select-holder user-select-none">
         <div class="selected-season" @click="isSeasonListOpened =! isSeasonListOpened">
@@ -52,7 +52,11 @@
       <button @click="setPlayer" class="play-button" title="Prehrať">&#9654;</button>
       <button :class="{'disabled':currentSeasonAndEpisode.season + 1 === seasons?.length && currentSeasonAndEpisode.episode + 1 === numberOfEpisodes}" class="next-previous-episode" :disabled="currentSeasonAndEpisode.season + 1 === seasons?.length && currentSeasonAndEpisode.episode + 1 === numberOfEpisodes" @click="handleControls('forwards')" title="Ďalšia epizóda">&raquo;</button>
     </div>
-    <EpisodeInfo :id="props.id" :season="currentSeasonAndEpisode.season + 1" :episode="currentSeasonAndEpisode.episode + 1" v-if="store.state.globalSettings?.allowWatchWhileUnregistered || store.state.credentials.loggedIn"/>
+    <EpisodeInfo
+    :id="props.id"
+    :season="currentSeasonAndEpisode.season + 1"
+    :episode="currentSeasonAndEpisode.episode + 1"
+    v-if="props.hasFirstEpisodeAired && (store.state.globalSettings?.allowWatchWhileUnregistered || store.state.credentials.loggedIn)" />
     <section v-if="(props['lastEpisode'] !== null || props['nextEpisode'] !== null) && (store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn)" class="episode-card-holder">
       <EpisodeCard 
       v-if="props['lastEpisode']"
