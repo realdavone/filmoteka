@@ -1,8 +1,17 @@
 <template>
   <section v-if="props.items?.length !== 0" class="items">
-    <component v-if="props.items === null" v-for="n in props.placeholderData.count" :key="n" :is="props.type === 'person' ? PersonPlaceholder : TitlePlaceholder" />
+    <component
+    class="item"
+    v-if="props.items === null"
+    v-for="n in props.placeholderData.count"
+    :key="n"
+    :is="props.type === 'person' ? PersonPlaceholder : TitlePlaceholder" />
     <template v-if="props.type === 'person'">
-      <Person v-for="person in (items as PersonSearchType[])" :key="person.id" :person="{
+      <Person
+      class="item"
+      v-for="person in (items as PersonSearchType[])"
+      :key="person.id"
+      :person="{
         profile_path: person.profile_path,
         name: person.name,
         known_for: person.known_for,
@@ -10,7 +19,11 @@
       }" />
     </template>
     <template v-else>
-      <Title v-for="title in (items as TitleType[])" :key="title.id" :title="{
+      <Title
+      class="item"
+      v-for="title in (items as TitleType[])"
+      :key="title.id"
+      :title="{
         media_type: title.media_type,
         id: title.id,
         poster_path: title.poster_path || undefined,
@@ -19,7 +32,7 @@
         vote_average: title.vote_average,
         overview: title.overview,
         backdrop_path: title.backdrop_path || undefined
-      }"/>
+      }" />
     </template>
   </section>
   </template>
@@ -37,9 +50,7 @@ import { PersonSearchType } from '../../types/person'
 
 const props = defineProps<{
   type: 'title' | 'person'
-  placeholderData: {
-    count: number
-  }
+  placeholderData: { count: number }
   items: Array<TitleType | PersonSearchType> | null
 }>()
 
@@ -52,6 +63,12 @@ section.items{
   gap:1rem;
 }
 @media screen and (max-width: 600px){
-  section.items{ gap:var(--container-padding)!important }
+  section.items{
+    gap:var(--container-padding)!important;
+    margin:0 calc(0px - var(--container-padding));
+  }
+  .item{
+    border-radius:0!important;
+  }
 }
 </style>

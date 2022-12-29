@@ -1,5 +1,5 @@
 <template>
-  <section class="outter user-select-none">
+  <section class="outter container user-select-none">
     <section class="inner">
       <div v-if="collection['backdrop_path']" class="background-image">
         <CoverPoster size="w1440_and_h320_multi_faces" :src="collection['backdrop_path']" alt="Obrázok kolekcie" :fadeInOnLoad="true" />
@@ -40,9 +40,11 @@ section.outter{
     flex-direction:column;
     justify-content:center;
     align-items:flex-start;
-    gap:20px;
+    gap:1rem;
     padding:var(--container-padding);
     position:relative;
+    border-radius:1rem;
+    overflow:hidden;
     div.background-image{
       position: absolute;
       top:0;
@@ -51,11 +53,13 @@ section.outter{
       right:0;
       -webkit-mask-image: linear-gradient(to left, #000000, #00000060);
       mask-image: linear-gradient(to left, #000000, #00000060);
+      filter:blur(5px);
     }
     span.heading{
       font-size:1.5rem;
       position:relative;
       z-index:1;
+      line-height:1;
     }
   }
 }

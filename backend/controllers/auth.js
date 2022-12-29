@@ -1,5 +1,4 @@
 import dotenv from 'dotenv'
-import express from 'express'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 
@@ -16,7 +15,7 @@ export const login = async (req, res) => {
     const user = await User.findOne({ email })
     if(user === null) return res.status(400).json({ success: false, message: 'Užívateľ s touto emailovou adresou neexistuje' })
 
-    if(user && await bcrypt.compare(password, user.password)){
+    if(user && bcrypt.compareSync(password, user.password)){
       const accessToken = jwt.sign({ id: user._id, email, isAdmin: user.isAdmin }, process.env.ACCESS_TOKEN_KEY, { expiresIn: process.env.ACCESS_TOKEN_EXPIRY_TIME || "30m" })
       const refreshToken = jwt.sign({ id: user._id }, process.env.REFRESH_TOKEN_KEY, { expiresIn: "7d" })
 
