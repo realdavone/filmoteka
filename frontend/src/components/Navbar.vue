@@ -17,10 +17,10 @@
       </NavButton>
       <template v-if="store.state.credentials.loggedIn">
         <NavButton class="icon-hide" title="Knižnica" @handleClick="$router.push('/library')">
-          <template #icon><span class="material-icons icon" style="padding-top:5px">video_library</span></template>
+          <template #icon><span class="material-icons-outlined icon" style="padding-top:5px">video_library</span></template>
         </NavButton>
         <NavButton class="icon-hide" title="Odporúčané" @handleClick="$router.push('/recommended')">
-          <template #icon><span class="material-icons" style="padding-top:5px">recommend</span></template>
+          <template #icon><span class="material-icons-outlined" style="padding-top:5px">recommend</span></template>
           <template #notification><span class="notification" v-if="store.state.notifications.recommended.length > 0"></span></template>
         </NavButton>
         <div id="fav-count" @click="bookmarksVisible = true">
@@ -104,12 +104,11 @@ nav{
   top:-1px;
   z-index:100;
   gap:10px;
-  transition:0.6s ease background-color;
+  transition:0.4s ease background-color;
   isolation:isolate;
   &.scroll{
     height:calc(var(--nav-height) + 1px);
-    background-color:var(--background-color-alpha);
-    backdrop-filter:blur(5px);
+    background-color:var(--background-color);
   }
   div.auth-buttons{
     display:flex;

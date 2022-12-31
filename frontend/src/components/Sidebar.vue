@@ -10,16 +10,14 @@
         </NavButton>
       </div>
     </header>
+    <section v-if="store.state.credentials.loggedIn" class="user">
+      <div class="greeting">
+        <Avatar :id="store.state.credentials.user._id" />
+        <span class="name">{{store.state.credentials.user.email}}</span>
+      </div>
+      <button class="logout-button" @click="logout(); closeMenu()" title="Odhlásiť">Odhlásiť</button>
+    </section>
     <main class="menu-content">
-      <section v-if="store.state.credentials.loggedIn" class="welcome">
-        <div class="greeting">
-          <Avatar :id="store.state.credentials.user._id" />
-          <span class="name">{{store.state.credentials.user.email}}</span>
-        </div>
-        <button class="logout-button" @click="logout(); closeMenu()" title="Odhlásiť">
-          <span class="material-icons-outlined">logout</span>
-        </button>
-      </section>
       <section class="menu-tabs">
         <SidebarMenuTile v-for="link, i in links" :key="i" :link="link" @click="closeMenu" />
       </section>
@@ -191,6 +189,28 @@ aside{
     transition: 0.2s ease background;
     background:var(--card-color);
   }
+  section.user{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background-color:var(--theme-color);
+    padding:0.5rem 0.75rem;
+    color:white;
+    div.greeting{
+      display:flex;
+      gap:0.5rem;
+      align-items:center;
+      span.name{
+        font-size:0.75rem;
+      }
+    }
+    button.logout-button{
+      line-height:1;
+      font-size:0.75rem;
+      font-weight:700;
+      text-transform:uppercase;
+    }
+  }
   main.menu-content{
     display:flex;
     flex-direction:column;
@@ -202,26 +222,6 @@ aside{
     overflow-x:hidden;
     &::-webkit-scrollbar{width:15px;height:15px;}
     &::-webkit-scrollbar-thumb{background:var(--card-color-hover);border:4px solid transparent;border-radius:10px;background-clip:content-box;}
-    section.welcome{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:1rem;
-      div.greeting{
-        display:flex;
-        gap:0.5rem;
-        align-items:center;
-        span.name{
-          font-size:0.75rem;
-        }
-      }
-      button.logout-button{
-        line-height:1;
-        span{
-          font-size:1rem;
-        }
-      }
-    }
     section.menu-items{
       display:flex;
       flex-direction:column;
