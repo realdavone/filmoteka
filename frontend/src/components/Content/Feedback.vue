@@ -63,15 +63,12 @@ const handleFeedback = async (action: 'like' | 'dislike') => {
 div.rating{
   display:flex;
   align-items:center;
-  background-color:var(--card-color);
-  border-radius:2rem;
   overflow:hidden;
   max-width:100px;
   button{
     display:flex;
     align-items:center;
     gap:0.35rem;
-    transition:0.2s ease background-color;
     padding:0.25rem 0.5rem;
     span:first-of-type{
       font-size:1.25rem;
@@ -80,9 +77,6 @@ div.rating{
     span:last-of-type{
       font-size:0.75rem;
       font-weight:700;
-    }
-    &:hover{
-      background-color:var(--card-color-hover);
     }
   }
 }

@@ -26,11 +26,7 @@
     </div>
     <div class="item" v-if="details.runtime">
       <span class="label">Trvanie</span>
-      {{details.runtime}}
-    </div>
-    <div class="item" v-if="details.genres?.length">
-      <span class="label">Žánre</span>
-      <router-link :to="`/library?type=${$route.name?.toString().toLowerCase()}&genre=${genre.id}`" :key="genre.id" v-for="genre in details.genres">{{genre.name}}</router-link>
+      {{`${Math.floor(details.runtime / 60) > 0 ? `${Math.floor(details.runtime / 60)}h` : ''} ${details.runtime % 60}m`}}
     </div>
     <div class="item full-width">
       <span class="label">Hodnotenia</span>
@@ -74,13 +70,9 @@ type Props = {
   details: {
     status?: string
     revenue?: number
-    runtime?: string | number
+    runtime?: number
     number_of_episodes?: number
     release_date?: string
-    genres?: Array<{
-      id: number
-      name: string
-    }>
     languages?: Array<{
       english_name: string
       iso_639_1: string
@@ -185,6 +177,9 @@ div.details{
       &:empty{
         display:none;
       }
+    }
+    &:has(div.networks:empty){
+      display:none!important;
     }
     &.full-width{
       grid-column-start:1;

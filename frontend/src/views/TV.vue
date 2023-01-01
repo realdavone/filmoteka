@@ -37,7 +37,16 @@
       <template #tagline>
         <span v-if="!loading" class="tagline">{{result?.tagline}}</span>
       </template>
-      <template #shortOverview>
+      <template #genres>
+        <div v-if="!loading" class="genres">
+          <router-link
+          :to="`/library?type=${$route.name?.toString().toLowerCase()}&genre=${genre.id}`"
+          :key="genre.id"
+          v-for="genre in result?.genres">{{genre.name}}
+          </router-link>    
+        </div>
+      </template>
+      <template #overview>
         <span v-if="!loading" class="overview">{{result?.overview || 'Žiadny prehľad'}}</span>
       </template>
       <template #player>
@@ -56,10 +65,9 @@
           status: result?.status,
           release_date: result?.first_air_date,
           number_of_episodes: result?.number_of_episodes,
-          runtime: result?.episode_run_time[0] && `${Math.floor(result?.episode_run_time[0] / 60)}h ${result?.episode_run_time[0] % 60}m`,
+          runtime: result?.episode_run_time[0], //result?.episode_run_time[0] && `${Math.floor(result?.episode_run_time[0] / 60)}h ${result?.episode_run_time[0] % 60}m`,
           languages: result?.spoken_languages,
           countries: result?.production_countries,
-          genres: result?.genres,
           networks: result?.networks.filter(network => network.logo_path !== ''),
           creators: result?.created_by.map(creator => { return {
               id: creator.id,

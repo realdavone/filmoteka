@@ -15,6 +15,9 @@
             </slot>
           </div>
           <div class="right-col">
+            <slot name="genres">
+              <div class="skeleton-text" style="height:calc(1rem);width:120px;"></div>
+            </slot>
             <slot name="title">
               <div class="skeleton-text" style="height:calc(1.5rem * 1.1);width:180px;margin-bottom:0.5rem"></div>
             </slot>
@@ -25,7 +28,7 @@
               <div class="skeleton-text" style="height:calc(0.75rem * 1.4);width:120px;"></div>
             </slot>
             <div class="overview">
-              <slot name="shortOverview">
+              <slot name="overview">
                 <div style="width:100%">
                   <div class="skeleton-text" style="height:calc(0.7rem * 1.4);margin-bottom:0.5rem;"></div>
                   <div class="skeleton-text" style="height:calc(0.7rem * 1.4);"></div>
@@ -152,18 +155,17 @@ div.overview{
   align-self:stretch;
 }
 :slotted(div.under-title){
-  margin-top:calc(0px - (var(--right-col-gap) / 2));
+  margin-top:calc(0px - var(--right-col-gap) / 1.6);
   span{
     font-size:0.75rem;
     &.rated{
-      padding:1px 0.3rem;
-      border-radius:4px;
+      padding:2px 5px 1px;
+      border-radius:0.35rem;
       mix-blend-mode: difference;
-      font-size:0.65rem;
       background-color:var(--font-color);
       color:var(--background-color);
       line-height:1;
-      margin-right:8px;
+      margin-right:0.5rem;
       font-weight:900;
     }
   }
@@ -172,8 +174,9 @@ div.overview{
   font-size:0.75rem;
   font-weight:700;
   display:flex;
-  gap:8px;
+  gap:0.75rem;
   flex-wrap:wrap;
+  a:hover{ opacity:0.75; }
   &:empty{ display:none }
 }
 div.under-title{

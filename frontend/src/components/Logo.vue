@@ -1,5 +1,5 @@
 <template>
-  <svg :height="props.height" viewBox="0 0 400 477" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+  <svg :height="height" viewBox="0 0 400 477" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
     <g transform="matrix(1,0,0,1,-515.435,-354.783)">
       <g transform="matrix(0.898289,0,0,0.941581,52.4256,20.7261)">
         <path d="M960,478.534C960,410.188 901.924,354.783 830.285,354.783L645.15,354.783C573.51,354.783 515.435,410.188 515.435,478.534L515.435,737.118C515.435,805.464 573.51,860.87 645.15,860.87L830.285,860.87C901.924,860.87 960,805.464 960,737.118L960,478.534Z" style="fill:var(--theme-color);"/>
@@ -14,16 +14,9 @@
 <script setup lang="ts">
 import { withDefaults } from 'vue'
 
-const props = withDefaults(defineProps<{
+const { height } = withDefaults(defineProps<{
   height: number
 }>(), {
   height: () => 40
 })
 </script>
-
-<style lang="scss" scoped>
-a{
-  display:flex;
-  align-items:center;
-}
-</style>

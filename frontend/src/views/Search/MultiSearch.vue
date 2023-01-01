@@ -89,7 +89,7 @@ section.title-holder{
   section.right-col, section.left-col{
     display:flex;
     flex-direction:column;
-    gap:20px;
+    gap:1rem;
   }
   section.right-col{width:500px;}
   section.left-col{width:100%;}

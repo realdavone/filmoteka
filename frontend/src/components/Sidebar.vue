@@ -206,9 +206,12 @@ aside{
     }
     button.logout-button{
       line-height:1;
-      font-size:0.75rem;
+      font-size:0.65rem;
       font-weight:700;
       text-transform:uppercase;
+      &:hover{
+        text-decoration:underline;
+      }
     }
   }
   main.menu-content{
@@ -216,7 +219,7 @@ aside{
     flex-direction:column;
     gap:1rem;
     overflow-y:scroll;
-    padding:1.5rem 0.75rem 0.5rem;
+    padding:0.75rem 0.75rem 0.5rem;
     background:var(--card-color);
     min-height:calc(100vh - var(--nav-height));
     overflow-x:hidden;

@@ -3,7 +3,7 @@
     <form class="search-form" @submit.prevent="submitQuery" autocomplete="off">
       <div class="select user-select-none">
         <div class="selected-option" @click.prevent="isOptionsMenuOpened = !isOptionsMenuOpened">
-          <span class="material-icons" style="font-size:1.5rem;">menu</span>      
+          <span class="material-icons-outlined" style="font-size:1.25rem;">menu</span>      
         </div>
         <Transition name="fade">
           <div ref="optionsMenu" v-if="isOptionsMenuOpened" class="options">
@@ -113,7 +113,7 @@ div.select{
   isolation:isolate;
   div.options{
     position:absolute;
-    background:var(--card-color);
+    background:var(--background-color);
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
     border-radius:8px;
     overflow:hidden;

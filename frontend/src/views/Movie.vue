@@ -36,7 +36,16 @@
       <template #tagline>
         <span v-if="!loading" class="tagline">{{result?.tagline}}</span>
       </template>
-      <template #shortOverview>
+      <template #genres>
+        <div v-if="!loading" class="genres">
+          <router-link
+          :to="`/library?type=${$route.name?.toString().toLowerCase()}&genre=${genre.id}`"
+          :key="genre.id"
+          v-for="genre in result?.genres">{{genre.name}}
+          </router-link>    
+        </div>
+      </template>
+      <template #overview>
         <span v-if="!loading" class="overview">{{result?.overview || 'Žiadny prehľad'}}</span>
       </template>
       <template #player>
@@ -52,10 +61,9 @@
           status: result?.status,
           release_date: result?.release_date,
           revenue: result?.revenue,
-          runtime: result?.runtime && `${Math.floor(result?.runtime / 60)}h ${result?.runtime % 60}m` || 0,
+          runtime: result?.runtime || undefined,
           languages: result?.spoken_languages,
           countries: result?.production_countries,
-          genres: result?.genres,
           creators: _.sortCreators(result!.credits.crew.sort((a, b) => b['popularity'] - a['popularity']).slice(0, 5)),
           networks: result?.production_companies,
           ratings: [
