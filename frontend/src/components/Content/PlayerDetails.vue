@@ -174,7 +174,8 @@ div.overview{
   font-size:0.75rem;
   font-weight:700;
   display:flex;
-  gap:0.75rem;
+  column-gap:0.75rem;
+  row-gap:0.25rem;
   flex-wrap:wrap;
   a:hover{ opacity:0.75; }
   &:empty{ display:none }
