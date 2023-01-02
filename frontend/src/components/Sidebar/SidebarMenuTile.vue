@@ -6,7 +6,9 @@
   class="menu-item"
   v-bind="{ ...(link.isLink ? { to: link.route } : null) }"
   @click.native="emit('click')">
-    <div class="icon" v-html="link.icon"></div>
+    <div class="icon">
+      <span class="material-icons-outlined">{{ link.icon }}</span>
+    </div>
     <span class="label">{{link.label}}</span>
   </component>
 </template>
@@ -31,24 +33,23 @@ a.menu-item, button.menu-item{
   justify-content:center;
   gap:0.25rem;
   padding:0.5rem 0.75rem;
-  border-radius:0.75rem;
   overflow:hidden;
   transition:0.2s ease background-color;
   aspect-ratio:1;
-  background:var(--card-color-hover);
-  &.active{
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
   div.icon{
     width:25px;
     text-align:center;
     line-height:1;
+    span{
+      font-size:1.5rem;
+    }
   }
   span.label{
-    font-size:0.7rem;
-    opacity:0.75;
+    font-size:0.75rem;
   }
-  &.router-link-exact-active{ background:var(--theme-color); color:white }
+  &.router-link-exact-active{
+    color:var(--theme-color);
+    font-weight:700;
+  }
 }
 </style>

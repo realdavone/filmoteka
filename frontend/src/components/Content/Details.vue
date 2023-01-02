@@ -6,11 +6,23 @@
     </div>
     <div class="item" v-if="details.languages?.length">
       <span class="label">Audio</span>
-      <span v-for="language in details.languages" :key="language.iso_639_1">{{language.english_name}}</span>
+      <div>
+        <span
+        class="comma-after"
+        v-for="language in details.languages"
+        :key="language.iso_639_1">{{language.english_name}}</span>
+      </div>
     </div>
     <div class="item" v-if="details.countries?.length">
       <span class="label">Pôvod</span>
-      <span v-for="country in details.countries" :key="country.iso_3166_1">{{store.state.countries[country.iso_3166_1.toLowerCase()]}}</span>
+      <div>
+        <span
+        class="comma-after"
+        v-for="country in details.countries"
+        :key="country.iso_3166_1">
+        {{store.state.countries[country.iso_3166_1.toLowerCase()]}}
+      </span>
+      </div>
     </div>
     <div class="item" v-if="details.revenue">
       <span class="label">Zárobok</span>

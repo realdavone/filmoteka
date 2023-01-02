@@ -10,7 +10,7 @@
         </NavButton>
       </div>
     </header>
-    <section v-if="store.state.credentials.loggedIn" class="user">
+    <section v-if="store.state.credentials.loggedIn" class="user-select-none user">
       <div class="greeting">
         <Avatar :id="store.state.credentials.user._id" />
         <span class="name">{{store.state.credentials.user.email}}</span>
@@ -75,35 +75,35 @@ const isRecentItemsMenuOpened = ref(false)
 
 const links = [
   {
-    icon: `<span class="material-icons">home</span>`,
+    icon: `home`,
     label: 'Domov',
     isLink: true,
     route: '/',
     shown: true
   },
   {
-    icon: `<span class="material-icons">video_library</span>`,
+    icon: `video_library`,
     label: 'Knižnica',
     isLink: true,
     route: '/library',
     shown: true
   },
   {
-    icon: `<span class="material-icons">recommend</span>`,
+    icon: `recommend`,
     label: 'Odporúčané',
     isLink: true,
     route: '/recommended',
     shown: true
   },
   {
-    icon: '<span class="material-icons">settings</span>',
+    icon: 'settings',
     label: 'Admin',
     isLink: true,
     route: '/admin',
     shown: store.state.credentials.user?.isAdmin || false
   },
   {
-    icon: '<span class="material-icons">lock</span>',
+    icon: 'lock',
     label: 'DMCA',
     isLink: true,
     route: '/dmca',
@@ -112,7 +112,7 @@ const links = [
 ]
 
 const visualMenuButton = {
-  icon: '<span style="font-size:1.25rem" class="material-icons">brush</span>',
+  icon: '<span style="font-size:1.25rem" class="material-icons-outlined">brush</span>',
   label: 'Vizuálne nastavenia',
   isLink: false,
   route: null,
@@ -120,7 +120,7 @@ const visualMenuButton = {
 }
 
 const recentItemsMenuButton = {
-  icon: '<span style="font-size:1.25rem" class="material-icons">history</span>',
+  icon: '<span style="font-size:1.25rem" class="material-icons-outlined">history</span>',
   label: 'Posledne navštívené',
   isLink: false,
   route: null,
@@ -151,6 +151,7 @@ aside{
   display:flex;
   flex-direction:column;
   overflow:hidden;
+  background:var(--card-color);
   header{
     display:flex;
     align-items:center;
@@ -174,7 +175,6 @@ aside{
     display:flex;
     flex-direction:column;
     gap:1rem;
-    background:var(--card-color-hover);
     padding:1rem;
     border-bottom-right-radius:2rem;
     border-bottom-left-radius:2rem;
@@ -233,7 +233,6 @@ aside{
     section.menu-tabs{
       display:grid;
       grid-template-columns:repeat(3, 1fr);
-      gap:1rem
     }
     div.theme-picker{
       display:flex;
