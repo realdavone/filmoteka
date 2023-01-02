@@ -23,13 +23,15 @@
         </ActionMenu>
       </template>
       <template #title>
-        <span v-if="!loading" class="title">{{result?.name}}</span>
+        <h1 v-if="!loading" class="title">
+          {{result?.name}}
+          <span v-if="result?.omdb.Year">({{result.omdb.Year}})</span>
+        </h1>
       </template>
       <template #subtitle>
         <template v-if="!loading">
           <div class="under-title">
             <span class="rated">{{!result?.omdb['Rated']||result?.omdb['Rated']==='N/A'?'Not Rated':result?.omdb['Rated']}}</span>
-            <span v-if="result?.omdb.Year" class="bullet-after">{{result.omdb.Year}}</span>
             <span v-if="result?.name !== result?.original_name" class="bullet-after">{{result?.original_name}}</span>
           </div>
         </template>

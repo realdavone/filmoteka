@@ -56,9 +56,10 @@ div.rating, a.rating{
   }
   span.name{
     position:absolute;
-    top:calc(100% + 0.5rem);
+    top:calc(100% + 0.65rem);
     text-align:center;
     font-size:var(--font-size-name);
+    line-height:1.1;
   }
   &.normal{
     --width:2.75rem;

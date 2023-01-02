@@ -22,7 +22,7 @@
               <div class="skeleton-text" style="height:calc(1.5rem * 1.1);width:180px;margin-bottom:0.5rem"></div>
             </slot>
             <slot name="subtitle">
-              <div class="skeleton-text" style="height:calc(0.75rem * 1.4);width:100px;"></div>
+              <div class="skeleton-text" style="height:calc(0.75rem * 1.4);width:100px;margin-top:calc(0px - var(--right-col-gap) / 1.3);"></div>
             </slot>
             <slot name="tagline">
               <div class="skeleton-text" style="height:calc(0.75rem * 1.4);width:120px;"></div>
@@ -105,7 +105,7 @@ section.container{
       flex-direction:column;
       gap:1.5rem;
       width:100%;
-      max-width:900px;
+      max-width:1000px;
       align-self:center;
       z-index:1;
       div.top-row{
@@ -137,10 +137,14 @@ section.container{
     align-self:flex-start;
   }
 }
-:slotted(span.title){
+:slotted(h1.title){
   line-height:1.1;
   font-size:2rem;
   font-weight:700;
+  span{
+    opacity:0.5;
+    font-weight:400;
+  }
 }
 :slotted(span.tagline){
   font-size:0.8rem;
@@ -155,7 +159,7 @@ div.overview{
   align-self:stretch;
 }
 :slotted(div.under-title){
-  margin-top:calc(0px - var(--right-col-gap) / 1.6);
+  margin-top:calc(0px - var(--right-col-gap) / 1.3);
   span{
     font-size:0.75rem;
     &.rated{

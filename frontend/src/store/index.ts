@@ -3,6 +3,70 @@ import { reactive } from 'vue'
 import { notify } from "@kyvg/vue3-notification"
 const baseURL = import.meta.env.VITE_BASE_URL
 
+type FavouriteItem = {
+  id: string
+  img: string
+  title: string
+  type: 'Movie' | 'Tv' 
+  episode?: number
+  season?: number
+}
+
+type WatchedItem = Omit<FavouriteItem, 'img'>
+
+type RecentItem = {
+  id: number 
+  poster: string
+  title: string
+  type: 'Movie' | 'Tv' 
+}
+
+type LocalSettings = {
+  darkTheme: boolean
+  pinnedPlayer: boolean
+  themeColors: {
+    colors: Array<string>
+    mainColor: null | string 
+  }
+}
+
+type Notifications= {
+  recommended: Array<any>
+}
+
+interface User {
+  _id: string
+  email: string
+  isAdmin: boolean
+}
+
+interface Credentials {
+  user: null | User
+  accessToken: null | string
+  loggedIn: boolean
+}
+
+interface GlobalSettings {
+  allowRegistration: boolean
+  allowWatchWhileUnregistered: boolean
+}
+
+export interface GlobalState {
+  favourites: Array<FavouriteItem>
+  watched: Array<WatchedItem>
+  countries: Map<string, string>
+  genres: {
+    movie: Map<number, { key: number, value: string }>
+    tv: Map<number, { key: number, value: string }>
+  }
+  recentSearch: Array<string>
+  recentItems: Array<RecentItem>
+  settings: LocalSettings
+  notifications: Notifications
+  credentials: Credentials
+  globalSettings: null | GlobalSettings
+}
+
 const methods = {
   favourites: {
     populate(){
@@ -165,70 +229,6 @@ const methods = {
       })
     }
   }
-}
-
-type FavouriteItem = {
-  id: string
-  img: string
-  title: string
-  type: 'Movie' | 'Tv' 
-  episode?: number
-  season?: number
-}
-
-type WatchedItem = Omit<FavouriteItem, 'img'>
-
-type RecentItem = {
-  id: number 
-  poster: string
-  title: string
-  type: 'Movie' | 'Tv' 
-}
-
-type LocalSettings = {
-  darkTheme: boolean
-  pinnedPlayer: boolean
-  themeColors: {
-    colors: Array<string>
-    mainColor: null | string 
-  }
-}
-
-type Notifications= {
-  recommended: Array<any>
-}
-
-interface User {
-  _id: string
-  email: string
-  isAdmin: boolean
-}
-
-interface Credentials {
-  user: null | User
-  accessToken: null | string
-  loggedIn: boolean
-}
-
-interface GlobalSettings {
-  allowRegistration: boolean
-  allowWatchWhileUnregistered: boolean
-}
-
-export interface GlobalState {
-  favourites: Array<FavouriteItem>
-  watched: Array<WatchedItem>
-  countries: Map<string, string>
-  genres: {
-    movie: Map<number, { key: number, value: string }>
-    tv: Map<number, { key: number, value: string }>
-  }
-  recentSearch: Array<string>
-  recentItems: Array<RecentItem>
-  settings: LocalSettings
-  notifications: Notifications
-  credentials: Credentials
-  globalSettings: null | GlobalSettings
 }
 
 const state = reactive<GlobalState>({
