@@ -142,10 +142,6 @@ nav{
     max-width:500px;
   }
 }
-.scaleup{
-  animation-name:scaleup;
-  animation-duration:0.4s;
-}
 @media screen and (max-width: 600px) {
   .icon-hide{ display:none!important }
   aside.modal{

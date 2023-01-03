@@ -6,11 +6,12 @@
       </template>
       <template #feedback>
         <Feedback v-if="!loading && store.state.credentials.loggedIn && (new Date()) > new Date(result!.release_date)" :likes="result?.likes" :dislikes="result?.dislikes" :title="{ id: $route.params.id as string, type: 'movie' }"/>
+        <div v-else style="display:none"></div>
       </template>
       <template #actionMenu>
         <ActionMenu>
           <template v-if="!loading">
-            <ActionButton title="Skopírovať URL adresu" @handleClick="handleEvent('COPY_URL')" icon="link" />
+            <ActionButton title="Skopírovať URL adresu" icon="link" @handleClick="handleEvent('COPY_URL')" />
             <template v-if="store.state.credentials.loggedIn">
               <ActionButton title="Nahlásiť prehrávač" :loading="isPlayerWorking.isLoading" icon="report" :warning="!isPlayerWorking.value" @handleClick="handleEvent('TOGGLE_WORKING_PLAYER')" />
               <ActionButton title="Odporúčiť" :loading="isRecommended.isLoading"  icon="thumb_up" :disabled="isRecommended.value" @handleClick="handleEvent('ADD_RECOMMENDED')" />

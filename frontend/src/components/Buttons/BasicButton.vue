@@ -16,7 +16,7 @@ const props = withDefaults(defineProps<{
 <style lang="scss" scoped>
 button{
   padding:0.5rem 0.75rem;
-  border-radius:0.5rem;
+  border-radius:1rem;
   font-weight:700;
   font-size:0.75rem;
   position: relative;

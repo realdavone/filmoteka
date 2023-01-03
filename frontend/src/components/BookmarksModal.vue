@@ -8,22 +8,27 @@
         </header>
         <section v-if="store.state.favourites.length !== 0" class="title-holder">
           <div class="search-input-holder">
+            <span class="material-icons-outlined">search</span>
             <input v-model="searchInput" class="search-input" type="text" placeholder="Vyhľadávanie">
-            <button v-if="searchInput !== ''" class="clear-search" @click="searchInput = ''">&times;</button>
+            <button v-if="searchInput.length" class="clear-search" @click="searchInput = ''">&times;</button>
           </div>
           <ul v-auto-animate>
             <li :class="{ 'inactive' : title.inactive }" class="title" v-for="title in items" :key="title.id">
               <router-link tabindex="0" @click.native="$emit('close')" :to="{ name: title.type, params: { id: title.id } }">
                 <div class="poster">
-                  <img v-if="title.img" :src="`https://image.tmdb.org/t/p/w45_and_h45_face${title.img}`" :alt="title.title" loading="lazy">
+                  <img v-if="title.img" :src="`https://image.tmdb.org/t/p/w92${title.img}`" :alt="title.title" loading="lazy">
                 </div>
+                <!--
                 <TypeIcon class="icon" :type="title.type"/>
+                -->
                 <div>
                   <span class="text">{{title.title}}</span>
                   <span v-if="title.season !== undefined" class="last-watched" title="Posledná prehraná epizóda">{{title.season}}.{{`${title.episode < 10 ? '0' + title.episode : title.episode}`}}</span>
                 </div>
               </router-link>
-              <button class="remove-item" @click="store.methods.favourites.toggle({ id: title.id, type: title.type })" title="Odobrať">&times;</button>
+              <button class="remove-item" @click="store.methods.favourites.toggle({ id: title.id, type: title.type })" title="Odobrať">
+                <span class="material-icons">remove_circle_outline</span>
+              </button>
             </li>
           </ul>
         </section>
@@ -101,12 +106,16 @@ aside.modal{
     div.search-input-holder{
       display:flex;
       align-items:center;
-      gap:0.5rem;
-      background:var(--card-color-hover);
+      gap:0.25rem;
+      outline:2px solid var(--card-color);
       padding:0 10px;
       border-radius:1rem;
       overflow:hidden;
-      margin:0 0 0.5rem;
+      margin:1px 0 0.5rem;
+      span:first-of-type{
+        font-size:1.25rem;
+        opacity:0.5;
+      }
       input.search-input{
         color:inherit;
         width:100%;
@@ -118,22 +127,23 @@ aside.modal{
         line-height:1;
         opacity:0.5;
       }
+      &:focus-within{
+        outline-color:var(--theme-color);
+      }
     }
     li.title{
       display:flex;
       justify-content:space-between;
       align-items:center;
-      gap:1rem;
-      padding:0.5rem;
+      gap:0.75rem;
+      padding:0.75rem 0;
       transition:0.2s ease background;
       position:relative;
-      margin-bottom:0.5rem;
-      border-radius:1rem;
-      background-color:var(--card-color);
+      border-bottom:1px solid var(--card-color-hover);
       a{
         display:flex;
         align-items:center;
-        gap:0.5rem;
+        gap:0.75rem;
         width:100%;
         span.icon{
           background:var(--theme-color);
@@ -143,14 +153,18 @@ aside.modal{
           display:inline-flex;
           min-width:24px;
           height:24px;
-          i{font-size:0.7rem;}
+          i{ font-size:0.7rem }
         }
         div.poster{
           aspect-ratio:1;
-          width:2rem;
-          border-radius:0.5rem;
+          height:3rem;
           overflow:hidden;
-          img{width:100%;height:100%;}
+          border-radius:0.5rem;
+          img{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+          }
         }
         span.text{font-size:0.8rem;font-weight:700;}
         span.last-watched{
@@ -160,15 +174,15 @@ aside.modal{
           font-size:0.75rem;
         }
       }
-      button.remove-item{
-        font-size:1rem;
-        color:crimson;
+      button.remove-item{     
         font-weight:900;
-        padding-bottom:4px;
+        span{
+          font-size:1rem;
+          opacity:0.5;
+        }
       }
       &.inactive{ opacity:0.25 }
-      &:last-of-type{ margin-bottom:0 }
-      &:active{ background:var(--card-color-hover) }
+      &:last-of-type{ border-bottom:none; }
     }
   }
   div.bin-holder{

@@ -1,7 +1,7 @@
 <template>
   <button :class="`action-button ${props.warning ? 'warning' : ''} ${props.success ? 'success' : ''}`" @click="$emit('handleClick')">
-    <span v-if="!props.loading" class="material-icons icon">{{props.icon}}</span>
-    <Loader v-else border="3px" height="12px" />
+    <span v-if="!props.loading" class="material-icons-outlined">{{props.icon}}</span>
+    <Loader v-else :border="'3px'" height="12px" />
   </button>
 </template>
 

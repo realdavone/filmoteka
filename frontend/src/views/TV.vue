@@ -11,7 +11,7 @@
       <template #actionMenu>
         <ActionMenu>
           <template v-if="!loading">
-            <ActionButton title="Skopírovať URL adresu" @handleClick="handleEvent('COPY_URL')" icon="link" />
+            <ActionButton title="Skopírovať URL adresu" icon="link" @handleClick="handleEvent('COPY_URL')" />
             <template v-if="store.state.credentials.loggedIn">
               <ActionButton title="Nahlásiť prehrávač" :loading="isPlayerWorking.isLoading" icon="report" :warning="!isPlayerWorking.value" @handleClick="handleEvent('TOGGLE_WORKING_PLAYER')" />
               <ActionButton title="Odporúčiť" :loading="isRecommended.isLoading"  icon="thumb_up" :disabled="isRecommended.value" @handleClick="handleEvent('ADD_RECOMMENDED')" />

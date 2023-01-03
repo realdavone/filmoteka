@@ -178,6 +178,7 @@ aside{
     padding:1rem;
     border-bottom-right-radius:2rem;
     border-bottom-left-radius:2rem;
+    background:var(--card-color-hover);
   }
   div.recent-items{
     background:var(--card-color-hover);

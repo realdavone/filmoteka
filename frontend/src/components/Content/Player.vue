@@ -12,7 +12,7 @@
         <span class="material-icons-outlined icon">lock</span>
         <div class="right">
           <span class="message">Pre sledovanie je nutné sa prihlásiť</span>
-          <button class="locked-player" @click="$router.push('/login')">Prihlásiť sa</button>
+          <BasicButton text="Prihlásiť sa" @handleClick="$router.push('/login')" />
         </div>
       </div>
     </div>
@@ -32,6 +32,7 @@
 <script setup lang="ts">
 import useEvent from '../../composables/event'
 import Loader from '../Loader.vue'
+import BasicButton from '../Buttons/BasicButton.vue'
 import { ref, inject } from 'vue'
 
 const store = inject<any>('store')
@@ -111,10 +112,11 @@ section#player-holder{
       }
       button{
         background-color:white;
-        padding:0.25rem 1rem;
+        padding:0.5rem 1rem;
         border-radius:2rem;
         color:black;
         transition:0.2s ease all;
+        font-weight:700;
         &:hover{
           background-color:var(--theme-color);
           color:white
@@ -123,7 +125,7 @@ section#player-holder{
     }
   }
   div.not-pressed{
-    padding:1rem;
+    padding:2.5rem;
     width:100%;
     height:100%;
     display:flex;
