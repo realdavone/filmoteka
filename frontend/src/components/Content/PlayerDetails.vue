@@ -22,7 +22,7 @@
               <div class="skeleton-text" style="height:calc(1.5rem * 1.1);width:180px;margin-bottom:0.5rem"></div>
             </slot>
             <slot name="subtitle">
-              <div class="skeleton-text" style="height:calc(0.75rem * 1.4);width:100px;margin-top:calc(0px - var(--right-col-gap) / 1.3);"></div>
+              <div class="skeleton-text" style="height:calc(0.75rem * 1.4);width:100px;"></div>
             </slot>
             <slot name="tagline">
               <div class="skeleton-text" style="height:calc(0.75rem * 1.4);width:120px;"></div>
@@ -159,7 +159,6 @@ div.overview{
   align-self:stretch;
 }
 :slotted(div.under-title){
-  margin-top:calc(0px - var(--right-col-gap) / 1.3);
   span{
     font-size:0.75rem;
     &.rated{
