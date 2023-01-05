@@ -67,7 +67,7 @@ import Auth from '../auth/main'
 import useEvent from '../composables/event'
 
 const store = inject<any>('store')
-const menu = ref(null)
+const menu = ref<null | HTMLDivElement>(null)
 const emit = defineEmits(['closeMenu','menu'])
 
 const isVisualMenuOpened = ref(false)
@@ -129,7 +129,7 @@ const recentItemsMenuButton = {
 
 const logout = () => Auth.logout().then(res => notify({ type: 'success', text: res.message }))
 
-const closeAtEscapeKeydown = (e: any) => { if(e.code === 'Escape') closeMenu() }
+const closeAtEscapeKeydown = (e: KeyboardEvent) => { if(e.code === 'Escape') closeMenu() }
 
 useEvent({ target: document, event: 'keydown', callback: closeAtEscapeKeydown })
 
@@ -151,7 +151,9 @@ aside{
   display:flex;
   flex-direction:column;
   overflow:hidden;
-  background:var(--card-color);
+  background-color:var(--background-color);
+  box-shadow: 2px 0px 8px 0px rgba(0,0,0,0.75);
+
   header{
     display:flex;
     align-items:center;
@@ -178,17 +180,16 @@ aside{
     padding:1rem;
     border-bottom-right-radius:2rem;
     border-bottom-left-radius:2rem;
-    background:var(--card-color-hover);
+    background:var(--card-color);
   }
   div.recent-items{
-    background:var(--card-color-hover);
+    background:var(--card-color);
     padding:1rem;
     border-bottom-right-radius:2rem;
     border-bottom-left-radius:2rem;
   }
   header, main.menu-content{
     transition: 0.2s ease background;
-    background:var(--card-color);
   }
   section.user{
     display:flex;
@@ -221,11 +222,10 @@ aside{
     gap:1rem;
     overflow-y:scroll;
     padding:0.75rem 0.75rem 0.5rem;
-    background:var(--card-color);
     min-height:calc(100vh - var(--nav-height));
     overflow-x:hidden;
     &::-webkit-scrollbar{width:15px;height:15px;}
-    &::-webkit-scrollbar-thumb{background:var(--card-color-hover);border:4px solid transparent;border-radius:10px;background-clip:content-box;}
+    &::-webkit-scrollbar-thumb{background:var(--card-color);border:4px solid transparent;border-radius:10px;background-clip:content-box;}
     section.menu-items{
       display:flex;
       flex-direction:column;

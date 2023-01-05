@@ -6,18 +6,15 @@
           <span>Registrácia</span>
           <CloseButton @click="history.state.back === null ? router.push('/') : router.go(-1)"/>
         </header>
-        <form class="form" @submit.prevent="register">
+        <form class="form" @submit.prevent="register" autocomplete="off">
           <div class="input">
-            <span>&commat;</span>
-            <input v-model="credentials.email" type="email" name="email" placeholder="Email" autocomplete="email" required>
+            <input v-model="credentials.email" type="email" name="email" placeholder="Email" autocomplete="off" required>
           </div>
           <div class="input">
-            <span>&#x66D;</span>
-            <input v-model="credentials.password" type="password" name="password" placeholder="Heslo" autocomplete="current-password" required>
+            <input v-model="credentials.password" type="password" name="password" placeholder="Heslo" autocomplete="off" required>
           </div>
           <div class="input">
-            <span>&#x66D;</span>
-            <input v-model="credentials.repeatPassword" type="password" name="password" placeholder="Zopakovať heslo" autocomplete="new-password" required>
+            <input v-model="credentials.repeatPassword" type="password" name="password" placeholder="Zopakovať heslo" autocomplete="off" required>
           </div>
           <div v-if="error" class="error">{{error}}</div>
           <button :disabled="registerStart" type="submit">

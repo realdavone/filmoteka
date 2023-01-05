@@ -8,18 +8,18 @@
         </header>
         <form class="form" @submit.prevent="login">
           <div class="input">
-            <span>&commat;</span>
             <input v-model="credentials.email" type="email" name="email" placeholder="Email" autocomplete="email" required>
           </div>
           <div class="input">
-            <span>&#x66D;</span>
             <input v-model="credentials.password" type="password" name="password" placeholder="Heslo" autocomplete="current-password" required>
           </div>
           <button :disabled="loginStart" type="submit">
             <span>Prihlásiť</span>
             <Loader v-if="loginStart" color="white" :border="'3px'" />
           </button>
-          <div id="buttonDiv" style="align-self:center;height:32px;"></div>
+          <div class="google-button" style="width:100%;overflow:hidden;display:flex;justify-content:center;border-radius: 4px;">
+            <div id="buttonDiv" style="align-self:center;height:32px;"></div>
+          </div>
         </form>
         <router-link tabindex="0" v-if="store.state.globalSettings?.allowRegistration" to="/register" class="link">Ešte nemáte účet?</router-link>
       </section>
@@ -65,11 +65,13 @@ onMounted(() => {
   })
   google.accounts.id.renderButton(
     document.getElementById("buttonDiv") as HTMLElement, {
-      theme: 'filled_blue',
+      theme: 'outline',
       size: "medium",
-      text: 'continue_with',
-      shape: 'pill',
-      type: 'standard'
+      text: 'signin_with',
+      shape: 'rectangular',
+      type: 'standard',
+      width: '352',
+      logo_alignment: 'center'
     }
   )
 })

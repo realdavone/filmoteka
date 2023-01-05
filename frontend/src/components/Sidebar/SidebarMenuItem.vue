@@ -36,7 +36,7 @@ a.menu-item, button.menu-item{
   transition:0.2s ease all;
   min-height:38px;
   &.active{
-    background:var(--card-color-hover);
+    background:var(--card-color);
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }
@@ -47,7 +47,7 @@ a.menu-item, button.menu-item{
   }
   span:nth-child(1){ font-size:1.25rem }
   span:nth-child(2){ font-size:0.85rem }
-  &:hover{ background:var(--card-color-hover) }
+  &:hover{ background:var(--card-color) }
   &.router-link-exact-active{ background:var(--theme-color); color:white }
 }
 </style>

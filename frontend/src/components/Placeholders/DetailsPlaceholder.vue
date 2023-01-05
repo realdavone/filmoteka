@@ -11,7 +11,7 @@ div.details{
   gap:1rem;
   width:100%;
   div.item{
-    background-color:var(--card-color);
+    box-shadow:var(--basic-box-shadow);
     min-height:80px;
     border-radius:0.5rem;
   }

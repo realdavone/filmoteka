@@ -20,7 +20,10 @@ button.nav-button{
   border-radius:50%;
   transition:0.2s ease background-color;
   overflow:hidden;
-  &:active{background-color:var(--card-color-hover);}
+  &:active{
+    background-color:var(--card-color);
+    outline:2px solid var(--card-color-hover)
+  }
 }
 div.icon{ position:relative }
 :slotted(span.notification){

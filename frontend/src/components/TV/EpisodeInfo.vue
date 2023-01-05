@@ -93,7 +93,7 @@ section.episode-info{
   gap:1rem;
   padding:1rem;
   border-radius:1rem;
-  background:var(--card-color);
+  box-shadow:var(--basic-box-shadow);
   transition:0.2s ease height;
   overflow:hidden;
   div.title-holder{

@@ -9,21 +9,21 @@
         <section v-if="store.state.favourites.length !== 0" class="title-holder">
           <div class="search-input-holder">
             <span class="material-icons-outlined">search</span>
-            <input v-model="searchInput" class="search-input" type="text" placeholder="Vyhľadávanie">
+            <input v-model="searchInput" class="search-input" type="text" placeholder="Vyhľadávanie v záložkách">
             <button v-if="searchInput.length" class="clear-search" @click="searchInput = ''">&times;</button>
           </div>
           <ul v-auto-animate>
             <li :class="{ 'inactive' : title.inactive }" class="title" v-for="title in items" :key="title.id">
               <router-link tabindex="0" @click.native="$emit('close')" :to="{ name: title.type, params: { id: title.id } }">
                 <div class="poster">
-                  <img v-if="title.img" :src="`https://image.tmdb.org/t/p/w92${title.img}`" :alt="title.title" loading="lazy">
+                  <img v-if="title.img" :src="`https://image.tmdb.org/t/p/w92${title.img}`" onerror="javascript:this.remove()" :alt="title.title" loading="lazy">
                 </div>
                 <!--
                 <TypeIcon class="icon" :type="title.type"/>
                 -->
                 <div>
                   <span class="text">{{title.title}}</span>
-                  <span v-if="title.season !== undefined" class="last-watched" title="Posledná prehraná epizóda">{{title.season}}.{{`${title.episode < 10 ? '0' + title.episode : title.episode}`}}</span>
+                  <span v-if="title.season !== undefined" class="last-watched">{{title.season}}.{{`${title.episode < 10 ? '0' + title.episode : title.episode}`}}</span>
                 </div>
               </router-link>
               <button class="remove-item" @click="store.methods.favourites.toggle({ id: title.id, type: title.type })" title="Odobrať">
@@ -160,6 +160,7 @@ aside.modal{
           height:3rem;
           overflow:hidden;
           border-radius:0.5rem;
+          background-color:var(--card-color-hover);
           img{
             width:100%;
             height:100%;

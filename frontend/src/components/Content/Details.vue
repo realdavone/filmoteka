@@ -137,7 +137,7 @@ div.details{
   gap:1rem;
   width:100%;
   div.item{
-    background-color:var(--card-color);
+    box-shadow:var(--basic-box-shadow);
     padding:0.5rem 1rem;
     display:flex;
     flex-direction:column;
