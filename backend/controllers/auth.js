@@ -91,6 +91,6 @@ export const googleAuth = async (req, res) => {
   
     await Token.create({ token: refreshToken })
   
-    return res.status(200).json({ success: true, accessToken, refreshToken, user: { id: user._id, email: user.email, isAdmin: user.isAdmin } })
+    return res.status(200).json({ success: true, accessToken, refreshToken, user: { _id: user._id, email: user.email, isAdmin: user.isAdmin } })
   } catch (error) { res.sendStatus(500) }
 }
