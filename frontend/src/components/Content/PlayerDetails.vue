@@ -78,8 +78,8 @@ section.container{
     right:0;
     bottom:0;
     z-index:0;
-    -webkit-mask-image: linear-gradient(#00000030, #00000080 50%, transparent);
-    mask-image: linear-gradient(#00000030, #00000080 50% transparent);
+    -webkit-mask-image: linear-gradient(#00000010, #00000030 50%, transparent);
+    mask-image: linear-gradient(#00000010, #00000030 50% transparent);
   }
   div.poster{
     aspect-ratio:2/3;

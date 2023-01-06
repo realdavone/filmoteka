@@ -67,7 +67,7 @@ a.cast-card{
       }
     }
   }
-  &:hover{ background-color:var(--card-color-hover) }
+  &:hover{ background-color:var(--card-color) }
 }
 @media screen and (max-width: 600px){
   a.cast-card:hover { background-color:initial!important }

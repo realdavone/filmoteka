@@ -119,11 +119,14 @@ div.modal{
       width:100%;
       min-width:100%;
       height:100px;
+      &:focus{
+        outline:1px solid var(--theme-color)
+      }
     }
     button{
       background-color:var(--theme-color);
       padding:0.5rem 1rem;
-      border-radius:0.5rem;
+      border-radius:1rem;
       display:flex;
       gap:0.75rem;
       align-items:center;
@@ -131,6 +134,7 @@ div.modal{
       color:var(--font-color-dark);
       align-self:flex-end;
       font-size:0.75rem;
+      font-weight:700;
       &:disabled{
         opacity:0.5;
         cursor:default;

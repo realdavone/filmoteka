@@ -64,10 +64,7 @@ const openModal = () => isModalOpen.value = !isModalOpen.value
 
 <style lang="scss" scoped>
 section.discussion{
-  background-color:var(--card-color);
-  padding:1rem;
   margin:0 var(--container-padding);
-  border-radius:1rem;
   h3{
     margin-bottom:1rem
   }
@@ -81,7 +78,8 @@ div.error{
   color:crimson
 }
 button.add-comment{
-  background-color:var(--background-color);
+  background-color:var(--card-color);
+  box-shadow:var(--basic-box-shadow);
   padding:0.75rem 1.25rem;
   width:100%;
   border-radius:3rem;
