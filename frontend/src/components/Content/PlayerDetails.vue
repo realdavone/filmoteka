@@ -149,6 +149,7 @@ section.container{
 :slotted(span.tagline){
   font-size:0.8rem;
   font-style:italic;
+  opacity:0.5;
   &:empty{ display:none }
 }
 :slotted(span.overview){ font-size:0.85rem }
@@ -162,7 +163,7 @@ div.overview{
   span{
     font-size:0.75rem;
     &.rated{
-      padding:2px 5px 1px;
+      padding:1px 5px;
       border-radius:0.35rem;
       mix-blend-mode: difference;
       background-color:var(--font-color);

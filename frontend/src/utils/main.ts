@@ -42,7 +42,7 @@ export default {
     const logo = document.createElement('img')
     const loaderHolder = document.createElement('section')
     const text = document.createElement('span')
-    text.innerText = 'Spúšťa sa server'
+    text.innerText = 'Spúšťa sa služba'
 
     logo.setAttribute('src', '/icon.svg')
     logo.setAttribute('width', '75')

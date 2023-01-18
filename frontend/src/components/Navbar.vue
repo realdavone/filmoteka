@@ -70,7 +70,7 @@ socket!.on('newRecommended', (data: any) => {
 })
 
 onMounted(() => { 
-  const el = document.getElementsByTagName('nav')[0]
+  const el = document.querySelector('nav') as HTMLElement
   const observer = new IntersectionObserver( 
     ([e]) => e.target.classList.toggle('scroll', e.intersectionRatio < 1),
     { threshold: [1] }
