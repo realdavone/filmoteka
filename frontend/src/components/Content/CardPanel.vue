@@ -11,7 +11,10 @@
         </button>
       </div>
     </div>
-    <div ref="cardHolder" :class="`${isGrid ? 'grid' : 'scroll container' } card-holder`">
+    <div
+    ref="cardHolder"
+    :class="`${isGrid ? 'grid' : 'scroll container' } card-holder`"
+    @scroll="handleScroll()">
       <VerticalCardPlaceholder v-if="props.cards === null" v-for="n in props.placeholderInfo.count" :key="n" class="skeleton"/>
       <Card
       class="card"
@@ -27,14 +30,14 @@
       />
     </div>
     <template v-if="!isGrid">
-      <button class="scroll left" title="Vľavo" @click="scrollTo(cardHolder!, -180)">&#10094;</button>
-      <button class="scroll right" title="Vpravo" @click="scrollTo(cardHolder!, 180)">&#10095;</button>
+      <button v-show="arrowVisibility.left" class="scroll left" title="Vľavo" @click="scrollTo(cardHolder!, -180)">&#10094;</button>
+      <button v-show="arrowVisibility.right" class="scroll right" title="Vpravo" @click="scrollTo(cardHolder!, 180)">&#10095;</button>
     </template>
   </section>
 </template>
 
 <script setup lang="ts">
-import { ref, withDefaults } from 'vue'
+import { ref, withDefaults, reactive, onMounted, onActivated, watch } from 'vue'
 import Title from '../Content/Title.vue'
 import VerticalCardPlaceholder from '../Placeholders/VerticalCardPlaceholder.vue'
 import Card from './Card.vue'
@@ -63,7 +66,32 @@ const isGrid = ref(props.isGrid)
 
 const cardHolder = ref<null | HTMLDivElement>(null)
 
-const scrollTo = (element: HTMLElement, distance: number) => element.scrollTo({ left: element.scrollLeft += distance, behavior: 'smooth' })
+const arrowVisibility = reactive({ left: true, right: true })
+
+function handleScroll() {
+  cardHolder.value!.scrollLeft === 0 ? arrowVisibility.left = false : arrowVisibility.left = true
+
+  Math.floor(cardHolder.value!.scrollWidth - cardHolder.value!.scrollLeft) === cardHolder.value!.clientWidth
+  ?
+  arrowVisibility.right = false
+  :
+  arrowVisibility.right = true
+}
+
+function scrollTo(element: HTMLDivElement, distance: number){
+  element.scrollTo({
+    left: element.scrollLeft += distance,
+    behavior: 'smooth'
+  })
+}
+
+watch(isGrid, () => {
+  setTimeout(() => {
+    !isGrid.value && handleScroll()
+  }, 100)
+})
+onMounted(() => handleScroll())
+onActivated(() => handleScroll())
 </script>
 
 <style lang="scss" scoped>
@@ -121,28 +149,26 @@ section.panel{
     position:absolute;
     color:var(--theme-color);
     z-index:5;
-    top:50%;
+    bottom:0;
     font-size:1.5rem;
     line-height:1;
-    background-color:var(--card-color);
-    width:2.75rem;
-    aspect-ratio:1;
-    border-radius:50%;
+    width:3.5rem;
+    height:calc(var(--vertical-card-width) / 2 * 3);
     display:flex;
     justify-content:center;
     align-items:center;
     transition:0.2s ease background-color, 0.4s ease transform;
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
     padding-top:2px;
+    user-select:none;
     &.left{
-      left:20px;
+      left:0;
       padding-right:5px;
       padding-bottom:1px;
+      background: linear-gradient(to right, var(--background-color) 10%, transparent);
     }
-    &.right{right:20px;}
-    &:hover{
-      transform:scale(1.1);
-      background-color:var(--card-color-hover);
+    &.right{
+      right:0;
+      background: linear-gradient(to left, var(--background-color) 10%, transparent);
     }
   }
 }
