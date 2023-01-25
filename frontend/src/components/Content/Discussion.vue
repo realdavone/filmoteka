@@ -114,7 +114,7 @@ button.add-comment{
   border-radius:3rem;
   text-align:left;
   font-size:1rem;
-  margin-bottom:1rem;
+  margin-bottom:1.5rem;
 }
 div.comments{
   display:flex;
@@ -123,7 +123,7 @@ div.comments{
   gap:1rem;
   max-height:100vh;
   overflow:auto;
-  &::-webkit-scrollbar{width:15px;height:15px;}
+  &::-webkit-scrollbar{ width:15px; height:15px; }
   &::-webkit-scrollbar-thumb{background:var(--card-color-hover);border:4px solid transparent;border-radius:10px;background-clip:content-box;}
 }
 </style>

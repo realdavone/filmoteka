@@ -1,21 +1,24 @@
 import Comment from '../schemas/Comment.js'
+import usePagination from '../middleware/pagination.js'
 
 export const getComments = async (req, res) => {
   const { type, id } = req.params
   const page = Number(req.query.page) || 1
 
-  const COMMENTS_PER_PAGE = 5
-
   try {
     const comments = await Comment.find({ type, id }).populate('author', ['_id', 'email']).sort({ 'createdAt': -1 })
-    const all_comments = comments.length
-    const number_of_pages = Math.ceil(all_comments / COMMENTS_PER_PAGE)
+
+    const { results, numberOfPages, totalResult } = usePagination({
+      data: comments,
+      currentPage: page,
+      perPage: 5
+    })
 
     res.status(200).json({
-      comments: comments.slice((page - 1) * COMMENTS_PER_PAGE, page * COMMENTS_PER_PAGE),
-      all_comments,
+      comments: results,
+      all_comments: totalResult,
       page,
-      number_of_pages
+      number_of_pages: numberOfPages
     })
   } catch (error) { res.status(500).json({ success: false, message: error }) }
 }
