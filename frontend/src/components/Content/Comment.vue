@@ -3,10 +3,10 @@
     <Avatar :id="comment.author?._id" width="30px"/>
     <div class="right-col">
       <div class="user">
-        <span class="name">{{comment.author?.email}}</span>
-        <span class="date">{{new Date(comment.createdAt).toLocaleString('sk-SK')}}</span>        
+        <span class="name">{{ comment.author?.email }}</span>
+        <span class="date">{{ useRelativeTimeDifference(comment.createdAt) }}</span>    
       </div>
-      <div class="content">{{comment.content}}</div>
+      <div class="content">{{ comment.content }}</div>
       <button v-if="store.state.credentials.user?.email === comment.author?.email" class="remove-comment" :disabled="loading" @click="deleteComment(comment._id)">Zmazať</button>
     </div>
   </div>
@@ -14,6 +14,7 @@
 
 <script setup lang="ts">
 import getData from '../../api/main'
+import useRelativeTimeDifference from '../../composables/relative-time-difference'
 
 import { inject, ref } from 'vue'
 
@@ -69,7 +70,6 @@ div.comment{
       }
       span.date{
         opacity:0.5;
-        font-size:0.65rem;
       }
     }
     button.remove-comment{

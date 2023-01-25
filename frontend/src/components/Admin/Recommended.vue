@@ -2,7 +2,7 @@
   <section class="recommended">
     <div v-for="item in recommended" :key="item._id" class="item">
       <img :src="`https://www.themoviedb.org/t/p/w300${item.title.img}`" :alt="item.title.savedTitle">
-      <span class="timestamp">{{getDifference(item.createdAt)}}</span>
+      <span class="timestamp">{{useRelativeTimeDifference(item.createdAt)}}</span>
       <button class="remove-button" @click="removeItem(item._id)">Zmazať</button>
     </div>
   </section>
@@ -13,17 +13,13 @@
 import { ref } from 'vue'
 import getData from '../../api/main'
 import store from '../../store/index'
+import useRelativeTimeDifference from '../../composables/relative-time-difference'
 
 import { RecommendedTitle } from '../../types/title'
 
 const recommended = ref<Array<RecommendedTitle>>([])
 
 recommended.value = await getData<Array<RecommendedTitle>>({ endpoint: '/title/recommended' })
-
-const getDifference = (timestamp: string) => new Intl.RelativeTimeFormat('sk', {
-  localeMatcher: "best fit",
-  style: "short"
-}).format(-Math.floor((new Date().valueOf() - new Date(timestamp).valueOf()) / (1000*60*60)), 'hours')
 
 const removeItem = async (id: string) => {
   const data = await getData<{ success: boolean }>({ endpoint: '/title/recommend', options: {

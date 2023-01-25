@@ -1,19 +1,26 @@
 <template>
-  <section class="discussion">
+  <section class="discussion user-select-none">
     <h3>Diskusia</h3>
+    <div v-if="numberOfComments" class="number-of-comments">Počet komentárov: {{ numberOfComments }}</div>
     <button class="add-comment" @click="openModal">Napísať komentár...</button>
     <div class="comments">
       <template v-if="!loading">
-        <div v-if="error" class="error">{{error}}</div>
-        <Comment v-if="data.length > 0" v-for="comment in data" :key="comment.id" :comment="comment" @deleted="fetchComments"/>
-        <span v-else class="no-comments">Žiadne komentáre</span>
+        <div v-if="error" class="error">{{ error }}</div>
+        <Comment v-for="comment in data" :key="comment.id" :comment="comment" @deleted="fetchComments(1)"/>
       </template>
-      <Loader v-else height="1.5rem" border="0.25rem" />
+      <Loader v-else height="1.5rem" :border="'0.25rem'" />
     </div>
+    <PageControl
+    v-if="numberOfPages! > 1"
+    :pages="{
+      current: currentPage as number,
+      total: numberOfPages as number
+    }"
+    @navigate="navigate"/>
   </section>
   <Teleport to="body">
     <Transition name="fade">
-      <SubmitCommentModal v-if="isModalOpen" :title="title" @close="isModalOpen = false" @submitted="fetchComments" />
+      <SubmitCommentModal v-if="isModalOpen" :title="title" @close="isModalOpen = false" @submitted="fetchComments(1)" />
     </Transition>
   </Teleport>
 </template>
@@ -22,6 +29,7 @@
 import { ref, onBeforeMount } from 'vue'
 
 import SubmitCommentModal from '../SubmitCommentModal.vue'
+import PageControl from '../PageControl.vue'
 import Loader from '../Loader.vue'
 import Comment from './Comment.vue'
 
@@ -29,7 +37,12 @@ import getData from '../../api/main'
 
 import { Comment as CommentType } from '../../types/comment'
 
-type CommentResponse = Array<CommentType>
+type CommentResponse = {
+  comments: Array<CommentType>
+  all_comments: number
+  page: number
+  number_of_pages: number
+}
 
 const { title } = defineProps<{
   title: {
@@ -40,16 +53,28 @@ const { title } = defineProps<{
 
 const isModalOpen = ref(false)
 
-const data = ref<CommentResponse>([])
+const data = ref<Array<CommentType>>([])
+const currentPage = ref<null | number>(null)
+const numberOfPages = ref<null | number>(null)
+const numberOfComments = ref<null | number>(null)
 
 const loading = ref(false)
-const error = ref(null)
+const error = ref<string | null>(null)
 
-const fetchComments = () => {
+function navigate(page: number) {
+  fetchComments(page)
+}
+
+const fetchComments = (page: number) => {
   loading.value = true
   error.value = null
-  getData<CommentResponse>({ endpoint: `/comments/${title.type}/${title.id}` })
-  .then(response => data.value = response)
+  getData<CommentResponse>({ endpoint: `/comments/${title.type}/${title.id}?page=${page}` })
+  .then(response => {
+    data.value = response.comments
+    currentPage.value = response.page
+    numberOfPages.value = response.number_of_pages
+    numberOfComments.value = response.all_comments
+  })
   .catch(err => error.value = err)
   .finally(() => {
     isModalOpen.value = false
@@ -57,7 +82,7 @@ const fetchComments = () => {
   })
 }
 
-onBeforeMount(() => !loading.value && fetchComments())
+onBeforeMount(() => !loading.value && fetchComments(1))
 
 const openModal = () => isModalOpen.value = !isModalOpen.value
 </script>
@@ -67,6 +92,10 @@ section.discussion{
   margin:0 var(--container-padding);
   h3{
     margin-bottom:1rem
+  }
+  div.number-of-comments{
+    font-size:0.85rem;
+    margin-bottom:1rem;
   }
 }
 span.no-comments{
@@ -92,7 +121,7 @@ div.comments{
   flex-direction:column;
   align-items:center;
   gap:1rem;
-  max-height:300px;
+  max-height:100vh;
   overflow:auto;
   &::-webkit-scrollbar{width:15px;height:15px;}
   &::-webkit-scrollbar-thumb{background:var(--card-color-hover);border:4px solid transparent;border-radius:10px;background-clip:content-box;}

@@ -1,7 +1,5 @@
 import { onMounted, onUnmounted, onActivated, onDeactivated } from 'vue'
 
-
-
 const useEvent = ({
   target,
   event,
