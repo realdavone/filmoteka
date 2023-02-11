@@ -1,5 +1,5 @@
 <template>
-  <section class="page-control" v-if="parseInt(props.pages.total as string) !== 0">
+  <section class="page-control" v-if="parseInt(props.pages.total as string) > 1">
     <button
     :class="{ 'disabled': parseInt(props.pages.current as string) === 1 }"
     :disabled="parseInt(props.pages.current as string) === 1"

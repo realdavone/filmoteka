@@ -49,9 +49,13 @@ const props = defineProps<{
 }>()
 
 
-useEvent({ target: document, event: 'scroll', callback: () => {
-  if(props.source) pinned.value = document.getElementById('player-holder')!.offsetTop < window.scrollY
-} })
+useEvent({
+  target: document,
+  event: 'scroll',
+  callback: () => {
+    if(props.source) pinned.value = document.getElementById('player-holder')!.offsetTop < window.scrollY
+  }
+})
 
 </script>
 

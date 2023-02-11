@@ -54,7 +54,7 @@ const loaded = ref(false)
 
 const getResults = async (query: string): Promise<void> => {
   try {
-    const data: ApiListResponse<Array<MovieTitle | TvTitle | PersonSearchType>> = await getData({ endpoint: `/search/multi?query=${query}` })
+    const data: ApiListResponse<Array<MovieTitle | TvTitle | PersonSearchType>> = await getData({ endpoint: `/search/multi?query=${query}&page=1` })
 
     result.movies = data.results.filter(movie => movie['media_type'] === 'movie' && movie['poster_path'] !== null).slice(0,3) as MovieTitle[]
     result.tvs = data.results.filter(tv => tv['media_type'] === 'tv' && tv['poster_path'] !== null).slice(0,3) as TvTitle[]
