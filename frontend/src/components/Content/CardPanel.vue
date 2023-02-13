@@ -69,9 +69,9 @@ const cardHolder = ref<null | HTMLDivElement>(null)
 const arrowVisibility = reactive({ left: true, right: true })
 
 function handleScroll() {
-  cardHolder.value!.scrollLeft === 0 ? arrowVisibility.left = false : arrowVisibility.left = true
+  cardHolder.value?.scrollLeft === 0 ? arrowVisibility.left = false : arrowVisibility.left = true
 
-  Math.floor(cardHolder.value!.scrollWidth - cardHolder.value!.scrollLeft) === cardHolder.value!.clientWidth
+  Math.floor(cardHolder?.value!.scrollWidth - cardHolder?.value!.scrollLeft) === cardHolder?.value?.clientWidth
   ?
   arrowVisibility.right = false
   :

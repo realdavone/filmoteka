@@ -103,7 +103,7 @@ section#player-holder{
     align-items:center;
     color:white;
     span.icon{
-      font-size:4rem;
+      font-size:3.5rem;
     }
     div.right{
       display:flex;
