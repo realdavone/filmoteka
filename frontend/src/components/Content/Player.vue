@@ -12,7 +12,7 @@
         <span class="material-icons-outlined icon">lock</span>
         <div class="right">
           <span class="message">Pre sledovanie je nutné sa prihlásiť</span>
-          <BasicButton text="Prihlásiť sa" @handleClick="$router.push('/login')" />
+          <BasicButton mutation="hover-color-change" text="Prihlásiť sa" @handleClick="$router.push('/login')" />
         </div>
       </div>
     </div>
@@ -113,18 +113,6 @@ section#player-holder{
       span.message{
         font-weight:700;
         font-size:1rem;
-      }
-      button{
-        background-color:white;
-        padding:0.5rem 1rem;
-        border-radius:2rem;
-        color:black;
-        transition:0.2s ease all;
-        font-weight:700;
-        &:hover{
-          background-color:var(--theme-color);
-          color:white
-        }
       }
     }
   }

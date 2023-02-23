@@ -93,8 +93,8 @@ div.context{
   top:calc(100% + 1px);
   width:100%;
   background-color:var(--card-color);
-  border-bottom-left-radius:1.75rem;
-  border-bottom-right-radius:1.75rem;
+  border-bottom-left-radius:1rem;
+  border-bottom-right-radius:1rem;
   div.search-current{
     display:flex;
     align-items:center;
@@ -148,7 +148,7 @@ div.search{
 }
 form.search-form{
   display:flex;
-  border-radius:1.75rem;
+  border-radius:1rem;
   background:var(--card-color-hover);
   width:100%;
   transition:0.2s ease all;
