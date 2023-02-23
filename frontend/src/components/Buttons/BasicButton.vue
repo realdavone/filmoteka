@@ -15,10 +15,10 @@ const props = withDefaults(defineProps<{
 
 <style lang="scss" scoped>
 button{
-  padding:0.5rem 1rem;
+  padding:0.35rem 1rem;
   border-radius:0.25rem;
   font-weight:700;
-  font-size:0.75rem;
+  font-size:0.8rem;
   text-transform: uppercase;
   position: relative;
   z-index:1;

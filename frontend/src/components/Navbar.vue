@@ -86,13 +86,14 @@ onMounted(() => {
   display:flex;
   align-self:center;
   gap:0.5rem;
-  font-size:0.75rem;
-  padding:0.35rem 0.75rem;
-  border-radius:1rem;
+  font-size:0.8rem;
+  padding:0.35rem 1rem;
+  border-radius: 0.25rem;
   cursor:pointer;
   font-weight:700;
   margin-left:0.75rem;
   user-select:none;
+  text-transform: uppercase;
 }
 
 nav{
@@ -115,12 +116,6 @@ nav{
     gap:0.75rem;
     align-self:center;
     margin-left:0.75rem;
-    button{
-      font-size:0.75rem;
-      &.register-button:hover{
-        color:var(--theme-color)
-      }
-    }
   }
   div.right-menu{
     display:flex;

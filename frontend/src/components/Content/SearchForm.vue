@@ -90,7 +90,7 @@ onMounted(() => input.value!.focus())
 div.context{
   position:absolute;
   left:0;
-  top:calc(100% + 1px);
+  top:calc(100%);
   width:100%;
   background-color:var(--card-color);
   border-bottom-left-radius:1rem;
@@ -137,8 +137,12 @@ div.select{
       color:white;
     }
   }
-  div.option{padding-right:50px;}
-  div.option:not([data-active=true]):hover{background:var(--card-color-hover);}
+  div.option{
+    padding-right:50px;
+  }
+  div.option:not([data-active=true]):hover{
+    background:var(--card-color-hover);
+  }
 }
 div.search{
   display:flex;
@@ -164,7 +168,6 @@ form.search-form{
     color:inherit;
   }
   &:focus-within{
-    outline:1px solid var(--theme-color);
     border-bottom-left-radius:0;
     border-bottom-right-radius:0;
   } 

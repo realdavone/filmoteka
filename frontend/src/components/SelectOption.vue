@@ -34,7 +34,7 @@ onClickOutside(values, () => areValuesVisible.value = false)
 div.select{
   background-color:var(--card-color);
   padding:0.5rem;
-  border-radius:0.5rem;
+  border-radius:0.25rem;
   cursor:pointer;
   position:relative;
   div.active-selector{
@@ -43,7 +43,7 @@ div.select{
   }
   div.values{
     z-index:2;
-    border-radius:0.5rem;
+    border-radius:0.25rem;
     padding:0.75rem;
     top:calc(100% + 0.5rem);
     left:0;
@@ -56,6 +56,7 @@ div.select{
     gap:0.65rem;
     overflow:auto;
     max-height:50vh;
+    box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
     div.option{
       padding:0.25rem 0.5rem;
       border-radius:0.25rem;

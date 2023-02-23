@@ -26,9 +26,7 @@
                   <span v-if="title.season !== undefined" class="last-watched">{{title.season}}.{{`${title.episode < 10 ? '0' + title.episode : title.episode}`}}</span>
                 </div>
               </router-link>
-              <button class="remove-item" @click="store.methods.favourites.toggle({ id: title.id, type: title.type })" title="Odobrať">
-                <span class="material-icons">remove_circle_outline</span>
-              </button>
+              <button class="remove-item" @click="store.methods.favourites.toggle({ id: title.id, type: title.type })" title="Odobrať">&times;</button>
             </li>
           </ul>
         </section>
@@ -176,11 +174,9 @@ aside.modal{
         }
       }
       button.remove-item{     
-        font-weight:900;
-        span{
-          font-size:1rem;
-          opacity:0.5;
-        }
+        font-weight: 700;
+        color: crimson;
+        font-size: 1.25rem;
       }
       &.inactive{ opacity:0.25 }
       &:last-of-type{ border-bottom:none; }
@@ -192,15 +188,11 @@ aside.modal{
     padding:0 1rem;
     margin-top:auto;
     button{
-      background-color:#dc143cb0;
-      padding:0.25rem 0.5rem;
-      border-radius:0.25rem;
-      transition:0.2s ease background-color;
-      font-size:0.75rem;
-      font-weight:700;
-      color:white;
+      color:crimson;
+      font-size: 0.8rem;
+
       &:hover{
-        background-color:crimson;
+        text-decoration: underline;
       }
     }
   }

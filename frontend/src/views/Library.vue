@@ -136,12 +136,10 @@ section.filter{
   button.filter-button{
     background:var(--theme-color);
     color:white;
-    font-weight:700;
     text-transform:uppercase;
     padding:0.5rem;
-    border-radius:0.5rem;
+    border-radius:0.25rem;
     font-size:0.75rem;
-    font-family:monospace,'Roboto Mono';
   }
   &>*{
     flex:1;
