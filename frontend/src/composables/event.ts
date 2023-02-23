@@ -7,7 +7,7 @@ export default function({
 }:{
   target: HTMLElement | Window | Document,
   event: any,
-  callback: () => void
+  callback: (e: any) => void
 }){
   onMounted(() => { target.addEventListener(event, callback) })
   onActivated(() => { target.addEventListener(event, callback) })
