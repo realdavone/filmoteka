@@ -73,7 +73,15 @@ div.comment{
       }
     }
     button.remove-comment{
-      color:crimson
+      color:crimson;
+
+      &:hover{
+        text-decoration: underline;
+      }
+
+      &:disabled{
+        opacity: 0.25;
+      }
     }
   }
 }

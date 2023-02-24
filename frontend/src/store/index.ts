@@ -244,7 +244,7 @@ const state = reactive<GlobalState>({
   settings: {
     pinnedPlayer: localStorage.getItem('pinnedPlayer') !== null ? JSON.parse(localStorage.getItem('pinnedPlayer') as string) : false,
     themeColors: {
-      colors: ['#ED3F00','#F78764','#2176AE','#FBB13C','#DE4D86','#89BD9E','#B84A62'],
+      colors: ['#ED3F00','#F78764','#2176AE','#FBB13C','#008080','#89BD9E','#B84A62'],
       mainColor: null
     },
     darkTheme: true

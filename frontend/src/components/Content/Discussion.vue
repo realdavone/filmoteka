@@ -58,7 +58,7 @@ const currentPage = ref<null | number>(null)
 const numberOfPages = ref<null | number>(null)
 const numberOfComments = ref<null | number>(null)
 
-const loading = ref(false)
+const loading = ref(true)
 const error = ref<string | null>(null)
 
 function navigate(page: number) {
@@ -123,6 +123,7 @@ div.comments{
   gap:1rem;
   max-height:100vh;
   overflow:auto;
+  min-height: 2rem;
   &::-webkit-scrollbar{ width:15px; height:15px; }
   &::-webkit-scrollbar-thumb{background:var(--card-color-hover);border:4px solid transparent;border-radius:10px;background-clip:content-box;}
 }

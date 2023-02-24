@@ -18,9 +18,6 @@
                 <div class="poster">
                   <img v-if="title.img" :src="`https://image.tmdb.org/t/p/w92${title.img}`" onerror="javascript:this.remove()" :alt="title.title" loading="lazy">
                 </div>
-                <!--
-                <TypeIcon class="icon" :type="title.type"/>
-                -->
                 <div>
                   <span class="text">{{title.title}}</span>
                   <span v-if="title.season !== undefined" class="last-watched">{{title.season}}.{{`${title.episode < 10 ? '0' + title.episode : title.episode}`}}</span>
@@ -107,9 +104,9 @@ aside.modal{
       gap:0.25rem;
       outline:2px solid var(--card-color);
       padding:0 10px;
-      border-radius:1rem;
+      border-radius:0.25rem;
       overflow:hidden;
-      margin:1px 0 0.5rem;
+      margin:2px 0 0.5rem;
       span:first-of-type{
         font-size:1.25rem;
         opacity:0.5;
@@ -134,10 +131,8 @@ aside.modal{
       justify-content:space-between;
       align-items:center;
       gap:0.75rem;
-      padding:0.75rem 0;
-      transition:0.2s ease background;
+      padding:0.5rem;
       position:relative;
-      border-bottom:1px solid var(--card-color-hover);
       a{
         display:flex;
         align-items:center;
@@ -157,7 +152,7 @@ aside.modal{
           aspect-ratio:1;
           height:3rem;
           overflow:hidden;
-          border-radius:0.5rem;
+          border-radius:0.25rem;
           background-color:var(--card-color-hover);
           img{
             width:100%;
@@ -177,9 +172,22 @@ aside.modal{
         font-weight: 700;
         color: crimson;
         font-size: 1.25rem;
+        visibility: hidden;
       }
-      &.inactive{ opacity:0.25 }
-      &:last-of-type{ border-bottom:none; }
+      &.inactive{
+        opacity:0.25
+      }
+      &:last-of-type{
+        border-bottom:none;
+      }
+      &:hover{
+        background-color: var(--card-color-hover);
+        border-radius: 0.25rem;
+
+        button.remove-item{
+          visibility:initial;
+        }
+      }
     }
   }
   div.bin-holder{

@@ -8,9 +8,7 @@
         <Poster v-if="props.title && props.title?.poster_path" :src="props.title?.poster_path" :alt="title?.title" :fadeInOnLoad="true" />
       </div>
       <div class="content">
-        <div v-if="props.title && props.title?.media_type" class="title">
-          <span>{{title?.title}}</span>
-        </div>
+        <div v-if="props.title && props.title?.media_type" class="title">{{title?.title}}</div>
         <div v-else class="skeleton-text" style="height:1.75rem; width:25%; min-width:180px"></div>
 
         <div v-if="props.title && props.title?.overview" class="overview">
@@ -84,7 +82,7 @@ section.featured{
       flex-basis:100%;
       div.title{
         font-weight:700;
-        font-size:1.75rem;
+        font-size:1.5rem;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;

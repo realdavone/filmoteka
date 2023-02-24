@@ -26,8 +26,7 @@
         id: item.id,
         poster_path: item.poster_path,
         title: item.title
-      }"
-      />
+      }"/>
     </div>
     <template v-if="!isGrid">
       <button v-show="arrowVisibility.left" class="scroll left" title="Vľavo" @click="scrollTo(cardHolder!, -180)">&#10094;</button>
@@ -71,7 +70,7 @@ const arrowVisibility = reactive({ left: true, right: true })
 function handleScroll() {
   cardHolder.value?.scrollLeft === 0 ? arrowVisibility.left = false : arrowVisibility.left = true
 
-  Math.floor(cardHolder?.value!.scrollWidth - cardHolder?.value!.scrollLeft) === cardHolder?.value?.clientWidth ? arrowVisibility.right = false : arrowVisibility.right = true
+  if(cardHolder?.value?.scrollWidth) Math.floor(cardHolder?.value?.scrollWidth - cardHolder?.value!.scrollLeft) <= cardHolder?.value!.clientWidth ? arrowVisibility.right = false : arrowVisibility.right = true
 }
 
 function scrollTo(element: HTMLDivElement, distance: number){

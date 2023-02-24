@@ -24,8 +24,7 @@
           <template #notification><span class="notification" v-if="store.state.notifications.recommended.length > 0"></span></template>
         </NavButton>
         <div id="fav-count" @click="bookmarksVisible = true">
-          <span>Záložky</span>
-          <span class="material-icons-outlined" style="font-size:1rem">bookmarks</span>
+          <span>Záložky: </span>
           <span>{{store.state.favourites.length}}</span>
         </div>
       </template>

@@ -35,7 +35,7 @@ section.prompt{
   text-align:center;
   margin:-2.5rem var(--container-padding) 0;
   position:relative;
-  border-radius:1rem;
+  border-radius:0.75rem;
   isolation:isolate;
   .close{
     position:absolute;

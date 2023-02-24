@@ -23,6 +23,7 @@ button{
   position: relative;
   z-index:1;
   white-space:nowrap;
+  font-family: 'Open Sans', sans-serif;
   &.basic{
     background-color:var(--theme-color);
     color:var(--font-color-dark);
