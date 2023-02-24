@@ -23,14 +23,14 @@
           <template #icon><span class="material-icons-outlined" style="padding-top:5px">recommend</span></template>
           <template #notification><span class="notification" v-if="store.state.notifications.recommended.length > 0"></span></template>
         </NavButton>
-        <div id="fav-count" @click="bookmarksVisible = true">
+        <BasicButton @click="bookmarksVisible = true" style="align-self:center;margin-left: 15px;">
           <span>Záložky: </span>
           <span>{{store.state.favourites.length}}</span>
-        </div>
+        </BasicButton>
       </template>
       <div v-if="!isSearchRendered && !store.state.credentials.loggedIn" class="auth-buttons">
         <button v-if="store.state.globalSettings?.allowRegistration" class="register-button" @click="$router.push('/register')">Registrovať</button>
-        <BasicButton mutation="hover-color-change" text="Prihlásiť sa" @handleClick="$router.push('/login')"/>
+        <BasicButton type="hover-color-change" @handleClick="$router.push('/login')">Prihlásiť sa</BasicButton>
       </div>
     </div>
   </nav>
@@ -79,21 +79,6 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-#fav-count{
-  color:white;
-  background-color:var(--theme-color);
-  display:flex;
-  align-self:center;
-  gap:0.5rem;
-  font-size:0.8rem;
-  padding:0.35rem 1rem;
-  border-radius: 0.25rem;
-  cursor:pointer;
-  font-weight:700;
-  margin-left:0.75rem;
-  user-select:none;
-  text-transform: uppercase;
-}
 
 nav{
   height:var(--nav-height);

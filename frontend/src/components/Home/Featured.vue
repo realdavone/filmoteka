@@ -17,7 +17,7 @@
         </div>
         <div v-else class="skeleton-text" style="height:1rem;width:80%;"></div>
 
-        <BasicButton v-if="props.title" class="cta" text="Zobraziť viac" @handleClick="$router.push(`/${props.title?.media_type}/${props.title?.id}`)" />
+        <BasicButton v-if="props.title" class="cta" @handleClick="$router.push(`/${props.title?.media_type}/${props.title?.id}`)">Zobraziť viac</BasicButton>
       </div>      
     </section>
   </section>

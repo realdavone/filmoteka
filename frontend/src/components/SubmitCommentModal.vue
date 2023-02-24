@@ -12,10 +12,10 @@
         <div v-if="error" class="error">{{error}}</div>
         <form @submit.prevent="submitComment">
           <textarea ref="textarea" v-model="content" type="text" placeholder="Napíš komentár..."></textarea>
-          <button :disabled="content.length === 0 || loading === true">
+          <BasicButton :disabled="content.length === 0 || loading === true" style="align-self:flex-end;">
             Komentovať
             <Loader v-if="loading" border="3px" />
-          </button>
+          </BasicButton>
         </form>
       </div>
     </template>
@@ -31,6 +31,7 @@ import CloseButton from './Buttons/CloseButton.vue'
 import Modal from './Modal.vue'
 import Loader from './Loader.vue'
 import Avatar from './Avatar.vue'
+import BasicButton from './Buttons/BasicButton.vue'
 
 const { title } = defineProps<{
   title: {
@@ -123,26 +124,6 @@ div.modal{
 
       &:focus{
         outline:1px solid var(--theme-color)
-      }
-    }
-    button{
-      background-color: var(--theme-color);
-      border-radius: 0.25rem;
-      display: flex;
-      gap: 0.75rem;
-      align-items: center;
-      justify-content: center;
-      color: var(--font-color-dark);
-      align-self: flex-end;
-      font-size: 0.8rem;
-      font-weight: 700;
-      font-family: 'Open Sans', sans-serif;
-      padding:0.35rem 1rem;
-      min-width: 140px;
-
-      &:disabled{
-        opacity:0.5;
-        cursor:default;
       }
     }
   }

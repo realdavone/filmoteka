@@ -5,7 +5,7 @@
         <CoverPoster size="w1440_and_h320_multi_faces" :src="collection['backdrop_path']" alt="Obrázok kolekcie" :fadeInOnLoad="true" />
       </div>
       <span class="heading">Tento film je súčasťou kolekcie</span>
-      <BasicButton text="Prejsť na kolekciu" @handleClick="$router.push(`/collection/${collection.id}`)"/>
+      <BasicButton @handleClick="$router.push(`/collection/${collection.id}`)">Prejsť na kolekciu</BasicButton>
     </section>
   </section>
 </template>

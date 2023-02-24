@@ -11,7 +11,7 @@ type Options = {
 const makeRequest = <T>({
   endpoint,
   options
-}:{
+}: {
   endpoint: string,
   options?: Options
 }): Promise<T> => {

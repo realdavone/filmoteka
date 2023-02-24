@@ -1,7 +1,7 @@
 <template>
   <section class="prompt user-select-none" v-if="shown">
     <span><b>Neobmedzené</b> sledovanie filmov a seriálov.</span>
-    <BasicButton text="Prihlásiť sa" mutation="hover-color-change"  @handleClick="$router.push('/login')"/>
+    <BasicButton type="hover-color-change"  @handleClick="$router.push('/login')">Prihlásiť sa</BasicButton>
     <CloseButton v-if="props.enableClose" class="close" @click="shown = false"  />
   </section>
 </template>

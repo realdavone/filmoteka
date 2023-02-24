@@ -13,10 +13,10 @@
           <div class="input">
             <input v-model="credentials.password" type="password" name="password" placeholder="Heslo" autocomplete="current-password" required>
           </div>
-          <button :disabled="loginStart" type="submit">
-            <span>Prihlásiť</span>
+          <BasicButton :disabled="loginStart">
+            <span>{{ !loginStart ? 'Prihlásiť' : 'Prihlasovanie' }}</span>
             <Loader v-if="loginStart" color="white" :border="'3px'" />
-          </button>
+          </BasicButton>
           <div class="google-button" style="width:100%;overflow:hidden;display:flex;justify-content:center;border-radius: 4px;">
             <div id="buttonDiv" style="align-self:center;height:32px;"></div>
           </div>
@@ -35,6 +35,7 @@ import { reactive, inject, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import Auth from '../auth/main'
 import '../styles/auth.scss'
+import BasicButton from '../components/Buttons/BasicButton.vue'
 
 const router = useRouter()
 const store = inject<any>('store')

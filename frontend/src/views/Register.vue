@@ -17,13 +17,12 @@
             <input v-model="credentials.repeatPassword" type="password" name="password" placeholder="Zopakovať heslo" autocomplete="off" required>
           </div>
           <div v-if="error" class="error">{{error}}</div>
-          <button :disabled="registerStart" type="submit">
+          <BasicButton :disabled="registerStart">
             <span>Registrovať</span>
             <Loader v-if="registerStart" color="white" :border="'3px'" />
-          </button>
+          </BasicButton>
         </form>
         <router-link tabindex="0" to="/login" class="link">Už máte účet?</router-link>
-
       </section>
     </div>
   </main>
@@ -37,6 +36,7 @@ import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import Auth from '../auth/main'
 import '../styles/auth.scss'
+import BasicButton from '../components/Buttons/BasicButton.vue'
 
 const router = useRouter()
 const error = ref<null | string>(null)

@@ -12,7 +12,7 @@
         <span class="material-icons-outlined icon">lock</span>
         <div class="right">
           <span class="message">Pre sledovanie je nutné sa prihlásiť</span>
-          <BasicButton mutation="hover-color-change" text="Prihlásiť sa" @handleClick="$router.push('/login')" />
+          <BasicButton type="hover-color-change" @handleClick="$router.push('/login')">Prihlásiť sa</BasicButton>
         </div>
       </div>
     </div>
