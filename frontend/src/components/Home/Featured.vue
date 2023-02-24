@@ -156,7 +156,7 @@ section.featured{
   section.title-holder{
     gap:1rem!important
   }
-  .cta{ align-self:center; }
+  .cta{ align-self:stretch; }
   div.overview{ font-size:0.75rem!important }
   .unblur-mobile{ filter:blur(0px)!important }
 }

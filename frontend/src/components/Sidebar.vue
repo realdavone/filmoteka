@@ -11,9 +11,11 @@
       </div>
     </header>
     <section v-if="store.state.credentials.loggedIn" class="user-select-none user">
-      <div class="greeting">
-        <Avatar :id="store.state.credentials.user._id" />
-        <span class="name">{{store.state.credentials.user.email}}</span>
+      <div class="user-info">
+        <div class="username">
+          <Avatar :id="store.state.credentials.user._id" />
+          <span class="name">{{store.state.credentials.user.email}}</span>
+        </div>
       </div>
       <button class="logout-button" @click="logout(); closeMenu()" title="Odhlásiť">Odhlásiť</button>
     </section>
@@ -192,27 +194,35 @@ aside{
     transition: 0.2s ease background;
   }
   section.user{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background-color:var(--theme-color);
-    padding:0.5rem 0.75rem;
-    color:white;
-    div.greeting{
-      display:flex;
-      gap:0.5rem;
-      align-items:center;
-      span.name{
-        font-size:0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.95rem;
+    color: white;
+    div.user-info{
+      div.username{
+        display: flex;
+        align-items: center;
+        gap:8px;
+
+        span{
+          font-size: 0.75rem;
+        }
       }
     }
     button.logout-button{
       line-height:1;
-      font-size:0.65rem;
+      font-size:0.75rem;
       font-weight:700;
       text-transform:uppercase;
+      background-color:#ffffff10;
+      padding:10px;
+      border-radius: 0.25rem;
+      font-family: 'Roboto', sans-serif;
+      letter-spacing: 0.5px;
+      align-self: flex-start;
       &:hover{
-        text-decoration:underline;
+        background-color:#ffffff30;
       }
     }
   }

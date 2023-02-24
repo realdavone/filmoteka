@@ -10,7 +10,7 @@ import { withDefaults } from 'vue'
 const props = withDefaults(defineProps<{
   type?: 'basic' | 'hover-color-change'
 }>(), {
-  type: () => 'basic'
+  type: 'basic'
 })
 </script>
 
@@ -24,13 +24,14 @@ button{
   position: relative;
   z-index: 1;
   white-space: nowrap;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Roboto', sans-serif;
   height: 30px;
   max-height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
+  letter-spacing:0.5px;
   &.basic{
     background-color:var(--theme-color);
     color:var(--font-color-dark);
@@ -45,7 +46,7 @@ button{
     }
   }
   &:disabled{
-    opacity: 0.75;
+    opacity: 0.5;
     cursor: initial;
   }
 }

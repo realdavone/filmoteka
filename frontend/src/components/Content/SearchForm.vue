@@ -11,7 +11,7 @@
               <div class="icon-holder">
                 <span class="material-icons" style="font-size:1.25rem">{{option.icon}}</span>
               </div>
-              <span>{{key}}</span>
+              <span>{{ key }}</span>
             </div>
           </div>
         </Transition>

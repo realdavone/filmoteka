@@ -39,7 +39,6 @@ div.recent-menu{
     gap:0.5rem;
   }
   button.clear-history{
-    border-radius:0.25rem;
     font-size:0.75rem;
     align-self:flex-end;
     color:crimson;

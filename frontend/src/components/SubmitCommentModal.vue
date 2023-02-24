@@ -7,15 +7,17 @@
             <Avatar :id="store.state.credentials.user?._id"/>
             <span>{{store.state.credentials.user?.email}}</span>
           </div>
-          <CloseButton @click="emit('close')"/>
         </header>
         <div v-if="error" class="error">{{error}}</div>
         <form @submit.prevent="submitComment">
           <textarea ref="textarea" v-model="content" type="text" placeholder="Napíš komentár..."></textarea>
-          <BasicButton :disabled="content.length === 0 || loading === true" style="align-self:flex-end;">
-            Komentovať
-            <Loader v-if="loading" border="3px" />
-          </BasicButton>
+          <div class="buttons">
+            <button class="close" @click="emit('close')" type="button">Zavrieť</button>
+            <BasicButton :disabled="content.length === 0 || loading === true" style="align-self:flex-end;">
+              Komentovať
+              <Loader v-if="loading" border="3px" />
+            </BasicButton>
+          </div>
         </form>
       </div>
     </template>
@@ -27,7 +29,6 @@ import { ref, inject, onMounted } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import getData from '../api/main.js'
 
-import CloseButton from './Buttons/CloseButton.vue'
 import Modal from './Modal.vue'
 import Loader from './Loader.vue'
 import Avatar from './Avatar.vue'
@@ -126,6 +127,22 @@ div.modal{
         outline:1px solid var(--theme-color)
       }
     }
+  }
+  button.close{
+    background-color: crimson;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    padding:0.35rem 0.75rem 0.25rem;
+    border-radius: 0.25rem;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  div.buttons{
+    display: flex;
+    justify-content: end;
+    gap:8px;
   }
 }
 </style>

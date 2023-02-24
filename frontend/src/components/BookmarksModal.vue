@@ -4,7 +4,6 @@
       <aside ref="modal" class="modal user-select-none">
         <header>
           <span class="heading">Záložky</span>
-          <CloseButton @click="$emit('close')" />
         </header>
         <section v-if="store.state.favourites.length !== 0" class="title-holder">
           <div class="search-input-holder">
@@ -28,8 +27,9 @@
           </ul>
         </section>
         <span v-else class="no-items">Neboli pridané žiadne záložky.</span>
-        <div v-if="store.state.favourites.length !== 0" class="bin-holder">
-          <button @click="store.methods.favourites.removeAll()">Zmazať všetky</button>
+        <div class="buttons">
+          <button class="close" @click="emit('close')">Zavrieť</button>
+          <button v-if="store.state.favourites.length !== 0" @click="store.methods.favourites.removeAll()">Zmazať všetky</button>
         </div>
       </aside>
     </template>
@@ -41,8 +41,6 @@ import { inject, computed, ref, defineAsyncComponent } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 
 const Modal = defineAsyncComponent(() => import('./Modal.vue'))
-const TypeIcon = defineAsyncComponent(() => import('./Content/TypeIcon.vue'))
-const CloseButton = defineAsyncComponent(() => import('./Buttons/CloseButton.vue'))
 
 type BaseTitle = {
   title: string
@@ -190,17 +188,26 @@ aside.modal{
       }
     }
   }
-  div.bin-holder{
-    display:flex;
-    justify-content:flex-end;
-    padding:0 1rem;
-    margin-top:auto;
-    button{
-      color:crimson;
-      font-size: 0.8rem;
+  div.buttons{
+    display: flex;
+    justify-content: end;
+    gap:8px;
+    padding: 0 10px;
+    margin-top: auto;
 
-      &:hover{
-        text-decoration: underline;
+    button{
+      background-color: #ffffff10;
+      font-family: 'Roboto', sans-serif;
+      padding:0.35rem 0.75rem 0.25rem;
+      border-radius: 0.25rem;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+
+      &.close{
+        background-color: crimson;
+        color: white;
       }
     }
   }
