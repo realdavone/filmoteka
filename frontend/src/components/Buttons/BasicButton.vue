@@ -1,5 +1,5 @@
 <template>
-  <button :class="`${props.type}`" @click="$emit('handleClick')">
+  <button :class="`${props.type}`" @click="$emit('handleClick')" :type="props.type === 'close' ? 'button' : undefined">
     <slot></slot>
   </button>
 </template>
@@ -8,7 +8,7 @@
 import { withDefaults } from 'vue'
 
 const props = withDefaults(defineProps<{
-  type?: 'basic' | 'hover-color-change'
+  type?: 'basic' | 'hover-color-change' | 'transparent' | 'close'
 }>(), {
   type: 'basic'
 })
@@ -32,6 +32,14 @@ button{
   justify-content: center;
   gap: 10px;
   letter-spacing:0.5px;
+  &.transparent{
+    background-color: transparent;
+    outline: 1px solid var(--font-color)
+  }
+  &.close{
+    background-color: crimson;
+    color: white;
+  }
   &.basic{
     background-color:var(--theme-color);
     color:var(--font-color-dark);

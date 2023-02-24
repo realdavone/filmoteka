@@ -198,7 +198,6 @@ aside{
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem 0.95rem;
-    color: white;
     div.user-info{
       div.username{
         display: flex;

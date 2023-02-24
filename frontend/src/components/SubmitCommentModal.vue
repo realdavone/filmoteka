@@ -12,7 +12,7 @@
         <form @submit.prevent="submitComment">
           <textarea ref="textarea" v-model="content" type="text" placeholder="Napíš komentár..."></textarea>
           <div class="buttons">
-            <button class="close" @click="emit('close')" type="button">Zavrieť</button>
+            <BasicButton type="close" @handleClick="emit('close')">Zavrieť</BasicButton>
             <BasicButton :disabled="content.length === 0 || loading === true" style="align-self:flex-end;">
               Komentovať
               <Loader v-if="loading" border="3px" />
@@ -127,17 +127,6 @@ div.modal{
         outline:1px solid var(--theme-color)
       }
     }
-  }
-  button.close{
-    background-color: crimson;
-    color: white;
-    font-family: 'Roboto', sans-serif;
-    padding:0.35rem 0.75rem 0.25rem;
-    border-radius: 0.25rem;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.5px;
   }
   div.buttons{
     display: flex;

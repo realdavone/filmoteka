@@ -7,9 +7,7 @@
     </div>
     <div v-if="isSearchRendered" class="middle">
       <SearchForm />
-      <NavButton title="Zatvoriť vyhľadávanie" @handleClick="isSearchRendered = false">
-        <template #icon><span style="color:var(--theme-color);font-size:1.5rem;">&#10095;</span></template>
-      </NavButton>
+      <button @click="isSearchRendered = false" style="font-size:large">&times;</button>
     </div>
     <div v-if="!isSearchRendered" class="right-menu">
       <NavButton title="Vyhľadávanie" @handleClick="isSearchRendered = true">
@@ -79,7 +77,6 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-
 nav{
   height:var(--nav-height);
   width:100%;

@@ -28,8 +28,8 @@
         </section>
         <span v-else class="no-items">Neboli pridané žiadne záložky.</span>
         <div class="buttons">
-          <button class="close" @click="emit('close')">Zavrieť</button>
-          <button v-if="store.state.favourites.length !== 0" @click="store.methods.favourites.removeAll()">Zmazať všetky</button>
+          <BasicButton type="close" @handleClick="emit('close')">Zavrieť</BasicButton>
+          <BasicButton v-if="store.state.favourites.length !== 0" type="transparent" @handleClick="store.methods.favourites.removeAll()">Zmazať všetky</BasicButton>
         </div>
       </aside>
     </template>
@@ -39,6 +39,7 @@
 <script setup lang="ts">
 import { inject, computed, ref, defineAsyncComponent } from 'vue'
 import { onClickOutside } from '@vueuse/core'
+import BasicButton from './Buttons/BasicButton.vue';
 
 const Modal = defineAsyncComponent(() => import('./Modal.vue'))
 
@@ -112,7 +113,7 @@ aside.modal{
       input.search-input{
         color:inherit;
         width:100%;
-        padding:6px 5px;
+        padding:0.75rem 0.5rem;
         background:transparent;
       }
       button.clear-search{
@@ -158,7 +159,10 @@ aside.modal{
             object-fit:cover;
           }
         }
-        span.text{font-size:0.8rem;font-weight:700;}
+        span.text{
+          font-size:0.8rem;
+          font-weight:700;
+        }
         span.last-watched{
           display:block;
           font-weight:bold;
@@ -170,7 +174,6 @@ aside.modal{
         font-weight: 700;
         color: crimson;
         font-size: 1.25rem;
-        visibility: hidden;
       }
       &.inactive{
         opacity:0.25
@@ -181,10 +184,6 @@ aside.modal{
       &:hover{
         background-color: var(--card-color-hover);
         border-radius: 0.25rem;
-
-        button.remove-item{
-          visibility:initial;
-        }
       }
     }
   }
@@ -194,22 +193,6 @@ aside.modal{
     gap:8px;
     padding: 0 10px;
     margin-top: auto;
-
-    button{
-      background-color: #ffffff10;
-      font-family: 'Roboto', sans-serif;
-      padding:0.35rem 0.75rem 0.25rem;
-      border-radius: 0.25rem;
-      text-transform: uppercase;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-
-      &.close{
-        background-color: crimson;
-        color: white;
-      }
-    }
   }
   span.no-items{
     padding:0 1rem;
