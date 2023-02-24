@@ -58,7 +58,7 @@ const currentPage = ref<null | number>(null)
 const numberOfPages = ref<null | number>(null)
 const numberOfComments = ref<null | number>(null)
 
-const loading = ref(true)
+const loading = ref(false)
 const error = ref<string | null>(null)
 
 function navigate(page: number) {

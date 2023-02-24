@@ -110,31 +110,36 @@ div.modal{
     display:flex;
     flex-direction:column;
     gap:1rem;
+
     textarea{
       background-color:var(--card-color);
-      border-radius:1rem;
+      border-radius:0.5rem;
       padding:0.75rem;
       color:var(--font-color);
       resize:none;
       width:100%;
       min-width:100%;
       height:100px;
+
       &:focus{
         outline:1px solid var(--theme-color)
       }
     }
     button{
-      background-color:var(--theme-color);
-      padding:0.5rem 1rem;
-      border-radius:1rem;
-      display:flex;
-      gap:0.75rem;
-      align-items:center;
-      justify-content:center;
-      color:var(--font-color-dark);
-      align-self:flex-end;
-      font-size:0.75rem;
-      font-weight:700;
+      background-color: var(--theme-color);
+      border-radius: 0.25rem;
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      justify-content: center;
+      color: var(--font-color-dark);
+      align-self: flex-end;
+      font-size: 0.8rem;
+      font-weight: 700;
+      font-family: 'Open Sans', sans-serif;
+      padding:0.35rem 1rem;
+      min-width: 140px;
+
       &:disabled{
         opacity:0.5;
         cursor:default;
