@@ -23,21 +23,14 @@
       <section class="menu-tabs">
         <SidebarMenuTile v-for="link, i in links" :key="i" :link="link" @click="closeMenu" />
       </section>
-      <section v-auto-animate class="menu-items">
-        <SidebarMenuItem :link="visualMenuButton" @click="isVisualMenuOpened = !isVisualMenuOpened" :class="isVisualMenuOpened && 'active'"/>
-        <div v-if="isVisualMenuOpened" class="visual-menu">
-          <div class="theme-picker">
-            <button class="theme-button dark" @click="store.methods.settings.darkTheme.set(true)" :data-active="store.state.settings.darkTheme === true" title="Tmavý režim">
-              <span class="material-icons">dark_mode</span>
-            </button>
-            <button class="theme-button light" @click="store.methods.settings.darkTheme.set(false)" :data-active="store.state.settings.darkTheme === false" title="Svetlý režim">
-              <span class="material-icons-outlined">light_mode</span>
-            </button>
-          </div>
-          <div class="color-picker">
-            <button v-for="(color, i) in store.state.settings.themeColors.colors" :key="i" class="color" :style="`border-color:${color}`" @click="store.methods.settings.themeColor.set(color)" :data-active="store.methods.settings.themeColor.get()===color"></button>
-          </div>
-        </div>
+      <section class="menu-items">
+        <button @click="isVisualMenuOpened = true">
+          <span class="material-icons">palette</span>
+          <span class="label">Vizuálne nastavenia</span>
+        </button>
+        <Transition name="fade">
+          <VisualSettingsModal v-if="isVisualMenuOpened" @close="isVisualMenuOpened = false" />
+        </Transition>
       </section>
       <Footer />
     </main>
@@ -46,11 +39,11 @@
 
 <script setup lang="ts">
 import NavButton from './Buttons/NavButton.vue'
-import SidebarMenuItem from './Sidebar/SidebarMenuItem.vue'
 import SidebarMenuTile from './Sidebar/SidebarMenuTile.vue'
 import Footer from './Footer.vue'
 import Logo from './Logo.vue'
 import Avatar from './Avatar.vue'
+import VisualSettingsModal from './VisualSettingsModal.vue'
 
 import { notify } from "@kyvg/vue3-notification"
 import { onClickOutside } from '@vueuse/core'
@@ -64,7 +57,6 @@ const menu = ref<null | HTMLDivElement>(null)
 const emit = defineEmits(['closeMenu','menu'])
 
 const isVisualMenuOpened = ref(false)
-const isRecentItemsMenuOpened = ref(false)
 
 const links = [
   {
@@ -104,29 +96,13 @@ const links = [
   }
 ]
 
-const visualMenuButton = {
-  icon: '<span style="font-size:1.25rem" class="material-icons-outlined">brush</span>',
-  label: 'Vizuálne nastavenia',
-  isLink: false,
-  route: null,
-  shown: true
-}
-
-const recentItemsMenuButton = {
-  icon: '<span style="font-size:1.25rem" class="material-icons-outlined">history</span>',
-  label: 'Posledne navštívené',
-  isLink: false,
-  route: null,
-  shown: true
-}
-
 const logout = () => Auth.logout().then(res => notify({ type: 'success', text: res.message }))
 
 const closeAtEscapeKeydown = (e: KeyboardEvent) => { if(e.code === 'Escape') closeMenu() }
 
 useEvent({ target: document, event: 'keydown', callback: closeAtEscapeKeydown })
 
-onClickOutside(menu, () => { closeMenu() })
+onClickOutside(menu, () => closeMenu())
 
 const closeMenu = () => emit('closeMenu', true)
 </script>
@@ -229,57 +205,23 @@ aside{
     section.menu-items{
       display:flex;
       flex-direction:column;
+      align-items: flex-start;
       gap:0.5rem;
+
+      button{
+        font-size: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap:10px;
+
+        span:last-of-type{
+          font-size: 0.85rem;
+        }
+      }
     }
     section.menu-tabs{
       display:grid;
       grid-template-columns:repeat(3, 1fr);
-    }
-    div.theme-picker{
-      display:flex;
-      gap:1rem;
-      button.theme-button{
-        width:100%;
-        padding:4px 8px;
-        border-radius:0.5rem;
-        display:flex;
-        gap:1rem;
-        align-items:center;
-        justify-content:center;
-        position:relative;
-        &.dark{
-          background:var(--dark-background);
-          color:var(--font-color-dark);
-        }
-        &.light{
-          background:var(--light-background);
-          color:var(--font-color-light);
-        }
-        &[data-active=true]::after{
-          content:'';
-          position:absolute;
-          top:-7px;
-          right:5px;
-          font-weight:900; 
-          font-size:0.75rem;
-          content:'\2713'
-        }
-      }
-    }
-    div.color-picker{
-      display:flex;
-      gap:8px;
-      button.color{
-        width:100%;
-        aspect-ratio:1;
-        border-radius:100px;
-        position:relative;
-        color:var(--font-color-dark);
-        overflow:hidden;
-        border-width:3px;
-        border-style:solid;
-        &[data-active=true]{ background-color:var(--theme-color) }
-      }
     }
     div.grid-list-sec{
       display:grid;

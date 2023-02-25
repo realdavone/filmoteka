@@ -32,6 +32,7 @@ button{
   justify-content: center;
   gap: 10px;
   letter-spacing:0.5px;
+  transition: 0.2s ease background;
   &.outline{
     background-color: transparent;
     outline: 1px solid var(--font-color)

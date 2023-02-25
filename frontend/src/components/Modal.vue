@@ -19,21 +19,21 @@ onUnmounted(() => {
 })
 
 useEvent({ target: document.body, event: 'keydown', callback: (e: any) => e.code === 'Escape' && emit('close') })
-
 </script>
 
 <style lang="scss" scoped>
-  div.modal-mask{
-    position:fixed;
-    width:100%;
-    height:100vh;
-    background:#00000080;
-    top:0;
-    left:0;
-    z-index:999;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    backdrop-filter:blur(4px);
-  }
+div.modal-mask{
+  position:fixed;
+  width:100%;
+  height:100vh;
+  background:#00000080;
+  top:0;
+  left:0;
+  z-index:999;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  backdrop-filter:blur(4px);
+  padding-right:10px
+}
 </style>

@@ -2,12 +2,10 @@
   <section class="prompt user-select-none" v-if="shown">
     <span><b>Neobmedzené</b> sledovanie filmov a seriálov.</span>
     <BasicButton type="hover-color-change"  @handleClick="$router.push('/login')">Prihlásiť sa</BasicButton>
-    <CloseButton v-if="props.enableClose" class="close" @click="shown = false"  />
   </section>
 </template>
 
 <script setup lang="ts">
-import CloseButton from '../Buttons/CloseButton.vue'
 import BasicButton from '../Buttons/BasicButton.vue'
 import { ref, withDefaults } from 'vue'
 
