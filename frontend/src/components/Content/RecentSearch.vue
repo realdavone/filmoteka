@@ -4,6 +4,7 @@
     <div class="history" v-else>
       <div class="items">
         <div v-for="(item, index) in store.state.recentSearch" :key="index" class="item">
+          <span class="material-icons-outlined">history</span>
           <span @click.prevent="emit('handleRecentItem', item)">{{item}}</span>
           <button
           @click.prevent="store.methods.recentSearch.removeItem(item)">

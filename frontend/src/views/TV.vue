@@ -134,6 +134,7 @@
 <script setup lang="ts">
 import getData from '../api/main'
 import _ from '../utils/main'
+import useTitle from '../composables/title'
 
 import { ref, reactive, onBeforeMount, inject, onActivated } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -186,7 +187,7 @@ const fetchData = async (id: string) => {
     result.value['isPlayerWorking'] === undefined ? isPlayerWorking.value = true : isPlayerWorking.value = result.value['isPlayerWorking']
     result.value['isRecommended'] === undefined ? isRecommended.value = false : isRecommended.value = result.value['isRecommended']
 
-    document.title = `${result.value?.name} / Filmotéka`
+    useTitle({ title: result.value?.name })
 
     loading.value = false
   } catch (error) { router.push({ name: 'NotFound' }) }

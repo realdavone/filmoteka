@@ -132,16 +132,14 @@ status.set('Returning Series', 'Pokračuje')
 
 <style lang="scss" scoped>
 div.details{
-  display:grid;
+  display: grid;
   grid-template-columns:[start] repeat(auto-fill, minmax(180px, 1fr)) [end];
-  gap:1rem;
+  gap: 1rem;
+  row-gap: 2rem;
   width:100%;
   div.item{
-    box-shadow:var(--basic-box-shadow);
-    padding:0.5rem 1rem;
     display:flex;
     flex-direction:column;
-    border-radius:0.5rem;
     align-items:flex-start;
     font-size:0.75rem;
     text-align:left;

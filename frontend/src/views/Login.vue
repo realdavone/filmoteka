@@ -4,8 +4,8 @@
       <section class="form">
         <header>
           <span>Prihlásenie</span>
-          <CloseButton @click="history.state.back === null ? router.push('/') : router.go(-1)"/>
-        </header>
+          <BasicButton type="close" @handleClick="history.state.back === null ? router.push('/') : router.go(-1)">Zavrieť</BasicButton>
+          </header>
         <form class="form" @submit.prevent="login">
           <div class="input">
             <input v-model="credentials.email" type="email" name="email" placeholder="Email" autocomplete="email" required>
@@ -28,7 +28,6 @@
 </template>
 
 <script setup lang="ts">
-import CloseButton from '../components/Buttons/CloseButton.vue'
 import Loader from '../components/Loader.vue'
 import { notify } from "@kyvg/vue3-notification"
 import { reactive, inject, onMounted, ref } from 'vue'

@@ -17,7 +17,7 @@
           <span class="name">{{store.state.credentials.user.email}}</span>
         </div>
       </div>
-      <button class="logout-button" @click="logout(); closeMenu()" title="Odhlásiť">Odhlásiť</button>
+      <BasicButton type="transparent" @handleClick="logout(); closeMenu()" title="Odhlásiť">Odhlásiť</BasicButton>
     </section>
     <main class="menu-content">
       <section class="menu-tabs">
@@ -36,16 +36,6 @@
           </div>
           <div class="color-picker">
             <button v-for="(color, i) in store.state.settings.themeColors.colors" :key="i" class="color" :style="`border-color:${color}`" @click="store.methods.settings.themeColor.set(color)" :data-active="store.methods.settings.themeColor.get()===color"></button>
-          </div>
-        </div>
-        <SidebarMenuItem :link="recentItemsMenuButton" @click="isRecentItemsMenuOpened = !isRecentItemsMenuOpened" :class="isRecentItemsMenuOpened && 'active'" />
-        <div v-if="isRecentItemsMenuOpened" class="recent-items">
-          <span v-if="store.state.recentItems.length === 0" class="no-history">Žiadne navštívené</span>
-          <div v-else class="grid-list-sec">
-            <router-link class="recent-item" v-for="(recentItem, i) in store.state.recentItems" :key="i" :title="recentItem.title" :to="{ path: `/${recentItem.type}/${recentItem.id}` }" @click.native="closeMenu">
-              <img v-if="recentItem.poster" :src="`https://www.themoviedb.org/t/p/w220_and_h330_face${recentItem.poster}`" :alt="recentItem.title">
-              <span v-else>{{recentItem.title}}</span>
-            </router-link>
           </div>
         </div>
       </section>
@@ -67,6 +57,7 @@ import { onClickOutside } from '@vueuse/core'
 import { ref, inject } from 'vue'
 import Auth from '../auth/main'
 import useEvent from '../composables/event'
+import BasicButton from './Buttons/BasicButton.vue'
 
 const store = inject<any>('store')
 const menu = ref<null | HTMLDivElement>(null)

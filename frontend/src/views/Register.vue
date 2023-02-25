@@ -4,7 +4,7 @@
       <section class="form">
         <header>
           <span>Registrácia</span>
-          <CloseButton @click="history.state.back === null ? router.push('/') : router.go(-1)"/>
+          <BasicButton type="close" @handleClick="history.state.back === null ? router.push('/') : router.go(-1)">Zavrieť</BasicButton>
         </header>
         <form class="form" @submit.prevent="register" autocomplete="off">
           <div class="input">

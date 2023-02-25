@@ -8,7 +8,7 @@
 import { withDefaults } from 'vue'
 
 const props = withDefaults(defineProps<{
-  type?: 'basic' | 'hover-color-change' | 'transparent' | 'close'
+  type?: 'basic' | 'hover-color-change' | 'outline' | 'close' | 'transparent'
 }>(), {
   type: 'basic'
 })
@@ -19,7 +19,7 @@ button{
   padding: 0 1rem;
   border-radius: 0.25rem;
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
   position: relative;
   z-index: 1;
@@ -32,9 +32,17 @@ button{
   justify-content: center;
   gap: 10px;
   letter-spacing:0.5px;
-  &.transparent{
+  &.outline{
     background-color: transparent;
     outline: 1px solid var(--font-color)
+  }
+
+  &.transparent{
+    background-color: transparent;
+
+    &:hover{
+      background-color: var(--card-color-hover);
+    }
   }
   &.close{
     background-color: crimson;

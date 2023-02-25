@@ -164,8 +164,8 @@ const methods = {
         state.recentItems.splice(state.recentItems.findIndex(title => title.id === item.id && title.type === item.type), 1)
       }
       state.recentItems.unshift(item)
-      if(state.recentItems.length > 6){
-        state.recentItems=state.recentItems.splice(0, 6)
+      if(state.recentItems.length > 10){
+        state.recentItems=state.recentItems.splice(0, 10)
       }
       localStorage.setItem('recentItems', JSON.stringify(state.recentItems))
     },

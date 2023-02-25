@@ -27,7 +27,7 @@
         </BasicButton>
       </template>
       <div v-if="!isSearchRendered && !store.state.credentials.loggedIn" class="auth-buttons">
-        <button v-if="store.state.globalSettings?.allowRegistration" class="register-button" @click="$router.push('/register')">Registrovať</button>
+        <button v-if="store.state.globalSettings?.allowRegistration" @click="$router.push('/register')">Registrovať</button>
         <BasicButton type="hover-color-change" @handleClick="$router.push('/login')">Prihlásiť sa</BasicButton>
       </div>
     </div>

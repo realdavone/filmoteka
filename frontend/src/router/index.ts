@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import store from '../store/index'
+import useTitle from '../composables/title'
 
 const routes = [
   {
@@ -120,6 +121,6 @@ router.beforeEach((to, from) => {
   if(to.meta.requiresAdmin && store.state.credentials.loggedIn === false) return '/login'
 })
 
-router.afterEach((to, from) => document.title = `${to.meta?.title} / Filmotéka`)
+router.afterEach((to, from) => useTitle({ title: to.meta?.title as string || '' }))
 
 export default router
