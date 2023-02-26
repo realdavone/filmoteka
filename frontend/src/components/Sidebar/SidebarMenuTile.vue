@@ -36,6 +36,8 @@ a.menu-item, button.menu-item{
   overflow:hidden;
   transition:0.2s ease background-color;
   aspect-ratio:1;
+  background-color: var(--card-color);
+  border-radius: 0.5rem;
   div.icon{
     width:25px;
     text-align:center;

@@ -27,7 +27,7 @@
         <SidebarMenuTile v-for="link, i in links" :key="i" :link="link" @click="closeMenu" />
       </section>
       <section class="menu-items">
-        <button @click="isVisualMenuOpened = true">
+        <button @click="isVisualMenuOpened = true" class="menu-button">
           <span class="material-icons">palette</span>
           <span class="label">Vizuálne nastavenia</span>
         </button>
@@ -155,12 +155,6 @@ aside{
     border-bottom-left-radius:2rem;
     background:var(--card-color);
   }
-  div.recent-items{
-    background:var(--card-color);
-    padding:1rem;
-    border-bottom-right-radius:2rem;
-    border-bottom-left-radius:2rem;
-  }
   section.user{
     display: flex;
     justify-content: space-between;
@@ -176,26 +170,11 @@ aside{
         }
       }
     }
-    button.logout-button{
-      line-height:1;
-      font-size:0.75rem;
-      font-weight:700;
-      text-transform:uppercase;
-      background-color:#ffffff10;
-      padding:10px;
-      border-radius: 0.25rem;
-      font-family: 'Roboto', sans-serif;
-      letter-spacing: 0.5px;
-      align-self: flex-start;
-      &:hover{
-        background-color:#ffffff30;
-      }
-    }
   }
   main.menu-content{
     display:flex;
     flex-direction:column;
-    gap:1rem;
+    gap:10px;
     overflow-y:scroll;
     padding:0.75rem 0.5rem 0.5rem 0.75rem;
     overflow-x:hidden;
@@ -214,15 +193,24 @@ aside{
         display: flex;
         align-items: center;
         gap:10px;
+        background-color: var(--card-color);
+        width: 100%;
+        padding: 8px;
+        border-radius: 0.25rem;
 
         span:last-of-type{
           font-size: 0.85rem;
+        }
+
+        &:hover{
+          background-color: var(--card-color-hover);
         }
       }
     }
     section.menu-tabs{
       display:grid;
       grid-template-columns:repeat(3, 1fr);
+      gap:10px;
     }
     div.grid-list-sec{
       display:grid;
