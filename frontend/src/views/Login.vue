@@ -15,7 +15,7 @@
           </div>
           <BasicButton :disabled="loginStart">
             <span>{{ !loginStart ? 'Prihlásiť' : 'Prihlasovanie' }}</span>
-            <Loader v-if="loginStart" color="white" :border="'3px'" />
+            <Loader v-if="loginStart" type="inline" />
           </BasicButton>
           <div class="google-button" style="width:100%;overflow:hidden;display:flex;justify-content:center;border-radius: 4px;">
             <div id="buttonDiv" style="align-self:center;height:32px;"></div>

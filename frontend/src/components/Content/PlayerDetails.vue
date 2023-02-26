@@ -139,7 +139,7 @@ section.container{
 }
 :slotted(h1.title){
   line-height:1.1;
-  font-size:2rem;
+  font-size:1.75rem;
   font-weight:700;
   span{
     opacity:0.5;

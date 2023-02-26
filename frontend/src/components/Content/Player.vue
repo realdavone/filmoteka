@@ -17,7 +17,7 @@
       </div>
     </div>
     <div v-if="props.source && !loadedIframe" class="loading">
-      <Loader height="2rem" border="0.3rem" color="white"/>
+      <Loader type="default"/>
     </div>
     <iframe @load="loadedIframe = true" v-if="props.source" :class="{ pinned: pinned && store.state.settings.pinnedPlayer }" :src="props['source']" frameborder="0" loading="lazy" allowfullscreen></iframe>
     <div v-if="!props.isReady.status" class="message">

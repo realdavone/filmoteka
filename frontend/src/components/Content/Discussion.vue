@@ -8,7 +8,7 @@
         <div v-if="error" class="error">{{ error }}</div>
         <Comment v-for="comment in data" :key="comment.id" :comment="comment" @deleted="fetchComments(1)"/>
       </template>
-      <Loader v-else height="1.5rem" :border="'0.25rem'" />
+      <Loader v-else type="default" />
     </div>
     <PageControl
     v-if="numberOfPages! > 1"
@@ -123,7 +123,7 @@ div.comments{
   gap:1rem;
   max-height:100vh;
   overflow:auto;
-  min-height: 2rem;
+  min-height: 40px;
   &::-webkit-scrollbar{ width:15px; height:15px; }
   &::-webkit-scrollbar-thumb{background:var(--card-color-hover);border:4px solid transparent;border-radius:10px;background-clip:content-box;}
 }

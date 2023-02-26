@@ -15,7 +15,7 @@
             <BasicButton type="close" @handleClick="emit('close')">Zavrieť</BasicButton>
             <BasicButton :disabled="content.length === 0 || loading === true" style="align-self:flex-end;">
               Komentovať
-              <Loader v-if="loading" border="3px" />
+              <Loader v-if="loading" type="inline" />
             </BasicButton>
           </div>
         </form>
@@ -94,6 +94,7 @@ div.modal{
   gap:1rem;
   width:100%;
   max-width:400px;
+  box-shadow: var(--modal-box-shadow);
   div.error{color:crimson}
   header{
     display:flex;

@@ -121,7 +121,6 @@ aside{
   flex-direction:column;
   overflow:hidden;
   background-color:var(--background-color);
-  box-shadow: 2px 0px 8px 0px rgba(0,0,0,0.75);
 
   header{
     display:flex;

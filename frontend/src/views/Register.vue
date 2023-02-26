@@ -19,7 +19,7 @@
           <div v-if="error" class="error">{{error}}</div>
           <BasicButton :disabled="registerStart">
             <span>Registrovať</span>
-            <Loader v-if="registerStart" color="white" :border="'3px'" />
+            <Loader v-if="registerStart" type="inline" />
           </BasicButton>
         </form>
         <router-link tabindex="0" to="/login" class="link">Už máte účet?</router-link>

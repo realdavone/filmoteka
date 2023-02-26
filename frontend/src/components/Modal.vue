@@ -26,7 +26,7 @@ div.modal-mask{
   position:fixed;
   width:100%;
   height:100vh;
-  background:#00000080;
+  background:var(--background-color-alpha);
   top:0;
   left:0;
   z-index:999;
@@ -34,6 +34,5 @@ div.modal-mask{
   justify-content:center;
   align-items:center;
   backdrop-filter:blur(4px);
-  padding-right:10px
 }
 </style>

@@ -78,7 +78,7 @@ aside.modal{
   flex-direction:column;
   gap:10px;
   border-radius:12px;
-  box-shadow: 0px 0px 33px 7px rgba(0, 0, 0, 0.156);
+  box-shadow: var(--modal-box-shadow);
   overflow:hidden;
   padding-bottom:10px;
   header{

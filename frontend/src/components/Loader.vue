@@ -1,29 +1,29 @@
 <template>
-  <div
-  class="loader"
-  :style="{
-    minHeight: props?.height || '1rem',
-    minWidth: props?.height || '1rem',
-    borderWidth: props?.border || '0.25rem',
-    borderRadius: '50%',
-    borderStyle: 'solid',
-    borderColor: color || 'var(--font-color)',
-    borderTopColor: 'transparent',
-  }"></div>
+  <div :class="`loader ${type}`"></div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  height?: string
-  border?: string
-  color?: string
+defineProps<{
+  type: 'default' | 'inline'
 }>()
 </script>
 
 <style lang="scss" scoped>
 div.loader {
   aspect-ratio:1;
-  animation: spin 1s linear infinite;
+  animation: spin 0.8s linear infinite;
+  border-radius: 50%;
+  border-style: solid;
+  border-color: var(--font-color);
+  border-top-color: transparent;
+  &.default{
+    width: 30px;
+    border-width: 5px;
+  }
+  &.inline{
+    width: 1rem;
+    border-width: 2px;
+  }
 }
 @keyframes spin {
   0% { transform: rotate(0deg); }

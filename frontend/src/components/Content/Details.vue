@@ -21,7 +21,7 @@
         v-for="country in details.countries"
         :key="country.iso_3166_1">
         {{store.state.countries[country.iso_3166_1.toLowerCase()]}}
-      </span>
+        </span>
       </div>
     </div>
     <div class="item" v-if="details.revenue">
@@ -41,7 +41,6 @@
       {{`${Math.floor(details.runtime / 60) > 0 ? `${Math.floor(details.runtime / 60)}h` : ''} ${details.runtime % 60}m`}}
     </div>
     <div class="item full-width">
-      <span class="label">Hodnotenia</span>
       <div class="ratings">
         <Rating v-for="(rating, i) in details.ratings" :key="i" size="normal" :name="rating.name" :url="rating.url || undefined" :rating="rating.rating || 'N/A'" />
       </div>
@@ -58,7 +57,6 @@
       </div>
     </div>
     <div class="item full-width" v-if="details.networks?.length">
-      <span class="label">Produkčné spoločnosti</span>
       <div class="networks">
         <img
         v-for="network in details.networks.filter(network => network.logo_path)"

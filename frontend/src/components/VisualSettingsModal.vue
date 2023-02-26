@@ -53,6 +53,7 @@ div.modal{
   gap:1rem;
   width:100%;
   max-width:400px;
+  box-shadow: var(--modal-box-shadow);
 
   header{
     display:flex;
