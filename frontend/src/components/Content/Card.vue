@@ -1,6 +1,7 @@
 <template>
   <router-link tabindex="0" :title="item.title" :class="`title-card user-select-none ${store.methods.watched.exists({ type: item.media_type, id: item.id }) ? 'seen' : ''}`" :to="`/${item.media_type}/${item.id}`">
     <div class="poster">
+      <div v-if="!item.poster_path">{{ item.title }}</div>
       <Poster :src="item.poster_path || null" :alt="item.title" :fadeInOnLoad="true" />
       <div class="hover">
         <span class="material-icons">play_arrow</span>

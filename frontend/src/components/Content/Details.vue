@@ -46,7 +46,6 @@
       </div>
     </div>
     <div class="item full-width" v-if="details.creators?.length">
-      <span class="label">Tvorci</span>
       <div class="creators">
         <div class="creator" v-for="creator in details.creators" :key="creator.id">
           <router-link :to="`/person/${creator.id}`" class="name">{{creator.name}}</router-link>

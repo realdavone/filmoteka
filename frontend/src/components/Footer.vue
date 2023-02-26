@@ -5,7 +5,7 @@
         <img class="tmdb-logo" src="../assets/tmdb.svg" alt="TMDB">
       </a>
     </div>
-    <span class="copy">&copy; 2022 &dash; 2023 Filmotéka</span>
+    <span class="copy">2022-2023, Filmotéka</span>
   </footer>
 </template>
 

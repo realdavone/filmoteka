@@ -1,7 +1,7 @@
 <template>
   <section class="discussion user-select-none">
     <h3>Diskusia</h3>
-    <div v-if="numberOfComments" class="number-of-comments">Počet komentárov: {{ numberOfComments }}</div>
+    <div class="number-of-comments">Počet komentárov: {{ numberOfComments }}</div>
     <button class="add-comment" @click="openModal">Napísať komentár...</button>
     <div class="comments">
       <template v-if="!loading">

@@ -10,16 +10,19 @@
         </NavButton>
       </div>
     </header>
-    <section v-if="store.state.credentials.loggedIn" class="user-select-none user">
-      <div class="user-info">
-        <div class="username">
-          <Avatar :id="store.state.credentials.user._id" />
-          <span class="name">{{store.state.credentials.user.email}}</span>
-        </div>
-      </div>
-      <BasicButton type="transparent" @handleClick="logout(); closeMenu()" title="Odhlásiť">Odhlásiť</BasicButton>
-    </section>
     <main class="menu-content">
+      <section v-if="store.state.credentials.loggedIn" class="user-select-none user">
+        <div class="user-info">
+          <div class="username">
+            <Avatar :id="store.state.credentials.user._id" />
+            <span class="name">{{store.state.credentials.user.email}}</span>
+          </div>
+        </div>
+        <BasicButton type="transparent" @handleClick="() => {
+          logout()
+          closeMenu()
+        }" title="Odhlásiť">Odhlásiť</BasicButton>
+      </section>
       <section class="menu-tabs">
         <SidebarMenuTile v-for="link, i in links" :key="i" :link="link" @click="closeMenu" />
       </section>
@@ -32,8 +35,8 @@
           <VisualSettingsModal v-if="isVisualMenuOpened" @close="isVisualMenuOpened = false" />
         </Transition>
       </section>
-      <Footer />
     </main>
+    <Footer :style="{ marginTop: 'auto', marginLeft: '10px' }" />
   </aside>
 </template>
 
@@ -128,6 +131,8 @@ aside{
     min-height:var(--nav-height);
     gap:1rem;
     padding:0 0.5rem 0 1.5rem;
+    transition: 0.2s ease background;
+
     div.left-col{
       margin-right:auto;
       display:flex;
@@ -156,14 +161,10 @@ aside{
     border-bottom-right-radius:2rem;
     border-bottom-left-radius:2rem;
   }
-  header, main.menu-content{
-    transition: 0.2s ease background;
-  }
   section.user{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5rem 0.95rem;
     div.user-info{
       div.username{
         display: flex;
@@ -196,9 +197,10 @@ aside{
     flex-direction:column;
     gap:1rem;
     overflow-y:scroll;
-    padding:0.75rem 0.75rem 0.5rem;
-    min-height:calc(100vh - var(--nav-height));
+    padding:0.75rem 0.5rem 0.5rem 0.75rem;
     overflow-x:hidden;
+    transition: 0.2s ease background;
+
     &::-webkit-scrollbar{width:15px;height:15px;}
     &::-webkit-scrollbar-thumb{background:var(--card-color);border:4px solid transparent;border-radius:10px;background-clip:content-box;}
     section.menu-items{

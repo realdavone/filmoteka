@@ -1,26 +1,26 @@
 <template>
   <section class="title-holder user-select-none">
     <section class="left-col">
-      <header>Filmy</header>
+      <header>
+        <span class="material-icons">movie</span>
+        <span class="label">Filmy</span>
+      </header>
       <ItemPanel type="title" :placeholderData="{ count: 3 }" :items="result.movies" />
-      <router-link v-if="loaded" :to="`/search/movie?q=${route.query.q}&page=1`" class="show-more">
-        <span>Zobraziť filmy</span>
-        &#10095;
-      </router-link>
-      <header>Seriály</header>
+      <router-link v-if="loaded" :to="`/search/movie?q=${route.query.q}&page=1`" class="show-more">Zobraziť filmy</router-link>
+      <header>
+        <span class="material-icons">tv</span>
+        <span class="label">Seriály</span>
+      </header>
       <ItemPanel type="title" :placeholderData="{ count: 3 }" :items="result.tvs" />
-      <router-link v-if="loaded" :to="`/search/tv?q=${route.query.q}&page=1`" class="show-more">
-        <span>Zobraziť seriály</span>
-        &#10095;
-      </router-link>
+      <router-link v-if="loaded" :to="`/search/tv?q=${route.query.q}&page=1`" class="show-more">Zobraziť seriály</router-link>
     </section>
     <section class="right-col">
-      <header>Osoby</header>
+      <header>
+        <span class="material-icons">person</span>
+        <span class="label">Osoby</span>
+      </header>
       <ItemPanel type="person" :placeholderData="{ count: 4 }" :items="result.people" />
-      <router-link v-if="loaded" :to="`/search/person?q=${route.query.q}&page=1`" class="show-more">
-        <span>Zobraziť osoby</span>
-        &#10095;
-      </router-link>
+      <router-link v-if="loaded" :to="`/search/person?q=${route.query.q}&page=1`" class="show-more">Zobraziť osoby</router-link>
     </section>
   </section>
 </template>
@@ -64,7 +64,7 @@ const getResults = async (query: string): Promise<void> => {
   } catch (error) { router.push({ name: 'NotFound' }) }
 }
 
-onBeforeMount(() => { getResults(route.query.q as string) })
+onBeforeMount(() => getResults(route.query.q as string))
 </script>
 
 <style lang="scss" scoped>
@@ -72,9 +72,13 @@ section.title-holder{
   display:flex;
   flex-direction:row;
   gap:1rem;
+
   header{
     font-weight:900;
     font-size:1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
   a.show-more{
     color:var(--theme-color);
@@ -83,8 +87,11 @@ section.title-holder{
     display:flex;
     align-items:center;
     gap:5px;
-    span:nth-child(1){ font-weight:700; }
-    span:nth-child(2){ font-size:1rem; }
+    font-weight:700;
+
+    &:hover{
+      text-decoration: underline;
+    }
   }
   section.right-col, section.left-col{
     display:flex;
