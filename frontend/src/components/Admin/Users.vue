@@ -20,7 +20,7 @@ type User = {
   email: string
   isAdmin: boolean
   isOwner: boolean
-  isApproved: boolean
+  isVerified: boolean
 }
 
 const store = inject<any>('store')
