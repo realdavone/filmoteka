@@ -6,6 +6,7 @@
           <div class="user">
             <Avatar :id="store.state.credentials.user?._id"/>
             <span>{{store.state.credentials.user?.email}}</span>
+            <span v-if="store.state.credentials.user?.isVerified" class="material-icons" style="font-size:1rem;color:var(--theme-color)">verified</span>
           </div>
         </header>
         <div v-if="error" class="error">{{error}}</div>
@@ -105,8 +106,7 @@ div.modal{
       display:flex;
       align-items:center;
       gap:0.5rem;
-      span:first-of-type{ font-size:1.25rem; }
-      span:last-of-type{ font-size:0.75rem; }
+      span:first-of-type{ font-size:0.75rem; }
     }
   }
   form{

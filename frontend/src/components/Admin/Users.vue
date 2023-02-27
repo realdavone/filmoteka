@@ -16,10 +16,11 @@ type UsersResponse = {
 }
 
 type User = {
-  _id: string,
-  email: string,
-  isAdmin: boolean,
+  _id: string
+  email: string
+  isAdmin: boolean
   isOwner: boolean
+  isApproved: boolean
 }
 
 const store = inject<any>('store')

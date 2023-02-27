@@ -15,7 +15,8 @@
         <div class="user-info">
           <div class="username">
             <Avatar :id="store.state.credentials.user._id" />
-            <span class="name">{{store.state.credentials.user.email}}</span>
+            <span class="name">{{ store.state.credentials.user.email }}</span>
+            <span v-if="store.state.credentials.user.isVerified" class="material-icons" style="font-size:1rem;color:var(--theme-color)">verified</span>
           </div>
         </div>
         <BasicButton type="transparent" @handleClick="() => {
@@ -84,7 +85,7 @@ const links = [
     shown: true
   },
   {
-    icon: 'settings',
+    icon: 'admin_panel_settings',
     label: 'Admin',
     isLink: true,
     route: '/admin',
@@ -178,7 +179,6 @@ aside{
     overflow-y:scroll;
     padding:0.75rem 0.5rem 0.5rem 0.75rem;
     overflow-x:hidden;
-    transition: 0.2s ease background;
 
     &::-webkit-scrollbar{width:15px;height:15px;}
     &::-webkit-scrollbar-thumb{background:var(--card-color);border:4px solid transparent;border-radius:10px;background-clip:content-box;}

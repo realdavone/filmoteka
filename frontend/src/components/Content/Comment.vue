@@ -4,6 +4,7 @@
     <div class="right-col">
       <div class="user">
         <span class="name">{{ comment.author?.email }}</span>
+        <span v-if="comment.author?.isVerified" class="material-icons" style="font-size:1rem;color:var(--theme-color)">verified</span>
         <span class="date">{{ useRelativeTimeDifference(comment.createdAt) }}</span>    
       </div>
       <div class="content">{{ comment.content }}</div>

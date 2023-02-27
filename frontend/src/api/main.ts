@@ -19,7 +19,7 @@ const makeRequest = <T>({
     method: options?.method || 'GET',
     headers: {
       'Content-Type': 'application/json',
-      ...store.state.credentials.accessToken ? { 'access-token': store.state.credentials.accessToken } : {},
+      ...(store.state.credentials.accessToken ? { 'access-token': store.state.credentials.accessToken } : undefined),
     },
     body: options?.body
   })

@@ -16,7 +16,12 @@ export const login = async (req, res) => {
     if(user === null) return res.status(400).json({ success: false, message: 'Užívateľ s touto emailovou adresou neexistuje' })
 
     if(user && bcrypt.compareSync(password, user.password)){
-      const accessToken = jwt.sign({ id: user._id, email, isAdmin: user.isAdmin }, process.env.ACCESS_TOKEN_KEY, { expiresIn: process.env.ACCESS_TOKEN_EXPIRY_TIME || "30m" })
+      const accessToken = jwt.sign({
+        id: user._id,
+        email,
+        isAdmin: user.isAdmin,
+        isVerified: user.isVerified
+      }, process.env.ACCESS_TOKEN_KEY, { expiresIn: process.env.ACCESS_TOKEN_EXPIRY_TIME || "30m" })
       const refreshToken = jwt.sign({ id: user._id }, process.env.REFRESH_TOKEN_KEY, { expiresIn: "7d" })
 
       await Token.create({ token: refreshToken })
@@ -25,7 +30,12 @@ export const login = async (req, res) => {
         success: true,
         accessToken,
         refreshToken,
-        user: { _id: user._id, email: user.email, isAdmin: user.isAdmin } 
+        user: {
+          _id: user._id,
+          email: user.email,
+          isAdmin: user.isAdmin,
+          isVerified: user.isVerified
+        } 
       })
     }
     res.status(401).json({ success: false, message: 'Nesprávne meno alebo heslo' })
@@ -65,8 +75,13 @@ export const refreshToken = async (req, res) => {
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_KEY, async (err, user) => {
       if(err) return res.status(403).json({success: false, message: 'Neplatný token'})
   
-      const foundUser = await User.findOne({_id: user.id}, ['email', 'isAdmin'])
-      const accessToken = jwt.sign({ id: foundUser._id, email: foundUser.email, isAdmin: foundUser.isAdmin }, process.env.ACCESS_TOKEN_KEY, { expiresIn: process.env.ACCESS_TOKEN_EXPIRY_TIME || "30m" })
+      const foundUser = await User.findOne({ _id: user.id }, ['email', 'isAdmin', 'isVerified'])
+      const accessToken = jwt.sign({
+        id: foundUser._id,
+        email: foundUser.email,
+        isAdmin: foundUser.isAdmin,
+        isVerified: foundUser.isVerified
+      }, process.env.ACCESS_TOKEN_KEY, { expiresIn: process.env.ACCESS_TOKEN_EXPIRY_TIME || "30m" })
   
       res.status(200).json({ success: true, accessToken, user: foundUser })
     })

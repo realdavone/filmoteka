@@ -9,31 +9,39 @@
       <span>Admin</span>
       <button :data-active="isAdmin" class="toggle-button" @click="toggleAdmin(user._id)"></button>
     </div>
-    <button @click="removeUser(user._id)" class="remove-user">Zmazať</button>
+    <div class="control">
+      <span>Schválené</span>
+      <button :data-active="isVerified" class="toggle-button" @click="toggleApproved(user._id)"></button>
+    </div>
+    <BasicButton type="close" @handleClick="removeUser(user._id)" style="align-self: flex-end;">Zmazať</BasicButton>
   </div>
 </template>
 
 <script setup lang="ts">
 import getData from '../../../api/main'
 import { inject, ref } from 'vue'
+import BasicButton from '../../Buttons/BasicButton.vue';
 
 const store = inject<any>('store') 
 const { user } = defineProps<{
   user: {
-    _id: string,
-    email: string,
-    isAdmin: boolean,
+    _id: string
+    email: string
+    isAdmin: boolean
     isOwner: boolean
+    isVerified: boolean
   }
 }>()
+
 const isAdmin = ref<boolean>(user.isAdmin)
+const isVerified = ref<boolean>(user.isVerified)
 
 const emit = defineEmits(['removeUser'])
 
 const toggleAdmin = async (id: string) => {
   try {
     const data = await getData<{ success: boolean, message: string }>({
-      endpoint: '/user/toggleadmin',
+      endpoint: '/user/toggle-admin',
       options: {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json', 'access-token': store.state.credentials.accessToken },
@@ -43,6 +51,21 @@ const toggleAdmin = async (id: string) => {
     if(data.success) isAdmin.value = !isAdmin.value
   } catch (error) { console.log(error) }
 }
+
+const toggleApproved = async (id: string) => {
+  try {
+    const data = await getData<{ success: boolean, message: string }>({
+      endpoint: '/user/toggle-verified',
+      options: {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', 'access-token': store.state.credentials.accessToken },
+        body: JSON.stringify({ id })
+      }
+    })
+    if(data.success) isVerified.value = !isVerified.value
+  } catch (error) { console.log(error) }
+}
+
 const removeUser = async (id: string) => {
   try {
     const data = await getData<{ success: boolean, message: string }>({

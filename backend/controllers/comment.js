@@ -6,7 +6,7 @@ export const getComments = async (req, res) => {
   const page = Number(req.query.page) || 1
 
   try {
-    const comments = await Comment.find({ type, id }).populate('author', ['_id', 'email']).sort({ 'createdAt': -1 })
+    const comments = await Comment.find({ type, id }).populate('author', ['_id', 'email', 'isVerified']).sort({ 'createdAt': -1 })
 
     const { results, numberOfPages, totalResult } = usePagination({
       data: comments,
@@ -28,7 +28,7 @@ export const addComment = async (req, res) => {
   const { id: userId } = req.user
 
   try {
-    await Comment.create({type, id, content, author: userId})
+    await Comment.create({ type, id, content, author: userId })
     res.status(201).json({ success: true, message: 'Komentár bol pridaný' })
   } catch (error) { res.status(500).json({ success: false, message: error }) }
 }

@@ -34,10 +34,11 @@ type Notifications= {
   recommended: Array<any>
 }
 
-interface User {
+export interface User {
   _id: string
   email: string
   isAdmin: boolean
+  isVerified: boolean
 }
 
 interface Credentials {

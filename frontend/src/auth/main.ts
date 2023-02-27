@@ -1,6 +1,7 @@
 const baseURL = import.meta.env.VITE_BASE_URL
 import store from '../store/index'
 import router from '../router/index'
+import { User } from '../store/index'
 
 interface AuthResponse {
   success: boolean
@@ -22,7 +23,15 @@ export default {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password })
         })
-        const data = await res.json()
+        const data: {
+          accessToken: string
+          refreshToken: string
+          success: true
+          user: User
+        } | {
+          success: false
+          message: string
+        } = await res.json()
         
         if(data.success === false) { throw(data.message) }
       
