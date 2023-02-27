@@ -70,7 +70,7 @@ section.featured{
       max-width:200px;
       aspect-ratio:2/3;
       overflow:hidden;
-      border-radius:16px;
+      border-radius:0.5rem;
       background-color:var(--card-color);
       box-shadow: 0px 0px 15px 1px rgba(0,0,0,0.75);
     }

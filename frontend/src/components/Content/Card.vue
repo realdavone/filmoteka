@@ -30,7 +30,7 @@ const { item } = defineProps<{
 a.title-card{
   overflow:hidden;
   background:var(--card-color);
-  border-radius:1rem;
+  border-radius:0.5rem;
   position:relative;
   transition:0.2s ease background;
   scroll-snap-align:start;
@@ -109,6 +109,8 @@ a.title-card{
   }
 }
 @media screen and (max-width: 600px) {
-  div.poster{ pointer-events:none }
+  div.poster{
+    pointer-events:none
+  }
 }
 </style>

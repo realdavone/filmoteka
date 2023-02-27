@@ -85,8 +85,8 @@ section.container{
     aspect-ratio:2/3;
     min-width:200px;
     max-width:200px;
-    background:var(--card-color-hover);
-    border-radius:1rem;
+    background:var(--card-color);
+    border-radius:0.5rem;
     overflow:hidden;
     position:relative;
     box-shadow: 0px 0px 15px 1px rgba(0,0,0,0.75);

@@ -115,6 +115,8 @@ button.retry-app-button{
   border-radius: 0.25rem;
   font-weight: 700;
   font-family: 'Open Sans', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 main.title{
   display:flex;
