@@ -15,7 +15,7 @@
 import { withDefaults } from 'vue'
 
 const { height } = withDefaults(defineProps<{
-  height: number
+  height?: number
 }>(), {
   height: () => 40
 })

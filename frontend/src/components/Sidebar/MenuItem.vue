@@ -1,5 +1,6 @@
 <template>
   <component
+  v-if="item.isVisible"
   :is="item.route ? 'router-link' : 'button'"
   v-bind="(item.route && { to: item.route })"
   @click.native="$emit('handleClick')"
@@ -15,6 +16,7 @@ defineProps<{
     label: string
     route?: null | string
     icon: string
+    isVisible: boolean
   }
 }>()
 </script>

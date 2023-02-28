@@ -28,7 +28,8 @@
         :item="{
           label: item.label,
           icon: item.icon,
-          route: item.route
+          route: item.route,
+          isVisible: item.isVisible
         }"
         @handleClick="menuClickHandler(item?.onclick || closeMenu)" />
       </section>
@@ -67,32 +68,38 @@ const menuItems = [
   {
     label: 'Domov',
     icon: 'home',
-    route: '/'
+    route: '/',
+    isVisible: true
   },
   {
     label: 'Knižnica',
     icon: 'video_library',
-    route: '/library'
+    route: '/library',
+    isVisible: true
   },
   {
     label: 'Odporúčane',
     icon: 'recommend',
-    route: '/recommended'
+    route: '/recommended',
+    isVisible: true
   },
   {
     label: 'Admin',
     icon: 'admin_panel_settings',
-    route: '/admin'
+    route: '/admin',
+    isVisible: store.state.credentials.user?.isAdmin
   },
   {
     label: 'DMCA',
     icon: 'lock',
-    route: '/dmca'
+    route: '/dmca',
+    isVisible: true
   },
   {
     label: 'Vizuálne nastavenia',
     icon: 'palette',
-    onclick: () => isVisualMenuOpened.value = true
+    onclick: () => isVisualMenuOpened.value = true,
+    isVisible: true
   }
 ]
 
