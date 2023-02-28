@@ -1,6 +1,7 @@
 <template>
   <footer class="user-select-none">
     <div class="logos">
+      <Logo />
       <a href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer">
         <img class="tmdb-logo" src="../assets/tmdb.svg" alt="TMDB">
       </a>
@@ -8,6 +9,10 @@
     <span class="copy">2022-2023, Filmotéka</span>
   </footer>
 </template>
+
+<script setup lang="ts">
+import Logo from './Logo.vue'
+</script>
 
 <style lang="scss" scoped>
 footer{

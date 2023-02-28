@@ -22,36 +22,21 @@
       </section>
     <main class="menu-content">
       <section class="menu">
-        <router-link @click.native="closeMenu" to="/">
-          <span class="material-icons-outlined">home</span>
-          <span class="label">Domov</span>
-        </router-link>
-        <router-link @click.native="closeMenu" to="/library">
-          <span class="material-icons-outlined">video_library</span>
-          <span class="label">Knižnica</span>
-        </router-link>
-        <router-link @click.native="closeMenu" to="/recommended">
-          <span class="material-icons-outlined">recommend</span>
-          <span class="label">Odporúčane</span>
-        </router-link>
-        <router-link @click.native="closeMenu" v-if="store.state.credentials.user?.isAdmin" to="/admin">
-          <span class="material-icons-outlined">admin_panel_settings</span>
-          <span class="label">Admin</span>
-        </router-link>
-        <router-link @click.native="closeMenu" to="/dmca">
-          <span class="material-icons-outlined">lock</span>
-          <span class="label">DMCA</span>
-        </router-link>
-        <button @click="openVisualSettings" class="menu-button">
-          <span class="material-icons">palette</span>
-          <span class="label">Vizuálne nastavenia</span>
-        </button>
+        <MenuItem
+        v-for="item in menuItems"
+        :key="item.label"
+        :item="{
+          label: item.label,
+          icon: item.icon,
+          route: item.route
+        }"
+        @handleClick="menuClickHandler(item?.onclick || closeMenu)" />
       </section>
       <Transition name="fade">
         <VisualSettingsModal v-if="isVisualMenuOpened" @close="isVisualMenuOpened = false" />
       </Transition>
     </main>
-    <Footer :style="{ marginTop: 'auto', marginLeft: '10px' }" />
+    <Footer :style="{ marginLeft: '10px' }" />
     <Teleport to="body">
       <div style="background-color: black; position: fixed; width: 100%; height: 100vh; top: 0; left: 0; opacity: 0.5; z-index: 100;"></div>
     </Teleport>
@@ -63,6 +48,7 @@ import Footer from './Footer.vue'
 import Avatar from './Avatar.vue'
 import VisualSettingsModal from './VisualSettingsModal.vue'
 import BasicButton from './Buttons/BasicButton.vue'
+import MenuItem from './Sidebar/MenuItem.vue'
 
 import { notify } from "@kyvg/vue3-notification"
 import { onClickOutside } from '@vueuse/core'
@@ -77,17 +63,52 @@ const emit = defineEmits(['closeMenu','menu'])
 
 const isVisualMenuOpened = ref(false)
 
+const menuItems = [
+  {
+    label: 'Domov',
+    icon: 'home',
+    route: '/'
+  },
+  {
+    label: 'Knižnica',
+    icon: 'video_library',
+    route: '/library'
+  },
+  {
+    label: 'Odporúčane',
+    icon: 'recommend',
+    route: '/recommended'
+  },
+  {
+    label: 'Admin',
+    icon: 'admin_panel_settings',
+    route: '/admin'
+  },
+  {
+    label: 'DMCA',
+    icon: 'lock',
+    route: '/dmca'
+  },
+  {
+    label: 'Vizuálne nastavenia',
+    icon: 'palette',
+    onclick: () => isVisualMenuOpened.value = true
+  }
+]
+
 const logout = () => Auth.logout().then(res => notify({ type: 'success', text: res.message }))
 
-const closeAtEscapeKeydown = (e: KeyboardEvent) => { if(e.code === 'Escape') closeMenu() }
-
-function openVisualSettings() { isVisualMenuOpened.value = true }
-
-useEvent({ target: document, event: 'keydown', callback: closeAtEscapeKeydown })
+useEvent({ target: document, event: 'keydown', callback: (e: KeyboardEvent) => { if(e.code === 'Escape') closeMenu() } })
 
 onClickOutside(menu, () => closeMenu())
 
-const closeMenu = () => emit('closeMenu', true)
+const closeMenu = () => {
+  emit('closeMenu')
+}
+
+function menuClickHandler(callback?: () => void) {
+  callback?.()
+}
 
 onMounted(() => _.makeUnscrollable(document.body, true))
 onUnmounted(() => _.makeUnscrollable(document.body, false))
@@ -172,42 +193,6 @@ aside{
       align-items: flex-start;
       gap:0.5rem;
       padding:0.75rem;
-
-      button,a{
-        font-size: 0.75rem;
-        display: flex;
-        align-items: center;
-        gap:10px;
-        width: 100%;
-        padding: 8px;
-        border-radius: 0.25rem;
-        font-weight: 700;
-
-        span:first-of-type{
-          opacity: 0.5;
-          transition: 0.2s ease opacity;
-        }
-
-        span:last-of-type{
-          font-size: 0.85rem;
-        }
-
-        &.router-link-active{
-          color: var(--theme-color);
-
-          span:first-of-type{
-            opacity: 1;
-          }
-        }
-
-        &:hover{
-          background-color: var(--card-color);
-
-          span:first-of-type{
-            opacity: 1;
-          }
-        }
-      }
     }
   }
 }
