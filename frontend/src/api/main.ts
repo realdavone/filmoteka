@@ -6,6 +6,7 @@ type Options = {
   method?: 'GET' | 'PATCH' | 'POST' | 'PUT' | 'CONNECT' | 'DELETE' | 'OPTIONS' | 'HEAD' | 'TRACE'
   headers?: Object
   body?: string
+  signal: any
 }
 
 const makeRequest = <T>({
@@ -36,7 +37,7 @@ const makeRequest = <T>({
               method: options?.method || 'GET',
               headers: {
                 'Content-Type': 'application/json',
-                ...store.state.credentials.accessToken ? { 'access-token': store.state.credentials.accessToken } : {},
+                ...(store.state.credentials.accessToken ? { 'access-token': store.state.credentials.accessToken } : undefined),
               },
               body: options?.body
             })

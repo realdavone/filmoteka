@@ -98,7 +98,9 @@ const menuItems = [
   {
     label: 'Vizuálne nastavenia',
     icon: 'palette',
-    onclick: () => isVisualMenuOpened.value = true,
+    onclick: () => {
+      isVisualMenuOpened.value = true
+    },
     isVisible: true
   }
 ]

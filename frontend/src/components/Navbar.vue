@@ -23,7 +23,7 @@
         </NavButton>
         <BasicButton @click="bookmarksVisible = true" style="align-self:center;margin-left: 15px;">
           <span>Záložky: </span>
-          <span>{{store.state.favourites.length}}</span>
+          <span>{{ store.state.favourites.length }}</span>
         </BasicButton>
       </template>
       <div v-if="!isSearchRendered && !store.state.credentials.loggedIn" class="auth-buttons">
