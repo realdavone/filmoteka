@@ -10,7 +10,7 @@ main.login, main.register{
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  padding:0 var(--container-padding);
+  padding:var(--container-padding);
 
   div.outter{
     border-radius:1rem;
