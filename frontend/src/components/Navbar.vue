@@ -21,10 +21,10 @@
           <template #icon><span class="material-icons-outlined" style="padding-top:5px">recommend</span></template>
           <template #notification><span class="notification" v-if="store.state.notifications.recommended.length > 0"></span></template>
         </NavButton>
-        <BasicButton @click="bookmarksVisible = true" style="align-self:center;margin-left: 15px;">
-          <span>Záložky: </span>
-          <span>{{ store.state.favourites.length }}</span>
-        </BasicButton>
+        <NavButton title="Záložky" @handleClick="bookmarksVisible = true">
+          <template #icon><span class="material-icons-outlined" style="padding-top:5px">bookmarks</span></template>
+          <template #notification><span class="count">{{ store.state.favourites.length }}</span></template>
+        </NavButton>
       </template>
       <div v-if="!isSearchRendered && !store.state.credentials.loggedIn" class="auth-buttons">
         <button v-if="store.state.globalSettings?.allowRegistration" @click="$router.push('/register')">Registrovať</button>

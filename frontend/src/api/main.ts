@@ -6,7 +6,7 @@ type Options = {
   method?: 'GET' | 'PATCH' | 'POST' | 'PUT' | 'CONNECT' | 'DELETE' | 'OPTIONS' | 'HEAD' | 'TRACE'
   headers?: Object
   body?: string
-  signal: any
+  signal?: any
 }
 
 const makeRequest = <T>({
