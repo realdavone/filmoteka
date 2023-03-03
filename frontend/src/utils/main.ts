@@ -47,6 +47,7 @@ export default {
     logo.setAttribute('src', '/icon.svg')
     logo.setAttribute('width', '75')
     logo.setAttribute('alt', 'Logo')
+    logo.setAttribute('draggable', 'false')
 
     loaderHolder.setAttribute('class', 'loader-holder')
     loaderHolder.appendChild(logo)

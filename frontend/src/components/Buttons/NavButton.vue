@@ -21,8 +21,8 @@ button.nav-button{
   transition:0.2s ease background-color;
   overflow:hidden;
   &:active{
-    background-color:var(--card-color);
-    outline:2px solid var(--card-color-hover)
+    background-color:var(--background-color-alpha);
+    outline:1px solid var(--card-color-hover);
   }
 }
 div.icon{ position:relative }
@@ -48,5 +48,6 @@ div.icon{ position:relative }
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: 'Roboto', sans-serif;
 }
 </style>

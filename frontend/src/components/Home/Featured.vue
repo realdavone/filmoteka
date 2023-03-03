@@ -152,12 +152,15 @@ section.featured{
 }
 .unblur-mobile{ filter:blur(5px) }
 @media screen and (max-width: 600px) {
-  div.poster{ display:none }
+  div.poster{
+    align-self: flex-start;
+    min-width:80px!important;
+    max-width:80px!important;
+  }
   section.title-holder{
     gap:1rem!important
   }
   .cta{ align-self:stretch; }
   div.overview{ font-size:0.75rem!important }
-  .unblur-mobile{ filter:blur(0px)!important }
 }
 </style>

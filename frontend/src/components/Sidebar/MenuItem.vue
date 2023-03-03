@@ -36,10 +36,10 @@ button, a{
     transition: 0.2s ease opacity;
   }
 
-  span:last-of-type{
+  span.label{
     font-size: 0.85rem;
     font-weight: 700;
-
+    font-family: 'Roboto', sans-serif;
   }
 
   &.router-link-active{

@@ -29,7 +29,6 @@
 </template>
 
 <script setup lang="ts">
-import CloseButton from '../components/Buttons/CloseButton.vue'
 import Loader from '../components/Loader.vue'
 import { notify } from "@kyvg/vue3-notification"
 import { reactive, ref } from 'vue'
@@ -52,7 +51,7 @@ const credentials = reactive<{
 const register = () => {
   const { email, password, repeatPassword } = credentials
 
-  if(password !== repeatPassword){ return error.value = 'Hesla sa nezhodujú' }
+  if(password !== repeatPassword) return error.value = 'Hesla sa nezhodujú'
   
   registerStart.value = true
 

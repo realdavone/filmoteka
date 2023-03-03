@@ -54,7 +54,7 @@ div.rating, a.rating{
   min-width:var(--width);
   max-width:var(--width);
   border-width:var(--borderWidth);
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Roboto', sans-serif;
   span.rating{
     font-size:var(--font-size-rating);
     font-weight:700;
@@ -82,7 +82,7 @@ div.rating, a.rating{
   &.large{
     --width:3.25rem;
     --borderWidth:0.3rem;
-    --font-size-rating:0.85rem;
+    --font-size-rating:0.95rem;
     --font-size-name:0.75rem;
   }
   &.low{border-color:crimson}
