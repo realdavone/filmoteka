@@ -1,10 +1,13 @@
 <template>
   <main class="login">
+    <BasicButton
+    type="close"
+    @handleClick="history.state.back === null ? router.push('/') : router.go(-1)"
+    class="close">Zavrieť</BasicButton>
     <div class="outter">
       <section class="form">
         <header>
           <span>Prihlásenie</span>
-          <BasicButton type="close" @handleClick="history.state.back === null ? router.push('/') : router.go(-1)">Zavrieť</BasicButton>
           </header>
         <form class="form" @submit.prevent="login">
           <div class="input">
@@ -65,7 +68,7 @@ onMounted(() => {
   })
   google.accounts.id.renderButton(
     document.getElementById("buttonDiv") as HTMLElement, {
-      theme: 'outline',
+      theme: 'filled_black',
       size: "medium",
       text: 'signin_with',
       shape: 'rectangular',

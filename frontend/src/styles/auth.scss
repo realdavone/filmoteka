@@ -1,26 +1,31 @@
 main.login, main.register{
-  min-height:calc(100vh - var(--main-content-padding-bottom));
+  min-height:calc(100vh);
+  margin-bottom: calc(0px - var(--main-content-padding-bottom));
   display:flex;
   justify-content:center;
   align-items:center;
   flex-direction:column;
   gap:1rem;
-  background-color:var(--background-color);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.52), rgba(117, 19, 93, 0.73)),url('../../public/bg.jpeg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  padding:0 var(--container-padding);
 
   div.outter{
-    background-color:var(--background-color);
-    border-radius:0.75rem;
+    border-radius:1rem;
     overflow:hidden;
     max-width:400px;
     width:100%;
-    outline:2px solid var(--card-color-hover);
+    background-color: var(--background-color-alpha);
+    backdrop-filter: blur(2px);
   }
   section.form{
     display:flex;
     flex-direction:column;
     align-self:center;
     padding:1.25rem 1.5rem 1.5rem;
-    gap:1.5rem;
+    gap:2rem;
     width:100%;
 
     a{
@@ -69,7 +74,11 @@ main.login, main.register{
         width:100%;
         background-color:inherit;
         color:inherit;
-        &::placeholder{ font-size:0.85rem }
+        min-height: 40px;
+
+        &::placeholder{
+          font-size:0.85rem
+        }
       }
     }
     div.error {
@@ -80,11 +89,10 @@ main.login, main.register{
       border-radius:0.25rem;
     }
   }
-}
-@media screen and (max-width: 600px){
-  main.login, main.register{
-    div.outter{
-      outline:none;
-    }
+
+  .close{
+    position: absolute;
+    top: 20px;
+    right: 20px;
   }
 }

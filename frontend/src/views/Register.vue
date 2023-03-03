@@ -1,10 +1,10 @@
 <template>
   <main class="login">
+    <BasicButton class="close" type="close" @handleClick="history.state.back === null ? router.push('/') : router.go(-1)">Zavrieť</BasicButton>
     <div class="outter">
       <section class="form">
         <header>
           <span>Registrácia</span>
-          <BasicButton type="close" @handleClick="history.state.back === null ? router.push('/') : router.go(-1)">Zavrieť</BasicButton>
         </header>
         <form class="form" @submit.prevent="register" autocomplete="off">
           <div class="input">
