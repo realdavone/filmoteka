@@ -1,7 +1,12 @@
 <template>
-  <component :is="url ? 'a' : 'div'" :href="url && url" target="_blank" :class="`rating ${getCategory(rating)} ${size}`" v-if="rating">
-    <span class="rating">{{parseRating(rating)}}</span>
-    <span v-if="name" class="name">{{name}}</span>
+  <component
+  v-if="rating"
+  :is="url ? 'a' : 'div'"
+  :href="url && url"
+  target="_blank"
+  :class="`rating ${getCategory(rating)} ${size}`">
+    <span class="rating">{{ parseRating(rating) }}</span>
+    <span v-if="name" class="name">{{ name }}</span>
   </component>
 </template>
 
@@ -49,6 +54,7 @@ div.rating, a.rating{
   min-width:var(--width);
   max-width:var(--width);
   border-width:var(--borderWidth);
+  font-family: 'Open Sans', sans-serif;
   span.rating{
     font-size:var(--font-size-rating);
     font-weight:700;

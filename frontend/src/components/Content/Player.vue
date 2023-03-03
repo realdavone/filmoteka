@@ -7,7 +7,12 @@
           <span>Prehrávač bol označený ako nefunkčný</span>
         </div>
       </Transition>
-      <button v-if="store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn" @click="$emit('setPlayer')" class="play-button">&#9654;</button>
+      <button
+      v-if="store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn"
+      @click="$emit('setPlayer')"
+      class="play-button">
+        &#9654;
+      </button>
       <div v-else class="message">
         <span class="material-icons-outlined icon">lock</span>
         <div class="right">
@@ -128,7 +133,17 @@ section#player-holder{
     left:0;
     button.play-button{
       font-size:3.5rem;
-      color:var(--font-color-dark)
+      color:var(--font-color-dark);
+      line-height: 1;
+      height: 80px;
+      width: 80px;
+      border-radius: 50%;
+      padding-left: 8px;
+      transition:0.2s ease background-color;
+
+      &:hover{
+        background-color:var(--background-color-alpha);
+      }
     }
   }
   iframe{

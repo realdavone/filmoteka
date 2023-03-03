@@ -119,7 +119,7 @@ section.container{
     }
   }
   div.right-col{
-    --right-col-gap:1.5rem;
+    --right-col-gap:1rem;
 
     display:flex;
     flex-direction:column;
