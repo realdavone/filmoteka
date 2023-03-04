@@ -1,5 +1,5 @@
 <template>
-  <Modal @close="$emit('close')">
+  <Modal :unscrollable-on-mounted="false" @close="$emit('close')">
     <template #modal>
       <div class="modal" ref="modal">
         <header>Vizuálne nastavenia</header>

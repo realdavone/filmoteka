@@ -1,7 +1,6 @@
 <template>
   <section class="discussion user-select-none">
-    <h3>Diskusia</h3>
-    <div class="number-of-comments">Počet komentárov: {{ numberOfComments }}</div>
+    <h3>Diskusia <span class="number-of-comments">{{ numberOfComments }}</span></h3>
     <button class="add-comment" @click="openModal">Napísať komentár...</button>
     <div class="comments">
       <template v-if="!loading">
@@ -93,9 +92,10 @@ section.discussion{
   h3{
     margin-bottom:1rem
   }
-  div.number-of-comments{
-    font-size:0.85rem;
-    margin-bottom:1rem;
+  span.number-of-comments{
+    color:gray;
+    font-weight: 400;
+    margin-left: 8px;
   }
 }
 span.no-comments{

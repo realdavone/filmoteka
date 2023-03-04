@@ -9,13 +9,19 @@ import _ from '../utils/main'
 import { onMounted, onUnmounted } from 'vue'
 import useEvent from '../composables/event'
 
+const { unscrollableOnMounted } = withDefaults(defineProps<{
+  unscrollableOnMounted?: boolean
+}>(), {
+  unscrollableOnMounted: true
+})
+
 const emit = defineEmits(['close'])
 
 onMounted(() => {
-  _.makeUnscrollable(document.body, true)  
+  unscrollableOnMounted && _.makeUnscrollable(document.body, true)  
 })
 onUnmounted(() => {
-  _.makeUnscrollable(document.body, false)
+  unscrollableOnMounted && _.makeUnscrollable(document.body, false)
 })
 
 useEvent({ target: document.body, event: 'keydown', callback: (e: any) => e.code === 'Escape' && emit('close') })

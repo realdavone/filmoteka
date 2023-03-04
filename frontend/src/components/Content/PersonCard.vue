@@ -25,7 +25,7 @@ const { person } = defineProps<{
 a.cast-card{
   user-select: none;
   display:flex;
-  gap:15px;
+  gap:1rem;
   flex-direction:row;
   align-items:center;
   padding-right:1rem;
@@ -34,10 +34,10 @@ a.cast-card{
   overflow:hidden;
   div.img{
     background:var(--card-color);
-    height:80px;
-    min-height:80px;
-    width:80px;
-    min-width:80px;
+    height:60px;
+    min-height:60px;
+    width:60px;
+    min-width:60px;
     border-radius:50%;
     overflow:hidden;
     img{
@@ -49,7 +49,7 @@ a.cast-card{
   div.name-holder{
     display:flex;
     flex-direction:column;
-    gap:0.5rem;
+    gap:0.25rem;
     span{
       display: -webkit-box;
       -webkit-line-clamp: 2;
