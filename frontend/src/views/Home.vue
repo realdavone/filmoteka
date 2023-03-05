@@ -53,9 +53,7 @@ const fetchData = async () => {
     trendingTitles.value = trends['results'].filter(title => title['poster_path'] !== null)
 
     featuredTitles.value = new Array()
-    featuredTitles.value[0] = trendingTitles.value[0]
-    featuredTitles.value[1] = trendingTitles.value[1]
-    featuredTitles.value[2] = trendingTitles.value[2]
+    featuredTitles.value = [trendingTitles.value[0], trendingTitles.value[5], trendingTitles.value[10], trendingTitles.value[15]]
 
   } catch (error) { router.push({ name: 'NotFound' }) }
 }

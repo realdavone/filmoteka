@@ -31,7 +31,7 @@ section.prompt{
   flex-wrap:wrap;
   gap:1rem;
   text-align:center;
-  margin:-2.5rem var(--container-padding) 0;
+  margin:0 var(--container-padding);
   position:relative;
   border-radius:0.75rem;
   isolation:isolate;

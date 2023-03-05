@@ -1,5 +1,5 @@
 <template>
-  <section class="featured-section user-select-none">
+  <section class="featured-section user-select-none" v-auto-animate>
     <template v-for="title, i in props.titles" :key="title.id">
       <div v-if="active === i" class="featured container">
         <div v-if="title && title?.backdrop_path" class="background-image">
@@ -53,13 +53,16 @@ const interval = setInterval(() => {
 <style lang="scss" scoped>
 section.featured-section{
   margin-top: calc(0px - var(--nav-height));
-  padding-bottom: 50px;
-  height: 520px;
+  height: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 
   div.buttons{
     display: flex;
     justify-content: center;
     gap:14px;
+    margin-top: auto;
 
     button{
       width: 14px;
@@ -122,38 +125,6 @@ div.featured{
         overflow: hidden;
         line-height:1;
       }
-      div.genres{
-        font-size:0.65rem;
-        display:flex;
-        flex-wrap:wrap;
-        gap:0.5rem;
-        align-items:center;
-        color:var(--font-color-dark);
-        button{
-          background:var(--theme-color);
-          padding:2px 8px 3px;
-          border-radius:12px;
-          font-size:inherit;
-        }
-      }
-      div.rating{
-        display:flex;
-        align-items:center;
-        gap:0.5rem;
-        span:nth-child(1){
-          color:goldenrod;
-          font-weight:700;
-          font-size:1.25rem;
-          max-width:20px;
-          overflow:hidden;
-        }
-        span:nth-child(2){ font-weight:700 }
-        span:nth-child(4){
-          font-size:0.75rem;
-          text-transform:uppercase;
-          font-weight:900;
-        }
-      }
       div.overview{
         display:flex;
         align-items:center;
@@ -167,25 +138,12 @@ div.featured{
           font-size:0.85rem;
         }
       }
-      button.go-to-button{
-        align-self:flex-start;
-        background-color:var(--theme-color);
-        padding:0.5rem 0.75rem;
-        border-radius:0.5rem;
-        font-weight:700;
-        display:flex;
-        align-items:center;
-        gap:8px;
-        color:var(--font-color-dark);
-        span{ font-size:0.75rem }
-      }
     }
   }
 }
-.unblur-mobile{ filter:blur(5px) }
 @media screen and (max-width: 600px) {
   section.featured-section{
-    height: 324px;
+    height: 300px;
   }
   div.poster{
     align-self: flex-start;
@@ -195,7 +153,11 @@ div.featured{
   section.title-holder{
     gap:1rem!important
   }
-  .cta{ align-self:stretch; }
-  div.overview{ font-size:0.75rem!important }
+  .cta{
+    align-self:stretch;
+  }
+  div.overview{
+    font-size:0.75rem!important;
+  }
 }
 </style>
