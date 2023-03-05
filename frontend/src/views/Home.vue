@@ -41,12 +41,9 @@
 import { ref, onBeforeMount, inject } from 'vue'
 import { useRouter } from 'vue-router'
 import getData from '../api/main'
-import useTitle from '../composables/title'
-
 import Featured from '../components/Home/Featured.vue'
 import CardPanel from '../components/Content/CardPanel.vue'
 import CallToLogin from '../components/Content/CallToLogin.vue'
-
 import { Title } from '../types/title'
 import { ApiListResponse } from '../types/response'
 

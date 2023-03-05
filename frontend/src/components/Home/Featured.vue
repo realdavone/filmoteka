@@ -1,25 +1,30 @@
 <template>
   <section class="featured container user-select-none">
     <div v-if="props.title && props.title?.backdrop_path" class="background-image">
-      <CoverPoster class="unblur-mobile" :src="props.title?.backdrop_path" size="w1440_and_h320_multi_faces" alt="Obrázok v pozadí" :fadeInOnLoad="true" />
+      <CoverPoster style="filter:blur(5px)" :src="props.title?.backdrop_path" size="w1440_and_h320_multi_faces" alt="Obrázok v pozadí" :fadeInOnLoad="true" />
     </div>
     <section class="title-holder">
       <div class="poster">
         <Poster v-if="props.title && props.title?.poster_path" :src="props.title?.poster_path" :alt="title?.title" :fadeInOnLoad="true" />
       </div>
       <div class="content">
-        <div v-if="props.title && props.title?.media_type" class="title">{{title?.title}}</div>
+        <div v-if="props.title && props.title?.media_type" class="title">{{ title?.title }}</div>
         <div v-else class="skeleton-text" style="height:1.75rem; width:25%; min-width:180px"></div>
 
         <div v-if="props.title && props.title?.overview" class="overview">
           <Rating v-if="props.title!.vote_average" size="large" :rating="Math.round(props.title!.vote_average * 10) / 10"/>
-          <span>{{props.title?.overview}}</span>
+          <span>{{ props.title?.overview }}</span>
         </div>
         <div v-else class="skeleton-text" style="height:1rem;width:80%;"></div>
 
         <BasicButton v-if="props.title" class="cta" @handleClick="$router.push(`/${props.title?.media_type}/${props.title?.id}`)">Zobraziť viac</BasicButton>
       </div>      
     </section>
+    <!--
+    <div class="buttons">
+      <button v-for="b in 7" :key="b" @click="handleButton(b)"></button>
+    </div>
+    -->
   </section>
 </template>
 
@@ -40,14 +45,36 @@ const props = defineProps<{
     id?: number
   } | null
 }>()
+
+function handleButton(num: number) {
+  console.log(num)
+}
 </script>
 
 <style lang="scss" scoped>
+div.buttons{
+  display: flex;
+  gap: 5px;
+  z-index:1;
+  position: relative;
+
+  button{
+    width: 20px;
+    height: 20px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background-color: #ffffff40;
+  }
+}
 section.featured{
   padding-top:calc(var(--nav-height) + var(--container-padding));
   margin-top:calc(0px - var(--nav-height));
   padding-bottom:calc(var(--container-padding) + 2rem);
   position:relative;
+  display: flex;
+  flex-direction: column;
+  gap:20px;
+  align-items: center;
   div.background-image{
     position:absolute;
     top:0;
@@ -150,7 +177,6 @@ section.featured{
     }
   }
 }
-.unblur-mobile{ filter:blur(5px) }
 @media screen and (max-width: 600px) {
   div.poster{
     align-self: flex-start;
