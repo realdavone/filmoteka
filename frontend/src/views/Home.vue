@@ -1,14 +1,6 @@
 <template>
   <main class="home">
-    <Featured :title="{
-      backdrop_path: featured?.backdrop_path,
-      poster_path: featured?.poster_path,
-      media_type: featured?.media_type,
-      title: featured?.media_type === 'movie' ? featured?.title : featured?.name,
-      overview: featured?.overview,
-      vote_average: featured?.vote_average,
-      id: featured?.id
-    }" />
+    <Featured :titles="featuredTitles" />
     <CallToLogin v-if="!store.state.credentials.loggedIn" :enableClose="false" />
     <CardPanel
     heading="Trendy"
@@ -41,9 +33,11 @@
 import { ref, onBeforeMount, inject } from 'vue'
 import { useRouter } from 'vue-router'
 import getData from '../api/main'
+
 import Featured from '../components/Home/Featured.vue'
 import CardPanel from '../components/Content/CardPanel.vue'
 import CallToLogin from '../components/Content/CallToLogin.vue'
+
 import { Title } from '../types/title'
 import { ApiListResponse } from '../types/response'
 
@@ -51,20 +45,22 @@ const store = inject<any>('store')
 const router = useRouter()
 
 const trendingTitles = ref<Title[] | null>(null)
-const featured = ref<Title | null>(null)
+const featuredTitles = ref<Title[] | null>(null)
 
 const fetchData = async () => {
   try {
     const trends = await getData<ApiListResponse<Title[]>>({ endpoint: '/panel/trending/day' })
     trendingTitles.value = trends['results'].filter(title => title['poster_path'] !== null)
 
-    featured.value = trendingTitles.value[Math.floor(Math.random() * trendingTitles.value.length)]
+    featuredTitles.value = new Array()
+    featuredTitles.value[0] = trendingTitles.value[0]
+    featuredTitles.value[1] = trendingTitles.value[1]
+    featuredTitles.value[2] = trendingTitles.value[2]
+
   } catch (error) { router.push({ name: 'NotFound' }) }
 }
 
-onBeforeMount(() => {
-  fetchData()
-})
+onBeforeMount(() => fetchData())
 </script>
 
 <style lang="scss" scoped>

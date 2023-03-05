@@ -1,80 +1,85 @@
 <template>
-  <section class="featured container user-select-none">
-    <div v-if="props.title && props.title?.backdrop_path" class="background-image">
-      <CoverPoster style="filter:blur(5px)" :src="props.title?.backdrop_path" size="w1440_and_h320_multi_faces" alt="Obrázok v pozadí" :fadeInOnLoad="true" />
-    </div>
-    <section class="title-holder">
-      <div class="poster">
-        <Poster v-if="props.title && props.title?.poster_path" :src="props.title?.poster_path" :alt="title?.title" :fadeInOnLoad="true" />
-      </div>
-      <div class="content">
-        <div v-if="props.title && props.title?.media_type" class="title">{{ title?.title }}</div>
-        <div v-else class="skeleton-text" style="height:1.75rem; width:25%; min-width:180px"></div>
-
-        <div v-if="props.title && props.title?.overview" class="overview">
-          <Rating v-if="props.title!.vote_average" size="large" :rating="Math.round(props.title!.vote_average * 10) / 10"/>
-          <span>{{ props.title?.overview }}</span>
+  <section class="featured-section user-select-none">
+    <template v-for="title, i in props.titles" :key="title.id">
+      <div v-if="active === i" class="featured container">
+        <div v-if="title && title?.backdrop_path" class="background-image">
+          <CoverPoster class="unblur-mobile" :src="title?.backdrop_path" size="w1440_and_h320_multi_faces" alt="Obrázok v pozadí" :fadeInOnLoad="true" />
         </div>
-        <div v-else class="skeleton-text" style="height:1rem;width:80%;"></div>
-
-        <BasicButton v-if="props.title" class="cta" @handleClick="$router.push(`/${props.title?.media_type}/${props.title?.id}`)">Zobraziť viac</BasicButton>
-      </div>      
-    </section>
-    <!--
+        <div class="title-holder">
+          <div class="poster">
+            <Poster v-if="title && title?.poster_path" :src="title?.poster_path" :alt="title?.media_type === 'movie' ? title?.title : title?.name" :fadeInOnLoad="true" />
+          </div>
+          <div class="content">
+            <div v-if="title && title?.media_type" class="title">{{ title?.media_type === 'movie' ? title?.title : title?.name }}</div>
+            <div v-if="title && title?.overview" class="overview">
+              <Rating v-if="title!.vote_average" size="large" :rating="Math.round(title!.vote_average * 10) / 10"/>
+              <span>{{ title?.overview }}</span>
+            </div>
+            <BasicButton v-if="title" class="cta" @handleClick="$router.push(`/${title?.media_type}/${title?.id}`)">Zobraziť viac</BasicButton>
+          </div>      
+        </div>
+      </div>
+    </template>
     <div class="buttons">
-      <button v-for="b in 7" :key="b" @click="handleButton(b)"></button>
+      <button v-for="b in titles?.length" @click="handleSelect(b - 1, true)" :class="active === (b - 1) && 'active'"></button>
     </div>
-    -->
   </section>
 </template>
 
 <script setup lang="ts">
+import { Title } from '../../types/title'
+import { ref, watchEffect } from 'vue'
 import BasicButton from '../Buttons/BasicButton.vue'
 import Rating from '../Content/Rating.vue'
 import Poster from '../Content/Poster.vue'
 import CoverPoster from '../Content/CoverPoster.vue'
 
-const props = defineProps<{
-  title: {
-    backdrop_path?: string | null
-    poster_path?: string | null
-    media_type?: 'tv' | 'movie'
-    title?: string
-    overview?: string
-    vote_average?: number
-    id?: number
-  } | null
-}>()
+const active = ref(0)
 
-function handleButton(num: number) {
-  console.log(num)
+const props = defineProps<{ titles: Array<Title> | null }>()
+
+function handleSelect(index: number, clear?: boolean){
+  active.value = index
+  clear && clearInterval(interval)
 }
+
+const interval = setInterval(() => {
+  if(!props.titles?.length) return clearInterval(interval)
+  if(active.value + 1 !== props.titles?.length) handleSelect(active.value + 1)
+  else handleSelect(0)
+}, 10000)
 </script>
 
 <style lang="scss" scoped>
-div.buttons{
-  display: flex;
-  gap: 5px;
-  z-index:1;
-  position: relative;
+section.featured-section{
+  margin-top: calc(0px - var(--nav-height));
+  padding-bottom: 50px;
+  height: 520px;
 
-  button{
-    width: 20px;
-    height: 20px;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background-color: #ffffff40;
+  div.buttons{
+    display: flex;
+    justify-content: center;
+    gap:14px;
+
+    button{
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background-color: var(--font-color);
+      opacity: 0.1;
+      transition: 0.2s ease all;
+
+      &.active{
+        opacity: 1;
+        transform: scale(1.2)
+      }
+    }
   }
 }
-section.featured{
+div.featured{
   padding-top:calc(var(--nav-height) + var(--container-padding));
-  margin-top:calc(0px - var(--nav-height));
   padding-bottom:calc(var(--container-padding) + 2rem);
   position:relative;
-  display: flex;
-  flex-direction: column;
-  gap:20px;
-  align-items: center;
   div.background-image{
     position:absolute;
     top:0;
@@ -84,7 +89,7 @@ section.featured{
     -webkit-mask-image: linear-gradient(#00000030, #00000080 50%, transparent);
     mask-image: linear-gradient(#00000030, #00000080 50%, transparent);
   }
-  section.title-holder{
+  div.title-holder{
     position: relative;
     z-index:1;
     display:flex;
@@ -177,7 +182,11 @@ section.featured{
     }
   }
 }
+.unblur-mobile{ filter:blur(5px) }
 @media screen and (max-width: 600px) {
+  section.featured-section{
+    height: 324px;
+  }
   div.poster{
     align-self: flex-start;
     min-width:80px!important;

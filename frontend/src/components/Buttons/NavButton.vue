@@ -49,5 +49,6 @@ div.icon{ position:relative }
   align-items: center;
   justify-content: center;
   font-family: 'Roboto', sans-serif;
+  color:white;
 }
 </style>

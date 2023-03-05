@@ -2,7 +2,7 @@
   <main v-once class="container main user-select-none">
     <span class="num">404</span>
     <span>Hľadaný obsah nebol nájdený</span>
-    <BasicButton text="Vrátiť sa na domovskú stránku" @handleClick="$router.push('/')"/>
+    <BasicButton @handleClick="$router.push('/')">Vrátiť sa na domovskú stránku</BasicButton>
   </main>
 </template>
 
