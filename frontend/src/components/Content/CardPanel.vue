@@ -1,7 +1,7 @@
 <template>
   <section class="container panel" v-if="props.cards?.length !== 0">
     <div class="upper-row">
-      <Title style="margin-bottom:0">{{props.heading}}</Title>
+      <Title style="margin-bottom:0">{{ props.heading }}</Title>
       <div v-if="props.allowGrid" class="view-buttons">
         <button @click="isGrid = true" :data-active="isGrid">
           <span class="material-icons">grid_view</span>
@@ -96,6 +96,7 @@ section.panel{
   div.upper-row{
     display:flex;
     align-items:center;
+    justify-content: space-between;
     gap:2rem;
     padding-bottom:1rem;
     div.view-buttons{
@@ -103,12 +104,16 @@ section.panel{
       align-items:center;
       padding-top:0.35rem;
       button{
+        opacity: 0.5;
         &:last-of-type{
           span{
             font-size:2rem
           }
         }
-        &[data-active=true]{ color:var(--theme-color) }
+        &[data-active=true]{
+          opacity: 1!important;
+          color: var(--theme-color);
+        }
       }
     }
   }
