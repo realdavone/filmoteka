@@ -1,13 +1,16 @@
 <template>
   <section class="discussion user-select-none">
-    <h3>Diskusia <span class="number-of-comments">{{ numberOfComments }}</span></h3>
+    <div class="header">
+      <Title style="margin-bottom: 0;">Diskusia</Title> 
+      <Loader v-if="loading" type="inline" />
+      <span v-else class="number-of-comments">{{ numberOfComments }}</span>
+    </div>
     <button class="add-comment" @click="openModal">Napísať komentár...</button>
     <div class="comments">
       <template v-if="!loading">
         <div v-if="error" class="error">{{ error }}</div>
         <Comment v-for="comment in data" :key="comment.id" :comment="comment" @deleted="fetchComments(1)"/>
       </template>
-      <Loader v-else type="default" />
     </div>
     <PageControl
     v-if="numberOfPages! > 1"
@@ -26,14 +29,12 @@
 
 <script setup lang="ts">
 import { ref, onBeforeMount } from 'vue'
-
 import SubmitCommentModal from '../SubmitCommentModal.vue'
 import PageControl from '../PageControl.vue'
 import Loader from '../Loader.vue'
 import Comment from './Comment.vue'
-
+import Title from './Title.vue'
 import getData from '../../api/main'
-
 import { Comment as CommentType } from '../../types/comment'
 
 type CommentResponse = {
@@ -89,26 +90,25 @@ const openModal = () => isModalOpen.value = !isModalOpen.value
 <style lang="scss" scoped>
 section.discussion{
   margin:0 var(--container-padding);
-  h3{
-    margin-bottom:1rem
-  }
-  span.number-of-comments{
-    color:gray;
-    font-weight: 400;
-    margin-left: 8px;
+  
+  div.header{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
   }
 }
-span.no-comments{
-  font-size:0.9rem;
-  align-self:flex-start;
+
+span.number-of-comments{
+  color: gray;
 }
+
 div.error{
   align-self:flex-start;
   color:crimson
 }
 button.add-comment{
   background-color:var(--card-color);
-  box-shadow:var(--basic-box-shadow);
   padding:0.75rem 1.25rem;
   width:100%;
   border-radius:3rem;
@@ -123,7 +123,6 @@ div.comments{
   gap:1rem;
   max-height:100vh;
   overflow:auto;
-  min-height: 40px;
   &::-webkit-scrollbar{ width:15px; height:15px; }
   &::-webkit-scrollbar-thumb{background:var(--card-color-hover);border:4px solid transparent;border-radius:10px;background-clip:content-box;}
 }

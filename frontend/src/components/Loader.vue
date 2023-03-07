@@ -17,11 +17,18 @@ div.loader {
   border-color: var(--font-color);
   border-top-color: transparent;
   &.default{
-    width: 30px;
+    min-width: 30px;
+    min-height: 30px;
+    max-width: 30px;
+    max-height: 30px;
     border-width: 5px;
   }
   &.inline{
-    width: 1rem;
+    display: inline-block;
+    min-width: 1rem;
+    min-height: 1rem;
+    max-width: 1rem;
+    max-height: 1rem;
     border-width: 2px;
   }
 }

@@ -52,7 +52,7 @@ const interval = setInterval(() => {
 <style lang="scss" scoped>
 section.featured-section{
   margin-top: calc(0px - var(--nav-height));
-  height: 480px;
+  min-height: 480px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -121,7 +121,7 @@ div.featured{
 }
 @media screen and (max-width: 600px) {
   section.featured-section{
-    height: 300px;
+    min-height: 300px;
   }
   div.poster{
     align-self: flex-start;
