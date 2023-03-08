@@ -1,4 +1,4 @@
-const baseTitle = ' / Filmotéka'
+const baseTitle = ' — Filmotéka'
 
 export default function({
   title, includeBase = true

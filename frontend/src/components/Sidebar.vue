@@ -50,7 +50,6 @@ import Avatar from './Avatar.vue'
 import VisualSettingsModal from './VisualSettingsModal.vue'
 import BasicButton from './Buttons/BasicButton.vue'
 import MenuItem from './Sidebar/MenuItem.vue'
-
 import { notify } from "@kyvg/vue3-notification"
 import { onClickOutside } from '@vueuse/core'
 import { ref, inject, onMounted, onUnmounted } from 'vue'

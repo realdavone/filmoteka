@@ -42,19 +42,20 @@ const getCategory = (rating: number | string): Category | '' => {
 
 <style lang="scss" scoped>
 div.rating, a.rating{
-  background-color:var(--card-color);
-  aspect-ratio:1;
-  display:inline-flex;
-  justify-content:center;
-  align-items:center;
-  border-radius:50%;
-  position:relative;
-  line-height:1;
-  border-style:solid;
-  min-width:var(--width);
-  max-width:var(--width);
-  border-width:var(--borderWidth);
+  background-color: var(--card-color);
+  aspect-ratio: 1;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  position: relative;
+  line-height: 1;
+  border-style: solid;
+  min-width: var(--width);
+  max-width: var(--width);
+  border-width: var(--borderWidth);
   font-family: 'Roboto', sans-serif;
+  outline: 3px solid var(--card-color);
   span.rating{
     font-size:var(--font-size-rating);
     font-weight:700;
@@ -69,7 +70,7 @@ div.rating, a.rating{
   }
   &.normal{
     --width:2.75rem;
-    --borderWidth:0.25rem;
+    --borderWidth:0.20rem;
     --font-size-rating:0.7rem;
     --font-size-name:0.55rem;
   }
@@ -81,12 +82,18 @@ div.rating, a.rating{
   }
   &.large{
     --width:3.25rem;
-    --borderWidth:0.3rem;
+    --borderWidth:0.25rem;
     --font-size-rating:0.95rem;
     --font-size-name:0.75rem;
   }
-  &.low{border-color:crimson}
-  &.medium{border-color:goldenrod}
-  &.high{border-color:green}
+  &.low{
+    border-color:crimson
+  }
+  &.medium{
+    border-color:goldenrod
+  }
+  &.high{
+    border-color:darkgreen
+  }
 }
 </style>

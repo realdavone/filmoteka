@@ -138,9 +138,10 @@ section.container{
   }
 }
 :slotted(h1.title){
-  line-height:1.1;
-  font-size:1.75rem;
-  font-weight:700;
+  line-height:1;
+  font-weight: 700;
+  font-size: 1.5rem;
+
   span{
     opacity:0.5;
     font-weight:400;
@@ -150,9 +151,13 @@ section.container{
   font-size:0.8rem;
   font-style:italic;
   opacity:0.5;
-  &:empty{ display:none }
+  &:empty{
+    display:none
+  }
 }
-:slotted(span.overview){ font-size:0.85rem }
+:slotted(span.overview){
+  font-size:var(--overview-font-size)
+}
 div.overview{
   display:flex;
   gap:1rem;
@@ -163,14 +168,16 @@ div.overview{
   span{
     font-size:0.75rem;
     &.rated{
-      padding:1px 5px;
-      border-radius:0.35rem;
+      padding:2px 3px;
+      border-radius:3px;
       mix-blend-mode: difference;
       background-color:var(--font-color);
       color:var(--background-color);
       line-height:1;
       margin-right:0.5rem;
       font-weight:900;
+      font-family: 'Roboto', sans-serif;
+      font-size:0.65rem;
     }
   }
 }
@@ -181,10 +188,15 @@ div.overview{
   column-gap:0.75rem;
   row-gap:0.25rem;
   flex-wrap:wrap;
-  a:hover{ opacity:0.75; }
-  &:empty{ display:none }
+  a:hover{
+    opacity:0.75
+  }
+  &:empty{
+    display:none
+  }
 }
 div.under-title{
+
   div{
     display:inline-block;
     font-size:0.8rem;

@@ -187,7 +187,7 @@ const fetchData = async (id: string) => {
     result.value['isPlayerWorking'] === undefined ? isPlayerWorking.value = true : isPlayerWorking.value = result.value['isPlayerWorking']
     result.value['isRecommended'] === undefined ? isRecommended.value = false : isRecommended.value = result.value['isRecommended']
 
-    useTitle({ title: result.value?.name })
+    useTitle({ title: `${result.value?.name}${result.value?.omdb.Year !== undefined ? (' (' + result.value?.omdb.Year + ')') : ''}` })
 
     loading.value = false
   } catch (error) { router.push({ name: 'NotFound' }) }

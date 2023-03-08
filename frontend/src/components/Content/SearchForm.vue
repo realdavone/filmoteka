@@ -7,16 +7,28 @@
         </div>
         <Transition name="fade">
           <div ref="optionsMenu" v-if="isOptionsMenuOpened" class="options">
-            <div class="option" v-for="(option, key) in options" :key="option.value" :data-active="searchType.value === option.value" @click="searchType = option; isOptionsMenuOpened = false;">
+            <div class="option"
+            v-for="(option, key) in options"
+            :key="option.value"
+            :data-active="searchType.value === option.value"
+            @click="searchType = option; isOptionsMenuOpened = false;">
               <div class="icon-holder">
-                <span class="material-icons" style="font-size:1.25rem">{{option.icon}}</span>
+                <span class="material-icons" style="font-size:1.25rem">{{ option.icon }}</span>
               </div>
               <span>{{ key }}</span>
             </div>
           </div>
         </Transition>
       </div>
-      <input id="search-input" ref="input" v-model="searchQuery"  type="text" placeholder="Vyhľadávanie" required @focus="isInputFocused = true" @focusout="isInputFocused = false">
+      <input
+      id="search-input"
+      ref="input"
+      v-model="searchQuery"
+      type="text"
+      placeholder="Vyhľadávanie"
+      required
+      @focus="isInputFocused = true"
+      @focusout="isInputFocused = false">
     </form>
     <div v-show="isInputFocused" class="context">
       <div v-show="searchQuery.length" class="search-current" @mousedown.prevent="null" @click="submitQuery">
@@ -32,7 +44,6 @@
 import { onClickOutside } from '@vueuse/core'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-
 import RecentSearch from './RecentSearch.vue'
 
 interface Options {
@@ -112,12 +123,13 @@ div.select{
   position:relative;
   isolation:isolate;
   div.options{
-    position:absolute;
-    background:var(--background-color);
+    position: absolute;
+    background: var(--background-color);
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
-    border-radius:8px;
-    overflow:hidden;
-    top:calc(100% + 5px);
+    border-radius: 4px;
+    overflow: hidden;
+    top: calc(100% + 5px);
+    padding: 4px 0;
   }
   div.selected-option, div.option{
     height:36px;

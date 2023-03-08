@@ -75,7 +75,7 @@ div.featured{
     z-index:1;
     display:flex;
     align-items:center;
-    gap:2rem;
+    gap:var(--container-padding);
     margin:0 auto;
     max-width:900px;
     div.poster{
@@ -88,20 +88,20 @@ div.featured{
       box-shadow: 0px 0px 15px 1px rgba(0,0,0,0.75);
     }
     div.content{
-      display:flex;
-      flex-direction:column;
-      align-items:flex-start;
-      gap:1rem;
-      flex-basis:100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+      flex-basis: 100%;
       div.title{
-        font-weight:700;
-        font-size:1.5rem;
+        font-weight: 700;
+        font-size: 1.5rem;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         text-overflow: ellipsis;
         overflow: hidden;
-        line-height:1;
+        line-height: 1;
       }
       div.overview{
         display:flex;
@@ -113,7 +113,7 @@ div.featured{
           -webkit-box-orient: vertical;
           text-overflow: ellipsis;
           overflow: hidden;
-          font-size:0.85rem;
+          font-size:var(--overview-font-size);
         }
       }
     }

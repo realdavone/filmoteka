@@ -186,7 +186,7 @@ const fetchData = async (id: string) => {
       poster: result.value.poster_path
     })
 
-    useTitle({ title: result?.value['title'] })
+    useTitle({ title: `${result.value?.title}${result.value?.omdb.Year !== undefined ? (' (' + result.value?.omdb.Year + ')') : ''}` })
 
     loading.value = false
   } catch (error) { router.push({ name: 'NotFound' }) }
