@@ -2,7 +2,7 @@
   <div class="search" >
     <form class="search-form" @submit.prevent="submitQuery" autocomplete="off">
       <div class="select user-select-none">
-        <div class="selected-option" @click.prevent="isOptionsMenuOpened = !isOptionsMenuOpened">
+        <div class="selected-option" @click.prevent="handleOpenOptions">
           <span class="material-icons-outlined" style="font-size:1.25rem;">menu</span>      
         </div>
         <Transition name="fade">
@@ -11,7 +11,7 @@
             v-for="(option, key) in options"
             :key="option.value"
             :data-active="searchType.value === option.value"
-            @click="searchType = option; isOptionsMenuOpened = false;">
+            @click="handleSelectOption(option)">
               <div class="icon-holder">
                 <span class="material-icons" style="font-size:1.25rem">{{ option.icon }}</span>
               </div>
@@ -80,19 +80,28 @@ const optionsMenu = ref<null | HTMLDivElement>(null)
 
 const searchType = ref(options['Všetko'])
 
-const handleRecentItem = (item: string) => {
+function handleRecentItem(item: string){
   searchQuery.value = item
   submitQuery()
 }
 
-onClickOutside(optionsMenu, () => isOptionsMenuOpened.value = false)
-
-const submitQuery = () => {
+function submitQuery(){
   if(searchQuery.value !== ''){
     router.push(`/search${searchType.value.value}?q=${searchQuery.value}`)
     input.value!.blur()
   }
 }
+
+function handleOpenOptions() {
+  isOptionsMenuOpened.value = !isOptionsMenuOpened.value
+}
+
+function handleSelectOption(option: Options){
+  searchType.value = option
+  isOptionsMenuOpened.value = false
+}
+
+onClickOutside(optionsMenu, () => isOptionsMenuOpened.value = false)
 
 onMounted(() => input.value!.focus())
 </script>
@@ -106,6 +115,7 @@ div.context{
   background-color:var(--card-color);
   border-bottom-left-radius:1rem;
   border-bottom-right-radius:1rem;
+  z-index: 1;
   div.search-current{
     display:flex;
     align-items:center;
@@ -172,6 +182,7 @@ form.search-form{
   margin-left:auto;
   height:46px;
   position:relative;
+  z-index: 2;
   input{
     padding:0 8px;
     background:transparent;

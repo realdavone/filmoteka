@@ -5,10 +5,8 @@
       <div class="items">
         <div v-for="(item, index) in store.state.recentSearch" :key="index" class="item">
           <span class="material-icons-outlined">history</span>
-          <span @click.prevent="emit('handleRecentItem', item)">{{item}}</span>
-          <button
-          @click.prevent="store.methods.recentSearch.removeItem(item)">
-          &times;</button>
+          <span @click.prevent="emit('handleRecentItem', item)">{{ item }}</span>
+          <button @click.prevent="store.methods.recentSearch.removeItem(item)">&times;</button>
         </div>
       </div>
       <button class="clear-history" @click="store.methods.recentSearch.clear()">Zmazať históriu</button>
