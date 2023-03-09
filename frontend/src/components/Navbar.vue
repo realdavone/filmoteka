@@ -1,5 +1,5 @@
 <template>
-  <nav v-auto-animate class="container">
+  <nav ref="navbar" v-auto-animate class="container">
     <div v-if="!isSearchRendered" class="left-menu">
       <NavButton @handleClick="isMenuOpened = !isMenuOpened">
         <template #icon><span class="material-icons" style="font-size:1.5rem;padding-top:5px;">menu</span></template>
@@ -57,6 +57,7 @@ const SearchForm = defineAsyncComponent(() => import('./Content/SearchForm.vue')
 const store = inject<any>('store')
 const socket = inject<DefaultEventsMap>('socket')
 
+const navbar = ref<HTMLDivElement | null>(null)
 const isSearchRendered = ref(false)
 const isMenuOpened = ref(false)
 const bookmarksVisible = ref(false)
@@ -67,12 +68,12 @@ socket!.on('newRecommended', (data: any) => {
 })
 
 onMounted(() => { 
-  const el = document.querySelector('nav') as HTMLElement
-  const observer = new IntersectionObserver( 
-    ([e]) => e.target.classList.toggle('scroll', e.intersectionRatio < 1),
-    { threshold: [1] }
-  )
-  observer.observe(el)
+  const observer = new IntersectionObserver(([entry]) => {
+    entry.target.classList.toggle('scroll', entry.intersectionRatio < 1)
+  }, {
+    threshold: 1
+  })
+  observer.observe(navbar.value!)
 })
 </script>
 

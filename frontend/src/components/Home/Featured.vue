@@ -101,7 +101,7 @@ div.featured{
         -webkit-box-orient: vertical;
         text-overflow: ellipsis;
         overflow: hidden;
-        line-height: 1;
+        line-height: 1.1;
       }
       div.overview{
         display:flex;

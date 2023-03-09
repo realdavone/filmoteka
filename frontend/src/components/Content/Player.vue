@@ -10,8 +10,7 @@
       <button
       v-if="store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn"
       @click="$emit('setPlayer')"
-      class="play-button">
-        &#9654;
+      class="play-button">&#9654;
       </button>
       <div v-else class="message">
         <span class="material-icons-outlined icon">lock</span>
@@ -52,7 +51,6 @@ const props = defineProps<{
   source: null | string,
   isPlayerWorking: boolean
 }>()
-
 
 useEvent({
   target: document,

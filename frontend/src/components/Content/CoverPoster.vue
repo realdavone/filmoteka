@@ -4,7 +4,7 @@
   :src="`https://www.themoviedb.org/t/p/${size}${src}`"
   :alt="alt"
   v-bind="{
-    ...fadeInOnLoad ? { onLoad: fadeIn } : {}
+    ...(fadeInOnLoad ? { onLoad: fadeIn } : undefined)
   }"
   loading="lazy" 
   draggable="false"
