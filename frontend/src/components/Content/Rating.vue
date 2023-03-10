@@ -6,7 +6,9 @@
   target="_blank"
   :class="`rating ${getCategory(rating)} ${size}`">
     <span class="rating">{{ parseRating(rating) }}</span>
-    <span v-if="name" class="name">{{ name }}</span>
+    <span v-if="name" class="name">{{ name }}
+      <i v-if="url" class="fa-solid fa-arrow-up-right-from-square"></i>
+    </span>
   </component>
 </template>
 
@@ -67,6 +69,13 @@ div.rating, a.rating{
     text-align:center;
     font-size:var(--font-size-name);
     line-height:1.1;
+    display: flex;
+    align-items: flex-start;
+    gap: 5px;
+
+    i{
+      font-size: 0.5rem;
+    }
   }
   &.normal{
     --width:2.75rem;

@@ -75,10 +75,13 @@ section.title-holder{
 
   header{
     font-weight:900;
-    font-size:1rem;
+    font-size:0.8rem;
     display: flex;
     align-items: center;
     gap: 8px;
+    background-color: var(--theme-color);
+    padding: 5px;
+    border-radius: 4px;
   }
   a.show-more{
     color:var(--theme-color);

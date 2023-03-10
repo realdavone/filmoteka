@@ -34,12 +34,13 @@ a.cast-card{
   overflow:hidden;
   div.img{
     background:var(--card-color);
-    height:60px;
-    min-height:60px;
-    width:60px;
-    min-width:60px;
+    height:70px;
+    min-height:70px;
+    width:70px;
+    min-width:70px;
     border-radius:50%;
     overflow:hidden;
+    
     img{
       width:100%;
       height:100%;
