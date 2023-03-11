@@ -41,7 +41,7 @@ const emit = defineEmits(['removeUser'])
 const toggleAdmin = async (id: string) => {
   try {
     const data = await getData<{ success: boolean, message: string }>({
-      endpoint: '/user/toggle-admin',
+      endpoint: '/user/roles/admin/toggle',
       options: {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json', 'access-token': store.state.credentials.accessToken },
@@ -55,7 +55,7 @@ const toggleAdmin = async (id: string) => {
 const toggleApproved = async (id: string) => {
   try {
     const data = await getData<{ success: boolean, message: string }>({
-      endpoint: '/user/toggle-verified',
+      endpoint: '/user/verified/toggle',
       options: {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json', 'access-token': store.state.credentials.accessToken },

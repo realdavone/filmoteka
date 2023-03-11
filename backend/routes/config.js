@@ -7,6 +7,6 @@ const router = express.Router()
 
 router.get('/', getConfig)
 router.put('/update', auth, updateConfig)
-router.delete('/clear-tokens', auth, deleteTokens)
+router.delete('/tokens/clear', auth, deleteTokens)
 
 export default router

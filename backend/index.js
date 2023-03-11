@@ -3,7 +3,7 @@ import express from 'express'
 import http from 'http'
 import cors from 'cors'
 import { init, io } from './io.js'
-import mongoose from 'mongoose'
+import { set, connect } from 'mongoose'
 
 import authRoutes from './routes/auth.js'
 import titleRoutes from './routes/title.js'
@@ -27,13 +27,15 @@ const users = new Map()
 
 io.on('connection', (socket) => { 
   users.set(socket.id, null)
-  socket.on('disconnect', () => { users.delete(socket.id) })
+  socket.on('disconnect', () => users.delete(socket.id))
 })
+
 app.use(express.json())
 app.use(cors())
 
-mongoose.set('strictQuery', false)
-mongoose.connect(process.env.DATABASE).then(() => { console.log('DB CONNECTED') })
+set('strictQuery', false)
+connect(process.env.DATABASE)
+  .then(() => console.log('DB CONNECTED'))
 
 app.use('/api/title', titleRoutes)
 app.use('/api/auth', authRoutes)
@@ -47,4 +49,4 @@ app.use('/api/panel', panelRoutes)
 app.use('/api/resources', resourcesRoutes)
 app.use('/api/comments', commentsRoutes)
 
-server.listen(process.env.PORT || 5000, () => { console.log(`Server started at port ${process.env.PORT || 5000}`) })
+server.listen(process.env.PORT || 5000, () => console.log(`Server started at port ${process.env.PORT || 5000}`))

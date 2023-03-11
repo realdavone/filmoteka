@@ -5,8 +5,8 @@ import { getAll, toggleAdmin, deleteUser, toggleVerified } from '../controllers/
 const router = express.Router()
 
 router.get('/all', auth, getAll)
-router.patch('/toggle-admin', auth, toggleAdmin)
-router.patch('/toggle-verified', auth, toggleVerified)
+router.patch('/roles/admin/toggle', auth, toggleAdmin)
+router.patch('/verified/toggle', auth, toggleVerified)
 router.delete('/delete', auth, deleteUser)
 
 export default router

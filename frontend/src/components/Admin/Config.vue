@@ -38,7 +38,7 @@ const updateProperty = async (property: any, value: any) => {
 const clearTokens = async () => {
   try {
     const data = await getData<any>({
-      endpoint: '/config/clear-tokens',
+      endpoint: '/config/tokens/clear',
       options: {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json', 'access-token': store.state.credentials.accessToken }
