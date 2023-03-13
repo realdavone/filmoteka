@@ -27,24 +27,71 @@
       type="text"
       placeholder="Vyhľadávanie"
       required
+      @input="handleInput"
       @focus="isInputFocused = true"
       @focusout="isInputFocused = false">
     </form>
     <div v-show="isInputFocused" class="context">
       <div v-show="searchQuery.length" class="search-current" @mousedown.prevent="null" @click="submitQuery">
-        <span class="material-icons" style="font-size:1.25rem">{{ searchType.icon }}</span>
-        Vyhľadávať "{{ searchQuery }}"
+        <span class="material-icons" style="font-size:1.25rem">{{ searchType.icon }}</span> Vyhľadávať "{{ searchQuery }}"
       </div>
-      <RecentSearch @handleRecentItem="handleRecentItem" />
+      <div @mousedown.prevent="null">
+        <Loader v-if="loadingSearch" type="inline" style="display: block; margin:10px auto 0" />
+        <AutoSearchResults
+        v-else
+        :movies="autoSearchResults.movies"
+        :tvs="autoSearchResults.tvs"
+        :people="autoSearchResults.people"
+        :recent="store.state.recentSearch">
+          <template v-slot="{ people, movies, tvs, recent }">
+            <router-link v-for="movie in movies" :key="movie.id" :to="`/movie/${movie.id}`" @click="input!.blur()">
+              <div class="search-result">
+                <div class="poster-holder">
+                  <img v-if="movie.poster_path" :src="`https://image.tmdb.org/t/p/w92${movie.poster_path}`" :alt="movie.title" loading="lazy">
+                </div>
+                <span class="label">{{ movie.title }}</span>
+              </div>
+            </router-link>
+            <router-link v-for="tv in tvs" :key="tv.id" :to="`/tv/${tv.id}`" @click="input!.blur()">
+              <div class="search-result">
+                <div class="poster-holder">
+                  <img v-if="tv.poster_path" :src="`https://image.tmdb.org/t/p/w92${tv.poster_path}`" :alt="tv.name" loading="lazy">
+                </div>
+                <span class="label">{{ tv.name }}</span>
+              </div>
+            </router-link>
+            <router-link v-for="person in people" :key="person.id" :to="`/person/${person.id}`" @click="input!.blur()">
+              <div class="search-result">
+                <div class="poster-holder">
+                  <img v-if="person.profile_path" :src="`https://image.tmdb.org/t/p/w92${person.profile_path}`" :alt="person.name" loading="lazy">
+                </div>    
+                <span class="label">{{ person.name }}</span>
+              </div>
+            </router-link>
+            <div class="search-result" v-for="item in recent" :key="item" role="button" @click="handleRecentItem(item)">
+              <div class="poster-holder">
+                <span class="material-icons-outlined" style="font-size: 1rem;">history</span>
+              </div>
+              <span class="label">{{ item }}</span>
+            </div>
+          </template>
+        </AutoSearchResults>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onClickOutside } from '@vueuse/core'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, reactive, inject } from 'vue'
 import { useRouter } from 'vue-router'
-import RecentSearch from './RecentSearch.vue'
+import Loader from '../Loader.vue'
+import AutoSearchResults from '../Content/AutoSearchResults.vue'
+import debounce from '../../utils/debounce'
+import makeRequest from '../../api/main'
+import { TvTitle, MovieTitle } from '../../types/title'
+import { PersonSearchType } from '../../types/person'
+import { ApiListResponse } from '../../types/response'
 
 interface Options {
   value: string
@@ -70,15 +117,34 @@ const options: Record<'Všetko' | 'Filmy' | 'Seriály' | 'Osoby', Options> = {
   }
 }
 
+const store = inject<any>('store')
+
 const router = useRouter()
 const searchQuery = ref('')
 const input = ref<null | HTMLInputElement>(null)
+
 const isInputFocused = ref(false)
+const loadingSearch = ref(false)
+const autoSearchResults = reactive<{
+  movies: MovieTitle[] | null
+  tvs: TvTitle[] | null
+  people: PersonSearchType[] | null
+}>({
+  movies: null,
+  tvs: null,
+  people: null
+})
 
 const isOptionsMenuOpened = ref(false)
 const optionsMenu = ref<null | HTMLDivElement>(null)
 
 const searchType = ref(options['Všetko'])
+
+function resetResults() {
+  autoSearchResults.movies = null
+  autoSearchResults.tvs = null
+  autoSearchResults.people = null
+}
 
 function handleRecentItem(item: string){
   searchQuery.value = item
@@ -101,21 +167,82 @@ function handleSelectOption(option: Options){
   isOptionsMenuOpened.value = false
 }
 
+const logInput = debounce(async string => {
+  try {
+    if(string === '') {
+      loadingSearch.value = false
+      resetResults()
+      return
+    }
+    const data = await makeRequest<ApiListResponse<Array<MovieTitle | TvTitle | PersonSearchType>>>({ endpoint: `/search/multi?query=${searchQuery.value}&page=1` })
+
+    autoSearchResults.movies = data.results.filter(movie => movie['media_type'] === 'movie' && movie['poster_path'] !== null).slice(0,2) as MovieTitle[]
+    autoSearchResults.tvs = data.results.filter(tv => tv['media_type'] === 'tv' && tv['poster_path'] !== null).slice(0,2) as TvTitle[]
+    autoSearchResults.people = data.results.filter(person => person['media_type'] === 'person' && person['profile_path'] !== null).slice(0,2) as PersonSearchType[]
+
+  } catch (error) {
+    console.log(error)
+  } finally {
+    loadingSearch.value = false
+  }
+})
+
+function handleInput(e: Event){
+  const input = e.target as HTMLInputElement
+  loadingSearch.value = true
+  logInput(input.value)
+}
+
 onClickOutside(optionsMenu, () => isOptionsMenuOpened.value = false)
 
 onMounted(() => input.value!.focus())
 </script>
 
 <style lang="scss" scoped>
+div.search-result{
+  display: flex;
+  align-items: center;
+  padding:5px 10px;
+  gap:10px;
+  cursor: pointer;
+
+  div.poster-holder{
+    width: 30px;
+    height: 30px;
+    border-radius: 0.25rem;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img{
+      width:100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  span.label{
+    font-size: 0.8rem;
+  }
+
+  &:hover{
+    background-color: var(--card-color-hover);
+  }
+}
 div.context{
   position:absolute;
   left:0;
   top:calc(100%);
   width:100%;
+  max-height: 80vh;
   background-color:var(--card-color);
   border-bottom-left-radius:1rem;
   border-bottom-right-radius:1rem;
   z-index: 1;
+  overflow: auto;
+  padding-bottom: 1rem;
+  
   div.search-current{
     display:flex;
     align-items:center;
@@ -123,8 +250,10 @@ div.context{
     font-size:0.85rem;
     padding:0.75rem 1rem;
     transition:0.2s ease background-color;
+
     &:hover{
-      background-color:var(--card-color-hover);
+      background-color:var(--theme-color);
+      color: white;
       cursor:pointer;
     }
   }
@@ -148,7 +277,10 @@ div.select{
     padding:0 10px;
     cursor:pointer;
     gap:1rem;
-    span{font-size:0.8rem;}
+
+    span{
+      font-size:0.8rem;
+    }
     div.icon-holder{
       width:20px;
       text-align:center;
@@ -183,6 +315,7 @@ form.search-form{
   height:46px;
   position:relative;
   z-index: 2;
+
   input{
     padding:0 8px;
     background:transparent;
@@ -190,6 +323,7 @@ form.search-form{
     font-size:0.95rem;
     color:inherit;
   }
+
   &:focus-within{
     border-bottom-left-radius:0;
     border-bottom-right-radius:0;
