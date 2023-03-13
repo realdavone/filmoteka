@@ -11,7 +11,15 @@
           </header>
         <form class="form" @submit.prevent="login">
           <div class="input">
-            <input v-model="credentials.email" type="email" name="email" placeholder="Email" autocomplete="email" required>
+            <input
+            v-model="credentials.email"
+            type="email"
+            name="email"
+            placeholder="Email"
+            autocomplete="email"
+            required
+            autocapitalize="off"
+            autocorrect="off">
           </div>
           <div class="input">
             <input v-model="credentials.password" type="password" name="password" placeholder="Heslo" autocomplete="current-password" required>

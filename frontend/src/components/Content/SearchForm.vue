@@ -27,6 +27,9 @@
       type="text"
       placeholder="Vyhľadávanie"
       required
+      autocomplete="off"
+      autocapitalize="off"
+      autocorrect="off"
       @input="handleInput"
       @focus="isInputFocused = true"
       @focusout="isInputFocused = false">
@@ -44,36 +47,19 @@
         :people="autoSearchResults.people"
         :recent="store.state.recentSearch">
           <template v-slot="{ people, movies, tvs, recent }">
+            <span v-if="movies?.length" class="label">Filmy</span>
             <router-link v-for="movie in movies" :key="movie.id" :to="`/movie/${movie.id}`" @click="input!.blur()">
-              <div class="search-result">
-                <div class="poster-holder">
-                  <img v-if="movie.poster_path" :src="`https://image.tmdb.org/t/p/w92${movie.poster_path}`" :alt="movie.title" loading="lazy">
-                </div>
-                <span class="label">{{ movie.title }}</span>
-              </div>
+              <AutoSearchResult :label="movie.title" :img="movie.poster_path" />
             </router-link>
+            <span v-if="tvs?.length" class="label">TV</span>
             <router-link v-for="tv in tvs" :key="tv.id" :to="`/tv/${tv.id}`" @click="input!.blur()">
-              <div class="search-result">
-                <div class="poster-holder">
-                  <img v-if="tv.poster_path" :src="`https://image.tmdb.org/t/p/w92${tv.poster_path}`" :alt="tv.name" loading="lazy">
-                </div>
-                <span class="label">{{ tv.name }}</span>
-              </div>
+              <AutoSearchResult :label="tv.name" :img="tv.poster_path" />
             </router-link>
+            <span v-if="people?.length" class="label">Osoby</span>
             <router-link v-for="person in people" :key="person.id" :to="`/person/${person.id}`" @click="input!.blur()">
-              <div class="search-result">
-                <div class="poster-holder">
-                  <img v-if="person.profile_path" :src="`https://image.tmdb.org/t/p/w92${person.profile_path}`" :alt="person.name" loading="lazy">
-                </div>    
-                <span class="label">{{ person.name }}</span>
-              </div>
+              <AutoSearchResult :label="person.name" :img="person.profile_path" />
             </router-link>
-            <div class="search-result" v-for="item in recent" :key="item" role="button" @click="handleRecentItem(item)">
-              <div class="poster-holder">
-                <span class="material-icons-outlined" style="font-size: 1rem;">history</span>
-              </div>
-              <span class="label">{{ item }}</span>
-            </div>
+            <AutoSearchResult v-for="item in recent" :key="item" role="button" @click="handleRecentItem(item)" :label="item" />
           </template>
         </AutoSearchResults>
       </div>
@@ -87,6 +73,7 @@ import { ref, onMounted, reactive, inject } from 'vue'
 import { useRouter } from 'vue-router'
 import Loader from '../Loader.vue'
 import AutoSearchResults from '../Content/AutoSearchResults.vue'
+import AutoSearchResult from '../Content/AutoSearchResult.vue'
 import debounce from '../../utils/debounce'
 import makeRequest from '../../api/main'
 import { TvTitle, MovieTitle } from '../../types/title'
@@ -167,7 +154,7 @@ function handleSelectOption(option: Options){
   isOptionsMenuOpened.value = false
 }
 
-const logInput = debounce(async string => {
+const getAutoResults = debounce(async string => {
   try {
     if(string === '') {
       loadingSearch.value = false
@@ -190,7 +177,7 @@ const logInput = debounce(async string => {
 function handleInput(e: Event){
   const input = e.target as HTMLInputElement
   loadingSearch.value = true
-  logInput(input.value)
+  getAutoResults(input.value)
 }
 
 onClickOutside(optionsMenu, () => isOptionsMenuOpened.value = false)
@@ -199,36 +186,12 @@ onMounted(() => input.value!.focus())
 </script>
 
 <style lang="scss" scoped>
-div.search-result{
-  display: flex;
-  align-items: center;
-  padding:5px 10px;
-  gap:10px;
-  cursor: pointer;
-
-  div.poster-holder{
-    width: 30px;
-    height: 30px;
-    border-radius: 0.25rem;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    img{
-      width:100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
-
-  span.label{
-    font-size: 0.8rem;
-  }
-
-  &:hover{
-    background-color: var(--card-color-hover);
-  }
+span.label{
+  padding:0 10px;
+  color: lightgray;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
 }
 div.context{
   position:absolute;

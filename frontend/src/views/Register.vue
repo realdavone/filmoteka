@@ -14,7 +14,16 @@
             <input v-model="credentials.password" type="password" name="password" placeholder="Heslo" autocomplete="off" required>
           </div>
           <div class="input">
-            <input v-model="credentials.repeatPassword" type="password" name="password" placeholder="Zopakovať heslo" autocomplete="off" required>
+            <input
+            v-model="credentials.repeatPassword"
+            type="password"
+            name="password"
+            placeholder="Zopakovať
+            heslo"
+            autocomplete="off"
+            required
+            autocapitalize="off"
+            autocorrect="off">
           </div>
           <div v-if="error" class="error">{{error}}</div>
           <BasicButton :disabled="registerStart">
