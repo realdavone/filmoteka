@@ -23,7 +23,6 @@
       <input
       id="search-input"
       ref="input"
-      v-model="searchQuery"
       type="text"
       placeholder="Vyhľadávanie"
       required
@@ -176,8 +175,14 @@ const getAutoResults = debounce(async string => {
 
 function handleInput(e: Event){
   const input = e.target as HTMLInputElement
+  const event = e as Event & {
+    isComposing: boolean
+    data: string
+  }
+  const data = event.isComposing ? event.data : input.value
   loadingSearch.value = true
-  getAutoResults(input.value)
+  getAutoResults(data)
+  searchQuery.value = data
 }
 
 onClickOutside(optionsMenu, () => isOptionsMenuOpened.value = false)
