@@ -21,6 +21,7 @@
         </Transition>
       </div>
       <input
+      v-focus="(isFocused: boolean) => isInputFocused = isFocused"
       id="search-input"
       ref="input"
       type="text"
@@ -29,15 +30,14 @@
       autocomplete="off"
       autocapitalize="off"
       autocorrect="off"
-      @input="handleInput"
-      @focus="isInputFocused = true"
-      @focusout="isInputFocused = false">
+      @input="handleInput" />
     </form>
-    <div v-show="isInputFocused" class="context">
-      <div v-show="searchQuery.length" class="search-current" @mousedown.prevent="null" @click="submitQuery">
-        <span class="material-icons" style="font-size:1.25rem">{{ searchType.icon }}</span> Vyhľadávať "{{ searchQuery }}"
+    <div v-show="isInputFocused" class="context" @mousedown.prevent="null">
+      <div v-show="searchQuery.length" class="search-current" @click="submitQuery">
+        <span class="material-icons" style="font-size:1.25rem">{{ searchType.icon }}</span>
+        Vyhľadávať<span class="quotation-marks">{{ searchQuery }}</span>
       </div>
-      <div @mousedown.prevent="null">
+      <div>
         <Loader v-if="loadingSearch" type="inline" style="display: block; margin:10px auto 0" />
         <AutoSearchResults
         v-else
@@ -193,7 +193,7 @@ onMounted(() => input.value!.focus())
 <style lang="scss" scoped>
 span.label{
   padding:0 10px;
-  color: lightgray;
+  color: gray;
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
   font-size: 0.75rem;
@@ -216,7 +216,7 @@ div.context{
     align-items:center;
     gap:0.75rem;
     font-size:0.85rem;
-    padding:0.75rem 1rem;
+    padding:0.5rem 0.75rem;
     transition:0.2s ease background-color;
 
     &:hover{

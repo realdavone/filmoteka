@@ -11,7 +11,7 @@
         </header>
         <div v-if="error" class="error">{{error}}</div>
         <form @submit.prevent="submitComment">
-          <textarea ref="textarea" v-model="content" type="text" placeholder="Napíš komentár..."></textarea>
+          <textarea v-focus ref="textarea" v-model="content" type="text" placeholder="Napíš komentár..."></textarea>
           <div class="buttons">
             <BasicButton type="close" @handleClick="emit('close')">Zavrieť</BasicButton>
             <BasicButton :disabled="content.length === 0 || loading === true" style="align-self:flex-end;">
@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject, onMounted } from 'vue'
+import { ref, inject } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import getData from '../api/main.js'
 
@@ -81,8 +81,6 @@ const submitComment = () => {
   .catch(err => error.value = err)
   .finally(() => loading.value = false)
 }
-
-onMounted(() => textarea.value!.focus())
 </script>
 
 <style lang="scss" scoped>

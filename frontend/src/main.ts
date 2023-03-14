@@ -1,13 +1,13 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router/index'
-import Notifications, { notify } from '@kyvg/vue3-notification'
+import Notifications from '@kyvg/vue3-notification'
 import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
 import store from './store/index'
 import Auth from './auth/main'
 import _ from './utils/main'
-
 import './styles/main.css'
+import focus from './directives/focus'
 
 (function startApp(){
   _.initLoader()
@@ -23,11 +23,14 @@ import './styles/main.css'
 
     store.state.globalSettings = globals.value as any
 
-    createApp(App)
+    const app = createApp(App)
     .use(router)
     .use(autoAnimatePlugin)
-    .use(Notifications)
-    .mount('#app')
+    .use(Notifications) 
+    
+    app.directive('focus', focus)
+    
+    app.mount('#app')
     
     store.initResources()
   })

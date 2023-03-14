@@ -152,6 +152,8 @@ div.details{
       margin-bottom:2rem;
       display:flex;gap:1rem;
       flex-wrap:wrap;
+      padding-top:2px;
+      padding-left:2px;
     }
     div.creators{
       display:flex;
