@@ -6,7 +6,7 @@ import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
 import store from './store/index'
 import Auth from './auth/main'
 import _ from './utils/main'
-import './styles/main.css'
+import './styles/main.scss'
 import focus from './directives/focus'
 
 (function startApp(){
