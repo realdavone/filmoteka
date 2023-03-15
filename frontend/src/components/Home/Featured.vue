@@ -27,12 +27,7 @@
               class="title"
             >{{ title?.media_type === 'movie' ? title?.title : title?.name }}</div>
             <div v-if="title && title?.overview" class="overview">
-              <Rating
-                v-if="title!.vote_average"
-                size="large"
-                :rating="Math.round(title!.vote_average * 10) / 10"
-              />
-              <span v-font:medium>{{ title?.overview }}</span>
+            <span v-font:medium>{{ title?.overview }}</span>
             </div>
             <BasicButton
               v-if="title"
@@ -51,7 +46,6 @@
 import { Title } from '../../types/title'
 import { ref } from 'vue'
 import BasicButton from '../Buttons/BasicButton.vue'
-import Rating from '../Content/Rating.vue'
 import Poster from '../Content/Poster.vue'
 import CoverPoster from '../Content/CoverPoster.vue'
 import CircleButtonsControl from '../Content/CircleButtonsControl.vue'

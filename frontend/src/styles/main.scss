@@ -98,20 +98,21 @@ button.toggle-button{
   display:flex;
   align-items:center;
   transition:0.3s ease background-color;
+
+  &::before{
+    content:'';
+    width:14px;
+    height:14px;
+    background-color:white;
+    position:absolute;
+    border-radius:10px;
+    left:4px;
+    transition:0.3s ease transform;
+  }
+  &[data-active=false]::before{ transform:translateX(0) }
+  &[data-active=true]{ background-color:var(--theme-color) }
+  &[data-active=true]::before{ transform:translateX(13px) }
 }
-button.toggle-button::before{
-  content:'';
-  width:14px;
-  height:14px;
-  background-color:white;
-  position:absolute;
-  border-radius:10px;
-  left:4px;
-  transition:0.3s ease transform;
-}
-button.toggle-button[data-active=false]::before{ transform:translateX(0) }
-button.toggle-button[data-active=true]{ background-color:var(--theme-color) }
-button.toggle-button[data-active=true]::before{ transform:translateX(13px) }
 button.retry-app-button{
   background-color: var(--theme-color);
   color: white;
@@ -119,7 +120,7 @@ button.retry-app-button{
   cursor: pointer;
   border-radius: 4px;
   font-weight: 700;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Roboto', sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -174,6 +175,7 @@ div.skeleton-text:first-of-type{
   flex-direction:column;
   gap:15px;
   user-select:none;
+  font-size: var(--medium-font-size);
 }
 
 .loader-holder span::after{
