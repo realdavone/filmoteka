@@ -25,10 +25,10 @@ div.loader {
   }
   &.inline{
     display: inline-block;
-    min-width: 1rem;
-    min-height: 1rem;
-    max-width: 1rem;
-    max-height: 1rem;
+    min-width: 15px;
+    min-height: 15px;
+    max-width: 15px;
+    max-height: 15px;
     border-width: 2px;
   }
 }

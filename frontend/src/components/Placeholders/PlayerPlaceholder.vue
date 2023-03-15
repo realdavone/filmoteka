@@ -11,7 +11,6 @@ div.player-holder{
   gap:20px;
   background-color:var(--player-background-color);
   div.player{
-    
     width:var(--player-width);
     min-width:var(--player-width);
     aspect-ratio:16/9!important;

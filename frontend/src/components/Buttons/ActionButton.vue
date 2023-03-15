@@ -29,8 +29,8 @@ button.action-button{
   align-items:center;
   justify-content:center;
   flex-direction:column;
-  gap:0.5rem;
-  padding:0.75rem;
+  gap:8px;
+  padding:10px;
   border-radius:50%;
   line-height:1;
   aspect-ratio:1;
@@ -48,9 +48,5 @@ button.action-button{
     background-color:transparent;
   }
   &:hover:not(:disabled){ transform:scale(1.25); }
-  :slotted(span.icon){ font-size:1.5rem }
-}
-@media screen and (max-width: 600px){
-  :slotted(span.icon){ font-size:1rem!important }
 }
 </style>

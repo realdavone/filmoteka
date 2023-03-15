@@ -20,7 +20,7 @@ export const getComments = async (req, res) => {
       page,
       number_of_pages: numberOfPages
     })
-  } catch (error) { res.status(500).json({ success: false, message: error }) }
+  } catch (error) { res.sendStatus(500) }
 }
 
 export const addComment = async (req, res) => {
@@ -30,7 +30,7 @@ export const addComment = async (req, res) => {
   try {
     await Comment.create({ type, id, content, author: userId })
     res.status(201).json({ success: true, message: 'Komentár bol pridaný' })
-  } catch (error) { res.status(500).json({ success: false, message: error }) }
+  } catch (error) { res.sendStatus(500) }
 }
 
 export const deleteComment = async (req, res) => {

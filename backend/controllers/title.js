@@ -44,16 +44,21 @@ export const toggleNonWorkingTitle = async (req, res) => {
   const { type, id } = req.body
   const foundTitle = await Title.findOne({type, id})
 
-  if(foundTitle === null) {
-    await Title.create({ ...req.body, isPlayerWorking: false })
-    return res.status(201).json({ success: true, isPlayerWorking: false })
-  } else {
-    Title.findOne({ type: type, id: id }, async (err, title) => {
-      if(!err) title.isPlayerWorking = !title.isPlayerWorking
-      await title.save()
-      return res.status(201).json({ success: true, isPlayerWorking: title.isPlayerWorking })  
-    })
+  try {
+    if(foundTitle === null) {
+      await Title.create({ ...req.body, isPlayerWorking: false })
+      return res.status(201).json({ success: true, isPlayerWorking: false })
+    } else {
+      Title.findOne({ type: type, id: id }, async (err, title) => {
+        if(!err) title.isPlayerWorking = !title.isPlayerWorking
+        await title.save()
+        return res.status(201).json({ success: true, isPlayerWorking: title.isPlayerWorking })  
+      })
+    }    
+  } catch (error) {
+    res.sendStatus(500)
   }
+
 }
 
 export const toggleRecommendedTitle = async (req, res) => {
@@ -82,7 +87,7 @@ export const toggleRecommendedTitle = async (req, res) => {
     io.emit('newRecommended', { title: recommended })
     res.status(201).json({ success: true, isRecommended: true })
     
-  } catch (error) { res.status(500).json({ success: false, message: 'Niečo sa pokazilo' }) }
+  } catch (error) { res.sendStatus(500) }
 }
 
 export const removeRecommendedTitle = async (req, res) => {

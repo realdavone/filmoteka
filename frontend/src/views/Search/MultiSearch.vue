@@ -3,24 +3,51 @@
     <section class="left-col">
       <header>
         <span class="material-icons">movie</span>
-        <span class="label">Filmy</span>
+        <span v-font:small class="label">Filmy</span>
       </header>
-      <ItemPanel type="title" :placeholderData="{ count: 3 }" :items="result.movies" />
-      <router-link v-if="loaded" :to="`/search/movie?q=${route.query.q}&page=1`" class="show-more">Zobraziť filmy</router-link>
+      <ItemPanel
+        type="title"
+        :placeholderData="{ count: 3 }"
+        :items="result.movies"
+      />
+      <router-link
+        v-font:small
+        v-if="loaded"
+        :to="`/search/movie?q=${route.query.q}&page=1`"
+        class="show-more"
+      >Zobraziť filmy</router-link>
       <header>
         <span class="material-icons">tv</span>
-        <span class="label">Seriály</span>
+        <span v-font:small class="label">Seriály</span>
       </header>
-      <ItemPanel type="title" :placeholderData="{ count: 3 }" :items="result.tvs" />
-      <router-link v-if="loaded" :to="`/search/tv?q=${route.query.q}&page=1`" class="show-more">Zobraziť seriály</router-link>
+      <ItemPanel
+        type="title"
+        :placeholderData="{ count: 3 }"
+        :items="result.tvs"
+      />
+      <router-link
+        v-font:small
+        v-if="loaded"
+        :to="`/search/tv?q=${route.query.q}&page=1`"
+        class="show-more"
+      >Zobraziť seriály</router-link>
     </section>
     <section class="right-col">
       <header>
         <span class="material-icons">person</span>
-        <span class="label">Osoby</span>
+        <span v-font:small class="label">Osoby</span>
       </header>
-      <ItemPanel type="person" :placeholderData="{ count: 4 }" :items="result.people" />
-      <router-link v-if="loaded" :to="`/search/person?q=${route.query.q}&page=1`" class="show-more">Zobraziť osoby</router-link>
+      <ItemPanel
+        type="person"
+        :placeholderData="{ count: 4 }"
+        :items="result.people"
+      />
+      <router-link
+        v-font:small
+        v-if="loaded"
+        :to="`/search/person?q=${route.query.q}&page=1`"
+        class="show-more"
+      >Zobraziť osoby</router-link>
     </section>
   </section>
 </template>
@@ -71,21 +98,19 @@ onBeforeMount(() => getResults(route.query.q as string))
 section.title-holder{
   display:flex;
   flex-direction:row;
-  gap:1rem;
+  gap:15px;
 
   header{
     font-weight:900;
-    font-size:0.8rem;
     display: flex;
     align-items: center;
     gap: 8px;
     background-color: var(--theme-color);
-    padding: 5px;
+    padding: 6px;
     border-radius: 4px;
   }
   a.show-more{
     color:var(--theme-color);
-    font-size:0.8rem;
     align-self:flex-end;
     display:flex;
     align-items:center;
@@ -99,7 +124,7 @@ section.title-holder{
   section.right-col, section.left-col{
     display:flex;
     flex-direction:column;
-    gap:1rem;
+    gap:15px;
   }
   section.right-col{width:500px;}
   section.left-col{width:100%;}

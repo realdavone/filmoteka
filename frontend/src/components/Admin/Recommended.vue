@@ -2,11 +2,11 @@
   <section class="recommended">
     <div v-for="item in recommended" :key="item._id" class="item">
       <img :src="`https://www.themoviedb.org/t/p/w300${item.title.img}`" :alt="item.title.savedTitle">
-      <span class="timestamp">{{useRelativeTimeDifference(item.createdAt)}}</span>
+      <span class="timestamp" v-font:small>{{ useRelativeTimeDifference(item.createdAt) }}</span>
       <button class="remove-button" @click="removeItem(item._id)">Zmazať</button>
     </div>
   </section>
-  <p v-if="recommended.length === 0">Žiadne odporúčane</p>
+  <p v-if="!recommended.length" v-font:medium>Žiadne odporúčane</p>
 </template>
 
 <script setup lang="ts">
@@ -43,6 +43,7 @@ div.item{
   display:flex;
   align-items:stretch;
   flex-direction:column;
+  gap:5px;
   img{
     width:100%;
     aspect-ratio:2/3;
@@ -50,7 +51,6 @@ div.item{
     border-radius:6px;
   }
   span.timestamp{
-    font-size:0.75rem;
     text-align:center;
   }
   button.remove-button{

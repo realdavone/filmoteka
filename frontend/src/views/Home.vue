@@ -65,6 +65,6 @@ onBeforeMount(() => fetchData())
 main.home{
   display:flex;
   flex-direction:column;
-  gap:1rem;
+  gap:15px;
 }
 </style>

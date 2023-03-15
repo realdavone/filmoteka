@@ -65,17 +65,17 @@ div.rating{
   align-items:center;
   overflow:hidden;
   max-width:100px;
+
   button{
     display:flex;
     align-items:center;
-    gap:0.35rem;
-    padding:0.25rem 0.5rem;
+    gap:6px;
+    padding:4px 6px;
+    
     span:first-of-type{
-      font-size:1.25rem;
       overflow:hidden;
     }
     span:last-of-type{
-      font-size:0.75rem;
       font-weight:700;
     }
   }

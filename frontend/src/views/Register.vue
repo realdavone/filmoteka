@@ -4,26 +4,47 @@
     <div class="outter">
       <section class="form">
         <header>
-          <span>Registrácia</span>
+          <span v-font:large>Registrácia</span>
         </header>
         <form class="form" @submit.prevent="register" autocomplete="off">
           <div class="input">
-            <input v-model="credentials.email" type="email" name="email" placeholder="Email" autocomplete="off" required>
-          </div>
-          <div class="input">
-            <input v-model="credentials.password" type="password" name="password" placeholder="Heslo" autocomplete="off" required>
+            <input
+              v-font:medium
+              v-model="credentials.email"
+              type="email"
+              name="email"
+              placeholder="Email"
+              autocomplete="off"
+              required
+              autocapitalize="off"
+              autocorrect="off"
+            />
           </div>
           <div class="input">
             <input
-            v-model="credentials.repeatPassword"
-            type="password"
-            name="password"
-            placeholder="Zopakovať
-            heslo"
-            autocomplete="off"
-            required
-            autocapitalize="off"
-            autocorrect="off">
+              v-font:medium
+              v-model="credentials.password"
+              type="password"
+              name="password"
+              placeholder="Heslo"
+              autocomplete="off"
+              required
+              autocapitalize="off"
+              autocorrect="off"
+            />
+          </div>
+          <div class="input">
+            <input
+              v-font:medium
+              v-model="credentials.repeatPassword"
+              type="password"
+              name="repeat-password"
+              placeholder="Zopakovať heslo"
+              autocomplete="off"
+              required
+              autocapitalize="off"
+              autocorrect="off"
+            />
           </div>
           <div v-if="error" class="error">{{error}}</div>
           <BasicButton :disabled="registerStart">
@@ -31,7 +52,12 @@
             <Loader v-if="registerStart" type="inline" />
           </BasicButton>
         </form>
-        <router-link tabindex="0" to="/login" class="link">Už máte účet?</router-link>
+        <router-link
+          v-font:small
+          tabindex="0"
+          to="/login"
+          class="link"
+        >Už máte účet?</router-link>
       </section>
     </div>
   </main>

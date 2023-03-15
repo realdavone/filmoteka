@@ -1,10 +1,16 @@
 <template>
   <div class="search-result">
     <div class="poster-holder">
-      <img v-if="img" :src="`https://image.tmdb.org/t/p/w92${img}`" :alt="label" loading="lazy">
-      <span v-else class="material-icons-outlined" style="font-size: 1rem;">history</span>
+      <img
+        v-if="props.img"
+        :src="`https://image.tmdb.org/t/p/w92${props.img}`"
+        :alt="props.label"
+        loading="lazy"
+      />
+      <span v-else class="material-icons-outlined">history</span>
     </div>
-    <span class="label">{{ label }}</span>
+    <span v-font:small>{{ props.label }}</span>
+    <button v-font:small v-if="onRemove" class="remove" @click.stop="onRemove?.(props.label)">Zmazať</button>
   </div>
 </template>
 
@@ -12,6 +18,7 @@
 const props = defineProps<{
   img?: string | null
   label: string
+  onRemove?: (item: string) => void
 }>()
 </script>
 
@@ -19,14 +26,14 @@ const props = defineProps<{
 div.search-result{
   display: flex;
   align-items: center;
-  padding:5px 10px;
+  padding:4px 10px;
   gap:10px;
   cursor: pointer;
 
   div.poster-holder{
-    width: 30px;
-    height: 30px;
-    border-radius: 0.25rem;
+    width: 34px;
+    height: 34px;
+    border-radius: 4px;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -39,8 +46,12 @@ div.search-result{
     }
   }
 
-  span.label{
-    font-size: 0.8rem;
+  button.remove{
+    margin-left: auto;
+
+    &:hover{
+      text-decoration: underline;
+    }
   }
 
   &:hover{

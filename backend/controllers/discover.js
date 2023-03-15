@@ -13,6 +13,6 @@ export const discover = async (req, res) => {
     const data = await fetch(`${TMDB_BASE_API}/discover/${req.params.type}?api_key=${TMDB_API_KEY}&language=sk-SK&sort_by=${sort}&page=${page}&with_genres=${genre}`)
     res.status(200).json(await data.json())    
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Niečo sa pokazilo' })
+    res.sendStatus(500)
   }
 }

@@ -44,7 +44,6 @@ div.icon{ position:relative }
   top: 0;
   right: -5px;
   border-radius: 50%;
-  font-size: 10px;
   display: flex;
   align-items: center;
   justify-content: center;

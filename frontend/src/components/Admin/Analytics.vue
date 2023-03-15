@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-font:medium>
     Štatistiky
   </div>
 </template>

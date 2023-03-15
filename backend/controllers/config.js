@@ -21,12 +21,12 @@ export const updateConfig = async (req, res) => {
     io.emit('globalSettingsUpdate', req.body)
 
     res.status(200).json({ success: true })
-  } catch (error) { res.statusCode(500) }
+  } catch (error) { res.sendStatus(500) }
 }
 
 export const deleteTokens = async (req, res) => {
   try {
     await Token.deleteMany({})
     res.status(200).json({ success: true, message: 'Všetky tokeny boli vymazané' })
-  } catch (error) { res.statusCode(500) }
+  } catch (error) { res.sendStatus(500) }
 }

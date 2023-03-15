@@ -11,7 +11,7 @@
       <template #actionMenu>
         <ActionMenu>
           <template v-if="!loading">
-            <ActionButton title="Skopírovať URL adresu" icon="link" @handleClick="handleEvent('COPY_URL')" />
+            <ActionButton title="Skopírovať URL adresu" icon="copy" @handleClick="handleEvent('COPY_URL')" />
             <template v-if="store.state.credentials.loggedIn">
               <ActionButton title="Nahlásiť prehrávač" :loading="isPlayerWorking.isLoading" icon="report" :warning="!isPlayerWorking.value" @handleClick="handleEvent('TOGGLE_WORKING_PLAYER')" />
               <ActionButton title="Odporúčiť" :loading="isRecommended.isLoading"  icon="thumb_up" :disabled="isRecommended.value" @handleClick="handleEvent('ADD_RECOMMENDED')" />
@@ -23,33 +23,39 @@
         </ActionMenu>
       </template>
       <template #title>
-        <h1 v-if="!loading" class="title">
-          {{result?.name}}
-          <span v-if="result?.omdb.Year">({{result.omdb.Year}})</span>
-        </h1>
+        <h1
+          v-font:large
+          v-if="!loading"
+          class="title"
+        >{{result?.name}} <span v-if="result?.omdb.Year">({{result.omdb.Year}})</span></h1>
       </template>
       <template #subtitle>
         <template v-if="!loading">
-          <div class="under-title">
+          <div class="under-title" v-font:small>
             <span class="rated">{{!result?.omdb['Rated']||result?.omdb['Rated']==='N/A'?'Not Rated':result?.omdb['Rated']}}</span>
             <span v-if="result?.name !== result?.original_name" class="bullet-after">{{result?.original_name}}</span>
           </div>
         </template>
       </template>
       <template #tagline>
-        <span v-if="!loading" class="tagline">{{result?.tagline}}</span>
+        <span v-font:small v-if="!loading" class="tagline">{{result?.tagline}}</span>
       </template>
       <template #genres>
         <div v-if="!loading" class="genres">
           <router-link
-          :to="`/library?type=${$route.name?.toString().toLowerCase()}&genre=${genre.id}`"
-          :key="genre.id"
-          v-for="genre in result?.genres">{{genre.name}}
-          </router-link>    
+            v-font:small
+            :to="`/library?type=${$route.name?.toString().toLowerCase()}&genre=${genre.id}`"
+            :key="genre.id"
+            v-for="genre in result?.genres"
+          >{{genre.name}}</router-link>    
         </div>
       </template>
       <template #overview>
-        <span v-if="!loading" class="overview">{{result?.overview || 'Žiadny prehľad'}}</span>
+        <span
+          v-font:medium
+          v-if="!loading"
+          class="overview"
+        >{{result?.overview || 'Žiadny prehľad'}}</span>
       </template>
       <template #player>
         <TVPlayerPanel

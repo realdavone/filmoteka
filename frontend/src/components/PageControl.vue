@@ -7,7 +7,7 @@
     class="arrow-button">
       &#10094;
     </button>
-    <span class="current-page">{{props.pages.current}}</span>
+    <span class="current-page" v-font:medium>{{props.pages.current}}</span>
     <button
     :class="{ 'disabled': parseInt(props.pages.current as string) === parseInt(props.pages.total as string) }"
     :disabled="parseInt(props.pages.current as string) === parseInt(props.pages.total as string)"
@@ -37,7 +37,6 @@ section.page-control{
   span.current-page{
     display:inline-block;
     text-align:center;
-    font-size:1.25rem;
     width:40px;
     font-weight:900;
     user-select:none;
@@ -49,7 +48,7 @@ section.page-control{
     display:inline-flex;
     align-items:center;
     justify-content:center;
-    border-radius:0.5rem;
+    border-radius:8px;
     transition:0.2s ease background-color;
     &.disabled{
       cursor:default;

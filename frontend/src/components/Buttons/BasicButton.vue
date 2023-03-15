@@ -1,7 +1,10 @@
 <template>
-  <button :class="`${props.type}`" @click="$emit('handleClick')" :type="props.type === 'close' ? 'button' : undefined">
-    <slot></slot>
-  </button>
+  <button
+    v-font:small
+    :class="`${props.type}`"
+    @click="$emit('handleClick')"
+    :type="props.type === 'close' ? 'button' : undefined"
+  ><slot></slot></button>
 </template>
 
 <script setup lang="ts">
@@ -16,10 +19,9 @@ const props = withDefaults(defineProps<{
 
 <style lang="scss" scoped>
 button{
-  padding: 0 1rem;
-  border-radius: 0.25rem;
+  padding: 0 15px;
+  border-radius: 4px;
   font-weight: 700;
-  font-size: 0.75rem;
   text-transform: uppercase;
   position: relative;
   z-index: 1;

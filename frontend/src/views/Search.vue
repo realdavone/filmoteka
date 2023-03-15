@@ -4,8 +4,8 @@
       <section class="button-holder-outter">
         <div class="button-holder-inner">
           <button :class="{'active': $route.path.split('/')[2] === button.path}" v-for="(button, key) in categoryButtons" :key="key" @click="filterResults(button.path)">
-            <span class="material-icons">{{button.icon}}</span>
-            <span>{{key}}</span>
+            <span v-font:medium class="material-icons">{{button.icon}}</span>
+            <span v-font:medium>{{key}}</span>
           </button>
         </div>
       </section>
@@ -71,7 +71,6 @@ section.inner-wrap{
         align-items:center;
         justify-content:center;
         gap:8px;
-        span:nth-child(1){ font-size:1.25rem; }
         &:hover{background:var(--card-color-hover);}
         &:last-of-type{border-bottom:none;}
       }

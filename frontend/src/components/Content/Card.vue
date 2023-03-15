@@ -30,9 +30,9 @@ const { item } = defineProps<{
 a.title-card{
   overflow:hidden;
   background:var(--card-color);
-  border-radius:0.5rem;
+  border-radius: 10px;
   position:relative;
-  transition:0.2s ease background;
+  transition: 0.2s ease background;
   scroll-snap-align:start;
   isolation:isolate;
   div.poster{
@@ -62,15 +62,15 @@ a.title-card{
       align-items:center;
       opacity:0;
       transition:0.4s ease opacity;
+
       span{
         color:var(--font-color-dark);
-        font-size:2.5rem;
         transition:0.4s ease transform, 0.8s ease box-shadow;
         border-radius:50%;
         transform:scale(1.35);
-        box-shadow: inset 0px 0px 0px 0.5rem var(--theme-color);
-        outline:0.25rem solid var(--theme-color);
-        outline-offset:0.35rem;
+        box-shadow: inset 0px 0px 0px 10px var(--theme-color);
+        outline:5px solid var(--theme-color);
+        outline-offset:6px;
         display:inline-block;
         width:64px;
         height:64px;
@@ -78,6 +78,7 @@ a.title-card{
         align-items:center;
         justify-content:center;
         font-weight:900;
+        font-size: 40px!important;
       }
     }
     &:hover{
@@ -97,15 +98,15 @@ a.title-card{
     font-family:'Material Icons';
     content:'visibility';
     color:var(--theme-color);
-    font-size:1.5rem;
     position:absolute;
     width:100%;
     max-width:100%;
     top:0;
     z-index:10;
     text-align:right;
-    padding:0.25rem 0.5rem;
+    padding:3px 7px;
     box-sizing:border-box;
+    font-size: var(--large-font-size);
   }
 }
 @media screen and (max-width: 600px) {

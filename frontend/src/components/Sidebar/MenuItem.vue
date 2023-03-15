@@ -1,12 +1,12 @@
 <template>
   <component
-  v-if="item.isVisible"
-  :is="item.route ? 'router-link' : 'button'"
-  v-bind="(item.route && { to: item.route })"
-  @click.native="$emit('handleClick')"
+    v-if="item.isVisible"
+    :is="item.route ? 'router-link' : 'button'"
+    v-bind="(item.route && { to: item.route })"
+    @click.native="$emit('handleClick')"
   >
     <span class="material-icons-outlined">{{ item.icon }}</span>
-    <span class="label">{{ item.label }}</span>
+    <span v-font:medium class="label">{{ item.label }}</span>
   </component>
 </template>
 
@@ -23,10 +23,9 @@ defineProps<{
 
 <style lang="scss" scoped>
 button, a{
-  font-size: 0.75rem;
   display: flex;
   align-items: center;
-  gap:10px;
+  gap:16px;
   width: 100%;
   padding: 8px;
   border-radius: 0.25rem;
@@ -37,7 +36,6 @@ button, a{
   }
 
   span.label{
-    font-size: 0.85rem;
     font-weight: 700;
     font-family: 'Roboto', sans-serif;
   }

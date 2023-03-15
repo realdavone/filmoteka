@@ -3,10 +3,10 @@
     <div class="img">
     </div>
     <div class="text-holder">
-      <div class="skeleton-text" style="height:1.15rem;width:50%;"></div>
+      <div class="skeleton-text" style="height:var(--medium-font-size);width:50%;"></div>
       <div class="rating"></div>
       <div class="text">
-        <div v-for="i in 2" :key="i" class="skeleton-text" style="height:0.75rem"></div>
+        <div v-for="i in 2" :key="i" class="skeleton-text" style="height: var(--small-font-size);"></div>
       </div>
     </div>
   </div>
@@ -20,8 +20,8 @@ div.title{
   border-radius:8px;
   display:flex;
   align-items:center;
-  gap:1rem;
-  padding:1rem;
+  gap:15px;
+  padding:15px;
   overflow:hidden;
   div.img{
     background:var(--card-color-hover);
@@ -30,7 +30,7 @@ div.title{
     display:flex;
     justify-content:center;
     align-items:center;
-    border-radius:1rem;
+    border-radius:15px;
   }
   div.text-holder{
     display:flex;
@@ -39,7 +39,7 @@ div.title{
     width:100%;
     padding-right:10px;
     div.rating{
-      width:1.75rem;
+      width:25px;
       aspect-ratio:1;
       background-color:var(--card-color-hover);
       border-radius:50%;
@@ -47,7 +47,7 @@ div.title{
     div.text{
       display:flex;
       flex-direction:column;
-      gap:0.35rem;
+      gap:6px;
     }
   }
 }

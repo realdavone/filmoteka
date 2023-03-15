@@ -7,9 +7,9 @@
             <Poster v-if=" collection.poster" :src="collection.poster" alt="Plagát kolekcie" :fadeInOnLoad="true" />
           </div>
           <div class="details">
-            <span v-if="collection.title" class="heading">{{collection.title}}</span>
+            <span v-if="collection.title" class="heading" v-font:large>{{ collection.title }}</span>
             <div v-else class="skeleton-text" style="height:1.5rem;width:50%"></div>
-            <p v-if="collection.overview">{{collection.overview}}</p>
+            <p v-if="collection.overview" v-font:medium>{{collection.overview}}</p>
             <div v-else v-for="i in 2" :key="i" class="skeleton-text" :style="`height:1rem;width:${100 - 10 * (i - 1)}%`"></div>
           </div>
         </div>
@@ -89,7 +89,7 @@ section.collection-holder{
     div.img{
       background:var(--card-color);
       overflow:hidden;
-      border-radius:1rem;
+      border-radius:15px;
       width:250px;
       aspect-ratio:2/3;
       img{
@@ -104,10 +104,8 @@ section.collection-holder{
       flex-direction:column;
       gap:20px;
       span.heading{
-        font-size:1.5rem;
         font-weight:900;
       }
-      p{ font-size:0.85rem!important }
     }
   }
   section.titles-holder{ width:100%; }

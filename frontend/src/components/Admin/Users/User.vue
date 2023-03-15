@@ -2,15 +2,15 @@
   <div class="user">
     <div class="details">
       <span v-if="store.state.credentials.user?.email === user.email" class="material-icons label">person_filled</span>
-      <span>{{ user.email }}</span>
+      <span v-font:small>{{ user.email }}</span>
       <span v-if="user.isOwner" class="material-icons owner">verified_user</span>
     </div>
     <div class="control">
-      <span>Admin</span>
+      <span v-font:small>Admin</span>
       <button :data-active="isAdmin" class="toggle-button" @click="toggleAdmin(user._id)"></button>
     </div>
     <div class="control">
-      <span>Schválené</span>
+      <span v-font:small>Schválené</span>
       <button :data-active="isVerified" class="toggle-button" @click="toggleApproved(user._id)"></button>
     </div>
     <BasicButton type="close" @handleClick="removeUser(user._id)" style="align-self: flex-end;">Zmazať</BasicButton>
@@ -92,16 +92,13 @@ div.user{
   div.details{
     display:flex;
     align-items:center;
-    gap:0.5rem;
+    gap:8px;
     span.label{
-      font-size:0.65rem;
-      border-radius:10px;
-      max-width:10px;
+      max-width:16px;
     }
     span.owner{
       color:var(--theme-color);
-      font-size:1rem;
-      font-weight:700;
+      font-size: 20px;
     }
   }
   div.control{
@@ -109,7 +106,6 @@ div.user{
     gap:10px;
     align-items:center;
     justify-content:space-between;
-    span{ font-size:0.75rem }
   }
   button.remove-user{
     align-self:flex-end;

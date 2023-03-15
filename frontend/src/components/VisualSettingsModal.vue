@@ -1,9 +1,9 @@
 <template>
   <Modal :unscrollable-on-mounted="false" @close="$emit('close')">
     <template #modal>
-      <div class="modal" ref="modal">
-        <header>Vizuálne nastavenia</header>
-        <div class="label">Téma</div>
+      <div class="modal user-select-none" ref="modal">
+        <header v-font:large>Vizuálne nastavenia</header>
+        <div v-font:medium>Téma</div>
         <div class="theme-picker">
           <button class="theme-button dark" @click="store.methods.settings.darkTheme.set(true)" :data-active="store.state.settings.darkTheme === true" title="Tmavý režim">
             <span class="material-icons">dark_mode</span>
@@ -12,7 +12,7 @@
             <span class="material-icons-outlined">light_mode</span>
           </button>
         </div>
-        <div class="label">Farebný motív</div>
+        <div v-font:medium>Farebný motív</div>
         <div class="color-picker">
           <button v-for="(color, i) in store.state.settings.themeColors.colors"
           :key="i"
@@ -45,12 +45,12 @@ onClickOutside(modal, () => emit('close'))
 
 <style lang="scss" scoped>
 div.modal{
-  padding:0.75rem 1rem 1rem;
+  padding:10px 15px 15px;
   background-color:var(--background-color);
-  border-radius:0.75rem;
+  border-radius:10px;
   display:flex;
   flex-direction:column;
-  gap:1rem;
+  gap:15px;
   width:100%;
   max-width:400px;
   box-shadow: var(--modal-box-shadow);
@@ -59,23 +59,18 @@ div.modal{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    font-size:1rem;
     font-weight:900;
-  }
-
-  div.label{
-    font-size: 0.85rem;
   }
 }
 div.theme-picker{
   display:flex;
-  gap:1rem;
+  gap:15px;
   button.theme-button{
     width:100%;
     padding:4px 8px;
-    border-radius:0.5rem;
+    border-radius: 10px;
     display:flex;
-    gap:1rem;
+    gap:15px;
     align-items:center;
     justify-content:center;
     position:relative;
@@ -92,7 +87,7 @@ div.theme-picker{
       top:-7px;
       right:5px;
       font-weight:900; 
-      font-size:0.75rem;
+      font-size:10px;
       content:'\2713'
     }
   }
@@ -109,7 +104,7 @@ div.color-picker{
     overflow:hidden;
     &[data-active=true]::after{
       content:'\2713';
-      font-size: 1.25rem;
+      font-size: 20px;
     }
   }
 }

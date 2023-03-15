@@ -2,12 +2,12 @@
   <nav ref="navbar" v-auto-animate class="container">
     <div v-if="!isSearchRendered" class="left-menu">
       <NavButton @handleClick="isMenuOpened = !isMenuOpened">
-        <template #icon><span class="material-icons" style="font-size:1.5rem;padding-top:5px;">menu</span></template>
+        <template #icon><span class="material-icons" style="padding-top:5px;">menu</span></template>
       </NavButton>
     </div>
     <div v-if="isSearchRendered" class="middle">
       <SearchForm />
-      <button @click="isSearchRendered = false" style="font-size:large">&times;</button>
+      <button @click="isSearchRendered = false" v-font:large>&times;</button>
     </div>
     <div v-if="!isSearchRendered" class="right-menu">
       <NavButton title="Vyhľadávanie" @handleClick="isSearchRendered = true">
@@ -23,7 +23,7 @@
         </NavButton>
         <NavButton title="Záložky" @handleClick="bookmarksVisible = true">
           <template #icon><span class="material-icons-outlined" style="padding-top:5px">bookmarks</span></template>
-          <template #notification><span class="count">{{ store.state.favourites.length }}</span></template>
+          <template #notification><span class="count" v-font:small>{{ store.state.favourites.length }}</span></template>
         </NavButton>
       </template>
       <div v-if="!isSearchRendered && !store.state.credentials.loggedIn" class="auth-buttons">

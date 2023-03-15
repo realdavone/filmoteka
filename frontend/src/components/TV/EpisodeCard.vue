@@ -1,10 +1,13 @@
 <template>
-  <section @click="emit('playEpisode', { season: info.season - 1, episode: info.episode - 1 })" :class="`episode-card ${playable && 'playable'} user-select-none`">
-    <div class="episode-info">
-      <div class="label">{{label}}</div>
-      <div class="info">
-        <span>{{`${info.season}.${info.episode}`}}</span>          
-        <span>{{new Date(info.date).toLocaleDateString('sk-SK', { weekday: 'short', year: '2-digit', month: 'short', day: 'numeric' })}}</span>
+  <section
+    @click="emit('playEpisode', { season: info.season - 1, episode: info.episode - 1 })"
+    :class="`episode-card ${playable && 'playable'} user-select-none`"
+  >
+    <div>
+      <div class="label" v-font:medium>{{ label }}</div>
+      <div class="info" v-font:small>
+        <span>{{ `${info.season}.${info.episode}` }}</span>          
+        <span>{{ new Date(info.date).toLocaleDateString('sk-SK', { weekday: 'short', year: '2-digit', month: 'short', day: 'numeric' }) }}</span>
       </div>
     </div>
   </section>
@@ -29,10 +32,10 @@ section.episode-card{
   display:flex;
   align-items:stretch;
   position:relative;
-  gap:0.5rem;
+  gap:10px;
   box-shadow:var(--basic-box-shadow);
-  padding:0.5rem 0.75rem;
-  border-radius:0.75rem;
+  padding:10px 13px;
+  border-radius:12px;
   &.playable{
     cursor:pointer;
     transition:0.2s ease background-color;
@@ -41,15 +44,13 @@ section.episode-card{
     }
   }
   div.label{
-    font-size:0.75rem;
     font-weight:900;
-    margin-bottom:0.5rem;
+    margin-bottom:8px;
     line-height:1;
   }
   div.info{
     display:flex;
-    gap:0.5rem;
-    font-size:0.75rem;
+    gap:8px;
     align-items:center;
     line-height:1;
     span:first-of-type{

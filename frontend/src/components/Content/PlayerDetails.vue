@@ -16,22 +16,23 @@
           </div>
           <div class="right-col">
             <slot name="genres">
-              <div class="skeleton-text" style="height:calc(1rem);width:120px;"></div>
+              <div class="skeleton-text" style="height:var(--small-font-size);width:120px;"></div>
             </slot>
             <slot name="title">
-              <div class="skeleton-text" style="height:calc(1.5rem * 1.1);width:180px;margin-bottom:0.5rem"></div>
+              <div class="skeleton-text" style="height:var(--large-font-size);width:180px;margin-bottom:8px"></div>
             </slot>
             <slot name="subtitle">
-              <div class="skeleton-text" style="height:calc(0.75rem * 1.4);width:100px;"></div>
+              <div class="skeleton-text" style="height:var(--small-font-size);width:100px;"></div>
             </slot>
             <slot name="tagline">
-              <div class="skeleton-text" style="height:calc(0.75rem * 1.4);width:120px;"></div>
+              <div class="skeleton-text" style="height:var(--small-font-size);width:120px;"></div>
             </slot>
-            <div class="overview">
+            <div class="overview" style="width: 100%;">
               <slot name="overview">
-                <div style="width:100%">
-                  <div class="skeleton-text" style="height:calc(0.7rem * 1.4);margin-bottom:0.5rem;"></div>
-                  <div class="skeleton-text" style="height:calc(0.7rem * 1.4);"></div>
+                <div>
+                  <div class="skeleton-text" style="height:var(--medium-font-size);margin-bottom:8px"></div>
+                  <div class="skeleton-text" style="height:var(--medium-font-size);margin-bottom:8px"></div>
+
                 </div>
               </slot>
             </div>
@@ -86,7 +87,7 @@ section.container{
     min-width:200px;
     max-width:200px;
     background:var(--card-color);
-    border-radius:0.5rem;
+    border-radius:8px;
     overflow:hidden;
     position:relative;
     box-shadow: 0px 0px 15px 1px rgba(0,0,0,0.75);
@@ -103,7 +104,7 @@ section.container{
     div.content{
       display:flex;
       flex-direction:column;
-      gap:1.5rem;
+      gap:20px;
       width:100%;
       max-width:1000px;
       align-self:center;
@@ -112,14 +113,14 @@ section.container{
         display:flex;
         align-items:center;
         width:100%;
-        gap:2rem;
+        gap:20px;
         position:relative;
         z-index:1;
       }
     }
   }
   div.right-col{
-    --right-col-gap:1rem;
+    --right-col-gap:15px;
 
     display:flex;
     flex-direction:column;
@@ -133,14 +134,13 @@ section.container{
     display:flex;
     flex-direction:column;
     align-items:center;
-    gap:1rem;
+    gap:15px;
     align-self:flex-start;
   }
 }
 :slotted(h1.title){
   line-height:1;
   font-weight: 700;
-  font-size: 1.5rem;
 
   span{
     opacity:0.5;
@@ -148,25 +148,14 @@ section.container{
   }
 }
 :slotted(span.tagline){
-  font-size:0.8rem;
   font-style:italic;
   opacity:0.5;
   &:empty{
     display:none
   }
 }
-:slotted(span.overview){
-  font-size:var(--overview-font-size)
-}
-div.overview{
-  display:flex;
-  gap:1rem;
-  align-items:center;
-  align-self:stretch;
-}
 :slotted(div.under-title){
   span{
-    font-size:0.75rem;
     &.rated{
       padding:2px 3px;
       border-radius:3px;
@@ -174,22 +163,22 @@ div.overview{
       background-color:var(--font-color);
       color:var(--background-color);
       line-height:1;
-      margin-right:0.5rem;
+      margin-right:8px;
       font-weight:900;
       font-family: 'Roboto', sans-serif;
-      font-size:0.65rem;
     }
   }
 }
 :slotted(div.genres){
-  font-size:0.75rem;
-  font-weight:700;
   display:flex;
-  column-gap:0.75rem;
-  row-gap:0.25rem;
+  gap:10px;
   flex-wrap:wrap;
-  a:hover{
-    opacity:0.75
+
+  a{
+    background-color: var(--background-color);
+    padding: 5px 12px 4px;
+    border-radius: 14px;
+    outline: 1px solid var(--font-color);
   }
   &:empty{
     display:none
@@ -199,7 +188,6 @@ div.under-title{
 
   div{
     display:inline-block;
-    font-size:0.8rem;
     vertical-align:middle;
   }
 }
@@ -217,17 +205,13 @@ section.player-details-holder{
 @media screen and (max-width: 600px){
   div.top-row{ 
     justify-content:start!important;
-    gap:1rem!important;
   }
   div.poster{
     min-width:106px!important;
     max-width:106px!important;
   }
-  :slotted(span.title){ font-size:1.25rem }
   div.right-col{
-    gap:1rem!important;
     align-self:flex-start;
   }
-  :slotted(span.overview){ font-size:0.75rem }
 }
 </style>

@@ -4,8 +4,8 @@
       <img :src="`https://www.themoviedb.org/t/p/w300_and_h300_face${person.profile_path}`" :alt="person.name" draggable="false">
     </div>
     <div class="name-holder">
-      <span class="name">{{person.name}}</span>
-      <span class="character">{{person.character}}</span>
+      <span v-font:medium class="name">{{person.name}}</span>
+      <span v-font:small class="character">{{person.character}}</span>
     </div>
   </router-link>
 </template>
@@ -60,10 +60,8 @@ a.cast-card{
       line-height:1.1;
       &.name{ 
         font-weight:bold;
-        font-size:1rem;
       }
       &.character{
-        font-size:0.75rem;
         color:var(--secondary-text-color)
       }
     }

@@ -4,26 +4,37 @@
       <Transition name="fade">
         <div v-if="!isPlayerWorking" class="player-warning">
           <span class="material-icons-outlined">warning</span>
-          <span>Prehrávač bol označený ako nefunkčný</span>
+          <span v-font:medium>Prehrávač bol označený ako nefunkčný</span>
         </div>
       </Transition>
       <button
-      v-if="store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn"
-      @click="$emit('setPlayer')"
-      class="play-button">&#9654;
-      </button>
+        v-if="store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn"
+        @click="$emit('setPlayer')"
+        class="play-button"
+      >&#9654;</button>
       <div v-else class="message">
         <span class="material-icons-outlined icon">lock</span>
         <div class="right">
-          <span class="message">Pre sledovanie je nutné sa prihlásiť</span>
-          <BasicButton type="hover-color-change" @handleClick="$router.push('/login')">Prihlásiť sa</BasicButton>
+          <span class="message" v-font:medium>Pre sledovanie je nutné sa prihlásiť</span>
+          <BasicButton
+            type="hover-color-change"
+            @handleClick="$router.push('/login')"
+          >Prihlásiť sa</BasicButton>
         </div>
       </div>
     </div>
     <div v-if="props.source && !loadedIframe" class="loading">
       <Loader type="default" style="border-color: white;border-top-color: transparent;" />
     </div>
-    <iframe @load="loadedIframe = true" v-if="props.source" :class="{ pinned: pinned && store.state.settings.pinnedPlayer }" :src="props['source']" frameborder="0" loading="lazy" allowfullscreen></iframe>
+    <iframe
+      @load="loadedIframe = true"
+      v-if="props.source"
+      :class="{ pinned: pinned && store.state.settings.pinnedPlayer }"
+      :src="props['source']"
+      frameborder="0"
+      loading="lazy"
+      allowfullscreen
+    ></iframe>
     <div v-if="!props.isReady.status" class="message">
       <span class="material-icons-outlined icon">event</span>
       <div class="right">
@@ -87,40 +98,35 @@ section#player-holder{
     position:absolute;
     top:0;
     z-index:2;
-    font-size:0.75rem;
     background-color:#dc143c;
-    padding:0.5rem 1rem;
+    padding:8px 15px;
     color:var(--font-color-dark);
     width:100%;
     display:flex;
     align-items:center;
-    gap:0.5rem;
+    gap:8px;
     justify-content:center;
-    span:first-of-type{
-      font-size:1rem;
-    }
   }
   div.message{
     display:flex;
-    gap:0.5rem;
+    gap:8px;
     align-items:center;
     color:white;
     span.icon{
-      font-size:3.5rem;
+      font-size:46px;
     }
     div.right{
       display:flex;
       flex-direction:column;
-      gap:0.25rem;
+      gap:4px;
       align-items:flex-start;
       span.message{
         font-weight:700;
-        font-size:1rem;
       }
     }
   }
   div.not-pressed{
-    padding:2.5rem;
+    padding:35px;
     width:100%;
     height:100%;
     display:flex;
@@ -130,7 +136,7 @@ section#player-holder{
     top:0;
     left:0;
     button.play-button{
-      font-size:3.5rem;
+      font-size:46px;
       color:var(--font-color-dark);
       line-height: 1;
       height: 80px;

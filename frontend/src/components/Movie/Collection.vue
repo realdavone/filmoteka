@@ -4,7 +4,7 @@
       <div v-if="collection['backdrop_path']" class="background-image">
         <CoverPoster size="w1440_and_h320_multi_faces" :src="collection['backdrop_path']" alt="Obrázok kolekcie" :fadeInOnLoad="true" />
       </div>
-      <span class="heading">Tento film je súčasťou kolekcie</span>
+      <span class="heading" v-font:large>Tento film je súčasťou kolekcie</span>
       <BasicButton @handleClick="$router.push(`/collection/${collection.id}`)">Prejsť na kolekciu</BasicButton>
     </section>
   </section>
@@ -56,14 +56,10 @@ section.outter{
       filter:blur(5px);
     }
     span.heading{
-      font-size:1.5rem;
       position:relative;
       z-index:1;
       line-height:1;
     }
   }
-}
-@media screen and (max-width: 600px) {
-  span.heading{ font-size:1.5rem!important }
 }
 </style>

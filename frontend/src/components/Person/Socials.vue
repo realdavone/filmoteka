@@ -7,13 +7,13 @@
       <img src="../../assets/imdb.svg" height="18" alt="IMDB">
     </a>
     <a v-if="socials.facebook_id" class="social-link facebook" :href="`https://www.facebook.com/${socials.facebook_id}`" target="_blank" title="Facebook">
-      <i class="fa-brands fa-facebook-f"></i>
+      <i v-font:medium class="fa-brands fa-facebook-f"></i>
     </a>
     <a v-if="socials.instagram_id" class="social-link instagram" :href="`https://www.instagram.com/${socials.instagram_id}`" target="_blank" title="Instagram">
-      <i class="fa-brands fa-instagram"></i>
+      <i v-font:medium class="fa-brands fa-instagram"></i>
     </a>
     <a v-if="socials.twitter_id" class="social-link twitter" :href="`https://twitter.com/${socials.twitter_id}`" target="_blank" title="Twitter">
-      <i class="fa-brands fa-twitter"></i>
+      <i v-font:medium class="fa-brands fa-twitter"></i>
     </a>
   </div>
 </template>
@@ -40,7 +40,7 @@ div.socials{
     justify-content:center;
     align-items:center;
     overflow:hidden;
-    i,img{font-size:1.4rem;transition:0.2s ease transform}
+    i,img{transition:0.2s ease transform}
     &.tmdb{background:#032541;}
     &.instagram{background:linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);color:white;}
     &.twitter{background:#1DA1F2;color:white;}

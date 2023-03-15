@@ -29,6 +29,16 @@ import focus from './directives/focus'
     .use(Notifications) 
     
     app.directive('focus', focus)
+    app.directive('font', (el: HTMLElement, binding) => {
+      let size: number | undefined
+      switch(binding.arg){
+        case 'small': size = 1.2; break
+        case 'medium': size = 1.6; break
+        case 'large': size = 2.4; break
+        default: size = 1.6
+      }
+      el.style.fontSize = `${size}rem`
+    })
     
     app.mount('#app')
     

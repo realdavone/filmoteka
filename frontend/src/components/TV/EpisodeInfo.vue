@@ -3,25 +3,27 @@
     <div class="title-holder">
       <div class="title">
         <template v-if="!loading">
-          <b>{{`${episodeInfo?.season_number}.${episodeInfo?.episode_number}`}}</b>
-          <span>{{episodeInfo?.name}}</span>            
+          <b v-font:medium>{{ `${episodeInfo?.season_number}.${episodeInfo?.episode_number}` }}</b>
+          <span v-font:medium>{{ episodeInfo?.name }}</span>            
         </template>
         <div v-else class="skeleton-text" style="width:50%;height:1rem;"></div>
       </div>
-      <span v-if="!loading" class="airdate">
-        {{episodeInfo?.air_date ? new Date(episodeInfo['air_date']).toLocaleDateString('sk-SK', {
-            weekday: 'short',
-            year: '2-digit',
-            month: 'short',
-            day: 'numeric'
-          }) : ''
-        }}
-      </span>
+      <span
+        v-if="!loading"
+        class="airdate"
+        v-font:small
+      >{{ 
+        episodeInfo?.air_date ? new Date(episodeInfo['air_date']).toLocaleDateString('sk-SK', {
+          weekday: 'short',
+          year: '2-digit',
+          month: 'short',
+          day: 'numeric'
+        }) : ''}}</span>
       <div v-else class="skeleton-text" style="width:50px;align-self:center;"></div>
     </div>
     <div v-if="showEpisodeSpoiler" class="thumb-overview">
       <div class="overview">
-        <span v-if="!loading">{{episodeInfo!.overview.length > 0 ? episodeInfo?.overview : 'Popis nedostupný'}}</span>
+        <span v-if="!loading" v-font:medium>{{ episodeInfo!.overview.length > 0 ? episodeInfo?.overview : 'Popis nedostupný' }}</span>
         <template v-else>
           <div class="skeleton-text"></div>
           <div class="skeleton-text"></div>
@@ -34,8 +36,13 @@
         </Transition>
       </div>
     </div>
-    <button @click="showEpisodeSpoiler =! showEpisodeSpoiler" class="button-spoiler">
-      <span :style="`transform: rotate(${showEpisodeSpoiler ? '90' : '270'}deg)`">&#10094;</span>
+    <button
+    @click="showEpisodeSpoiler =! showEpisodeSpoiler"
+    class="button-spoiler">
+      <span
+        v-font:large
+        :style="`transform: rotate(${showEpisodeSpoiler ? '90' : '270'}deg)`"
+      >&#10094;</span>
     </button>
   </section>
 </template>
@@ -90,9 +97,9 @@ section.episode-info{
   display:flex;
   flex-direction:column;
   align-items:flex-start;
-  gap:1rem;
-  padding:1rem;
-  border-radius:1rem;
+  gap:15px;
+  padding:15px;
+  border-radius:15px;
   box-shadow:var(--basic-box-shadow);
   transition:0.2s ease height;
   overflow:hidden;
@@ -113,7 +120,6 @@ section.episode-info{
       }
       span{
         font-weight:700;
-        font-size:inherit;
         display: -webkit-box;
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
@@ -123,7 +129,6 @@ section.episode-info{
     }
     span.airdate{
       margin-top:3px;
-      font-size:0.8rem;
       color:var(--secondary-text-color);
       white-space:nowrap;
       &:empty{
@@ -143,7 +148,7 @@ section.episode-info{
       height:127px;
       min-height:127px;
       overflow:hidden;
-      border-radius:1rem;
+      border-radius:15px;
       display:flex;
       justify-content:center;
       align-items:center;
@@ -163,7 +168,6 @@ section.episode-info{
       line-height:1.1;
       span{
         padding-right:10px;
-        font-size:var(--overview-font-size);
       }
       div{ margin-bottom:0.25rem }
     }
@@ -176,7 +180,6 @@ section.episode-info{
     gap:0.75rem;
     line-height:0.5;
     white-space:nowrap;
-    font-size:1.5rem;
     span{ transition:0.2s ease transform }
   }
 }

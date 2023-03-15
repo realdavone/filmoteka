@@ -3,7 +3,7 @@
     <template #modal>
       <aside ref="modal" class="modal user-select-none">
         <header>
-          <span class="heading">Záložky</span>
+          <span v-font:large class="heading">Záložky</span>
         </header>
         <section v-if="store.state.favourites.length !== 0" class="title-holder">
           <div class="search-input-holder">
@@ -18,11 +18,16 @@
                   <img v-if="title.img" :src="`https://image.tmdb.org/t/p/w92${title.img}`" onerror="javascript:this.remove()" :alt="title.title" loading="lazy">
                 </div>
                 <div>
-                  <span class="text">{{title.title}}</span>
-                  <span v-if="title.season !== undefined" class="last-watched">{{title.season}}.{{`${title.episode < 10 ? '0' + title.episode : title.episode}`}}</span>
+                  <span v-font:small class="text">{{ title.title }}</span>
+                  <span v-if="title.season" class="last-watched">{{title.season}}.{{`${title.episode < 10 ? '0' + title.episode : title.episode}`}}</span>
                 </div>
               </router-link>
-              <button class="remove-item" @click="store.methods.favourites.toggle({ id: title.id, type: title.type })" title="Odobrať">&times;</button>
+              <button
+                v-font:large
+                class="remove-item"
+                @click="store.methods.favourites.toggle({ id: title.id, type: title.type })"
+                title="Odobrať"
+              >&times;</button>
             </li>
           </ul>
         </section>
@@ -87,37 +92,34 @@ aside.modal{
     align-items:center;
     padding:10px 10px 10px 15px;
     span.heading{ 
-      font-size:1rem;
       font-weight:900;
     }
   }
   section.title-holder{
     overflow-x:hidden;
     overflow-y:scroll;
-    padding:0 0.5rem 0 1rem;
+    padding:0 8px 0 15px;
     &::-webkit-scrollbar{width:15px;height:15px;}
     &::-webkit-scrollbar-thumb{background:var(--card-color-hover);border:4px solid transparent;border-radius:10px;background-clip:content-box;}
     div.search-input-holder{
       display:flex;
       align-items:center;
-      gap:0.25rem;
+      gap:4px;
       outline:2px solid var(--card-color);
       padding:0 10px;
-      border-radius:0.25rem;
+      border-radius: 4px;
       overflow:hidden;
-      margin:2px 0 0.5rem;
+      margin:2px 0 8px;
       span:first-of-type{
-        font-size:1.25rem;
         opacity:0.5;
       }
       input.search-input{
         color:inherit;
         width:100%;
-        padding:0.75rem 0.5rem;
+        padding:10px 8px;
         background:transparent;
       }
       button.clear-search{
-        font-size:1rem;
         line-height:1;
         opacity:0.5;
       }
@@ -129,13 +131,13 @@ aside.modal{
       display:flex;
       justify-content:space-between;
       align-items:center;
-      gap:0.75rem;
-      padding:0.5rem;
+      gap:10px;
+      padding: 8px;
       position:relative;
       a{
         display:flex;
         align-items:center;
-        gap:0.75rem;
+        gap: 10px;
         width:100%;
         span.icon{
           background:var(--theme-color);
@@ -145,13 +147,12 @@ aside.modal{
           display:inline-flex;
           min-width:24px;
           height:24px;
-          i{ font-size:0.7rem }
         }
         div.poster{
           aspect-ratio:1;
-          height:3rem;
+          height:45px;
           overflow:hidden;
-          border-radius:0.25rem;
+          border-radius:4px;
           background-color:var(--card-color-hover);
           img{
             width:100%;
@@ -160,20 +161,17 @@ aside.modal{
           }
         }
         span.text{
-          font-size:0.8rem;
           font-weight:700;
         }
         span.last-watched{
           display:block;
           font-weight:bold;
           color:var(--theme-color);
-          font-size:0.75rem;
         }
       }
       button.remove-item{     
         font-weight: 700;
         color: crimson;
-        font-size: 1.25rem;
       }
       &.inactive{
         opacity:0.25
@@ -183,7 +181,7 @@ aside.modal{
       }
       &:hover{
         background-color: var(--card-color-hover);
-        border-radius: 0.25rem;
+        border-radius: 4px;
       }
     }
   }
@@ -195,8 +193,7 @@ aside.modal{
     margin-top: auto;
   }
   span.no-items{
-    padding:0 1rem;
-    font-size:0.8rem;
+    padding:0 15px;
   }
 }
 </style>

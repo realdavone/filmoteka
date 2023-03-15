@@ -1,9 +1,12 @@
 <template>
   <div class="search" >
-    <form class="search-form" @submit.prevent="submitQuery" autocomplete="off">
+    <form class="search-form"
+      @submit.prevent="submitQuery"
+      autocomplete="off"
+    >
       <div class="select user-select-none">
-        <div class="selected-option" @click.prevent="handleOpenOptions">
-          <span class="material-icons-outlined" style="font-size:1.25rem;">menu</span>      
+        <div class="selected-option" @click.stop="handleOpenOptions" role="button">
+          <span class="material-icons-outlined" v-font:medium>menu</span>      
         </div>
         <Transition name="fade">
           <div ref="optionsMenu" v-if="isOptionsMenuOpened" class="options">
@@ -13,52 +16,77 @@
             :data-active="searchType.value === option.value"
             @click="handleSelectOption(option)">
               <div class="icon-holder">
-                <span class="material-icons" style="font-size:1.25rem">{{ option.icon }}</span>
+                <span v-font:medium class="material-icons">{{ option.icon }}</span>
               </div>
-              <span>{{ key }}</span>
+              <span v-font:small>{{ key }}</span>
             </div>
           </div>
         </Transition>
       </div>
       <input
-      v-focus="(isFocused: boolean) => isInputFocused = isFocused"
-      id="search-input"
-      ref="input"
-      type="text"
-      placeholder="Vyhľadávanie"
-      required
-      autocomplete="off"
-      autocapitalize="off"
-      autocorrect="off"
-      @input="handleInput" />
+        v-font:medium
+        v-focus="(isFocused: boolean) => isInputFocused = isFocused"
+        id="search-input"
+        ref="input"
+        type="text"
+        placeholder="Vyhľadávanie"
+        required
+        autocomplete="off"
+        autocapitalize="off"
+        autocorrect="off"
+        @input="handleInput"
+      />
     </form>
     <div v-show="isInputFocused" class="context" @mousedown.prevent="null">
-      <div v-show="searchQuery.length" class="search-current" @click="submitQuery">
-        <span class="material-icons" style="font-size:1.25rem">{{ searchType.icon }}</span>
-        Vyhľadávať<span class="quotation-marks">{{ searchQuery }}</span>
+      <div
+        v-font:small
+        v-show="searchQuery.length"
+        class="search-current"
+        @click="submitQuery"
+      >
+        <span class="material-icons">{{ searchType.icon }}</span>
+        Vyhľadávať
+        <span class="quotation-marks">{{ searchQuery }}</span>
       </div>
       <div>
         <Loader v-if="loadingSearch" type="inline" style="display: block; margin:10px auto 0" />
         <AutoSearchResults
-        v-else
-        :movies="autoSearchResults.movies"
-        :tvs="autoSearchResults.tvs"
-        :people="autoSearchResults.people"
-        :recent="store.state.recentSearch">
+          v-else
+          :movies="autoSearchResults.movies"
+          :tvs="autoSearchResults.tvs"
+          :people="autoSearchResults.people"
+          :recent="store.state.recentSearch"
+        >
           <template v-slot="{ people, movies, tvs, recent }">
-            <span v-if="movies?.length" class="label">Filmy</span>
+            <div v-if="movies?.length" class="label" v-font:small>Filmy</div>
             <router-link v-for="movie in movies" :key="movie.id" :to="`/movie/${movie.id}`" @click="input!.blur()">
-              <AutoSearchResult :label="movie.title" :img="movie.poster_path" />
+              <AutoSearchResult
+                :label="movie.title"
+                :img="movie.poster_path"
+              />
             </router-link>
-            <span v-if="tvs?.length" class="label">TV</span>
+            <div v-if="tvs?.length" class="label" v-font:small>TV</div>
             <router-link v-for="tv in tvs" :key="tv.id" :to="`/tv/${tv.id}`" @click="input!.blur()">
-              <AutoSearchResult :label="tv.name" :img="tv.poster_path" />
+              <AutoSearchResult
+                :label="tv.name"
+                :img="tv.poster_path"
+              />
             </router-link>
-            <span v-if="people?.length" class="label">Osoby</span>
+            <div v-if="people?.length" class="label" v-font:small>Osoby</div>
             <router-link v-for="person in people" :key="person.id" :to="`/person/${person.id}`" @click="input!.blur()">
-              <AutoSearchResult :label="person.name" :img="person.profile_path" />
+              <AutoSearchResult
+                :label="person.name"
+                :img="person.profile_path"
+              />
             </router-link>
-            <AutoSearchResult v-for="item in recent" :key="item" role="button" @click="handleRecentItem(item)" :label="item" />
+            <AutoSearchResult
+              v-for="item in recent"
+              :key="item"
+              role="button"
+              @click="handleRecentItem(item)"
+              :label="item"
+              :onRemove="removeItem"
+            />
           </template>
         </AutoSearchResults>
       </div>
@@ -126,6 +154,10 @@ const optionsMenu = ref<null | HTMLDivElement>(null)
 
 const searchType = ref(options['Všetko'])
 
+function removeItem(item: string) {
+  store.methods.recentSearch.removeItem(item)
+}
+
 function resetResults() {
   autoSearchResults.movies = null
   autoSearchResults.tvs = null
@@ -191,12 +223,12 @@ onMounted(() => input.value!.focus())
 </script>
 
 <style lang="scss" scoped>
-span.label{
-  padding:0 10px;
+div.label{
+  padding: 0 10px;
   color: gray;
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
-  font-size: 0.75rem;
+  margin: 4px 0;
 }
 div.context{
   position:absolute;
@@ -205,18 +237,17 @@ div.context{
   width:100%;
   max-height: 80vh;
   background-color:var(--card-color);
-  border-bottom-left-radius:1rem;
-  border-bottom-right-radius:1rem;
+  border-bottom-left-radius:15px;
+  border-bottom-right-radius:15px;
   z-index: 1;
   overflow: auto;
-  padding-bottom: 1rem;
+  padding-bottom: 15px;
   
   div.search-current{
     display:flex;
     align-items:center;
-    gap:0.75rem;
-    font-size:0.85rem;
-    padding:0.5rem 0.75rem;
+    gap:10px;
+    padding:8px 10px;
     transition:0.2s ease background-color;
 
     &:hover{
@@ -244,11 +275,7 @@ div.select{
     align-items:center;
     padding:0 10px;
     cursor:pointer;
-    gap:1rem;
-
-    span{
-      font-size:0.8rem;
-    }
+    gap:15px;
     div.icon-holder{
       width:20px;
       text-align:center;
@@ -274,7 +301,7 @@ div.search{
 }
 form.search-form{
   display:flex;
-  border-radius:1rem;
+  border-radius:15px;
   background:var(--card-color-hover);
   width:100%;
   transition:0.2s ease all;
@@ -288,7 +315,6 @@ form.search-form{
     padding:0 8px;
     background:transparent;
     width:100%; 
-    font-size:0.95rem;
     color:inherit;
   }
 

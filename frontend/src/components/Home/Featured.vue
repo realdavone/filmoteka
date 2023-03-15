@@ -3,19 +3,42 @@
     <template v-for="title, i in props.titles" :key="title.id">
       <div v-if="active === i" class="featured container">
         <div v-if="title && title?.backdrop_path" class="background-image">
-          <CoverPoster style="filter:blur(3px)" :src="title?.backdrop_path" size="w1440_and_h320_multi_faces" alt="Obrázok v pozadí" :fadeInOnLoad="true" />
+          <CoverPoster
+            style="filter:blur(3px)"
+            :src="title?.backdrop_path"
+            size="w1440_and_h320_multi_faces"
+            alt="Obrázok v pozadí"
+            :fadeInOnLoad="true"
+          />
         </div>
         <div class="title-holder">
           <div class="poster">
-            <Poster v-if="title && title?.poster_path" :src="title?.poster_path" :alt="title?.media_type === 'movie' ? title?.title : title?.name" :fadeInOnLoad="true" />
+            <Poster
+              v-if="title && title?.poster_path"
+              :src="title?.poster_path"
+              :alt="title?.media_type === 'movie' ? title?.title : title?.name"
+              :fadeInOnLoad="true"
+            />
           </div>
           <div class="content">
-            <div v-if="title && title?.media_type" class="title">{{ title?.media_type === 'movie' ? title?.title : title?.name }}</div>
+            <div
+              v-font:large
+              v-if="title && title?.media_type"
+              class="title"
+            >{{ title?.media_type === 'movie' ? title?.title : title?.name }}</div>
             <div v-if="title && title?.overview" class="overview">
-              <Rating v-if="title!.vote_average" size="large" :rating="Math.round(title!.vote_average * 10) / 10"/>
-              <span>{{ title?.overview }}</span>
+              <Rating
+                v-if="title!.vote_average"
+                size="large"
+                :rating="Math.round(title!.vote_average * 10) / 10"
+              />
+              <span v-font:medium>{{ title?.overview }}</span>
             </div>
-            <BasicButton v-if="title" class="cta" @handleClick="$router.push(`/${title?.media_type}/${title?.id}`)">Zobraziť viac</BasicButton>
+            <BasicButton
+              v-if="title"
+              class="cta"
+              @handleClick="$router.push(`/${title?.media_type}/${title?.id}`)"
+            >Zobraziť viac</BasicButton>
           </div>      
         </div>
       </div>
@@ -59,7 +82,7 @@ section.featured-section{
 }
 div.featured{
   padding-top:calc(var(--nav-height) + var(--container-padding));
-  padding-bottom:calc(var(--container-padding) + 2rem);
+  padding-bottom:calc(var(--container-padding) + 30px);
   position:relative;
   div.background-image{
     position:absolute;
@@ -67,8 +90,8 @@ div.featured{
     bottom:0;
     left:0;
     right:0;
-    -webkit-mask-image: linear-gradient(#00000030, #00000080 50%, transparent);
-    mask-image: linear-gradient(#00000030, #00000080 50%, transparent);
+    -webkit-mask-image: linear-gradient(#00000080, #00000040 70%, transparent);
+    mask-image: linear-gradient(#00000080, #00000040 70%, transparent);
   }
   div.title-holder{
     position: relative;
@@ -83,7 +106,7 @@ div.featured{
       max-width:200px;
       aspect-ratio:2/3;
       overflow:hidden;
-      border-radius:0.5rem;
+      border-radius:8px;
       background-color:var(--card-color);
       box-shadow: 0px 0px 15px 1px rgba(0,0,0,0.75);
     }
@@ -91,11 +114,10 @@ div.featured{
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      gap: 1rem;
+      gap: 15px;
       flex-basis: 100%;
       div.title{
         font-weight: 700;
-        font-size: 1.5rem;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
@@ -106,14 +128,13 @@ div.featured{
       div.overview{
         display:flex;
         align-items:center;
-        gap:1rem;
+        gap: 15px;
         span{
           display: -webkit-box;
           -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
           text-overflow: ellipsis;
           overflow: hidden;
-          font-size:var(--overview-font-size);
         }
       }
     }
@@ -132,10 +153,7 @@ div.featured{
     gap:1rem!important
   }
   .cta{
-    align-self:stretch;
-  }
-  div.overview{
-    font-size:0.75rem!important;
+    align-self: flex-end;
   }
 }
 </style>

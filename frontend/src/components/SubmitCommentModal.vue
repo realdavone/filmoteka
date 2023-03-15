@@ -5,8 +5,8 @@
         <header>
           <div class="user">
             <Avatar :id="store.state.credentials.user?._id"/>
-            <span>{{store.state.credentials.user?.email}}</span>
-            <span v-if="store.state.credentials.user?.isVerified" class="material-icons" style="font-size:1rem;color:var(--theme-color)">verified</span>
+            <span v-font:small>{{store.state.credentials.user?.email}}</span>
+            <Verified v-if="store.state.credentials.user?.isVerified" />
           </div>
         </header>
         <div v-if="error" class="error">{{error}}</div>
@@ -34,6 +34,7 @@ import Modal from './Modal.vue'
 import Loader from './Loader.vue'
 import Avatar from './Avatar.vue'
 import BasicButton from './Buttons/BasicButton.vue'
+import Verified from './Content/Verified.vue'
 
 const { title } = defineProps<{
   title: {
@@ -85,12 +86,12 @@ const submitComment = () => {
 
 <style lang="scss" scoped>
 div.modal{
-  padding:0.75rem 1rem 1rem;
+  padding:10px 15px 15px;
   background-color:var(--background-color);
-  border-radius:0.75rem;
+  border-radius:10px;
   display:flex;
   flex-direction:column;
-  gap:1rem;
+  gap:15px;
   width:100%;
   max-width:400px;
   box-shadow: var(--modal-box-shadow);
@@ -103,19 +104,18 @@ div.modal{
       user-select:none;
       display:flex;
       align-items:center;
-      gap:0.5rem;
-      span:first-of-type{ font-size:0.75rem; }
+      gap:10px;
     }
   }
   form{
     display:flex;
     flex-direction:column;
-    gap:1rem;
+    gap:15px;
 
     textarea{
       background-color:var(--card-color);
-      border-radius:0.5rem;
-      padding:0.75rem;
+      border-radius:8px;
+      padding:10px;
       color:var(--font-color);
       resize:none;
       width:100%;

@@ -2,21 +2,29 @@
   <aside ref="menu">
     <header class="user-select-none">
       <div class="left-col">
-        <button @click="closeMenu" style="font-size: 1.5rem;width:45px;">&times;</button>
+        <button
+        v-font:large  
+          @click="closeMenu"
+          style="width:45px;"
+        >&times;</button>
       </div>
       <div v-if="store.state.credentials.loggedIn" class="right-col">
-        <BasicButton type="transparent" @handleClick="() => {
-          logout()
-          closeMenu()
-        }" title="Odhlásiť">Odhlásiť</BasicButton>
+        <BasicButton
+          type="transparent"
+          @handleClick="() => {
+            logout()
+            closeMenu()
+          }"
+          title="Odhlásiť"
+        >Odhlásiť</BasicButton>
       </div>
     </header>
     <section v-if="store.state.credentials.loggedIn" class="user-select-none user">
         <div class="user-info">
           <div class="username">
             <Avatar :id="store.state.credentials.user._id" />
-            <span class="name">{{ store.state.credentials.user.email }}</span>
-            <span v-if="store.state.credentials.user.isVerified" class="material-icons" style="font-size:1rem;color:var(--theme-color)">verified</span>
+            <span v-font:small>{{ store.state.credentials.user.email }}</span>
+            <Verified v-if="store.state.credentials.user.isVerified" />
           </div>
         </div>
       </section>
@@ -56,6 +64,7 @@ import { ref, inject, onMounted, onUnmounted } from 'vue'
 import Auth from '../auth/main'
 import _ from '../utils/main'
 import useEvent from '../composables/event'
+import Verified from './Content/Verified.vue'
 
 const store = inject<any>('store')
 const menu = ref<null | HTMLDivElement>(null)
@@ -141,31 +150,22 @@ aside{
     display:flex;
     align-items:center;
     min-height:var(--nav-height);
-    gap:1rem;
-    padding:0 0.5rem 0 1.5rem;
+    gap: 15px;
+    padding:0 8px 0 24px;
     transition: 0.2s ease background;
 
     div.left-col{
       margin-right:auto;
       display:flex;
       align-items:center;
-      gap:1rem;
+      gap: 15px;
     }
     div.right-col{
       margin-left:auto;
       display:flex;
       align-items:center;
-      gap:1rem;
+      gap: 15px;
     }
-  }
-  div.visual-menu{
-    display:flex;
-    flex-direction:column;
-    gap:1rem;
-    padding:1rem;
-    border-bottom-right-radius:2rem;
-    border-bottom-left-radius:2rem;
-    background:var(--card-color);
   }
   section.user{
     display: flex;
@@ -178,10 +178,6 @@ aside{
         display: flex;
         align-items: center;
         gap:8px;
-
-        span{
-          font-size: 0.75rem;
-        }
       }
     }
   }
@@ -199,8 +195,8 @@ aside{
       display:flex;
       flex-direction:column;
       align-items: flex-start;
-      gap:0.5rem;
-      padding:0.75rem;
+      gap: 8px;
+      padding: 10px;
     }
   }
 }

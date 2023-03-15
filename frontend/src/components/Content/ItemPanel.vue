@@ -60,7 +60,7 @@ const props = defineProps<{
 section.items{
   display:grid;
   grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));
-  gap:1rem;
+  gap:15px;
 }
 @media screen and (max-width: 600px){
   section.items{

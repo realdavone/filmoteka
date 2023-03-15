@@ -4,9 +4,14 @@
       <img v-if="person.profile_path" :src="`https://www.themoviedb.org/t/p/w90_and_h90_face${person.profile_path}`" :alt="person.name" loading="lazy" draggable="false">
     </div>
     <div class="name-holder">
-      <span class="name">{{person.name}}</span>
+      <span class="name" v-font:medium>{{person.name}}</span>
       <div class="titles">
-        <span v-for="title in person.known_for" :key="title.id" class="bullet-after">{{ title.media_type === 'movie' ? title.title : title.name }}</span>
+        <span
+          v-font:small
+          v-for="title in person.known_for"
+          :key="title.id"
+          class="bullet-after"
+        >{{ title.media_type === 'movie' ? title.title : title.name }}</span>
       </div>
     </div>
   </router-link>
@@ -46,7 +51,6 @@ const { person } = defineProps<{
     }
     div.name-holder{
       padding-right:20px;
-      font-size:0.9rem;
       span.name{
         display: -webkit-box;
         -webkit-line-clamp: 1;
@@ -63,7 +67,6 @@ const { person } = defineProps<{
       text-overflow: ellipsis;
       overflow: hidden;
       color:var(--secondary-text-color);
-      span{font-size:0.75rem;}
     }
     &:hover{background:var(--card-color-hover);}
   }

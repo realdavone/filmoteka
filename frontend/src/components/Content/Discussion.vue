@@ -3,9 +3,9 @@
     <div class="header">
       <Title style="margin-bottom: 0;">Diskusia</Title> 
       <Loader v-if="loading" type="inline" />
-      <span v-else class="number-of-comments">{{ numberOfComments }}</span>
+      <span v-else class="number-of-comments" v-font:medium>{{ numberOfComments }}</span>
     </div>
-    <button class="add-comment" @click="openModal">Napísať komentár...</button>
+    <button class="add-comment" @click="openModal" v-font:medium>Napísať komentár...</button>
     <div class="comments">
       <template v-if="!loading">
         <div v-if="error" class="error">{{ error }}</div>
@@ -109,18 +109,17 @@ div.error{
 }
 button.add-comment{
   background-color:var(--card-color);
-  padding:0.75rem 1.25rem;
+  padding:12px 18px;
   width:100%;
-  border-radius:3rem;
+  border-radius:30px;
   text-align:left;
-  font-size:1rem;
-  margin-bottom:1.5rem;
+  margin-bottom:20px;
 }
 div.comments{
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:1rem;
+  gap:15px;
   max-height:100vh;
   overflow:auto;
   &::-webkit-scrollbar{ width:15px; height:15px; }

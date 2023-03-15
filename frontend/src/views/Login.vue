@@ -1,28 +1,41 @@
 <template>
   <main class="login">
     <BasicButton
-    type="close"
-    @handleClick="history.state.back === null ? router.push('/') : router.go(-1)"
-    class="close">Zavrieť</BasicButton>
+      type="close"
+      @handleClick="history.state.back === null ? router.push('/') : router.go(-1)"
+      class="close"
+    >Zavrieť</BasicButton>
     <div class="outter">
       <section class="form">
         <header>
-          <span>Prihlásenie</span>
+          <span v-font:large>Prihlásenie</span>
           </header>
         <form class="form" @submit.prevent="login">
           <div class="input">
             <input
-            v-model="credentials.email"
-            type="email"
-            name="email"
-            placeholder="Email"
-            autocomplete="email"
-            required
-            autocapitalize="off"
-            autocorrect="off">
+              v-font:medium
+              v-model="credentials.email"
+              type="email"
+              name="email"
+              placeholder="Email"
+              autocomplete="email"
+              required
+              autocapitalize="off"
+              autocorrect="off"
+            />
           </div>
           <div class="input">
-            <input v-model="credentials.password" type="password" name="password" placeholder="Heslo" autocomplete="current-password" required>
+            <input
+              v-font:medium
+              v-model="credentials.password"
+              type="password"
+              name="password"
+              placeholder="Heslo"
+              autocomplete="current-password"
+              required
+              autocapitalize="off"
+              autocorrect="off"
+            />
           </div>
           <BasicButton :disabled="loginStart">
             <span>{{ !loginStart ? 'Prihlásiť' : 'Prihlasovanie' }}</span>
@@ -32,7 +45,13 @@
             <div id="buttonDiv" style="align-self:center;height:32px;"></div>
           </div>
         </form>
-        <router-link tabindex="0" v-if="store.state.globalSettings?.allowRegistration" to="/register" class="link">Ešte nemáte účet?</router-link>
+        <router-link
+          v-font:small
+          tabindex="0"
+          v-if="store.state.globalSettings?.allowRegistration"
+          to="/register"
+          class="link"
+        >Ešte nemáte účet?</router-link>
       </section>
     </div>
   </main>

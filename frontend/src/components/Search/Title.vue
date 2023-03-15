@@ -4,15 +4,15 @@
       <Poster :src="title.poster_path || null" :alt="title.title" fade-in-on-load aspect-ratio="1" />
     </div>
     <section class="details">
-      <div class="title-holder">
+      <div v-font:medium class="title-holder">
         <span class="title">{{title.title}}</span>  
         <span style="color:var(--secondary-text-color)" v-if="title.release_date">&#32;({{(new Date(title.release_date)).getFullYear()}})</span>
       </div>
       <div v-if="title.vote_average" class="rating">
         <Rating :rating="title.vote_average" size="small" />
-        <span v-if="store.methods.watched.exists({ type: title.media_type, id: title.id.toString() })" style="color:var(--theme-color);font-size:1rem;" class="material-icons icon">visibility</span>
+        <span v-if="store.methods.watched.exists({ type: title.media_type, id: title.id.toString() })" style="color:var(--theme-color)" class="material-icons icon">visibility</span>
       </div>
-      <div class="overview" v-if="title.overview">{{title.overview}}</div>
+      <div v-font:small class="overview" v-if="title.overview">{{title.overview}}</div>
     </section>
     <div v-if="title.backdrop_path" class="background-img">
       <CoverPoster :src="title.backdrop_path" :alt="title.title" :fade-in-on-load="true" size="w1440_and_h320_multi_faces" />
@@ -50,11 +50,11 @@ a.title{
   width:100%;
   align-items:center;
   background:var(--card-color);
-  border-radius:0.5rem;
+  border-radius:8px;
   user-select:none;
-  gap:1rem;
+  gap:15px;
   overflow:hidden;
-  padding:1rem;
+  padding:15px;
   position: relative;
   isolation:isolate;
   div.image-holder{
@@ -64,9 +64,10 @@ a.title{
     display:flex;
     justify-content:center;
     align-items:center;
-    border-radius:1rem;
+    border-radius:8px;
     overflow:hidden;
     flex-shrink:0;
+
     img{
       width:100%;
       height:100%;
@@ -80,7 +81,7 @@ a.title{
     display:flex;
     justify-content:center;
     flex-direction:column;
-    gap:0.5rem;
+    gap:8px;
     user-select:none;
     width:100%;
     div.title-holder{
@@ -89,33 +90,17 @@ a.title{
       -webkit-box-orient: vertical;
       text-overflow: ellipsis;
       overflow: hidden;
-      font-size:0.9rem;
       line-height:1.2;
       span.title{ font-weight:700 }
-    }
-    div.rating{
-      display:flex;
-      align-self:flex-start;
-      align-items:center;
-      gap:5px;
-      line-height:1;
-      span:nth-child(1){
-        font-size:1.25rem;
-        color:darkgoldenrod;
-      }
-      span:nth-child(2){ font-weight:700; font-size:0.75rem; }
-      span:nth-child(3){ font-size:1.5rem }
     }
     div.overview{
       color:var(--secondary-text-color);
       text-align:justify;
-      font-size:var(--overview-font-size);
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       text-overflow: ellipsis;
       overflow: hidden;
-      font-size:0.75rem;
     }
   }
   &:hover{

@@ -20,7 +20,7 @@ export const getGenre = async (req, res) => {
     const newGenre = await Genres.create({ name: req.params.type, genres: await data.genres })
     res.status(200).json(newGenre)    
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Niečo sa pokazilo' })
+    res.sendStatus(500)
   }
 }
 
@@ -35,6 +35,6 @@ export const getCountryCodes = async (req, res) => {
     const countryCodes = await CountryCodes.create({ code: req.params.code, codes: data })
     res.status(200).json(countryCodes)    
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Niečo sa pokazilo' })
+    res.sendStatus(500)
   }
 }

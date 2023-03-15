@@ -15,13 +15,19 @@
       />
     </section>
     <div v-if="props.hasFirstEpisodeAired && areThereAnyEpisodes && (store.state.globalSettings?.allowWatchWhileUnregistered || store.state.credentials.loggedIn)" class="season-episode">
-      <button :class="{ 'disabled' : currentSeasonAndEpisode.season === 0 && currentSeasonAndEpisode.episode === 0 }" class="next-previous-episode" :disabled="currentSeasonAndEpisode.season === 0 && currentSeasonAndEpisode.episode === 0" @click="handleControls('backwards')" title="Predchádzajúca epizóda">&laquo;</button>
-      <div class="season-select-holder user-select-none">
+      <button
+        :class="{ 'disabled' : currentSeasonAndEpisode.season === 0 && currentSeasonAndEpisode.episode === 0 }"
+        class="next-previous-episode"
+        :disabled="currentSeasonAndEpisode.season === 0 && currentSeasonAndEpisode.episode === 0"
+        @click="handleControls('backwards')"
+        title="Predchádzajúca epizóda"
+      >&laquo;</button>
+      <div class="season-select-holder">
         <div class="selected-season" @click="isSeasonListOpened =! isSeasonListOpened">
           <div class="poster-holder">
             <img v-if="seasons?.[currentSeasonAndEpisode.season]['poster_path']" :src="`https://image.tmdb.org/t/p/w45_and_h45_face${seasons?.[currentSeasonAndEpisode.season]['poster_path']}`" :alt="`Obrázok ${seasons[currentSeasonAndEpisode.season]['season_number']}. série`">          
           </div>
-          <span>Séria {{seasons?.[currentSeasonAndEpisode.season]['season_number']}}</span>
+          <span v-font:small>Séria {{seasons?.[currentSeasonAndEpisode.season]['season_number']}}</span>
         </div>
         <Transition name="fade">
           <div v-if="isSeasonListOpened" class="options" ref="seasonList">
@@ -29,7 +35,7 @@
               <div class="poster-holder">
                 <img v-if="season['poster_path']" :src="`https://image.tmdb.org/t/p/w45_and_h45_face${season['poster_path']}`" :alt="`Obrázok ${season['season_number']}. série`">
               </div>
-              <div class="content-holder">
+              <div class="content-holder" v-font:small>
                 <span>Séria {{season['season_number']}}</span>
                 <span class="episode-count">{{season['episode_count']}} {{season['episode_count'] == 1 ? 'epizóda':season['episode_count'] > 1 && season['episode_count'] < 5 ? 'epizódy' : 'epizód'}}</span>
               </div>
@@ -37,46 +43,57 @@
           </div>
         </Transition>
       </div>
-      <div class="episode-select-holder user-select-none">
+      <div class="episode-select-holder">
         <div class="selected-episode" @click="isEpisodeListOpened =! isEpisodeListOpened">
-          <span>Epizóda {{currentSeasonAndEpisode.episode + 1}}</span>
+          <span v-font:small>Epizóda {{ currentSeasonAndEpisode.episode + 1 }}</span>
         </div>
         <Transition name="fade">        
           <div v-if="isEpisodeListOpened" class="options" ref="episodeList">
             <div v-for="i in numberOfEpisodes" :key="i" @click="currentSeasonAndEpisode.episode = i - 1; isEpisodeListOpened = false" class="option" :data-active="currentSeasonAndEpisode.episode === i - 1">
-              <span>Epizóda {{i}}</span>
+              <span v-font:small>Epizóda {{ i }}</span>
             </div>
           </div>
         </Transition>
       </div>
-      <button @click="setPlayer" class="play-button" title="Prehrať">&#9654;</button>
-      <button :class="{'disabled':currentSeasonAndEpisode.season + 1 === seasons?.length && currentSeasonAndEpisode.episode + 1 === numberOfEpisodes}" class="next-previous-episode" :disabled="currentSeasonAndEpisode.season + 1 === seasons?.length && currentSeasonAndEpisode.episode + 1 === numberOfEpisodes" @click="handleControls('forwards')" title="Ďalšia epizóda">&raquo;</button>
+      <button
+        @click="setPlayer"
+        title="Prehrať"
+        style="font-size:25px"
+      >&#9654;</button>
+      <button
+        :class="{'disabled':currentSeasonAndEpisode.season + 1 === seasons?.length && currentSeasonAndEpisode.episode + 1 === numberOfEpisodes}"
+        class="next-previous-episode"
+        :disabled="currentSeasonAndEpisode.season + 1 === seasons?.length && currentSeasonAndEpisode.episode + 1 === numberOfEpisodes"
+        @click="handleControls('forwards')" title="Ďalšia epizóda"
+      >&raquo;</button>
     </div>
     <EpisodeInfo
-    :id="props.id"
-    :season="currentSeasonAndEpisode.season + 1"
-    :episode="currentSeasonAndEpisode.episode + 1"
-    v-if="props.hasFirstEpisodeAired && (store.state.globalSettings?.allowWatchWhileUnregistered || store.state.credentials.loggedIn)" />
+      :id="props.id"
+      :season="currentSeasonAndEpisode.season + 1"
+      :episode="currentSeasonAndEpisode.episode + 1"
+      v-if="props.hasFirstEpisodeAired && (store.state.globalSettings?.allowWatchWhileUnregistered || store.state.credentials.loggedIn)"
+    />
     <section v-if="(props['lastEpisode'] !== null || props['nextEpisode'] !== null) && (store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn)" class="episode-card-holder">
       <EpisodeCard 
-      v-if="props['lastEpisode']"
-      label="Posledná epizóda"
-      :playable="true"
-      :info="{
-        season: props['lastEpisode']['season_number'],
-        episode: props['lastEpisode']['episode_number'],
-        date: props['lastEpisode']['air_date'],
-      }"
-      @playEpisode="playEpisode" />
-      <EpisodeCard
-      v-if="props['nextEpisode']"
-      label="Nasledujúca epizóda"
-      :playable="false"
-      :info="{
-        season: props['nextEpisode']['season_number'],
-        episode: props['nextEpisode']['episode_number'],
-        date: props['nextEpisode']['air_date']
-      }"/>
+        v-if="props['lastEpisode']"
+        label="Posledná epizóda"
+        :playable="true"
+        :info="{
+          season: props['lastEpisode']['season_number'],
+          episode: props['lastEpisode']['episode_number'],
+          date: props['lastEpisode']['air_date'],
+        }"
+        @playEpisode="playEpisode" />
+        <EpisodeCard
+        v-if="props['nextEpisode']"
+        label="Nasledujúca epizóda"
+        :playable="false"
+        :info="{
+          season: props['nextEpisode']['season_number'],
+          episode: props['nextEpisode']['episode_number'],
+          date: props['nextEpisode']['air_date']
+        }"
+      />
     </section>
   </section>
 </template>
@@ -182,9 +199,9 @@ div.season-select-holder, div.episode-select-holder{
   div.selected-season, div.selected-episode, div.option{
     min-height:var(--option-height);
     display:flex;
-    gap:0.5rem;
+    gap:8px;
     align-items:center;
-    padding:0 0.5rem;
+    padding:0 8px;
     cursor:pointer;
     div.poster-holder{
       height:26px;
@@ -197,9 +214,8 @@ div.season-select-holder, div.episode-select-holder{
         height:auto; 
       }
     }
-    span{font-size:0.75rem;
+    span{
       &.episode-count{
-        font-size:0.6rem;
         font-weight:700;
       }
     }
@@ -226,14 +242,14 @@ div.season-select-holder, div.episode-select-holder{
     max-height:200px;
     overflow:auto;
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
-    border-radius:0.5rem;
+    border-radius:8px;
     top:calc(100% + 5px);
   }
 }
 section.outter-holder{
   display:flex;
   flex-direction:column;
-  gap:1rem;
+  gap:15px;
   width:var(--player-width);
   max-width:var(--player-width);
   section.episode-card-holder{
@@ -250,7 +266,7 @@ section.outter-holder{
     height:40px;
     gap:5px;
     padding:0 5px;
-    border-radius:1.5rem;
+    border-radius: 25px;
     button{
       color:var(--theme-color);
       display:flex;
@@ -262,12 +278,9 @@ section.outter-holder{
       max-width:28px!important;
       width:28px;
       height:28px;
-      &.play-button{
-        font-size:1.5rem;
-      }
       &.next-previous-episode{
-        font-size:2rem;
         padding-bottom:6px;
+        font-size: 40px!important;
       }
       &.next-previous-episode.disabled{
         cursor:default;

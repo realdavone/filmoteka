@@ -29,8 +29,18 @@
       }"/>
     </div>
     <template v-if="!isGrid">
-      <button v-show="arrowVisibility.left" class="scroll left" title="Vľavo" @click="scrollTo(cardHolder!, -180)">&#10094;</button>
-      <button v-show="arrowVisibility.right" class="scroll right" title="Vpravo" @click="scrollTo(cardHolder!, 180)">&#10095;</button>
+      <button
+        v-show="arrowVisibility.left"
+        class="scroll left"
+        title="Vľavo"
+        @click="scrollTo(cardHolder!, -180)"
+      >&#10094;</button>
+      <button
+        v-show="arrowVisibility.right"
+        class="scroll right"
+        title="Vpravo"
+        @click="scrollTo(cardHolder!, 180)"
+      >&#10095;</button>
     </template>
   </section>
 </template>
@@ -97,23 +107,20 @@ section.panel{
     display:flex;
     align-items:center;
     justify-content: space-between;
-    gap:2rem;
-    padding-bottom:1rem;
+    gap: 30px;
+    padding-bottom:15px;
     div.view-buttons{
       display:flex;
       align-items:center;
-      padding-top:0.35rem;
-      button{
-        opacity: 0.5;
-        &:last-of-type{
-          span{
-            font-size:2rem
-          }
+      padding-top:5px;
+      
+      button {
+        span{
+          font-size: 30px;
         }
-        &[data-active=true]{
-          opacity: 1!important;
-          color: var(--theme-color);
-        }
+      }
+      button[data-active=true]{
+        color: var(--theme-color);
       }
     }
   }
@@ -150,9 +157,9 @@ section.panel{
     color:var(--theme-color);
     z-index:5;
     bottom:0;
-    font-size:1.5rem;
+    font-size:25px;
     line-height:1;
-    width:3.5rem;
+    width:50px;
     height:calc(var(--vertical-card-width) / 2 * 3);
     display:flex;
     justify-content:center;

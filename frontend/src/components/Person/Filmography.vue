@@ -1,6 +1,6 @@
 <template>
   <section class="filmography user-select-none">
-    <table v-if="props.items.length !== 0" class="filmography">
+    <table v-if="titles.length" class="filmography" v-font:medium>
       <tr v-for="(title, index) in titles" :key="index">
         <td class="year">
           <span v-if="title.media_type === 'movie' ? title.release_date : title.first_air_date">
@@ -26,7 +26,7 @@
         </td>
       </tr>
     </table>
-    <span v-else class="no-items">V tejto kategórii nič nie je</span>
+    <span v-else v-font:medium >V tejto kategórii nič nie je</span>
   </section>
 </template>
 
@@ -74,35 +74,12 @@ const titles = computed<Array<Title>>(() => {
       .sort(sortByDate)
   ]
 })
-
-// if(props.type === 'movie'){
-//   titlesWithoutYear.value = props.items
-//     .filter(item => item.release_date === '' || item.release_date === undefined || item.release_date === null)
-//   titlesWithYear.value = props.items
-//     .filter(item => item.release_date !== '' && item.release_date !== undefined && item.release_date !== null)
-//     .sort((a, b) => new Date(b.release_date) - new Date(a.release_date))
-//   titles.value = titlesWithoutYear.value
-//     .concat(titlesWithYear.value)
-//     .filter(title => title.character !== 'Self')
-// }else{
-//   titlesWithoutYear.value = props.items
-//     .filter(item => item.first_air_date === '' || item.first_air_date === undefined || item.first_air_date === null)
-//   titlesWithYear.value = props.items
-//     .filter(item => item.first_air_date !== '' && item.first_air_date !== undefined && item.first_air_date !== null)
-//     .sort((a, b) => new Date(b.first_air_date) - new Date(a.first_air_date))
-//   titles.value = titlesWithoutYear.value
-//     .concat(titlesWithYear.value)
-//     .filter(title => title.character !== 'Self')
-// }
-
-// const getFullYear = (year: string): number => parseInt(new Date(year).getFullYear())
 </script>
 
 <style lang="scss" scoped>
 section.filmography{
   width:100%;
-  border-radius:8px;
-  span.no-items{font-size:0.9rem;}
+  margin-top:10px;
   table.filmography{
     width:100%;
     border-collapse:collapse;
@@ -110,7 +87,6 @@ section.filmography{
       td{
         padding:4px 0;
         vertical-align:top;
-        span,b{font-size:0.8rem;}
         &.year{
           width:40px;
           text-align:center;
@@ -131,7 +107,7 @@ section.filmography{
   div.title{padding-bottom:5px;}
   i.as{
     display:inline-block;
-    margin:0 0.5rem;
+    margin:0 8px;
     color:var(--alternative-color);
   }
 }

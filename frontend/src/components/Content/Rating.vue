@@ -6,9 +6,6 @@
   target="_blank"
   :class="`rating ${getCategory(rating)} ${size}`">
     <span class="rating">{{ parseRating(rating) }}</span>
-    <span v-if="name" class="name">{{ name }}
-      <i v-if="url" class="fa-solid fa-arrow-up-right-from-square"></i>
-    </span>
   </component>
 </template>
 
@@ -63,37 +60,20 @@ div.rating, a.rating{
     font-weight:700;
     letter-spacing:1px;
   }
-  span.name{
-    position:absolute;
-    top:calc(100% + 0.65rem);
-    text-align:center;
-    font-size:var(--font-size-name);
-    line-height:1.1;
-    display: flex;
-    align-items: flex-start;
-    gap: 5px;
-
-    i{
-      font-size: 0.5rem;
-    }
-  }
   &.normal{
-    --width:2.75rem;
-    --borderWidth:0.20rem;
-    --font-size-rating:0.7rem;
-    --font-size-name:0.55rem;
+    --width:30px;
+    --borderWidth:2px;
+    --font-size-rating:10px;
   }
   &.small{
-    --width:1.75rem;
-    --borderWidth:0.15rem;
-    --font-size-rating:0.55rem;
-    --font-size-name:0.65rem;
+    --width:30px;
+    --borderWidth:2px;
+    --font-size-rating:10px;
   }
   &.large{
-    --width:3.25rem;
-    --borderWidth:0.25rem;
-    --font-size-rating:0.95rem;
-    --font-size-name:0.75rem;
+    --width:50px;
+    --borderWidth:4px;
+    --font-size-rating:17px;
   }
   &.low{
     border-color:crimson

@@ -3,18 +3,24 @@
     <section class="dashboard">
       <header>
         <Logo :height="30"/>
-        <span>Ovládací panel</span>
+        <span v-font:medium>Ovládací panel</span>
       </header>
       <div class="columns">
         <aside class="menu">
-          <button v-for="(tab, i) in tabs" :key="i" class="tab" :data-active="activeComponent === tab.component" @click="activeComponent = tab.component">
-            <span class="material-icons">{{tab.icon}}</span>
-          </button>
+          <button
+            v-for="(tab, i) in tabs"
+            :key="i"
+            class="tab"
+            :data-active="activeComponent === tab.component"
+            @click="activeComponent = tab.component"
+          ><span class="material-icons">{{tab.icon}}</span></button>
         </aside>
         <section class="content">
           <Suspense>
             <component :is="activeComponent" />
-            <template #fallback>Loading</template>
+            <template #fallback>
+              <Loader type="default"/>
+            </template>
           </Suspense>
         </section>
       </div>
@@ -23,7 +29,7 @@
 </template>
 
 <script lang="ts">
-export default { name: 'Admin'} 
+export default { name: "Admin", components: { Loader } } 
 </script>
 
 <script setup lang="ts">
@@ -34,6 +40,7 @@ import Users from '../components/Admin/Users.vue'
 import Logo from '../components/Logo.vue'
 
 import { shallowRef } from 'vue'
+import Loader from '../components/Loader.vue'
 
 const activeComponent = shallowRef(Config)
 
@@ -68,18 +75,18 @@ section.dashboard{
   overflow:hidden;
   margin-right:calc(0px - var(--container-padding));
   margin-left:calc(0px - var(--container-padding));
+  margin-bottom: calc(0px - var(--main-content-padding-bottom));
 
   --header-height:54px;
   header{
-    font-size:1.25rem;
     font-weight:700;
     width:100%;
     background-color:var(--card-color-hover);
     display:flex;
     align-items:center;
-    gap:1rem;
+    gap: 15px;
     height:var(--header-height);
-    padding:0 1rem;
+    padding:0 15px;
     span:nth-child(1){
       text-align:center;
       width:70px;
@@ -105,7 +112,6 @@ section.dashboard{
         align-items:center;
         justify-content:center;
         gap:8px;
-        span:nth-child(1){ font-size:1.5rem }
         &[data-active=true]{ color:var(--theme-color) }
       }
     }

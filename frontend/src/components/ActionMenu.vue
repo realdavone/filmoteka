@@ -11,7 +11,7 @@ div.buttons{
   --button-height:56px;
 
   display:flex;
-  gap:0.5rem;
+  gap:8px;
   justify-content:center;
   flex-wrap:wrap;
   button.placeholder{

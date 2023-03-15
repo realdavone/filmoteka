@@ -1,6 +1,8 @@
 <template>
   <main class="wrapper">
-    <div v-if="items?.length === 0 && loading === false" class="no-items container">Sekcia odporúčaných je prázdna</div>
+    <div v-font:medium v-if="items?.length === 0 && loading === false" class="container">
+      Sekcia odporúčaných je prázdna
+    </div>
     <CardPanel
     v-else
     heading="Odporúčané za posledný deň"
@@ -63,7 +65,6 @@ a.item{
     left:10px;
     background-color:var(--theme-color);
     border-radius:4px;
-    font-size:0.5rem;
     padding:2px 3px 1px;
     text-transform:uppercase;
     font-weight:700;

@@ -44,7 +44,7 @@ export const login = async (req, res) => {
 
 export const register = async (req, res) => {
   const { email, password } = req.body
-  if(!password) return res.json({ success: false, message: 'Neboli vyplnené všetky polia' })
+  if(!password || !email) return res.json({ success: false, message: 'Neboli vyplnené všetky polia' })
   try {
     const { allowRegistration } = await GlobalSettings.findOne({})
     if(!allowRegistration) return res.status(405).json({ success: false, message: 'Registrácia nie je povolená' }) 
@@ -68,12 +68,15 @@ export const logout = async (req, res) => {
 
 export const refreshToken = async (req, res) => {
   const { refreshToken } = req.body
+  
+  if(!refreshToken) return res.status(400).json({ success: false, message: 'Token nebol nájdeny' })
+
   try {
     const foundRefreshToken = await Token.findOne({ token: refreshToken })
     if(foundRefreshToken === null) return res.status(400).json({ success: false, message: 'Token neexistuje' })
   
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_KEY, async (err, user) => {
-      if(err) return res.status(403).json({success: false, message: 'Neplatný token'})
+      if(err) return res.status(403).json({ success: false, message: 'Neplatný token' })
   
       const foundUser = await User.findOne({ _id: user.id }, ['email', 'isAdmin', 'isVerified'])
       const accessToken = jwt.sign({

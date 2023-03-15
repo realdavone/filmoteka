@@ -23,9 +23,15 @@ const { src, alt, fadeInOnLoad, aspectRatio } = defineProps<{
   aspectRatio?: '2/3' | '1'
 }>()
 
-const fadeIn = (el: any) => el.target.style.opacity = 1
+function fadeIn(el: Event){
+  const image = el.target as HTMLImageElement
+  image.style.opacity = '1'
+}
 
-const remove = (el: any) => el.target.remove()
+function remove(el: Event){
+  const image = el.target as HTMLImageElement
+  image.remove()
+}
 </script>
 
 <style lang="scss" scoped>

@@ -1,73 +1,75 @@
 <template>
   <div class="details">
     <div class="item" v-if="details.status">
-      <span class="label">Status</span>
-      <span class="value">{{ status.get(details.status) }}</span>
+      <span v-font:small class="label">Status</span>
+      <span v-font:medium>{{ status.get(details.status) }}</span>
     </div>
     <div class="item" v-if="details.languages?.length">
-      <span class="label">Audio</span>
+      <span v-font:small class="label">Audio</span>
       <div>
         <span
-        class="comma-after"
-        v-for="language in details.languages"
-        :key="language.iso_639_1">{{ language.english_name }}</span>
+          v-font:medium
+          class="comma-after"
+          v-for="language in details.languages"
+          :key="language.iso_639_1"
+        >{{ language.english_name }}</span>
       </div>
     </div>
     <div class="item" v-if="details.countries?.length">
-      <span class="label">Pôvod</span>
+      <span v-font:small class="label">Pôvod</span>
       <div>
         <span
-        class="comma-after value"
-        v-for="country in details.countries"
-        :key="country.iso_3166_1">
-        {{ store.state.countries[country.iso_3166_1.toLowerCase()] }}
-        </span>
+          v-font:medium
+          class="comma-after"
+          v-for="country in details.countries"
+          :key="country.iso_3166_1"
+        >{{ store.state.countries[country.iso_3166_1.toLowerCase()] }}</span>
       </div>
     </div>
     <div class="item" v-if="details.revenue">
-      <span class="label">Zárobok</span>
-      <span class="value">{{ new Intl.NumberFormat('sk-SK', { notation: "compact", compactDisplay: "short", style: "currency", currency: "USD" }).format(details.revenue) }}</span>
+      <span v-font:small class="label">Zárobok</span>
+      <span v-font:medium>{{ new Intl.NumberFormat('sk-SK', { notation: "compact", compactDisplay: "short", style: "currency", currency: "USD" }).format(details.revenue) }}</span>
     </div>
     <div class="item" v-if="details.release_date">
-      <span class="label">Premiéra</span>
-      <span class="value">{{ new Date(details.release_date).toLocaleDateString('sk-SK') }}</span>
+      <span v-font:small class="label">Premiéra</span>
+      <span v-font:medium>{{ new Date(details.release_date).toLocaleDateString('sk-SK') }}</span>
     </div>
     <div class="item" v-if="details.number_of_episodes">
-      <span class="label">Počet epizód</span>
-      <span class="value">{{ details.number_of_episodes }}</span>
+      <span v-font:small class="label">Počet epizód</span>
+      <span v-font:medium>{{ details.number_of_episodes }}</span>
     </div>
     <div class="item" v-if="details.runtime">
-      <span class="label">Trvanie</span>
-      <span class="value">{{ `${Math.floor(details.runtime / 60) > 0 ? `${Math.floor(details.runtime / 60)}h` : ''} ${details.runtime % 60}m` }}</span>
+      <span v-font:small class="label">Trvanie</span>
+      <span v-font:medium>{{ `${Math.floor(details.runtime / 60) > 0 ? `${Math.floor(details.runtime / 60)}h` : ''} ${details.runtime % 60}m` }}</span>
     </div>
     <div class="item">
-      <span class="label">Hodnotenia</span>
+      <span v-font:small class="label">Hodnotenia</span>
       <div class="ratings">
         <component
-        :is="rating.url === null ? 'div' : 'a'"
-        v-for="rating in details.ratings"
-        v-bind="(rating.url ? { href: rating.url, target: '_blank' } : {})"
-        :key="rating.name">
-        <span>{{ rating.name }}</span><b>{{ getRating(rating.rating as number | string) }}</b>
-        </component>
+          :is="rating.url === null ? 'div' : 'a'"
+          v-for="rating in details.ratings"
+          v-bind="(rating.url ? { href: rating.url, target: '_blank' } : {})"
+          :key="rating.name"
+          v-font:medium
+        ><span>{{ rating.name }}</span><b>{{ getRating(rating.rating as number | string) }}</b></component>
       </div>
     </div>
     <div v-if="details.creators?.length" class="item">
-      <span class="label">Tvorci</span>
+      <span v-font:small class="label">Tvorci</span>
       <div>
         <div v-for="creator in details.creators" :key="creator.id">
-          <router-link :to="`/person/${creator.id}`" class="name">{{ creator.name }}</router-link>
+          <router-link v-font:medium :to="`/person/${creator.id}`" class="name">{{ creator.name }}</router-link>
           <div>
-            <span v-for="job in creator.jobs" :key="job" class="job comma-after">{{ job }}</span>
+            <span v-font:small v-for="job in creator.jobs" :key="job" class="comma-after" style="color:gray">{{ job }}</span>
           </div>
         </div>
       </div>
     </div>
     <div class="item" v-if="details.networks?.length">
-      <span class="label">Produkcia</span>
+      <span v-font:small class="label">Produkcia</span>
       <div>
         <div v-for="network in details.networks" :key="network.id">
-          <span class="value">{{ network.name }}</span>
+          <span v-font:medium>{{ network.name }}</span>
         </div>
       </div>
     </div>
@@ -140,7 +142,7 @@ function getRating(rating: number | string): number | 'N/A' {
 div.details{
   display: grid;
   grid-template-columns:[start] repeat(auto-fill, minmax(160px, 1fr)) [end];
-  gap: 1rem;
+  gap: 15px;
   width:100%;
 
   div.item{
@@ -155,11 +157,6 @@ div.details{
 
     span.label{
       color: gray;
-      font-size: 0.85rem;
-    }
-
-    span.value{
-      font-size: 1rem;
     }
 
     div.ratings{
@@ -167,11 +164,16 @@ div.details{
       a, div{
         display: flex;
         justify-content: space-between;
+        gap:5px;
+        align-items: center;
       }
-    }
 
-    .job{
-      font-size: 0.75rem;
+      a span::after{
+        font-family: 'Material Icons Outlined';
+        content: 'open_in_new';
+        font-size: 10px;
+        margin-left: 5px;
+      }
     }
   }   
 }

@@ -8,11 +8,11 @@
 section.grid{
   display:grid;
   grid-template-columns:repeat(auto-fill, minmax(100px, 1fr));
-  gap:1rem;
+  gap:15px;
   div.skeleton{
     aspect-ratio:2/3;
     background-color:var(--card-color);
-    border-radius:1rem;
+    border-radius:15px;
   }
 }
 </style>

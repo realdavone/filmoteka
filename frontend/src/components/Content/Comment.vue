@@ -3,12 +3,18 @@
     <Avatar :id="comment.author?._id" width="30px"/>
     <div class="right-col">
       <div class="user">
-        <span class="name">{{ comment.author?.email }}</span>
-        <span v-if="comment.author?.isVerified" class="material-icons" style="font-size:1rem;color:var(--theme-color)">verified</span>
-        <span class="date">{{ useRelativeTimeDifference(comment.createdAt) }}</span>    
+        <span v-font:small class="name">{{ comment.author?.email }}</span>
+        <Verified v-if="comment.author?.isVerified" />
+        <span v-font:small class="date">{{ useRelativeTimeDifference(comment.createdAt) }}</span>    
       </div>
-      <div class="content">{{ comment.content }}</div>
-      <button v-if="store.state.credentials.user?.email === comment.author?.email" class="remove-comment" :disabled="loading" @click="deleteComment(comment._id)">Zmazať</button>
+      <div v-font:medium>{{ comment.content }}</div>
+      <button
+        v-font:small
+        v-if="store.state.credentials.user?.email === comment.author?.email"
+        class="remove-comment"
+        :disabled="loading"
+        @click="deleteComment(comment._id)"
+      >Zmazať</button>
     </div>
   </div>
 </template>
@@ -21,6 +27,7 @@ import { inject, ref } from 'vue'
 
 import { Comment } from '../../types/comment'
 import Avatar from '../Avatar.vue'
+import Verified from './Verified.vue'
 
 const { comment } = defineProps<{ comment: Comment }>()
 const emit = defineEmits(['deleted'])
@@ -52,7 +59,7 @@ const store = inject<any>('store')
 <style lang="scss" scoped>
 div.comment{
   display:flex;
-  gap:1rem;
+  gap:15px;
   align-self:stretch;
   user-select:none;
   align-items:flex-start;
@@ -60,12 +67,11 @@ div.comment{
     display:flex;
     flex-direction:column;
     align-items:flex-start;
-    gap:0.5rem;
+    gap:8px;
     div.user{
       display:flex;
       align-items:flex-end;
-      gap:0.5rem;
-      font-size:0.75rem;
+      gap:8px;
       span.name{
         font-weight:bold;
       }

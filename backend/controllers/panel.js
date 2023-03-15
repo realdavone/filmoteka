@@ -11,7 +11,7 @@ export const trending = async (req, res) => {
     const data = await fetch(`${TMDB_BASE_API}/trending/all/${req.params.timeWindow}?api_key=${TMDB_API_KEY}&language=sk-SK`)
     res.status(200).json(await data.json())    
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Niečo sa pokazilo' })
+    res.sendStatus(500)
   }
 }
 
@@ -20,6 +20,6 @@ export const popular = async (req, res) => {
     const data = await fetch(`${TMDB_BASE_API}/${req.params.type}/popular?api_key=${TMDB_API_KEY}&language=sk-SK`)
     res.status(200).json(await data.json())    
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Niečo sa pokazilo' })
+    res.sendStatus(500)
   }
 }

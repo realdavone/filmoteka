@@ -8,25 +8,25 @@
         <Socials :socials="person.external_ids" />
       </div>
       <div class="profile-details">
-        <div class="profile-name">{{person.name}}</div>
-        <div class="details">
+        <div class="profile-name" v-font:large>{{person.name}}</div>
+        <div class="details" v-font:medium>
           <div class="info-outter" v-if="person.birthday || person.place_of_birth">
             <span class="icon">&lowast;</span>
             <div>
-              <span v-if="!person.deathday && person.birthday" class="comma-after" >{{getAge(person.birthday, person.deathday)}}</span>
-              <span v-if="person.birthday" class="comma-after">{{new Date(person.birthday).toLocaleDateString('sk-SK')}}</span>
-              <span v-if="person.place_of_birth" class="comma-after">{{person.place_of_birth}}</span>
+              <span v-if="!person.deathday && person.birthday" class="comma-after" >{{ getAge(person.birthday, person.deathday) }}</span>
+              <span v-if="person.birthday" class="comma-after">{{ new Date(person.birthday).toLocaleDateString('sk-SK') }}</span>
+              <span v-if="person.place_of_birth" class="comma-after">{{ person.place_of_birth }}</span>
             </div>
           </div>
           <div class="info-outter" v-if="person.deathday">
             <span class="icon">&#10013;</span>
             <div>
-              <span class="comma-after">{{new Date(person.deathday).toLocaleDateString('sk-SK')}}</span>              
-              <span class="comma-after">{{getAge(person.birthday, person.deathday)}}</span>
+              <span class="comma-after">{{ new Date(person.deathday).toLocaleDateString('sk-SK') }}</span>              
+              <span class="comma-after">{{ getAge(person.birthday, person.deathday) }}</span>
             </div>
           </div>
         </div>
-        <div class="profile-biography">{{person.biography || `Pre ${person.name} nie je k dispozicií biografia`}}</div>
+        <div class="profile-biography" v-font:medium>{{ person.biography || `Pre ${person.name} nie je k dispozicií biografia` }}</div>
       </div>
     </section>
   </main>
@@ -89,18 +89,12 @@ main.outter-holder{
           display:inline-block;
           text-align:center;
           color:var(--theme-color);
-          font-size:1.15rem;
-        }
-        div{
-          span{font-size:0.75rem;}
         }
       }
       div.profile-name{
         font-weight:700;
-        font-size:1.75rem;
       }
       div.profile-biography{ 
-        font-size:0.85rem;
         max-height:60vh;
         overflow:auto;
       }

@@ -21,22 +21,23 @@
       <div v-if="!loading" class="flex-column">
         <section class="selectors">
           <div class="primary">
-            <button @click="selector.type = 'movie'" :data-active="selector.type === 'movie'">Filmy</button>
-            <button @click="selector.type = 'tv'" :data-active="selector.type === 'tv'">TV</button>
+            <button v-font:medium @click="selector.type = 'movie'" :data-active="selector.type === 'movie'">Filmy</button>
+            <button v-font:medium @click="selector.type = 'tv'" :data-active="selector.type === 'tv'">TV</button>
           </div>
           <div class="secondary">
-            <button @click="selector.role = 'cast'" :data-active="selector.role === 'cast'">Herectvo</button>
-            <button @click="selector.role = 'crew'" :data-active="selector.role === 'crew'">Tvorba</button>
+            <button v-font:medium @click="selector.role = 'cast'" :data-active="selector.role === 'cast'">Herectvo</button>
+            <button v-font:medium @click="selector.role = 'crew'" :data-active="selector.role === 'crew'">Tvorba</button>
           </div>
         </section>
         <Filmography
         :items="([
-        ...result!.movie_credits.cast.map(title => Object.assign(title, { media_type: 'movie', job_type: 'cast' })),
-        ...result!.movie_credits.crew.map(title => Object.assign(title, { media_type: 'movie', job_type: 'crew' })),
-        ...result!.tv_credits.cast.map(title => Object.assign(title, { media_type: 'tv', job_type: 'cast' })),
-        ...result!.tv_credits.crew.map(title => Object.assign(title, { media_type: 'tv', job_type: 'crew' }))
-        ] as [])"
-        :filter="selector" />
+          ...result!.movie_credits.cast.map(title => Object.assign(title, { media_type: 'movie', job_type: 'cast' })),
+          ...result!.movie_credits.crew.map(title => Object.assign(title, { media_type: 'movie', job_type: 'crew' })),
+          ...result!.tv_credits.cast.map(title => Object.assign(title, { media_type: 'tv', job_type: 'cast' })),
+          ...result!.tv_credits.crew.map(title => Object.assign(title, { media_type: 'tv', job_type: 'crew' }))
+          ] as [])"
+          :filter="selector"
+        />
       </div>
     </template>
   </PersonProfile>
@@ -83,7 +84,6 @@ section.selectors{
   gap:0.5rem;
   div.primary{
     button {
-      font-size:1.25rem;
       font-weight:900;
       padding:2px 0.5rem;
       border-radius:0.5rem;
@@ -95,7 +95,6 @@ section.selectors{
   }
   div.secondary{
     button {
-      font-size:0.9rem;
       font-weight:700;
       padding:2px 8px;
       border-radius:6px;

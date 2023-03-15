@@ -6,7 +6,7 @@
         <img class="tmdb-logo" src="../assets/tmdb.svg" alt="TMDB">
       </a>
     </div>
-    <span class="copy">2022-2023, Filmotéka</span>
+    <span v-font:small class="copy">2022-2023, Filmotéka</span>
   </footer>
 </template>
 
@@ -23,19 +23,6 @@ footer{
   align-items:flex-start;
   justify-content:center;
   flex-direction:column;
-  ul{
-    list-style-type:none;
-    display:flex;
-    gap:0.5rem;
-    li{
-      display:inline-block;
-      a{
-        font-size:0.8rem;
-        font-weight:700;
-        &:hover{color:var(--theme-color)}
-      }
-    }
-  }
   div.logos{
     display:flex;
     gap:15px;
@@ -47,6 +34,5 @@ footer{
       }
     }
   }
-  span.copy{font-size:0.75rem;}
 }
 </style>

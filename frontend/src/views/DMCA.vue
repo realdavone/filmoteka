@@ -1,7 +1,7 @@
 <template>
   <section class="container user-select-none" v-once>
     <Title>DMCA</Title>
-    <article>
+    <article v-font:medium>
       Zodpovednosť za porušovanie autorských práv nenesie prevádzkovateľ tohto portálu! Dôvod je ten, 
       že žiadne video sa nenachádza na interných úložiskách. 
       Z toho vyplýva, že prevádzkovateľ nemá žiadnu možnosť si overiť dodržiavanie autorského práva 
@@ -39,17 +39,21 @@ const url = location.host
 section{
   article{
     text-align:justify;
-    font-size:0.85rem;
     max-width:1000px;
     ul{
       margin-left:20px;
       li{  
         a{
           font-weight:bold;
-          font-size:0.85rem;
           &:hover{
             text-decoration:underline;
             color:var(--theme-color);
+          }
+          &::after{
+            font-family: 'Material Icons Outlined';
+            content: 'open_in_new';
+            font-size: 10px;
+            margin-left: 5px;
           }
         }
       }
