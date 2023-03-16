@@ -207,17 +207,16 @@ const getAutoResults = debounce(async string => {
 
 function handleInput(e: Event){
   const input = e.target as HTMLInputElement
-  const event = e as Event & {
-    isComposing: boolean
-    data: string
-  }
+  // const event = e as Event & {
+  //   isComposing: boolean
+  //   data: string
+  // }
 
-  const data = event.isComposing ? event.data : input.value
-  if(!data.length && event.isComposing) return
+  const data = input.value
 
   loadingSearch.value = true
-  getAutoResults(data)
   searchQuery.value = data
+  getAutoResults(searchQuery.value)
 }
 
 onClickOutside(optionsMenu, () => isOptionsMenuOpened.value = false)
