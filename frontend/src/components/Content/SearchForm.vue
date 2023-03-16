@@ -207,11 +207,6 @@ const getAutoResults = debounce(async string => {
 
 function handleInput(e: Event){
   const input = e.target as HTMLInputElement
-  // const event = e as Event & {
-  //   isComposing: boolean
-  //   data: string
-  // }
-
   const data = input.value
 
   loadingSearch.value = true

@@ -1,43 +1,48 @@
 <template>
-  <section class="featured-section user-select-none" v-auto-animate>
-    <template v-for="title, i in props.titles" :key="title.id">
-      <div v-if="active === i" class="featured container">
-        <div v-if="title && title?.backdrop_path" class="background-image">
-          <CoverPoster
-            style="filter:blur(3px)"
-            :src="title?.backdrop_path"
-            size="w1440_and_h320_multi_faces"
-            alt="Obrázok v pozadí"
-            :fadeInOnLoad="true"
-          />
-        </div>
-        <div class="title-holder">
-          <div class="poster">
-            <Poster
-              v-if="title && title?.poster_path"
-              :src="title?.poster_path"
-              :alt="title?.media_type === 'movie' ? title?.title : title?.name"
+  <section class="featured-section user-select-none">
+    <TransitionGroup
+      name="slideshow"
+      tag="div"
+    >
+      <template v-for="title, i in props.titles" :key="title.id">
+        <div v-if="active === i" class="featured container">
+          <div v-if="title && title?.backdrop_path" class="background-image">
+            <CoverPoster
+              style="filter:blur(3px)"
+              :src="title?.backdrop_path"
+              size="w1440_and_h320_multi_faces"
+              alt="Obrázok v pozadí"
               :fadeInOnLoad="true"
             />
           </div>
-          <div class="content">
-            <div
-              v-font:large
-              v-if="title && title?.media_type"
-              class="title"
-            >{{ title?.media_type === 'movie' ? title?.title : title?.name }}</div>
-            <div v-if="title && title?.overview" class="overview">
-            <span v-font:medium>{{ title?.overview }}</span>
+          <div class="title-holder">
+            <div class="poster">
+              <Poster
+                v-if="title && title?.poster_path"
+                :src="title?.poster_path"
+                :alt="title?.media_type === 'movie' ? title?.title : title?.name"
+                :fadeInOnLoad="true"
+              />
             </div>
-            <BasicButton
-              v-if="title"
-              class="cta"
-              @handleClick="$router.push(`/${title?.media_type}/${title?.id}`)"
-            >Zobraziť viac</BasicButton>
-          </div>      
+            <div class="content">
+              <div
+                v-font:large
+                v-if="title && title?.media_type"
+                class="title"
+              >{{ title?.media_type === 'movie' ? title?.title : title?.name }}</div>
+              <div v-if="title && title?.overview" class="overview">
+              <span v-font:medium>{{ title?.overview }}</span>
+              </div>
+              <BasicButton
+                v-if="title"
+                class="cta"
+                @handleClick="$router.push(`/${title?.media_type}/${title?.id}`)"
+              >Zobraziť viac</BasicButton>
+            </div>      
+          </div>
         </div>
-      </div>
-    </template>
+      </template>
+    </TransitionGroup>
     <CircleButtonsControl :number-of-buttons="titles?.length" :active-index="active" @changeButton="handleSelect" />
   </section>
 </template>
@@ -54,7 +59,13 @@ const active = ref(0)
 
 const props = defineProps<{ titles: Array<Title> | null }>()
 
-function handleSelect({ index, clear }: { index: number, clear?: boolean }){
+function handleSelect({
+  index,
+  clear
+}: {
+  index: number
+  clear?: boolean
+}){
   active.value = index
   clear && clearInterval(interval)
 }
@@ -73,11 +84,13 @@ section.featured-section{
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  position: relative;
 }
 div.featured{
   padding-top:calc(var(--nav-height) + var(--container-padding));
   padding-bottom:calc(var(--container-padding) + 30px);
   position:relative;
+  width: 100%;
   div.background-image{
     position:absolute;
     top:0;
@@ -134,6 +147,20 @@ div.featured{
     }
   }
 }
+
+.slideshow-enter-from, .slideshow-leave-to{
+  opacity: 0;
+  display: none;
+}
+.slideshow-enter-active, .slideshow-leave-active{
+  display: initial;
+  transition: 0.7s ease opacity;
+  position: absolute!important;
+}
+.slideshow-enter-to, .slideshow-leave-from{
+  opacity: 1;
+}
+
 @media screen and (max-width: 600px) {
   section.featured-section{
     min-height: 300px;
