@@ -7,7 +7,7 @@ function useEvent({
 }: {
   target: HTMLElement | Window | Document,
   event: string,
-  callback: EventListenerOrEventListenerObject
+  callback: (e?: any) => void
 }){
   onMounted(() => target.addEventListener(event, callback))
   onActivated(() => target.addEventListener(event, callback))

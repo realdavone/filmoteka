@@ -115,7 +115,11 @@ const menuItems = [
 
 const logout = () => Auth.logout().then(res => notify({ type: 'success', text: res.message }))
 
-useEvent({ target: document, event: 'keydown', callback: (e: KeyboardEvent) => { if(e.code === 'Escape') closeMenu() } })
+useEvent({
+  target: document,
+  event: 'keydown',
+  callback: (e: KeyboardEvent) => { e.code === 'Escape' && closeMenu() }
+})
 
 onClickOutside(menu, () => closeMenu())
 
