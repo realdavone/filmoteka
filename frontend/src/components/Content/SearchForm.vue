@@ -199,7 +199,7 @@ const getAutoResults = debounce(async string => {
     autoSearchResults.people = data.results.filter(person => person['media_type'] === 'person' && person['profile_path'] !== null).slice(0,2) as PersonSearchType[]
 
   } catch (error) {
-    console.log(error)
+    console.error
   } finally {
     loadingSearch.value = false
   }
@@ -211,7 +211,10 @@ function handleInput(e: Event){
     isComposing: boolean
     data: string
   }
+
   const data = event.isComposing ? event.data : input.value
+  if(!data.length && event.isComposing) return
+
   loadingSearch.value = true
   getAutoResults(data)
   searchQuery.value = data
