@@ -1,6 +1,6 @@
 <template>
   <section>
-    <span class="user-select-none">{{text || 'Žiadne výsledky'}}</span>
+    <span v-font:medium class="user-select-none">{{text || 'Žiadne výsledky'}}</span>
   </section>
 </template>
 

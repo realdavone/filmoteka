@@ -31,7 +31,7 @@
             </li>
           </ul>
         </section>
-        <span v-else class="no-items">Neboli pridané žiadne záložky.</span>
+        <span v-else v-font:medium class="no-items">Neboli pridané žiadne záložky.</span>
         <div class="buttons">
           <BasicButton type="close" @handleClick="emit('close')">Zavrieť</BasicButton>
           <BasicButton v-if="store.state.favourites.length !== 0" type="transparent" @handleClick="store.methods.favourites.removeAll()">Zmazať všetky</BasicButton>

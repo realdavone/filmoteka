@@ -32,7 +32,7 @@ const totalPages = ref<number>(1)
 const route = useRoute()
 const router = useRouter()
 
-const fetchData = async (type: 'movie' | 'tv' | 'person', query: string, page: string) => {
+async function fetchData(type: 'movie' | 'tv' | 'person', query: string, page: string) {
   try {
     const data = await getData<ApiListResponse<TitleType[] | PersonSearchType[]>>({ endpoint: `/search/${type}?query=${query}&page=${page}` })
 
@@ -47,14 +47,20 @@ const fetchData = async (type: 'movie' | 'tv' | 'person', query: string, page: s
     currentPage.value = data.page
 
     items.value = mappedData as []
-
+  } catch (error) {
+    router.push({ name: 'NotFound' })
+  } finally {
     loaded.value = true
-  } catch (error) { router.push({ name: 'NotFound' }) }
+  }
 }
 
-const navigate = (page: string) => { router.push({ path: `/search/${route.matched[1].meta.type}`, query: { ...route.query, page } }) }
+function navigate(page: string) {
+  router.push({ path: `/search/${route.matched[1].meta.type}`, query: { ...route.query, page } })
+}
 
-onBeforeMount(() => { fetchData(route.matched[1].meta.type as 'movie' | 'tv' | 'person', route.query.q as string, route.query.page as string) })
+onBeforeMount(() => {
+  fetchData(route.matched[1].meta.type as 'movie' | 'tv' | 'person', route.query.q as string, route.query.page as string || '1')
+})
 </script>
 
 <style lang="scss" scoped>
