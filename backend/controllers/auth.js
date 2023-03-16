@@ -22,6 +22,7 @@ export const login = async (req, res) => {
         isAdmin: user.isAdmin,
         isVerified: user.isVerified
       }, process.env.ACCESS_TOKEN_KEY, { expiresIn: process.env.ACCESS_TOKEN_EXPIRY_TIME || "30m" })
+
       const refreshToken = jwt.sign({ id: user._id }, process.env.REFRESH_TOKEN_KEY, { expiresIn: "7d" })
 
       await Token.create({ token: refreshToken })
@@ -38,12 +39,14 @@ export const login = async (req, res) => {
         } 
       })
     }
+
     res.status(401).json({ success: false, message: 'Nesprávne meno alebo heslo' })
   } catch (error) { res.sendStatus(500) }
 }
 
 export const register = async (req, res) => {
   const { email, password } = req.body
+
   if(!password || !email) return res.json({ success: false, message: 'Neboli vyplnené všetky polia' })
   try {
     const { allowRegistration } = await GlobalSettings.findOne({})
@@ -55,14 +58,17 @@ export const register = async (req, res) => {
     const hashed = await bcrypt.hash(password, 10)
     await User.create({ email, password: hashed })
     res.status(200).json({ success: true, message: 'Úspešná registrácia' })
+
   } catch (error) { res.sendStatus(500) }
 }
 
 export const logout = async (req, res) => {
   const { refreshToken } = req.body
+  
   try {
     await Token.findOneAndDelete({ token: refreshToken })
     res.status(202).json({ success: true,  message: 'Úspešné odhlásenie' })
+
   } catch (error) { res.sendStatus(500) }
 }
 

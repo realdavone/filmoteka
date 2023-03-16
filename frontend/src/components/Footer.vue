@@ -18,8 +18,8 @@ import Logo from './Logo.vue'
 footer{
   width:100%;
   display:flex;
-  gap:1rem;
-  padding:1rem 0.5rem;
+  gap:15px;
+  padding:15px 8px;
   align-items:flex-start;
   justify-content:center;
   flex-direction:column;

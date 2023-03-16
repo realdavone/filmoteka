@@ -1,5 +1,5 @@
 <template>
-  <section id="player-holder" class="user-select-none">
+  <section ref="playerHolder" class="user-select-none player-holder">
     <div v-if="!props.source && props['isReady']['status'] === true" class="not-pressed">
       <Transition name="fade">
         <div v-if="!isPlayerWorking" class="player-warning">
@@ -29,7 +29,7 @@
     <iframe
       @load="loadedIframe = true"
       v-if="props.source"
-      :class="{ pinned: pinned && store.state.settings.pinnedPlayer }"
+      :class="{ pinned: pinned }"
       :src="props['source']"
       frameborder="0"
       loading="lazy"
@@ -48,11 +48,12 @@
 import useEvent from '../../composables/event'
 import Loader from '../Loader.vue'
 import BasicButton from '../Buttons/BasicButton.vue'
-import { ref, inject } from 'vue'
+import { ref, inject, watch } from 'vue'
 
 const store = inject<any>('store')
 const pinned = ref(false)
 const loadedIframe = ref(false)
+const playerHolder = ref<HTMLElement | null>(null)
 
 const props = defineProps<{
   isReady: {
@@ -63,18 +64,25 @@ const props = defineProps<{
   isPlayerWorking: boolean
 }>()
 
-useEvent({
-  target: document,
+const { addListener, removeListener } = useEvent({
+  target: window,
   event: 'scroll',
-  callback: () => {
-    if(props.source) pinned.value = document.getElementById('player-holder')!.offsetTop < window.scrollY
-  }
+  callback: handleScroll
 })
 
+store.state.settings.pinnedPlayer ? addListener() : removeListener()
+
+watch(() => store.state.settings.pinnedPlayer, (val: Boolean) => {
+  val ? addListener() : removeListener()
+})
+
+function handleScroll() {
+  pinned.value = props.source && store.state.settings.pinnedPlayer && (playerHolder.value!.offsetTop < window.scrollY)
+}
 </script>
 
 <style lang="scss" scoped>
-section#player-holder{
+section.player-holder{
   width:var(--player-width);
   max-width:var(--player-width);
   aspect-ratio:16/9!important;
@@ -175,7 +183,7 @@ section#player-holder{
   }
 }
 @media screen and (max-width: 1300px){
-  section#player-holder{
+  section.player-holder{
     width:100%!important;
   }
 }
