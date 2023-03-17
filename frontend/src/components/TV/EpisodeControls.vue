@@ -73,7 +73,11 @@
 import { ref, computed } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 
-const emit = defineEmits(['setSeason', 'setEpisode', 'setPlayer'])
+const emit = defineEmits<{
+  (e: 'setSeason', season: number): void,
+  (e: 'setEpisode', episode: number): void,
+  (e: 'setPlayer'): void
+}>()
 
 const props = defineProps<{
   seasons: {

@@ -38,7 +38,7 @@
     <div v-if="!props.isReady.status" class="message">
       <span class="material-icons-outlined icon">event</span>
       <div class="right">
-        <span class="message">{{ props.isReady.message }}</span>
+        <span class="message" v-font:medium>{{ props.isReady.message }}</span>
       </div>
     </div>
   </section>
