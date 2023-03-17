@@ -2,76 +2,31 @@
   <section class="outter-holder">
     <section class="player-holder-wrap">
       <Player
-      :isPlayerWorking="props.isPlayerWorking"
-      :isReady="{
-        status: areThereAnyEpisodes && props['hasFirstEpisodeAired'],
-        message: areThereAnyEpisodes && props['hasFirstEpisodeAired'] ? null :
-          areThereAnyEpisodes && !props['hasFirstEpisodeAired'] ? 'Seriál zatiaľ nevyšiel' :
-            !areThereAnyEpisodes && props['hasFirstEpisodeAired'] ? 'Seriál nemá žiadne epizódy' :
-        'Nastala chyba'
-      }"
-      :source="playerSource"
-      @setPlayer="setPlayer"
+        :isPlayerWorking="props.isPlayerWorking"
+        :isReady="{
+          status: areThereAnyEpisodes && props['hasFirstEpisodeAired'],
+          message: areThereAnyEpisodes && props['hasFirstEpisodeAired'] ? null :
+            areThereAnyEpisodes && !props['hasFirstEpisodeAired'] ? 'Seriál zatiaľ nevyšiel' :
+              !areThereAnyEpisodes && props['hasFirstEpisodeAired'] ? 'Seriál nemá žiadne epizódy' :
+          'Nastala chyba'
+        }"
+        :source="playerSource"
+        @setPlayer="setPlayer"
       />
     </section>
-    <div v-if="props.hasFirstEpisodeAired && areThereAnyEpisodes && (store.state.globalSettings?.allowWatchWhileUnregistered || store.state.credentials.loggedIn)" class="season-episode">
-      <button
-        :class="{ 'disabled' : currentSeasonAndEpisode.season === 0 && currentSeasonAndEpisode.episode === 0 }"
-        class="next-previous-episode"
-        :disabled="currentSeasonAndEpisode.season === 0 && currentSeasonAndEpisode.episode === 0"
-        @click="handleControls('backwards')"
-        title="Predchádzajúca epizóda"
-      >&laquo;</button>
-      <div class="season-select-holder">
-        <div class="selected-season" @click="isSeasonListOpened =! isSeasonListOpened">
-          <div class="poster-holder">
-            <img v-if="seasons?.[currentSeasonAndEpisode.season]['poster_path']" :src="`https://image.tmdb.org/t/p/w45_and_h45_face${seasons?.[currentSeasonAndEpisode.season]['poster_path']}`" :alt="`Obrázok ${seasons[currentSeasonAndEpisode.season]['season_number']}. série`">          
-          </div>
-          <span v-font:small>Séria {{seasons?.[currentSeasonAndEpisode.season]['season_number']}}</span>
-        </div>
-        <Transition name="fade">
-          <div v-if="isSeasonListOpened" class="options" ref="seasonList">
-            <div @click="currentSeasonAndEpisode.season = i; isSeasonListOpened = false; currentSeasonAndEpisode.episode = 0" v-for="(season, i) in seasons" :key="season.season_number" class="option" :data-active="currentSeasonAndEpisode.season === i">
-              <div class="poster-holder">
-                <img v-if="season['poster_path']" :src="`https://image.tmdb.org/t/p/w45_and_h45_face${season['poster_path']}`" :alt="`Obrázok ${season['season_number']}. série`">
-              </div>
-              <div class="content-holder" v-font:small>
-                <span>Séria {{season['season_number']}}</span>
-                <span class="episode-count">{{season['episode_count']}} {{season['episode_count'] == 1 ? 'epizóda':season['episode_count'] > 1 && season['episode_count'] < 5 ? 'epizódy' : 'epizód'}}</span>
-              </div>
-            </div>
-          </div>
-        </Transition>
-      </div>
-      <div class="episode-select-holder">
-        <div class="selected-episode" @click="isEpisodeListOpened =! isEpisodeListOpened">
-          <span v-font:small>Epizóda {{ currentSeasonAndEpisode.episode + 1 }}</span>
-        </div>
-        <Transition name="fade">        
-          <div v-if="isEpisodeListOpened" class="options" ref="episodeList">
-            <div v-for="i in numberOfEpisodes" :key="i" @click="currentSeasonAndEpisode.episode = i - 1; isEpisodeListOpened = false" class="option" :data-active="currentSeasonAndEpisode.episode === i - 1">
-              <span v-font:small>Epizóda {{ i }}</span>
-            </div>
-          </div>
-        </Transition>
-      </div>
-      <button
-        @click="setPlayer"
-        title="Prehrať"
-        style="font-size:25px"
-      >&#9654;</button>
-      <button
-        :class="{'disabled':currentSeasonAndEpisode.season + 1 === seasons?.length && currentSeasonAndEpisode.episode + 1 === numberOfEpisodes}"
-        class="next-previous-episode"
-        :disabled="currentSeasonAndEpisode.season + 1 === seasons?.length && currentSeasonAndEpisode.episode + 1 === numberOfEpisodes"
-        @click="handleControls('forwards')" title="Ďalšia epizóda"
-      >&raquo;</button>
-    </div>
+    <EpisodeControls
+      v-if="props.hasFirstEpisodeAired && areThereAnyEpisodes && (store.state.globalSettings?.allowWatchWhileUnregistered || store.state.credentials.loggedIn)"
+      :seasons="seasons"
+      :current="currentSeasonAndEpisode"
+      @setSeason="handleSetSeason"
+      @setEpisode="handleSetEpisode"
+      @setPlayer="setPlayer"
+    />
     <EpisodeInfo
+      v-if="props.hasFirstEpisodeAired && (store.state.globalSettings?.allowWatchWhileUnregistered || store.state.credentials.loggedIn)"
       :id="props.id"
       :season="currentSeasonAndEpisode.season + 1"
       :episode="currentSeasonAndEpisode.episode + 1"
-      v-if="props.hasFirstEpisodeAired && (store.state.globalSettings?.allowWatchWhileUnregistered || store.state.credentials.loggedIn)"
     />
     <section v-if="(props['lastEpisode'] !== null || props['nextEpisode'] !== null) && (store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn)" class="episode-card-holder">
       <EpisodeCard 
@@ -101,10 +56,10 @@
 <script setup lang="ts">
 import EpisodeInfo from './EpisodeInfo.vue'
 import EpisodeCard from './EpisodeCard.vue'
+import EpisodeControls from './EpisodeControls.vue'
 import Player from '../Content/Player.vue'
 
-import { ref, onBeforeMount, inject, computed, reactive } from 'vue'
-import { onClickOutside } from '@vueuse/core'
+import { ref, onBeforeMount, inject, reactive } from 'vue'
  
 import { FullTvTitleType } from '../../types/title'
 
@@ -125,10 +80,14 @@ const areThereAnyEpisodes = ref(true)
 
 const seasons = ref(props.seasons && props.seasons.filter(season => season.season_number !== 0).filter(season => season.episode_count !== 0))
 
-const seasonList = ref<null | HTMLDivElement>(null)
-const episodeList = ref<null | HTMLDivElement>(null)
-const isSeasonListOpened = ref(false)
-const isEpisodeListOpened = ref(false)
+function handleSetSeason(season: number) {
+  currentSeasonAndEpisode.episode = 0
+  currentSeasonAndEpisode.season = season
+}
+
+function handleSetEpisode(episode: number) {
+  currentSeasonAndEpisode.episode = episode
+}
 
 const playEpisode = ({
   season,
@@ -150,27 +109,6 @@ const setPlayer = () => {
   }
 }
 
-const handleControls = (action: 'backwards' | 'forwards') => {
-  switch (action) {
-    case 'backwards': {
-      if(currentSeasonAndEpisode.episode !== 0) currentSeasonAndEpisode.episode-- 
-      else {
-        currentSeasonAndEpisode.season--
-        currentSeasonAndEpisode.episode = numberOfEpisodes.value - 1 
-      }
-      break
-    }
-    case 'forwards': {
-      if((currentSeasonAndEpisode.episode + 1) !== numberOfEpisodes.value) currentSeasonAndEpisode.episode++
-      else {
-        currentSeasonAndEpisode.season++
-        currentSeasonAndEpisode.episode = 0
-      }
-      break
-    }
-  }
-}
-
 onBeforeMount(() => {
   if(seasons.value?.length === 0) areThereAnyEpisodes.value = false
   else {
@@ -180,14 +118,6 @@ onBeforeMount(() => {
     }
   }
 })
-
-const numberOfEpisodes = computed(() => {
-  if(currentSeasonAndEpisode.season !== null) return seasons.value?.[currentSeasonAndEpisode.season]['episode_count'] || 0
-  else return 0
-})
-
-onClickOutside(seasonList, () => isSeasonListOpened.value = false)
-onClickOutside(episodeList, () => isEpisodeListOpened.value = false)
 </script>
 
 <style lang="scss" scoped>
