@@ -1,14 +1,15 @@
 <template>
   <img
-  :class="`poster ${fadeInOnLoad && 'faded-before-load'}`"
-  :src="`https://www.themoviedb.org/t/p/${size}${src}`"
-  :alt="alt"
-  v-bind="{
-    ...(fadeInOnLoad ? { onLoad: fadeIn } : undefined)
-  }"
-  loading="lazy" 
-  draggable="false"
-  @error="remove" />
+    :class="`poster ${fadeInOnLoad && 'faded-before-load'}`"
+    :src="`https://www.themoviedb.org/t/p/${size}${src}`"
+    :alt="alt"
+    v-bind="{
+      ...(fadeInOnLoad ? { onLoad: fadeIn } : undefined)
+    }"
+    loading="lazy" 
+    draggable="false"
+    @error="remove"
+  />
 </template>
 
 <script setup lang="ts">
@@ -19,9 +20,15 @@ const { src, alt, fadeInOnLoad, size } = defineProps<{
   size: string
 }>()
 
-const fadeIn = (el: any) => el.target.style.opacity = 1
+const fadeIn = (event: Event) => {
+  const el = event.target as HTMLImageElement
+  el.style.opacity = '1'
+}
 
-const remove = (el: any) => el.target.remove()
+const remove = (event: Event) => {
+  const el = event.target as HTMLImageElement
+  el.remove()
+}
 </script>
 
 <style lang="scss" scoped>

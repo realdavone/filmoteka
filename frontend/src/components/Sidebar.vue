@@ -11,10 +11,7 @@
       <div v-if="store.state.credentials.loggedIn" class="right-col">
         <BasicButton
           type="transparent"
-          @handleClick="() => {
-            logout()
-            closeMenu()
-          }"
+          @handleClick="handleLogout"
           title="Odhlásiť"
         >Odhlásiť</BasicButton>
       </div>
@@ -44,6 +41,7 @@
       <Transition name="fade">
         <VisualSettingsModal v-if="isVisualMenuOpened" @close="isVisualMenuOpened = false" />
       </Transition>
+      <Dialog ref="dialog" />
     </main>
     <Footer :style="{ marginLeft: '10px' }" />
     <Teleport to="body">
@@ -65,9 +63,13 @@ import Auth from '../auth/main'
 import _ from '../utils/main'
 import useEvent from '../composables/event'
 import Verified from './Content/Verified.vue'
+import Dialog from './Dialog.vue'
 
 const store = inject<any>('store')
+
 const menu = ref<null | HTMLDivElement>(null)
+const dialog = ref<InstanceType<typeof Dialog> | null>(null)
+
 const emit = defineEmits(['closeMenu','menu'])
 
 const isVisualMenuOpened = ref(false)
@@ -118,18 +120,36 @@ const logout = () => Auth.logout().then(res => notify({ type: 'success', text: r
 useEvent({
   target: document,
   event: 'keydown',
-  callback: (e: KeyboardEvent) => { e.code === 'Escape' && closeMenu() }
+  callback: (e: KeyboardEvent) => e.code === 'Escape' && closeMenu()
 })
-
-onClickOutside(menu, () => closeMenu())
-
-const closeMenu = () => {
+function closeMenu() {
   emit('closeMenu')
 }
 
 function menuClickHandler(callback?: () => void) {
   callback?.()
 }
+
+async function handleLogout() {
+  try {
+    const res = await dialog.value?.handleDialogWindow({
+      body: 'Skutočne sa chcete odhlásiť?',
+      cancelText: 'Zrušiť',
+      confirmText: 'Odhlásiť'
+    })
+    if(res === 'CONFIRM') {
+      logout()
+      closeMenu()
+    }
+  } catch (error) {
+    console.error
+  }
+}
+
+onClickOutside(menu, () => {
+  dialog.value?.dialogOpen !== true && closeMenu()
+})
+
 
 onMounted(() => _.makeUnscrollable(document.body, true))
 onUnmounted(() => _.makeUnscrollable(document.body, false))

@@ -9,7 +9,7 @@
         <span>Filter</span>
         <span class="material-icons-outlined">tune</span>
       </button>
-      <section v-if="filterVisible" class="filter">
+      <fieldset v-if="filterVisible" class="filter">
         <SelectOption
           v-model="filterParams.type"
           @update:modelValue="typeChange"
@@ -20,13 +20,13 @@
           :options="store.state.genres[filterParams.type]"
         />
         <SelectOption
-        v-model="filterParams.sort"
-        :options="sortTypes" />
+          v-model="filterParams.sort"
+          :options="sortTypes" />
         <button
-        @click="filter(filterParams.type, filterParams.sort, 1, filterParams.genre)"
-        class="filter-button"
+          @click="filter(filterParams.type, filterParams.sort, 1, filterParams.genre)"
+          class="filter-button"
         ><span class="label">Filter</span></button>
-      </section>
+      </fieldset>
     </div>
     <ItemPanel type="title" :placeholderData="{count: 8 }" :items="titles" />
     <NoResults v-if="loaded && !titles?.length" />
@@ -140,7 +140,8 @@ div.filter{
   flex-direction:column;
   gap: 15px;
 }
-section.filter{
+fieldset.filter{
+  all: unset;
   background-color:var(--background-color);
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(160px,1fr));

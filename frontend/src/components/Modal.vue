@@ -17,14 +17,10 @@ const { unscrollableOnMounted } = withDefaults(defineProps<{
 
 const emit = defineEmits(['close'])
 
-onMounted(() => {
-  unscrollableOnMounted && _.makeUnscrollable(document.body, true)  
-})
-onUnmounted(() => {
-  unscrollableOnMounted && _.makeUnscrollable(document.body, false)
-})
+onMounted(() => unscrollableOnMounted && _.makeUnscrollable(document.body, true))
+onUnmounted(() => unscrollableOnMounted && _.makeUnscrollable(document.body, false))
 
-useEvent({ target: document.body, event: 'keydown', callback: (e: any) => e.code === 'Escape' && emit('close') })
+useEvent({ target: document.body, event: 'keydown', callback: (e: KeyboardEvent) => e.code === 'Escape' && emit('close') })
 </script>
 
 <style lang="scss" scoped>

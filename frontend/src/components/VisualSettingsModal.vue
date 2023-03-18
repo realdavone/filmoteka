@@ -15,12 +15,12 @@
         <div v-font:medium>Farebný motív</div>
         <div class="color-picker">
           <button v-for="(color, i) in store.state.settings.themeColors.colors"
-          :key="i"
-          class="color"
-          :style="`background-color:${color}`"
-          @click="store.methods.settings.themeColor.set(color)"
-          :data-active="store.methods.settings.themeColor.get()===color">
-          </button>
+            :key="i"
+            class="color"
+            :style="`background-color:${color}`"
+            @click="store.methods.settings.themeColor.set(color)"
+            :data-active="store.methods.settings.themeColor.get()===color"
+          ></button>
         </div>
         <BasicButton type="close" style="align-self: center" @handleClick="$emit('close')">Zavrieť</BasicButton>
       </div>

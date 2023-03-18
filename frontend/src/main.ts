@@ -7,7 +7,9 @@ import store from './store/index'
 import Auth from './auth/main'
 import _ from './utils/main'
 import './styles/main.scss'
+
 import focus from './directives/focus'
+import font from './directives/font'
 
 (function startApp(){
   _.initLoader()
@@ -29,16 +31,7 @@ import focus from './directives/focus'
     .use(Notifications) 
     
     app.directive('focus', focus)
-    app.directive('font', (el: HTMLElement, binding) => {
-      let size: number | undefined
-      switch(binding.arg){
-        case 'small': size = 1.2; break
-        case 'medium': size = 1.6; break
-        case 'large': size = 2.4; break
-        default: size = 1.6
-      }
-      el.style.fontSize = `${size}rem`
-    })
+    app.directive('font', font)
     
     app.mount('#app')
     
