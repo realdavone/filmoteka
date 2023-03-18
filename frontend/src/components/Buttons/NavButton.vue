@@ -1,8 +1,7 @@
 <template>
   <button class="nav-button" @click="$emit('handleClick')">
     <div class="icon">
-      <slot name="icon" />
-      <slot name="notification" />
+      <slot />
     </div>
   </button>
 </template>
@@ -19,35 +18,43 @@ button.nav-button{
   max-height:45px;
   border-radius:50%;
   transition:0.2s ease background-color;
-  overflow:hidden;
+  position: relative;
+
   &:active{
     background-color:var(--background-color-alpha);
     outline:1px solid var(--card-color-hover);
   }
+
+  &[data-count]::after{
+    content: attr(data-count);
+    background-color: var(--theme-color);
+    height: 18px;
+    width: 18px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Roboto', sans-serif;
+    color:white;
+    font-size: 10px;
+  }
+
+  &[data-notification]::after{
+    content: '';
+    position: absolute;
+    top:10px;
+    right:10px;
+    display:block;
+    width:7px;
+    height:7px;
+    background-color:var(--theme-color);
+    border-radius:50%;
+  }
 }
-div.icon{ position:relative }
-:slotted(span.notification){
-  position: absolute;
-  top:3px;
-  right:-3px;
-  display:block;
-  width:7px;
-  height:7px;
-  background-color:var(--theme-color);
-  border-radius:50%;
-}
-:slotted(span.count){
-  background-color: var(--theme-color);
-  height: 18px;
-  width: 18px;
-  position: absolute;
-  top: 0;
-  right: -5px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Roboto', sans-serif;
-  color:white;
+div.icon{
+  position: relative;
 }
 </style>

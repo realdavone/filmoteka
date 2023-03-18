@@ -91,6 +91,8 @@ div.featured{
   padding-bottom:calc(var(--container-padding) + 30px);
   position:relative;
   width: 100%;
+  isolation: isolate;
+  background-color: var(--background-color);
   div.background-image{
     position:absolute;
     top:0;

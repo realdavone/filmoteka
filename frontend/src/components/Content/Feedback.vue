@@ -1,14 +1,26 @@
 <template>
   <div class="rating">
     <button @click="handleFeedback('like')" title="Páči sa mi">
-      <span v-if="likesCount.includes(store.state.credentials.user._id)" class="material-icons" style="color:crimson">favorite</span>
-      <span v-else class="material-icons">favorite_border</span>
-      <span>{{likesCount.length}}</span>
+      <span
+      v-bind="{
+        class: 'material-icons',
+        ...(likesCount.includes(store.state.credentials.user._id) && {
+          style: { color: 'crimson' }
+        })
+      }"
+      :data-count="likesCount.length"
+      >favorite</span>
     </button>
     <button @click="handleFeedback('dislike')" title="Nepáči sa mi">
-      <span v-if="dislikesCount.includes(store.state.credentials.user._id)" class="material-icons" style="color:seagreen">heart_broken</span>
-      <span v-else class="material-icons-outlined">heart_broken</span>
-      <span>{{dislikesCount.length}}</span>
+      <span
+      v-bind="{
+        class: 'material-icons',
+        ...(dislikesCount.includes(store.state.credentials.user._id) && {
+          style: { color: 'seagreen' }
+        })
+      }"
+      :data-count="dislikesCount.length"
+      >heart_broken</span>
     </button>
   </div>
 </template>
@@ -72,11 +84,14 @@ div.rating{
     gap:6px;
     padding:4px 6px;
     
-    span:first-of-type{
-      overflow:hidden;
-    }
-    span:last-of-type{
-      font-weight:700;
+    span {
+      &[data-count]::after{
+        content: attr(data-count);
+        font-family: 'Roboto', sans-serif;
+        color: white;
+        font-size: 12px;
+        font-weight: 700;
+      }
     }
   }
 }

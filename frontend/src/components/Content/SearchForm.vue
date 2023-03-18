@@ -9,12 +9,14 @@
           <span class="material-icons-outlined" v-font:medium>menu</span>      
         </div>
         <Transition name="fade">
-          <div ref="optionsMenu" v-if="isOptionsMenuOpened" class="options">
+          <div ref="optionsMenu" v-show="isOptionsMenuOpened" class="options">
             <div class="option"
-            v-for="(option, key) in options"
-            :key="option.value"
-            :data-active="searchType.value === option.value"
-            @click="handleSelectOption(option)">
+              v-for="(option, key) in options"
+              :key="option.value"
+              :data-active="searchType.value === option.value"
+              role="button"
+              @click.stop="handleSelectOption(option)"
+            >
               <div class="icon-holder">
                 <span v-font:medium class="material-icons">{{ option.icon }}</span>
               </div>
@@ -96,7 +98,7 @@
 
 <script setup lang="ts">
 import { onClickOutside } from '@vueuse/core'
-import { ref, onMounted, reactive, inject } from 'vue'
+import { ref, reactive, inject } from 'vue'
 import { useRouter } from 'vue-router'
 import Loader from '../Loader.vue'
 import AutoSearchResults from '../Content/AutoSearchResults.vue'
@@ -215,8 +217,6 @@ function handleInput(e: Event){
 }
 
 onClickOutside(optionsMenu, () => isOptionsMenuOpened.value = false)
-
-onMounted(() => input.value!.focus())
 </script>
 
 <style lang="scss" scoped>
