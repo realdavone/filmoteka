@@ -28,13 +28,13 @@
 <script setup lang="ts">
 import { ref, inject } from 'vue'
 import { onClickOutside } from '@vueuse/core'
-import getData from '../api/main.js'
+import getData from '../../api/main.js'
 
 import Modal from './Modal.vue'
-import Loader from './Loader.vue'
-import Avatar from './Avatar.vue'
-import BasicButton from './Buttons/BasicButton.vue'
-import Verified from './Content/Verified.vue'
+import Loader from '../Loader.vue'
+import Avatar from '../Avatar.vue'
+import BasicButton from '../Buttons/BasicButton.vue'
+import Verified from '../Content/Verified.vue'
 
 const { title } = defineProps<{
   title: {

@@ -56,7 +56,7 @@ import { ref, inject, defineAsyncComponent, onMounted } from 'vue'
 import NavButton from './Buttons/NavButton.vue'
 import BasicButton from './Buttons/BasicButton.vue'
 import { DefaultEventsMap } from '@socket.io/component-emitter'
-const BookmarksModal = defineAsyncComponent(() => import('./BookmarksModal.vue'))
+const BookmarksModal = defineAsyncComponent(() => import('./Modal/BookmarksModal.vue'))
 const Sidebar = defineAsyncComponent(() => import('./Sidebar.vue'))
 const SearchForm = defineAsyncComponent(() => import('./Content/SearchForm.vue'))
 

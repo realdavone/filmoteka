@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import { ref, onBeforeMount } from 'vue'
-import SubmitCommentModal from '../SubmitCommentModal.vue'
+import SubmitCommentModal from '../Modal/SubmitCommentModal.vue'
 import PageControl from '../PageControl.vue'
 import Loader from '../Loader.vue'
 import Comment from './Comment.vue'

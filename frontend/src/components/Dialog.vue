@@ -1,6 +1,6 @@
 <template>
   <Teleport to="body">
-    <div v-if="dialogOpen" class="backdrop">
+    <Backdrop v-if="dialogOpen">
       <div ref="dialog" class="dialog">
         <header
           v-if="content.header"
@@ -20,7 +20,7 @@
           >{{ content.cancelText }}</button>
         </div>
       </div>
-    </div>
+    </Backdrop>
   </Teleport>
 </template>
 
@@ -28,11 +28,12 @@
 import { ref, reactive } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 
+import Backdrop from './Modal/Backdrop.vue'
+
 const dialogOpen = ref(false)
 const dialog = ref<HTMLDivElement | null>(null)
 
-let promiseResolved: (value: unknown) => void
-let promiseRejected: (value: unknown) => void
+let promiseResolved: (value: unknown) => void, promiseRejected: (value: unknown) => void
 
 const content = reactive<{
   header: undefined | string
@@ -86,55 +87,42 @@ defineExpose({
 </script>
 
 <style lang="scss" scoped>
-div.backdrop{
-  position: fixed;
-  top:0;
-  left:0;
-  width: 100%;
-  height: 100vh;
-  background-color: var(--background-color-alpha);
-  z-index: 999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  isolation: isolate;
-  div.dialog{
-    background-color: var(--background-color);
-    border-radius: 8px;
-    overflow: hidden;
-    max-width: 300px;
-    width: fit-content;
+div.dialog{
+  background-color: var(--background-color);
+  border-radius: 8px;
+  overflow: hidden;
+  max-width: 300px;
+  width: fit-content;
 
-    header {
-      background-color: var(--card-color-hover);
-      padding: 10px 15px;
-    }
+  header {
+    background-color: var(--card-color-hover);
+    padding: 10px 15px;
+  }
 
-    div.body{
-      background-color: var(--card-color);
-      padding: 10px 15px;
-      pointer-events: none;
-    }
+  div.body{
+    background-color: var(--card-color);
+    padding: 10px 15px;
+    pointer-events: none;
+  }
 
-    div.buttons{
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      padding: 10px 15px;
+  div.buttons{
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 15px;
 
-      button {
-        padding: 5px 10px;
-        line-height: 1;
-        border-radius: 4px;
+    button {
+      padding: 5px 10px;
+      line-height: 1;
+      border-radius: 4px;
 
-        &.cancel{
-          background-color: crimson;
-          color: white;
-        }
+      &.cancel{
+        background-color: crimson;
+        color: white;
+      }
 
-        &.confirm:hover {
-          background-color: var(--card-color-hover);
-        }
+      &.confirm:hover {
+        background-color: var(--card-color-hover);
       }
     }
   }

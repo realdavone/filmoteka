@@ -32,7 +32,7 @@
 import Modal from './Modal.vue'
 import { inject, ref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
-import BasicButton from './Buttons/BasicButton.vue';
+import BasicButton from '../Buttons/BasicButton.vue';
 
 const modal = ref<HTMLDivElement | null>(null)
 

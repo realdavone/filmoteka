@@ -1,10 +1,11 @@
 import dotenv from 'dotenv'
-import jwt from 'jsonwebtoken'
-import bcrypt from 'bcryptjs'
 
 import User from '../schemas/User.js'
 import Token from '../schemas/Token.js'
 import GlobalSettings from '../schemas/GlobalSettings.js'
+
+import { getAccessToken, getRefreshToken, verifyRefreshToken } from '../features/auth/token.js'
+import { comparePassword, getHashedPassword } from '../features/auth/password.js'
 
 dotenv.config()
 
@@ -15,39 +16,40 @@ export const login = async (req, res) => {
     const user = await User.findOne({ email })
     if(user === null) return res.status(400).json({ success: false, message: 'Užívateľ s touto emailovou adresou neexistuje' })
 
-    if(user && bcrypt.compareSync(password, user.password)){
-      const accessToken = jwt.sign({
-        id: user._id,
-        email,
+    if(!comparePassword(password, user.password)) return res.status(401).json({ success: false, message: 'Nesprávne meno alebo heslo' })
+
+    const accessToken = getAccessToken({
+      id: user._id,
+      email,
+      isAdmin: user.isAdmin,
+      isVerified: user.isVerified
+    })
+
+    const refreshToken = getRefreshToken(user._id)
+
+    await Token.create({ token: refreshToken })
+
+    return res.status(200).json({ 
+      success: true,
+      accessToken,
+      refreshToken,
+      user: {
+        _id: user._id,
+        email: user.email,
         isAdmin: user.isAdmin,
         isVerified: user.isVerified
-      }, process.env.ACCESS_TOKEN_KEY, { expiresIn: process.env.ACCESS_TOKEN_EXPIRY_TIME || "30m" })
-
-      const refreshToken = jwt.sign({ id: user._id }, process.env.REFRESH_TOKEN_KEY, { expiresIn: "7d" })
-
-      await Token.create({ token: refreshToken })
-
-      return res.status(200).json({ 
-        success: true,
-        accessToken,
-        refreshToken,
-        user: {
-          _id: user._id,
-          email: user.email,
-          isAdmin: user.isAdmin,
-          isVerified: user.isVerified
-        } 
-      })
-    }
-
-    res.status(401).json({ success: false, message: 'Nesprávne meno alebo heslo' })
-  } catch (error) { res.sendStatus(500) }
+      } 
+    })
+  } catch (error) {
+    res.sendStatus(500)
+  }
 }
 
 export const register = async (req, res) => {
   const { email, password } = req.body
 
-  if(!password || !email) return res.json({ success: false, message: 'Neboli vyplnené všetky polia' })
+  if(!password || !email) return res.json({ success: false, message: 'Chýba meno alebo heslo' })
+
   try {
     const { allowRegistration } = await GlobalSettings.findOne({})
     if(!allowRegistration) return res.status(405).json({ success: false, message: 'Registrácia nie je povolená' }) 
@@ -55,11 +57,13 @@ export const register = async (req, res) => {
     const existingUser = await User.findOne({ email })
     if(existingUser !== null) return res.status(409).json({ success: false, message: 'Užívateľ s touto emailovou adresou už existuje' }) 
   
-    const hashed = await bcrypt.hash(password, 10)
+    const hashed = await getHashedPassword(password, 10)
     await User.create({ email, password: hashed })
     res.status(200).json({ success: true, message: 'Úspešná registrácia' })
 
-  } catch (error) { res.sendStatus(500) }
+  } catch (error) {
+    res.sendStatus(500)
+  }
 }
 
 export const logout = async (req, res) => {
@@ -69,7 +73,9 @@ export const logout = async (req, res) => {
     await Token.findOneAndDelete({ token: refreshToken })
     res.status(202).json({ success: true,  message: 'Úspešné odhlásenie' })
 
-  } catch (error) { res.sendStatus(500) }
+  } catch (error) {
+    res.sendStatus(500)
+  }
 }
 
 export const refreshToken = async (req, res) => {
@@ -80,21 +86,27 @@ export const refreshToken = async (req, res) => {
   try {
     const foundRefreshToken = await Token.findOne({ token: refreshToken })
     if(foundRefreshToken === null) return res.status(400).json({ success: false, message: 'Token neexistuje' })
-  
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_KEY, async (err, user) => {
-      if(err) return res.status(403).json({ success: false, message: 'Neplatný token' })
+
+    try {
+      const user = verifyRefreshToken(refreshToken)
   
       const foundUser = await User.findOne({ _id: user.id }, ['email', 'isAdmin', 'isVerified'])
-      const accessToken = jwt.sign({
+      
+      const accessToken = getAccessToken({
         id: foundUser._id,
         email: foundUser.email,
         isAdmin: foundUser.isAdmin,
         isVerified: foundUser.isVerified
-      }, process.env.ACCESS_TOKEN_KEY, { expiresIn: process.env.ACCESS_TOKEN_EXPIRY_TIME || "30m" })
+      })
   
       res.status(200).json({ success: true, accessToken, user: foundUser })
-    })
-  } catch (error) { res.sendStatus(500) }
+    } catch (error) {
+      return res.status(403).json({ success: false, message: 'Neplatný token' })
+    }
+
+  } catch (error) {
+    res.sendStatus(500)
+  }
 }
 
 export const googleAuth = async (req, res) => {
@@ -110,11 +122,22 @@ export const googleAuth = async (req, res) => {
       
       user = await User.create({ email })
     }
-    const accessToken = jwt.sign({ id: user._id, email, isAdmin: user.isAdmin }, process.env.ACCESS_TOKEN_KEY, { expiresIn: process.env.ACCESS_TOKEN_EXPIRY_TIME || "30m" })
-    const refreshToken = jwt.sign({ id: user._id }, process.env.REFRESH_TOKEN_KEY, { expiresIn: "7d" })
+    const accessToken = getAccessToken({ id: user._id, email, isAdmin: user.isAdmin })
+    const refreshToken = getRefreshToken(user._id)
   
     await Token.create({ token: refreshToken })
   
-    return res.status(200).json({ success: true, accessToken, refreshToken, user: { _id: user._id, email: user.email, isAdmin: user.isAdmin } })
-  } catch (error) { res.sendStatus(500) }
+    return res.status(200).json({
+      success: true,
+      accessToken,
+      refreshToken,
+      user: {
+        _id: user._id,
+        email: user.email,
+        isAdmin: user.isAdmin
+      }
+    })
+  } catch (error) {
+    res.sendStatus(500)
+  }
 }

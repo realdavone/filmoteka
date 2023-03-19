@@ -53,7 +53,7 @@
 <script setup lang="ts">
 import Footer from './Footer.vue'
 import Avatar from './Avatar.vue'
-import VisualSettingsModal from './VisualSettingsModal.vue'
+import VisualSettingsModal from './Modal/VisualSettingsModal.vue'
 import BasicButton from './Buttons/BasicButton.vue'
 import MenuItem from './Sidebar/MenuItem.vue'
 import { notify } from "@kyvg/vue3-notification"

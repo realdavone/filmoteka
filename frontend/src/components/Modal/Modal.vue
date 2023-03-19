@@ -1,13 +1,14 @@
 <template>
-  <div class="modal-mask container">
+  <Backdrop>
     <slot name="modal"></slot>
-  </div>
+  </Backdrop>
 </template>
 
 <script setup lang="ts">
-import _ from '../utils/main'
+import _ from '../../utils/main'
 import { onMounted, onUnmounted } from 'vue'
-import useEvent from '../composables/event'
+import useEvent from '../../composables/event'
+import Backdrop from './Backdrop.vue';
 
 const { unscrollableOnMounted } = withDefaults(defineProps<{
   unscrollableOnMounted?: boolean

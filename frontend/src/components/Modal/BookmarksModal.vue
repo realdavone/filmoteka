@@ -44,7 +44,7 @@
 <script setup lang="ts">
 import { inject, computed, ref, defineAsyncComponent } from 'vue'
 import { onClickOutside } from '@vueuse/core'
-import BasicButton from './Buttons/BasicButton.vue';
+import BasicButton from '../Buttons/BasicButton.vue';
 
 const Modal = defineAsyncComponent(() => import('./Modal.vue'))
 
