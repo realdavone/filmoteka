@@ -88,9 +88,9 @@ div.rating{
       &[data-count]::after{
         content: attr(data-count);
         font-family: 'Roboto', sans-serif;
-        color: white;
         font-size: 12px;
         font-weight: 700;
+        color: var(--font-color);
       }
     }
   }

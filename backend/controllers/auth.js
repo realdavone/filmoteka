@@ -6,6 +6,7 @@ import GlobalSettings from '../schemas/GlobalSettings.js'
 
 import { getAccessToken, getRefreshToken, verifyRefreshToken } from '../features/auth/token.js'
 import { comparePassword, getHashedPassword } from '../features/auth/password.js'
+import { verifyGoogleToken } from '../features/auth/google-oauth.js'
 
 dotenv.config()
 
@@ -110,7 +111,17 @@ export const refreshToken = async (req, res) => {
 }
 
 export const googleAuth = async (req, res) => {
-  const { email, azp } = JSON.parse(Buffer.from(req.body.token.split('.')[1], 'base64').toString())
+  if(!req.body.token) return res.status(400).json({ success: false, message: 'Chýba token' })
+
+  let email, azp
+
+  try {
+    const data = await verifyGoogleToken(req.body.token)
+    email = data.email
+    azp = data.azp
+  } catch (error) {
+    return res.status(405).json({ success: false, message: error })
+  }
 
   try {
     if(azp !== process.env.GOOGLE_CLIENT_ID) return res.status(405).json({ success: false, message: 'Neplatný token' })

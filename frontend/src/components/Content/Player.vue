@@ -1,5 +1,5 @@
 <template>
-  <section ref="playerHolder" class="user-select-none player-holder">
+  <section ref="playerHolder" :class="`user-select-none player-holder ${loadedIframe && false &&  'active'}`">
     <div v-if="!props.source && props['isReady']['status'] === true" class="not-pressed">
       <Transition name="fade">
         <div v-if="!isPlayerWorking" class="player-warning">
@@ -82,6 +82,11 @@ function handleScroll() {
 </script>
 
 <style lang="scss" scoped>
+@property --angle{
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
 section.player-holder{
   width:var(--player-width);
   max-width:var(--player-width);
@@ -91,7 +96,16 @@ section.player-holder{
   align-items:center;
   margin:0 auto;
   position:relative;
-  overflow:hidden;
+
+  &.active::after{
+    content: 'x';
+    position: absolute;
+    inset: -10px;
+    background: conic-gradient(from var(--angle),#66339980, #ffa50080, #0000ff80);
+    z-index: -1;
+    filter: blur(35px);
+    animation: rotate infinite linear 20s;
+  }
   div.loading{
     position:absolute;
     top:0;
@@ -174,6 +188,15 @@ section.player-holder{
       width:auto;
       box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
     }
+  }
+}
+
+@keyframes rotate{
+  0%{
+    --angle: 0deg;
+  }
+  100%{
+    --angle: 360deg;
   }
 }
 @media screen and (max-width: 500px) {
