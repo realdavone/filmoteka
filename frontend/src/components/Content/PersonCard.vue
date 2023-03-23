@@ -4,8 +4,8 @@
       <img :src="`https://www.themoviedb.org/t/p/w300_and_h300_face${person.profile_path}`" :alt="person.name" draggable="false">
     </div>
     <div class="name-holder">
-      <span v-font:medium class="name">{{person.name}}</span>
-      <span v-font:small class="character">{{person.character}}</span>
+      <span v-font:medium class="name">{{ person.name }}</span>
+      <span v-font:small class="character">{{ person.character }}</span>
     </div>
   </router-link>
 </template>

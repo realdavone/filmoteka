@@ -59,9 +59,7 @@
       <div>
         <div v-for="creator in details.creators" :key="creator.id">
           <router-link v-font:medium :to="`/person/${creator.id}`" class="name">{{ creator.name }}</router-link>
-          <div>
-            <span v-font:small v-for="job in creator.jobs" :key="job" class="comma-after" style="color:gray">{{ job }}</span>
-          </div>
+          <div style="color: gray" v-font:small>{{ new Intl.ListFormat('sk', { style: 'short', type: 'conjunction' }).format(creator.jobs) }}</div>
         </div>
       </div>
     </div>

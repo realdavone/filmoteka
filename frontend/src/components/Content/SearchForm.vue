@@ -168,6 +168,7 @@ function resetResults() {
 
 function handleRecentItem(item: string){
   searchQuery.value = item
+  input.value!.value = item
   submitQuery()
 }
 
