@@ -6,11 +6,26 @@ export async function getTitleFromDb(type, id) {
 }
 
 export async function handleLikeOrDislike(type, id, action, userId) {
-  return await Title.updateOne({ type, id }, {
-    ...(action === 'like' ? {
-      $push: { likes: userId }, $pull: { dislikes: userId }
-    } : {
-      $push: { dislikes: userId }, $pull: { likes: userId }
+  return new Promise((res, rej) => {
+    Title.findOne({ type, id }, async (error, doc) => {
+      if(error) rej(error)
+
+      switch(action){ 
+        case 'like':
+          if(doc.likes.includes(userId)) doc.likes = doc.likes.filter(id => id !== userId)
+          else doc.likes.push(userId)
+
+          doc.dislikes = doc.dislikes.filter(id => id !== userId)
+          break
+        case 'dislike':
+          if(doc.dislikes.includes(userId)) doc.dislikes = doc.dislikes.filter(id => id !== userId)
+          else doc.dislikes.push(userId)
+
+          doc.likes = doc.likes.filter(id => id !== userId)
+          break
+      }
+      await doc.save()
+      res(doc)
     })
   })
 }
