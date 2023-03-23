@@ -1,22 +1,18 @@
-import GlobalSettings from '../schemas/GlobalSettings.js'
-import Token from '../schemas/Token.js'
 import { io } from '../io.js'
+import { getGlobalSettings, updateGlobalSettings } from '../features/db/config.js'
+import { removeAllTokensFromDB } from '../features/db/token.js'
 
 export const getConfig = async (req, res) => {
   try {
-    const globalSettings = await GlobalSettings.findOne({})
-    const { _id, ...settings } = globalSettings._doc
+    const settings = await getGlobalSettings()
 
     res.status(200).json({ success: true, settings })
   } catch (error) { res.sendStatus(500) }
 }
 
 export const updateConfig = async (req, res) => {
-  const { isAdmin } = req.user
-  if(!isAdmin) res.sendStatus(403)
-
   try {
-    await GlobalSettings.findOneAndUpdate({}, req.body)
+    await updateGlobalSettings(req.body)
 
     io.emit('globalSettingsUpdate', req.body)
 
@@ -26,7 +22,7 @@ export const updateConfig = async (req, res) => {
 
 export const deleteTokens = async (req, res) => {
   try {
-    await Token.deleteMany({})
+    await removeAllTokensFromDB()
     res.status(200).json({ success: true, message: 'Všetky tokeny boli vymazané' })
   } catch (error) { res.sendStatus(500) }
 }

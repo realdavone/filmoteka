@@ -1,50 +1,49 @@
-import User from '../schemas/User.js'
+import { getAllUsers, getUser, removeUser, toggleAdminRole, toggleVerifiedStatus } from '../features/db/user.js'
 
 export const getAll = async (req, res) => {
-  const { isAdmin } = req.user
-  if(!isAdmin) return res.sendStatus(403)
-
   try {
-    const users = await User.find({}, ['email', 'isAdmin', 'isOwner', 'isVerified'])
+    const users = await getAllUsers()
     res.status(200).json({ success: true, users })
-  } catch (error) { res.sendStatus(500) }
+  } catch (error) {
+    res.sendStatus(500)
+  }
 }
 
-export const toggleAdmin = (req, res) => {
-  const { isAdmin } = req.user
-  if(!isAdmin) res.sendStatus(403)
+export const toggleAdmin = async (req, res) => {
+  try {
+    const user = await getUser({ _id: req.body.id })
+    if(user.isOwner)
+      return res.status(400).json({ success: false, message: 'Nemožno meniť práva vlastníka' })
 
-  User.findById(req.body.id).then(async user => {
-    if(user.isOwner) throw('Nemožno meniť práva vlastníka')
-    user.isAdmin = !user.isAdmin
-    await user.save()
-
+    await toggleAdminRole(req.body.id)
     res.status(200).json({ success: true, message: 'Práva zmenené' })
-  })
-  .catch(error => res.status(403).json({ success: false, message: error }))
+  } catch (error) {
+    res.sendStatus(500)
+  }
 }
 
-export const toggleVerified = (req, res) => {
-  const { isAdmin } = req.user
-  if(!isAdmin) res.sendStatus(403)
-
-  User.findById(req.body.id).then(async user => {
-    user.isVerified = !user.isVerified
-    await user.save()
-
+export const toggleVerified = async (req, res) => {
+  try {
+    const user = await getUser({ _id: req.body.id })
+    if(user.isOwner)
+      return res.status(400).json({ success: false, message: 'Nemožno meniť práva vlastníka' })
+    
+    await toggleVerifiedStatus(req.body.id)
     res.status(200).json({ success: true, message: 'Práva zmenené' })
-  })
-  .catch(error => res.status(403).json({ success: false, message: error }))
+  } catch (error) {
+    res.sendStatus(500)
+  }
 }
 
-export const deleteUser = (req, res) => {
-  const { isAdmin } = req.user
-  if(!isAdmin) res.sendStatus(403)
-  
-  User.findById(req.body.id).then(async user => {
-    if(user.isOwner) throw('Nemožno zmazať vlastníka')
-    await user.remove()
+export const deleteUser = async (req, res) => {
+  try {
+    const user = await getUser({ _id: req.body.id })
+    if(user.isOwner)
+      return res.status(400).json({ success: false, message: 'Nemožno meniť práva vlastníka' })
+
+    await removeUser(req.body.id)
     res.status(200).json({ success: true, message: 'Užívateľ vymazaný' })
-  })
-  .catch(error => res.status(403).json({ success: false, message: error }))
+  } catch (error) {
+    res.sendStatus(500)
+  }
 }

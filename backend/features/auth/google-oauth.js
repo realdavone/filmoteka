@@ -1,4 +1,7 @@
 import fetch from 'node-fetch' 
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 export async function verifyGoogleToken(token) {
   try {
@@ -7,4 +10,8 @@ export async function verifyGoogleToken(token) {
   } catch (error) {
     throw('Neplatný token')
   }
+}
+
+export async function isGoogleAzpValid(azp) {
+  return azp !== process.env.GOOGLE_CLIENT_ID
 }

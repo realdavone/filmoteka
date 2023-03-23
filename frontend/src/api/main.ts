@@ -17,7 +17,7 @@ const makeRequest = <T>({
   options?: Options
 }): Promise<T> => {
   let request = new Request(`${baseURL}${endpoint}`, {
-    method: options?.method || 'GET',
+    method: options?.method ?? 'GET',
     headers: {
       'Content-Type': 'application/json',
       ...(store.state.credentials.accessToken ? { 'access-token': store.state.credentials.accessToken } : undefined),
@@ -26,36 +26,32 @@ const makeRequest = <T>({
   })
 
   return new Promise((resolve, reject) => {
-    return fetch(request.clone())
+    fetch(request.clone())
     .then(res => {
       if(res.ok) return res.json()
-      else {
-        if(res.status === 401 && localStorage.getItem('refreshToken') !== null){
-          return Auth.refresh(localStorage.getItem('refreshToken'))
-          .then(() => {
-            let request = new Request(`${baseURL}${endpoint}`, {
-              method: options?.method || 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-                ...(store.state.credentials.accessToken ? { 'access-token': store.state.credentials.accessToken } : undefined),
-              },
-              body: options?.body
-            })
-            
-            return fetch(request.clone())
-            .then(res => res.json())
-            .catch(err => err)
+
+      if(res.status === 401 && localStorage.getItem('refreshToken') !== null){
+        Auth.refresh(localStorage.getItem('refreshToken')).then(() => {
+          let request = new Request(`${baseURL}${endpoint}`, {
+            method: options?.method ?? 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              ...(store.state.credentials.accessToken ? { 'access-token': store.state.credentials.accessToken } : undefined),
+            },
+            body: options?.body
           })
-        }
-        else { throw new Error('Niečo sa pokazilo.') }
+          
+          fetch(request.clone())
+          .then(res => res.json())
+          .catch(err => err)
+        })
+      }
+      else {
+        throw new Error('Niečo sa pokazilo.')
       }
     })
-    .then(data => {
-      resolve(data)
-    })
-    .catch(error => {
-      reject(error)
-    })
+    .then(data => resolve(data))
+    .catch(error => reject(error))
   })
 }
 

@@ -1,10 +1,27 @@
 import { io } from '../io.js'
 
-import { getEpisodeData, getOMDBTitle, getTMDBTitle, getVideoData } from '../features/fetch/api.js'
+import {
+  getEpisodeData,
+  getOMDBTitle,
+  getTMDBTitle,
+  getVideoData
+} from '../features/fetch/api.js'
 
-import Title from '../schemas/Title.js'
-import RecommendedTitle from '../schemas/RecommendedTitle.js'
-import { handleLikeOrDislike, getTitleFromDb, createTitle, handleNonWorkingPlayer, updateTitle } from '../features/db/title.js'
+import {
+  handleLikeOrDislike,
+  getTitleFromDb,
+  createTitle,
+  handleNonWorkingPlayer,
+  updateTitle,
+  getRecommendedTitle,
+  createRecommendedTitle,
+  getRecommendedTitles,
+  removeRecommendedTitles,
+  getMostLikedTitles,
+  deleteRecommendedTitle
+} from '../features/db/title.js'
+
+const MAX_RECOMMENDED = 16
 
 export const getTitle = async (req, res) => {
   const { type, id } = req.params
@@ -24,7 +41,7 @@ export const getTitle = async (req, res) => {
         isRecommended: false
       })
     
-    const isRecommended = await RecommendedTitle.findOne({ title: foundTitle._id })
+    const isRecommended = await getRecommendedTitle(foundTitle._id)
     res.status(200).json({
       ...data,
       omdb: { ...omdbData },
@@ -35,7 +52,7 @@ export const getTitle = async (req, res) => {
 }
 
 export const getRecommended = async (req, res) => {
-  const titles = await RecommendedTitle.find().populate('title').sort({ createdAt: 'descending' }).limit(16)
+  const titles = await getRecommendedTitles({ sorted: true })
   res.status(200).json(titles)
 }
 
@@ -63,24 +80,29 @@ export const toggleNonWorkingTitle = async (req, res) => {
 export const addRecommendedTitle = async (req, res) => {
   const { type, id } = req.body
 
-  let title = await updateTitle(type, id, { img: req.body.img })
+  let title = await updateTitle(type, id, {
+    img: req.body.img
+  })
 
-  if(title === null) title = await Title.create(req.body)
+  if(title === null)
+    title = await createTitle(req.body)
 
-  let recommended = await RecommendedTitle.findOne({ title: title._id })
-
-  if(recommended) return res.status(400).json({ success: false, message: 'Toto dielo sa už nachádza v doporučených' })
+  let recommended = await getRecommendedTitle(title._id)
+  if(recommended)
+    return res.status(400).json({ success: false, message: 'Toto dielo sa už nachádza v doporučených' })
 
   try {
-    recommended = await RecommendedTitle.create({ title: title._id })
+    recommended = await createRecommendedTitle(title._id)
     recommended = await recommended.populate('title')
 
-    const foundRecommended = await RecommendedTitle.find().sort({ createdAt: 'descending' })
+    const foundRecommended = await getRecommendedTitles({ sorted: true })
 
-    if(foundRecommended.length > 16){
-      let objects = []
-      foundRecommended.splice(16).forEach(element => (objects = [...objects, element._id ]))
-      await RecommendedTitle.deleteMany({ _id: { $in: objects } });
+    if(foundRecommended.length > MAX_RECOMMENDED){
+      let titles = []
+      foundRecommended.splice(MAX_RECOMMENDED).forEach(element => (
+        titles = [...titles, element._id ]
+      ))
+      await removeRecommendedTitles(titles)
     }
 
     io.emit('newRecommended', { title: recommended })
@@ -90,11 +112,9 @@ export const addRecommendedTitle = async (req, res) => {
 }
 
 export const removeRecommendedTitle = async (req, res) => {
-  const { isAdmin } = req.user
-  if(!isAdmin) return res.sendStatus(403)
-  
   try {
-    await RecommendedTitle.findByIdAndDelete(req.body.id)
+    await deleteRecommendedTitle(req.body.id)
+    
     res.status(200).json({ success: true })
   } catch (error) { res.sendStatus(500) }
 }
@@ -111,16 +131,17 @@ export const rateTitle = async (req, res) => {
   const { id: userId } = req.user
   const { action, type, id } = req.body
 
+  const actions = ['like', 'dislike']
+
   try {
     const title = await getTitleFromDb(type, id)
-    if(title === null) await Title.create({ type, id })
+    if(title === null) await createTitle({ type, id })
 
-    if(action !== 'like' && action !== 'dislike') return res.status(400).json({ success: false, message: 'Nesprávna akcia' })
+    if(!actions.includes(action)) return res.status(400).json({ success: false, message: 'Nesprávna akcia' })
 
     await handleLikeOrDislike(type, id, action, userId)
   
     res.status(200).json({ success: true })
-
   } catch (error) { res.sendStatus(500) }
 }
 
@@ -133,7 +154,7 @@ export const getVideo = async (req, res) => {
 
 export const getMostLiked = async (req, res) => {
   try {
-    const titles = await Title.find({ 'likes.0': { '$exists': true } }).sort({ 'likes': -1 }).limit(10)
+    const titles = await getMostLikedTitles()
     res.json(titles)
   } catch (error) { res.sendStatus(500) }
 }

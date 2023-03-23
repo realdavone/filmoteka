@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 export function getAccessToken(data) {
-  return jwt.sign(data, process.env.ACCESS_TOKEN_KEY, { expiresIn: process.env.ACCESS_TOKEN_EXPIRY_TIME || "30m" })
+  return jwt.sign(data, process.env.ACCESS_TOKEN_KEY, { expiresIn: process.env.ACCESS_TOKEN_EXPIRY_TIME ?? "30m" })
 }
 
 export function getRefreshToken(id) {
