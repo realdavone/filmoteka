@@ -1,30 +1,29 @@
-import dotenv from 'dotenv'
-import fetch from 'node-fetch'
 import { io } from '../io.js'
+
+import { getEpisodeData, getOMDBTitle, getTMDBTitle, getVideoData } from '../features/fetch/api.js'
 
 import Title from '../schemas/Title.js'
 import RecommendedTitle from '../schemas/RecommendedTitle.js'
-
-dotenv.config()
-
-const TMDB_BASE_API = process.env.TMDB_BASE_API
-const TMDB_API_KEY = process.env.TMDB_API_KEY
-const OMDB_API_KEY = process.env.OMDB_API_KEY
+import { handleLikeOrDislike, getTitleFromDb, createTitle, handleNonWorkingPlayer, updateTitle } from '../features/db/title.js'
 
 export const getTitle = async (req, res) => {
   const { type, id } = req.params
 
   try {
-    const response = await fetch(`${TMDB_BASE_API}/${type}/${id}?api_key=${TMDB_API_KEY}&append_to_response=credits,recommendations,external_ids,translations,content_ratings&language=sk-SK`)
-    const data = await response.json()
-  
+    const data = await getTMDBTitle(type, id)
     if(data.success === false) return res.status(404).json({ success: false, message: data.status_message })
   
-    const omdbResponse = await fetch(`https://www.omdbapi.com/?i=${data.external_ids.imdb_id}&apikey=${OMDB_API_KEY}`)
-    const omdbData = await omdbResponse.json()
+    const omdbData = await getOMDBTitle(data.external_ids.imdb_id)
   
-    const foundTitle = await Title.findOne({ type, id })
-    if(foundTitle === null) return res.json({ ...data, omdb: { ...omdbData }, ...foundTitle?._doc, isRecommended: false })
+    const foundTitle = await getTitleFromDb(type, id)
+    if(foundTitle === null)
+      return res.json({
+        ...data,
+        omdb: { ...omdbData },
+        ...foundTitle?._doc,
+        isRecommended: false
+      })
+    
     const isRecommended = await RecommendedTitle.findOne({ title: foundTitle._id })
     res.status(200).json({
       ...data,
@@ -42,35 +41,35 @@ export const getRecommended = async (req, res) => {
 
 export const toggleNonWorkingTitle = async (req, res) => {
   const { type, id } = req.body
-  const foundTitle = await Title.findOne({type, id})
+  const foundTitle = await getTitleFromDb(type, id)
 
   try {
     if(foundTitle === null) {
-      await Title.create({ ...req.body, isPlayerWorking: false })
-      return res.status(201).json({ success: true, isPlayerWorking: false })
-    } else {
-      Title.findOne({ type: type, id: id }, async (err, title) => {
-        if(!err) title.isPlayerWorking = !title.isPlayerWorking
-        await title.save()
-        return res.status(201).json({ success: true, isPlayerWorking: title.isPlayerWorking })  
+      await createTitle({ ...req.body, isPlayerWorking: false })
+      return res.status(201).json({
+        success: true,
+        isPlayerWorking: false
       })
-    }    
+    }
+
+    const updatedTitle = await handleNonWorkingPlayer(type, id)
+
+    return res.status(201).json({ success: true, isPlayerWorking: updatedTitle.isPlayerWorking })  
   } catch (error) {
     res.sendStatus(500)
   }
-
 }
 
-export const toggleRecommendedTitle = async (req, res) => {
+export const addRecommendedTitle = async (req, res) => {
   const { type, id } = req.body
 
-  let title = await Title.findOneAndUpdate({ type, id }, { img: req.body.img })
+  let title = await updateTitle(type, id, { img: req.body.img })
 
   if(title === null) title = await Title.create(req.body)
 
   let recommended = await RecommendedTitle.findOne({ title: title._id })
 
-  if(recommended !== null) return res.status(400).json({ success: false, message: 'Toto dielo sa už nachádza v doporučených' })
+  if(recommended) return res.status(400).json({ success: false, message: 'Toto dielo sa už nachádza v doporučených' })
 
   try {
     recommended = await RecommendedTitle.create({ title: title._id })
@@ -80,8 +79,8 @@ export const toggleRecommendedTitle = async (req, res) => {
 
     if(foundRecommended.length > 16){
       let objects = []
-      foundRecommended.splice(16).forEach(element => { objects.push(element._id) })
-      await RecommendedTitle.deleteMany({_id: { $in: objects }});
+      foundRecommended.splice(16).forEach(element => (objects = [...objects, element._id ]))
+      await RecommendedTitle.deleteMany({ _id: { $in: objects } });
     }
 
     io.emit('newRecommended', { title: recommended })
@@ -92,7 +91,8 @@ export const toggleRecommendedTitle = async (req, res) => {
 
 export const removeRecommendedTitle = async (req, res) => {
   const { isAdmin } = req.user
-  if(!isAdmin) res.sendStatus(403)
+  if(!isAdmin) return res.sendStatus(403)
+  
   try {
     await RecommendedTitle.findByIdAndDelete(req.body.id)
     res.status(200).json({ success: true })
@@ -102,8 +102,8 @@ export const removeRecommendedTitle = async (req, res) => {
 export const getEpisode = async (req, res) => {
   const { id, season, episode } = req.params
   try {
-    const response = await fetch(`${TMDB_BASE_API}/tv/${id}/season/${season}/episode/${episode}?api_key=${TMDB_API_KEY}&language=sk-SK&append_to_response=translations`)
-    res.status(200).json(await response.json())
+    const data = await getEpisodeData(id, season, episode)
+    res.status(200).json(data)
   } catch (error) { res.sendStatus(500) }
 }
 
@@ -112,39 +112,22 @@ export const rateTitle = async (req, res) => {
   const { action, type, id } = req.body
 
   try {
-    let title = await Title.findOne({ type, id })
+    const title = await getTitleFromDb(type, id)
     if(title === null) await Title.create({ type, id })
+
+    if(action !== 'like' && action !== 'dislike') return res.status(400).json({ success: false, message: 'Nesprávna akcia' })
+
+    await handleLikeOrDislike(type, id, action, userId)
   
-    Title.findOne({ type, id }, (error, doc) => {
-      if(error) return res.status(400).json({ success: false, message: error })
+    res.status(200).json({ success: true })
 
-      switch(action){ 
-        case 'like':
-          if(doc.likes.includes(userId)) doc.likes = doc.likes.filter(id => id !== userId)
-          else doc.likes.push(userId)
-
-          doc.dislikes = doc.dislikes.filter(id => id !== userId)
-          break
-        case 'dislike':
-          if(doc.dislikes.includes(userId)) doc.dislikes = doc.dislikes.filter(id => id !== userId)
-          else doc.dislikes.push(userId)
-
-          doc.likes = doc.likes.filter(id => id !== userId)
-          break
-        default: 
-          return res.status(400).json({ success: false, message: 'Nesprávna akcia' })
-      }
-      doc.save()
-
-      res.status(200).json({ success: true })
-    })
   } catch (error) { res.sendStatus(500) }
 }
 
 export const getVideo = async (req, res) => {
   try {
-    const data = await fetch(`${TMDB_BASE_API}/${req.params.type}/${req.params.id}/videos?api_key=${TMDB_API_KEY}&language=en-US`)
-    res.status(200).json(await data.json())    
+    const data = await getVideoData(req.params.type, req.params.id)
+    res.status(200).json(data)    
   } catch (error) { res.sendStatus(500) }
 }
 
