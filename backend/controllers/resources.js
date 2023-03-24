@@ -1,23 +1,16 @@
-import dotenv from 'dotenv'
-import fetch from 'node-fetch'
-
-import Genres from '../schemas/Genres.js'
-import CountryCodes from '../schemas/CountryCodes.js'
-
-dotenv.config()
-
-const TMDB_BASE_API = process.env.TMDB_BASE_API
-const TMDB_API_KEY = process.env.TMDB_API_KEY
+import { createGenreInDB, getGenreFromDB, getCountryCodesFromDB, createCountryCodesInDB } from '../features/db/resource.js'
+import { fetchCountryCodesFromCDN, getGenresFromTMDB } from '../features/fetch/api.js'
 
 export const getGenre = async (req, res) => {
-  const genre = await Genres.findOne({ name: req.params.type })
-  if(genre !== null) return res.status(200).json(genre)
+  const genre = await getGenreFromDB({ name: req.params.type })
+  
+  if(!genre)
+    return res.status(200).json(genre)
 
   try {
-    const response = await fetch(`${TMDB_BASE_API}/genre/${req.params.type}/list?api_key=${TMDB_API_KEY}&language=sk-SK`)
-    const data = await response.json()
+    const data = await getGenresFromTMDB(req.params.type)
 
-    const newGenre = await Genres.create({ name: req.params.type, genres: await data.genres })
+    const newGenre = await createGenreInDB({ name: req.params.type, genres: data.genres })
     res.status(200).json(newGenre)    
   } catch (error) {
     res.sendStatus(500)
@@ -25,15 +18,16 @@ export const getGenre = async (req, res) => {
 }
 
 export const getCountryCodes = async (req, res) => {
-  const countryCode = await CountryCodes.findOne({ code: req.params.code })
-  if(countryCode !== null) return res.status(200).json(countryCode)
+  const countryCode = await getCountryCodesFromDB({ code: req.params.code })
+
+  if(!countryCode)
+    return res.status(200).json(countryCode)
 
   try {
-    const response = await fetch(`https://flagcdn.com/${req.params.code}/codes.json`)
-    const data = await response.json()
+    const codes = fetchCountryCodesFromCDN(req.params.code)
 
-    const countryCodes = await CountryCodes.create({ code: req.params.code, codes: data })
-    res.status(200).json(countryCodes)    
+    const countryCodes = await createCountryCodesInDB({ code: req.params.code, codes })
+    res.status(200).json(countryCodes)
   } catch (error) {
     res.sendStatus(500)
   }

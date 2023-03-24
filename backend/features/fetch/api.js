@@ -61,3 +61,57 @@ export async function getVideoData(type, id) {
     return new Error(error)
   }
 }
+
+export async function getTrending(period) {
+  try {
+    const response = await fetch(`${TMDB_BASE_API}/trending/all/${period}?api_key=${TMDB_API_KEY}&language=sk-SK`)
+    return await response.json()
+  } catch (error) {
+    return new Error(error)
+  }
+}
+
+export async function getPopular(type) {
+  try {
+    const response = await fetch(`${TMDB_BASE_API}/${type}/popular?api_key=${TMDB_API_KEY}&language=sk-SK`)
+    return await response.json()
+  } catch (error) {
+    return new Error(error)
+  }
+}
+
+export async function getPerson(id) {
+  try {
+    const response = await fetch(`${process.env.TMDB_BASE_API}/person/${id}?api_key=${process.env.TMDB_API_KEY}&append_to_response=movie_credits,tv_credits,external_ids,translations,images&language=en-US`)
+    return await response.json()
+  } catch (error) {
+    return new Error(error)
+  }
+}
+
+export async function fetchCountryCodesFromCDN(code) {
+  try {
+    const response = await fetch(`https://flagcdn.com/${code}/codes.json`)
+    return await response.json()
+  } catch (error) {
+    return new Error(error)
+  }
+}
+
+export async function getGenresFromTMDB(type) {
+  try {
+    const response = await fetch(`${TMDB_BASE_API}/genre/${type}/list?api_key=${TMDB_API_KEY}&language=sk-SK`)
+    return await response.json()    
+  } catch (error) {
+    return new Error(error)
+  }
+}
+
+export async function fetchSearchResultsFromTMDB({ type, query, page }) {
+  try {
+    const response = await fetch(`${process.env.TMDB_BASE_API}/search/${type}?api_key=${process.env.TMDB_API_KEY}&language=sk-SK&query=${query}&include_adult=false&page=${page ?? 1}`)
+    return await response.json()    
+  } catch (error) {
+    return new Error(error)
+  }
+}

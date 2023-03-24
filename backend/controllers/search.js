@@ -1,13 +1,11 @@
-import dotenv from 'dotenv'
-import fetch from 'node-fetch'
-
-dotenv.config()
+import { fetchSearchResultsFromTMDB } from '../features/fetch/api.js'
 
 export const search = async (req, res) => {
   const { query, page } = req.query
   try {
-    const data = await fetch(`${process.env.TMDB_BASE_API}/search/${req.params.searchType}?api_key=${process.env.TMDB_API_KEY}&language=sk-SK&query=${query}&include_adult=false&page=${page || 1}`)
-    res.status(200).json(await data.json())
+    fetchSearchResultsFromTMDB
+    const data = await fetchSearchResultsFromTMDB({ type: req.params.searchType, query, page })
+    res.status(200).json(data)
   } catch (error) {
     res.sendStatus(500) 
   }
