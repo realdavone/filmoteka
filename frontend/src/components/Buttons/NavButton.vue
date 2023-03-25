@@ -29,7 +29,7 @@ button.nav-button{
     content: attr(data-count);
     background-color: var(--theme-color);
     height: 18px;
-    width: 18px;
+    aspect-ratio: 1;
     position: absolute;
     top: 5px;
     right: 5px;
@@ -40,6 +40,8 @@ button.nav-button{
     font-family: 'Roboto', sans-serif;
     color:white;
     font-size: 10px;
+    animation-duration: 0.3s;
+    animation-name: appear;
   }
 
   &[data-notification]::after{
@@ -49,12 +51,21 @@ button.nav-button{
     right:10px;
     display:block;
     width:7px;
-    height:7px;
+    aspect-ratio: 1;
     background-color:var(--theme-color);
     border-radius:50%;
   }
 }
 div.icon{
   position: relative;
+}
+
+@keyframes appear{
+  0%{
+    transform: scale(0)
+  }
+  100%{
+    transform: scale(1)
+  }
 }
 </style>

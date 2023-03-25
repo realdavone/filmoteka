@@ -56,6 +56,7 @@
     <button
       class="button-control"
       @click="handleButtonControls('PLAY')"
+      style="color: var(--theme-color)"
     >
       <span class="material-icons-outlined">play_arrow</span>
     </button>
@@ -164,13 +165,13 @@ section.episode-controls{
       font-size: 25px;
     }
 
-    &:not(:disabled):hover {
+    &:not(:disabled):active {
       background-color: var(--card-color-hover);
     }
 
     &:disabled {
       cursor: initial;
-      opacity: 0.5;
+      opacity: 0.25;
     }
   }
 

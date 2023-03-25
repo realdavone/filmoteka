@@ -19,7 +19,6 @@ export async function getCollection(id) {
 export async function getDiscoverResults(type, sort, page, genre) {
   try {
     const data = await fetch(`${TMDB_BASE_API}/discover/${type}?api_key=${TMDB_API_KEY}&language=sk-SK&sort_by=${sort}&page=${page}&with_genres=${genre}`)
-    console.log(data)
     return await data.json()
   } catch (error) {
     return new Error(error)

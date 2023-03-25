@@ -4,7 +4,7 @@ import { fetchCountryCodesFromCDN, getGenresFromTMDB } from '../features/fetch/a
 export const getGenre = async (req, res) => {
   const genre = await getGenreFromDB({ name: req.params.type })
   
-  if(!genre)
+  if(genre)
     return res.status(200).json(genre)
 
   try {
@@ -20,11 +20,11 @@ export const getGenre = async (req, res) => {
 export const getCountryCodes = async (req, res) => {
   const countryCode = await getCountryCodesFromDB({ code: req.params.code })
 
-  if(!countryCode)
+  if(countryCode)
     return res.status(200).json(countryCode)
 
   try {
-    const codes = fetchCountryCodesFromCDN(req.params.code)
+    const codes = await fetchCountryCodesFromCDN(req.params.code)
 
     const countryCodes = await createCountryCodesInDB({ code: req.params.code, codes })
     res.status(200).json(countryCodes)
