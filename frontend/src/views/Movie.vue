@@ -69,7 +69,6 @@
           revenue: result?.revenue,
           runtime: result?.runtime || undefined,
           languages: result?.spoken_languages,
-          countries: result?.production_countries,
           creators: _.sortCreators(result!.credits.crew.sort((a, b) => b['popularity'] - a['popularity']).slice(0, 5)),
           networks: result?.production_companies,
           ratings: [
@@ -95,6 +94,15 @@
             }]: [])
           ]
         }" />
+      </template>
+      <template #countries>
+        <img
+          v-for="country in result?.production_countries"
+          :key="country.iso_3166_1"
+          :src="`https://flagcdn.com/${country.iso_3166_1.toLowerCase()}.svg`"
+          width="30"
+          :alt="country.name"
+        />
       </template>
     </PlayerDetails>
     <template v-if="!loading">

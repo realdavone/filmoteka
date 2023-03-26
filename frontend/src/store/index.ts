@@ -262,7 +262,7 @@ const state = reactive<GlobalState>({
 })
 
 const initResources = (): void => {
-  methods.countries.set('sk')
+  //methods.countries.set('sk')
   methods.genres.set('movie')
   methods.genres.set('tv')
 }

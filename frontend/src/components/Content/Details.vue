@@ -15,17 +15,6 @@
         >{{ language.english_name }}</span>
       </div>
     </div>
-    <div class="item" v-if="details.countries?.length">
-      <span v-font:small class="label">Pôvod</span>
-      <div>
-        <span
-          v-font:medium
-          class="comma-after"
-          v-for="country in details.countries"
-          :key="country.iso_3166_1"
-        >{{ store.state.countries[country.iso_3166_1.toLowerCase()] }}</span>
-      </div>
-    </div>
     <div class="item" v-if="details.revenue">
       <span v-font:small class="label">Zárobok</span>
       <span v-font:medium>{{ new Intl.NumberFormat('sk-SK', { notation: "compact", compactDisplay: "short", style: "currency", currency: "USD" }).format(details.revenue) }}</span>
@@ -87,10 +76,6 @@ type Props = {
     languages?: Array<{
       english_name: string
       iso_639_1: string
-      name: string
-    }>
-    countries?: Array<{
-      iso_3166_1: string
       name: string
     }>
     networks?:Array<{

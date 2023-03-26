@@ -36,6 +36,9 @@
                 </div>
               </slot>
             </div>
+            <div class="countries" style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <slot name="countries"></slot>
+            </div>
           </div>        
         </div>
         <slot name="actionMenu" />
@@ -61,9 +64,7 @@ import CoverPoster from './CoverPoster.vue'
 
 const store = inject<any>('store')
 
-const { bg } = defineProps<{
-  bg?: string | null
-}>()
+const { bg } = defineProps<{ bg?: string | null }>()
 </script>
 
 <style lang="scss" scoped>

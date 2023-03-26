@@ -75,7 +75,6 @@
           number_of_episodes: result?.number_of_episodes,
           runtime: result?.episode_run_time[0], //result?.episode_run_time[0] && `${Math.floor(result?.episode_run_time[0] / 60)}h ${result?.episode_run_time[0] % 60}m`,
           languages: result?.spoken_languages,
-          countries: result?.production_countries,
           networks: result?.networks.filter(network => network.logo_path !== ''),
           creators: result?.created_by.map(creator => { return {
               id: creator.id,
@@ -107,6 +106,15 @@
             }]: [])
           ]
         }" />
+      </template>
+      <template #countries>
+        <img
+          v-for="country in result?.production_countries"
+          :key="country.iso_3166_1"
+          :src="`https://flagcdn.com/${country.iso_3166_1.toLowerCase()}.svg`"
+          width="30"
+          :alt="country.name"
+        />
       </template>
     </PlayerDetails>
     <template v-if="!loading">

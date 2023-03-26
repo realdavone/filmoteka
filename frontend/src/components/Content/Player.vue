@@ -15,7 +15,7 @@
       <div v-else class="message">
         <span class="material-icons-outlined icon">lock</span>
         <div class="right">
-          <span class="message" v-font:medium>Pre sledovanie je nutné sa prihlásiť</span>
+          <span v-font:medium>Pre sledovanie je nutné sa prihlásiť</span>
           <BasicButton
             type="hover-color-change"
             @handleClick="$router.push('/login')"
@@ -142,9 +142,6 @@ section.player-holder{
       flex-direction:column;
       gap:4px;
       align-items:flex-start;
-      span.message{
-        font-weight:700;
-      }
     }
   }
   div.not-pressed{
