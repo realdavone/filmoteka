@@ -1,4 +1,4 @@
-import { getPerson as getPersonData } from "../features/fetch/api.js"
+import { getPerson as getPersonData } from "../services/fetch/api.js"
 
 export const getPerson = async (req, res) => {
   try {

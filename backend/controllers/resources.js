@@ -1,5 +1,5 @@
-import { createGenreInDB, getGenreFromDB, getCountryCodesFromDB, createCountryCodesInDB } from '../features/db/resource.js'
-import { fetchCountryCodesFromCDN, getGenresFromTMDB } from '../features/fetch/api.js'
+import { createGenreInDB, getGenreFromDB, getCountryCodesFromDB, createCountryCodesInDB } from '../services/db/resource.js'
+import { fetchCountryCodesFromCDN, getGenresFromTMDB } from '../services/fetch/api.js'
 
 export const getGenre = async (req, res) => {
   const genre = await getGenreFromDB({ name: req.params.type })

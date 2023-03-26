@@ -1,4 +1,4 @@
-import { getAllUsers, getUser, removeUser, toggleAdminRole, toggleVerifiedStatus } from '../features/db/user.js'
+import { getAllUsers, getUser, removeUser, toggleAdminRole, toggleVerifiedStatus } from '../services/db/user.js'
 
 export const getAll = async (req, res) => {
   try {

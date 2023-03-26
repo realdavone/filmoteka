@@ -1,6 +1,6 @@
 import { io } from '../io.js'
-import { getGlobalSettings, updateGlobalSettings } from '../features/db/config.js'
-import { removeAllTokensFromDB } from '../features/db/token.js'
+import { getGlobalSettings, updateGlobalSettings } from '../services/db/config.js'
+import { removeAllTokensFromDB } from '../services/db/token.js'
 
 export const getConfig = async (req, res) => {
   try {

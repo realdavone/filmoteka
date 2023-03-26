@@ -1,4 +1,4 @@
-import { getCollection as collection } from "../features/fetch/api.js"
+import { getCollection as collection } from "../services/fetch/api.js"
 
 export const getCollection = async (req, res) => {
   try {

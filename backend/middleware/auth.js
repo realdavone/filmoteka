@@ -1,4 +1,4 @@
-import { verifyAccessToken } from '../features/auth/token.js'
+import { verifyAccessToken } from '../services/auth/token.js'
 
 const auth = (req, res, next) => {
   if(!req.headers['access-token']) return res.status(401).json({ success: false, message: 'Chýba token' })

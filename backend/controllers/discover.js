@@ -1,4 +1,4 @@
-import { getDiscoverResults } from "../features/fetch/api.js"
+import { getDiscoverResults } from "../services/fetch/api.js"
 
 export const discover = async (req, res) => {
   const { sort, page, genre } = req.query

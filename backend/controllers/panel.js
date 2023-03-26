@@ -1,4 +1,4 @@
-import { getPopular, getTrending } from '../features/fetch/api.js'
+import { getPopular, getTrending } from '../services/fetch/api.js'
 
 export const trending = async (req, res) => {
   try {

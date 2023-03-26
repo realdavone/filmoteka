@@ -1,9 +1,9 @@
-import { getAccessToken, getRefreshToken, verifyRefreshToken } from '../features/auth/token.js'
-import { comparePassword, getHashedPassword } from '../features/auth/password.js'
-import { isGoogleAzpValid, verifyGoogleToken } from '../features/auth/google-oauth.js'
-import { createUser, getUser } from '../features/db/user.js'
-import { createTokenInDB, getTokenFromDB, removeTokenFromDB } from '../features/db/token.js'
-import { isRegistrationAllowed } from '../features/db/config.js'
+import { getAccessToken, getRefreshToken, verifyRefreshToken } from '../services/auth/token.js'
+import { comparePassword, getHashedPassword } from '../services/auth/password.js'
+import { isGoogleAzpValid, verifyGoogleToken } from '../services/auth/google-oauth.js'
+import { createUser, getUser } from '../services/db/user.js'
+import { createTokenInDB, getTokenFromDB, removeTokenFromDB } from '../services/db/token.js'
+import { isRegistrationAllowed } from '../services/db/config.js'
 
 export const login = async (req, res) => {
   const { email, password } = req.body

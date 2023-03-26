@@ -5,7 +5,7 @@ import {
   getOMDBTitle,
   getTMDBTitle,
   getVideoData
-} from '../features/fetch/api.js'
+} from '../services/fetch/api.js'
 
 import {
   handleLikeOrDislike,
@@ -19,7 +19,7 @@ import {
   removeRecommendedTitles,
   getMostLikedTitles,
   deleteRecommendedTitle
-} from '../features/db/title.js'
+} from '../services/db/title.js'
 
 const MAX_RECOMMENDED = 16
 

@@ -1,6 +1,6 @@
 import usePagination from '../middleware/pagination.js'
 
-import { createComment, getComment, getComments as getCommentsFromDB, removeComment } from '../features/db/comment.js'
+import { createComment, getComment, getComments as getCommentsFromDB, removeComment } from '../services/db/comment.js'
 
 export const getComments = async (req, res) => {
   const { type, id } = req.params

@@ -1,4 +1,4 @@
-import { fetchSearchResultsFromTMDB } from '../features/fetch/api.js'
+import { fetchSearchResultsFromTMDB } from '../services/fetch/api.js'
 
 export const search = async (req, res) => {
   const { query, page } = req.query

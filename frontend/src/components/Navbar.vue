@@ -16,12 +16,10 @@
       ><span class="material-icons" style="padding-top:5px;font-weight:700;">search</span></NavButton>
       <template v-if="store.state.credentials.loggedIn">
         <NavButton
-          class="icon-hide"
           title="Knižnica"
           @handleClick="$router.push('/library')"
         ><span class="material-icons-outlined icon" style="padding-top:5px">video_library</span></NavButton>
         <NavButton
-          class="icon-hide"
           title="Odporúčané"
           @handleClick="$router.push('/recommended')"
           v-bind="{ ...(store.state.notifications.recommended.length > 0 && {['data-notification']: ''}) }"
