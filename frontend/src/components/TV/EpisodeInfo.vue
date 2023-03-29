@@ -100,9 +100,9 @@ section.episode-info{
   gap:15px;
   padding:15px;
   border-radius:15px;
-  box-shadow:var(--basic-box-shadow);
   transition:0.2s ease height;
   overflow:hidden;
+  background-color: var(--card-color);
   div.title-holder{
     display:flex;
     justify-content:space-between;

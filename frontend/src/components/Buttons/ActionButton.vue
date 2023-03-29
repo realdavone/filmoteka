@@ -37,7 +37,7 @@ button.action-button{
   height:var(--button-height);
   transition:0.4s ease transform, 0.2s ease color;
   &.warning{ color:var(--action-button-error); }
-  &.success{ color:var(--action-button-success); }
+  &.success{ color:var(--theme-color); }
   &.placeholder{
     background-color:var(--card-color);
     cursor:default;

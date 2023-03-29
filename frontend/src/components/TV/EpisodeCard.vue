@@ -33,14 +33,16 @@ section.episode-card{
   align-items:stretch;
   position:relative;
   gap:10px;
-  box-shadow:var(--basic-box-shadow);
   padding:10px 13px;
   border-radius:12px;
+  background-color: var(--card-color);
+
   &.playable{
     cursor:pointer;
     transition:0.2s ease background-color;
+
     &:hover{
-      background-color:var(--card-color);
+      background-color:var(--card-color-hover);
     }
   }
   div.label{
@@ -53,10 +55,12 @@ section.episode-card{
     gap:8px;
     align-items:center;
     line-height:1;
+
     span:first-of-type{
       color:var(--theme-color);
       font-weight:700;
     }
+    
     span:last-of-type{
       color:var(--secondary-text-color);
     }

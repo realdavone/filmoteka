@@ -9,6 +9,10 @@
       <button :data-active="store.state.globalSettings?.allowWatchWhileUnregistered" class="toggle-button" @click="updateProperty('allowWatchWhileUnregistered', store.state.globalSettings?.allowWatchWhileUnregistered)" />
     </div>
     <div class="row">
+      <span v-font:medium>Adblock varovanie</span>
+      <button :data-active="store.state.globalSettings?.adblockModalWarning" class="toggle-button" @click="updateProperty('adblockModalWarning', store.state.globalSettings?.adblockModalWarning)" />
+    </div>
+    <div class="row">
       <span v-font:medium>Refresh tokeny</span>
       <button v-font:small @click="clearTokens" class="remove-button">Zmazať</button>
     </div>
@@ -22,7 +26,7 @@ import { inject } from 'vue'
 
 const store = inject<any>('store')
 
-const updateProperty = async (property: any, value: any) => {
+const updateProperty = async (property: string, value: unknown) => {
   try {
     await getData({
       endpoint: '/config/update',

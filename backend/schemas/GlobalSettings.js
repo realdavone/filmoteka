@@ -10,6 +10,11 @@ const globalSettings = new Schema({
     type: Boolean,
     required: true
   },
+  adblockModalWarning: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
 }, { collection: 'globalSettings' })
 
 export default mongoose.model('GlobalSettings', globalSettings)

@@ -21,7 +21,7 @@ div.loader {
     min-height: 30px;
     max-width: 30px;
     max-height: 30px;
-    border-width: 5px;
+    border-width: 4px;
   }
   &.inline{
     display: inline-block;

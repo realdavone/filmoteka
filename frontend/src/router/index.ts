@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, RouteLocationNormalized } from 'vue-router'
 import store from '../store/index'
 import useTitle from '../composables/title'
 
@@ -59,7 +59,7 @@ const routes = [
   },
   {
     path: '/:catchAll(.*)',
-    redirect:'404'
+    redirect: '404'
   },
   {
     path: '/dmca',
@@ -92,14 +92,15 @@ const routes = [
       denyAccessAsLoggedIn: true,
       title: 'Registrácia'
     },
-    beforeEnter: () => { if(!store.state.globalSettings!.allowRegistration) return '/' }
+    beforeEnter: () => {
+      if(!store.state.globalSettings!.allowRegistration) return '/'
+    }
   },
   {
     path: '/admin',
     name: 'Admin',
     component: () => import('../views/Admin.vue'),
     meta: {
-      requiresAdmin: true,
       title: 'Admin',
       hideNav: true,
       hideFooter: true
@@ -110,17 +111,25 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
-  scrollBehavior(to, from, savedPosition) {
-    if(savedPosition) return savedPosition 
-    else { return { top: 0 } }
-  }
+  scrollBehavior: (to, from, savedPosition) => (savedPosition ?? { top: 0 }) 
 })
 
-router.beforeEach((to, from) => {
-  if(to.meta.denyAccessAsLoggedIn && store.state.credentials.loggedIn !== false) return '/' 
-  if(to.meta.requiresAdmin && store.state.credentials.loggedIn === false) return '/login'
+async function getRedirect(to: RouteLocationNormalized) {
+  const { loggedIn } = store.state.credentials
+
+  if(to.meta.denyAccessAsLoggedIn && loggedIn) return Promise.resolve('/') 
+  if(to.name === 'Admin' && !loggedIn) return Promise.resolve('/login')
+
+  return Promise.resolve(undefined)
+} 
+
+router.beforeEach(async (to, from, next) => {
+  const redirect: Awaited<ReturnType<typeof getRedirect>> = await getRedirect(to)
+
+  if(redirect) return next(redirect)
+  next()
 })
 
-router.afterEach((to, from) => useTitle({ title: to.meta?.title as string || '' }))
+router.afterEach((to) => useTitle({ title: to.meta?.title as string ?? '' }))
 
 export default router

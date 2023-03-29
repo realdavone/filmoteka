@@ -17,14 +17,14 @@
       </div>
     </header>
     <section v-if="store.state.credentials.loggedIn" class="user-select-none user">
-        <div class="user-info">
-          <div class="username">
-            <Avatar :id="store.state.credentials.user._id" />
-            <span v-font:small>{{ store.state.credentials.user.email }}</span>
-            <Verified v-if="store.state.credentials.user.isVerified" />
-          </div>
+      <div class="user-info">
+        <div class="username">
+          <Avatar :id="store.state.credentials.user._id" />
+          <span v-font:small>{{ store.state.credentials.user.email }}</span>
+          <Verified v-if="store.state.credentials.user.isVerified" />
         </div>
-      </section>
+      </div>
+    </section>
     <main class="menu-content">
       <section class="menu">
         <MenuItem

@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-export default { name: "Admin", components: { Loader } } 
+export default { name: "Admin" } 
 </script>
 
 <script setup lang="ts">
@@ -40,7 +40,7 @@ import Users from '../components/Admin/Users.vue'
 import Logo from '../components/Logo.vue'
 
 import { shallowRef } from 'vue'
-import Loader from '../components/Loader.vue'
+import Loader from '../components/Loader.vue' 
 
 const activeComponent = shallowRef(Config)
 

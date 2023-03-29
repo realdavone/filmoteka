@@ -4,7 +4,7 @@
       <div v-if="!item.poster_path">{{ item.title }}</div>
       <Poster :src="item.poster_path || null" :alt="item.title" :fadeInOnLoad="true" />
       <div class="hover">
-        <span class="material-icons">play_arrow</span>
+        <span class="material-icons-outlined">play_arrow</span>
       </div>
     </div>
   </router-link>
@@ -46,7 +46,7 @@ a.title-card{
     img.poster{
       width:100%;
       aspect-ratio:2/3;
-      transition:0.6s ease transform, 0.4s ease opacity;
+      transition:0.6s ease transform, 0.3s ease opacity;
       object-fit:cover;
       opacity:0;
     }
@@ -54,30 +54,29 @@ a.title-card{
       position:absolute;
       top:0;
       left:0;
-      background:#000000a0;
+      background:#00000080;
       width:100%;
       height:100%;
       display:flex;
       justify-content:center;
       align-items:center;
       opacity:0;
-      transition:0.4s ease opacity;
+      transition:0.3s ease opacity;
 
       span{
         color:var(--font-color-dark);
-        transition:0.4s ease transform, 0.8s ease box-shadow;
+        transition:0.3s ease transform, 0.8s ease box-shadow;
         border-radius:50%;
         transform:scale(1.35);
-        box-shadow: inset 0px 0px 0px 10px var(--theme-color);
-        outline:5px solid var(--theme-color);
+        box-shadow: inset 0px 0px 0px 6px var(--theme-color);
+        outline:2px solid var(--theme-color);
         outline-offset:6px;
         display:inline-block;
-        width:64px;
-        height:64px;
+        width:54px;
+        height:54px;
         display:flex;
         align-items:center;
         justify-content:center;
-        font-weight:900;
         font-size: 40px!important;
       }
     }

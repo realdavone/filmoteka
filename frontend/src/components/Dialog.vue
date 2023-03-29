@@ -93,6 +93,7 @@ div.dialog{
   overflow: hidden;
   max-width: 300px;
   width: fit-content;
+  box-shadow: var(--modal-box-shadow);
 
   header {
     background-color: var(--card-color-hover);
@@ -100,9 +101,9 @@ div.dialog{
   }
 
   div.body{
-    background-color: var(--card-color);
     padding: 10px 15px;
     pointer-events: none;
+    text-align: center;
   }
 
   div.buttons{

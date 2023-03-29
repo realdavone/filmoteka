@@ -1,6 +1,6 @@
 <template>
-  <section ref="playerHolder" :class="`user-select-none player-holder ${loadedIframe && false &&  'active'}`">
-    <div v-if="!props.source && props['isReady']['status'] === true" class="not-pressed">
+  <section ref="playerHolder" :class="`user-select-none player-holder ${loadedIframe && false && 'active'}`">
+    <div v-if="!props.source && props.isReady.status" class="not-pressed">
       <Transition name="fade">
         <div v-if="!isPlayerWorking" class="player-warning">
           <span class="material-icons-outlined">warning</span>
@@ -9,17 +9,13 @@
       </Transition>
       <button
         v-if="store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn"
-        @click="$emit('setPlayer')"
+        @click="handlePlayButton"
         class="play-button"
-      >&#9654;</button>
+      ><span class="material-icons-outlined">play_arrow</span></button>
       <div v-else class="message">
         <span class="material-icons-outlined icon">lock</span>
         <div class="right">
-          <span v-font:medium>Pre sledovanie je nutné sa prihlásiť</span>
-          <BasicButton
-            type="hover-color-change"
-            @handleClick="$router.push('/login')"
-          >Prihlásiť sa</BasicButton>
+          <span v-font:medium>Prehrávač je dostupný iba prihlásením užívateľom</span>
         </div>
       </div>
     </div>
@@ -41,19 +37,21 @@
         <span class="message" v-font:medium>{{ props.isReady.message }}</span>
       </div>
     </div>
+    <Dialog ref="dialog" />
   </section>
 </template>
 
 <script setup lang="ts">
 import useEvent from '../../composables/event'
 import Loader from '../Loader.vue'
-import BasicButton from '../Buttons/BasicButton.vue'
-import { ref, inject, watch } from 'vue'
+import { ref, inject, watch, defineAsyncComponent } from 'vue'
+const Dialog = defineAsyncComponent(() => import('../Dialog.vue'))
 
 const store = inject<any>('store')
 const pinned = ref(false)
 const loadedIframe = ref(false)
 const playerHolder = ref<HTMLElement | null>(null)
+const dialog = ref<InstanceType<typeof Dialog> | null>(null)
 
 const props = defineProps<{
   isReady: {
@@ -64,13 +62,7 @@ const props = defineProps<{
   isPlayerWorking: boolean
 }>()
 
-const { addListener, removeListener } = useEvent({
-  target: window,
-  event: 'scroll',
-  callback: handleScroll
-})
-
-store.state.settings.pinnedPlayer ? addListener() : removeListener()
+const emit = defineEmits(['setPlayer'])
 
 watch(() => store.state.settings.pinnedPlayer, (val: Boolean) => {
   val ? addListener() : removeListener()
@@ -79,6 +71,28 @@ watch(() => store.state.settings.pinnedPlayer, (val: Boolean) => {
 function handleScroll() {
   pinned.value = props.source && store.state.settings.pinnedPlayer && (playerHolder.value!.offsetTop < window.scrollY)
 }
+
+async function handlePlayButton() {
+  try {
+    store.state.globalSettings?.adblockModalWarning && await dialog.value!.handleDialogWindow({
+      body: `Po spustení prehraváča sa možu zobraziť reklamy tretích strán ktoré treba zavrieť.
+      Týmto reklamám sa dá vyhnúť zapnutím Adblocku.`,
+      cancelText: 'Zavrieť',
+      confirmText: 'Pokračovať'
+    })
+    emit('setPlayer')
+  } catch (error) {
+    console.error
+  }
+}
+
+const { addListener, removeListener } = useEvent({
+  target: window,
+  event: 'scroll',
+  callback: handleScroll
+})
+
+store.state.settings.pinnedPlayer ? addListener() : removeListener()
 </script>
 
 <style lang="scss" scoped>
@@ -134,14 +148,12 @@ section.player-holder{
     gap:8px;
     align-items:center;
     color:white;
+    flex-direction: column;
     span.icon{
-      font-size:46px;
+      font-size:36px;
     }
     div.right{
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-      align-items:flex-start;
+      text-align: center;
     }
   }
   div.not-pressed{
