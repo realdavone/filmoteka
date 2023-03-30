@@ -102,6 +102,7 @@
           :src="`https://flagcdn.com/${country.iso_3166_1.toLowerCase()}.svg`"
           width="30"
           :alt="country.name"
+          draggable="false"
         />
       </template>
     </PlayerDetails>

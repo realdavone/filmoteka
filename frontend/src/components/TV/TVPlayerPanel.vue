@@ -2,34 +2,34 @@
   <section class="outter-holder">
     <section class="player-holder-wrap">
       <Player
+        ref="player"
         :isPlayerWorking="props.isPlayerWorking"
         :isReady="{
-          status: areThereAnyEpisodes && props['hasFirstEpisodeAired'],
-          message: areThereAnyEpisodes && props['hasFirstEpisodeAired'] ? null :
-            areThereAnyEpisodes && !props['hasFirstEpisodeAired'] ? 'Seriál zatiaľ nevyšiel' :
-              !areThereAnyEpisodes && props['hasFirstEpisodeAired'] ? 'Seriál nemá žiadne epizódy' :
+          status: areThereAnyEpisodes && props.hasFirstEpisodeAired,
+          message: areThereAnyEpisodes && props.hasFirstEpisodeAired ? null :
+            areThereAnyEpisodes && !props.hasFirstEpisodeAired ? 'Seriál zatiaľ nevyšiel' :
+              !areThereAnyEpisodes && props.hasFirstEpisodeAired ? 'Seriál nemá žiadne epizódy' :
           'Nastala chyba'
         }"
-        :source="playerSource"
         @setPlayer="setPlayer"
       />
     </section>
-    <EpisodeControls
-      v-if="props.hasFirstEpisodeAired && areThereAnyEpisodes && (store.state.globalSettings?.allowWatchWhileUnregistered || store.state.credentials.loggedIn)"
-      :seasons="seasons"
-      :current="currentSeasonAndEpisode"
-      @setSeason="handleSetSeason"
-      @setEpisode="handleSetEpisode"
-      @setPlayer="setPlayer"
-    />
-    <EpisodeInfo
-      v-if="props.hasFirstEpisodeAired && (store.state.globalSettings?.allowWatchWhileUnregistered || store.state.credentials.loggedIn)"
-      :id="props.id"
-      :season="currentSeasonAndEpisode.season + 1"
-      :episode="currentSeasonAndEpisode.episode + 1"
-    />
+    <template v-if="props.hasFirstEpisodeAired && areThereAnyEpisodes && (store.state.globalSettings?.allowWatchWhileUnregistered || store.state.credentials.loggedIn)">
+      <EpisodeControls
+        :seasons="seasons"
+        :current="currentSeasonAndEpisode"
+        @setSeason="handleSetSeason"
+        @setEpisode="handleSetEpisode"
+        @setPlayer="setPlayer"
+      />
+      <EpisodeInfo
+        :id="props.id"
+        :season="currentSeasonAndEpisode.season + 1"
+        :episode="currentSeasonAndEpisode.episode + 1"
+      />
+    </template>
     <section
-      v-if="(props['lastEpisode'] !== null || props['nextEpisode'] !== null) && (store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn)"
+      v-if="(props['lastEpisode'] || props['nextEpisode']) && (store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn)"
       class="episode-card-holder"
     >
       <EpisodeCard 
@@ -72,15 +72,15 @@ const props = defineProps<{
   hasFirstEpisodeAired: boolean
   lastEpisode?: FullTvTitleType['last_episode_to_air']
   nextEpisode?: FullTvTitleType['next_episode_to_air']
-  seasons?: FullTvTitleType['seasons'] | undefined
+  seasons?: FullTvTitleType['seasons']
   isPlayerWorking: boolean
 }>()
 const store = inject<any>('store')
 
 const currentSeasonAndEpisode = reactive({ season: 0, episode: 0 })
 
-const playerSource = ref<null | string>(null)
 const areThereAnyEpisodes = ref(true)
+const player = ref<InstanceType<typeof Player> | null>(null)
 
 const seasons = ref(props.seasons && props.seasons.filter(season => season.season_number !== 0).filter(season => season.episode_count !== 0))
 
@@ -93,33 +93,31 @@ function handleSetEpisode(episode: number) {
   currentSeasonAndEpisode.episode = episode
 }
 
-const playEpisode = ({
-  season,
-  episode
-}:{
-  season: number
-  episode: number
-}) => {
+function playEpisode({ season, episode }: { season: number; episode: number }) {
   currentSeasonAndEpisode.season = season
   currentSeasonAndEpisode.episode = episode
   setPlayer()
 }
 
-const setPlayer = () => {
-  playerSource.value = `https://www.2embed.to/embed/tmdb/tv?id=${props.id}&s=${currentSeasonAndEpisode.season + 1}&e=${currentSeasonAndEpisode.episode + 1}`
-
-  if(store.state.favourites.some((item: any) => item.id === props.id.toString())){
-    store.methods.favourites.update(props.id.toString(), currentSeasonAndEpisode.season + 1, currentSeasonAndEpisode.episode + 1)
-  }
+function setPlayer() {
+  player.value?.handlePlayButton(
+    `https://www.2embed.to/embed/tmdb/tv?id=${props.id}&s=${currentSeasonAndEpisode.season + 1}&e=${currentSeasonAndEpisode.episode + 1}`,
+    () => {
+      if(store.state.favourites.some((item: any) => item.id === props.id.toString())){
+        store.methods.favourites.update(props.id.toString(), currentSeasonAndEpisode.season + 1, currentSeasonAndEpisode.episode + 1)
+      }
+    }
+  )
 }
 
 onBeforeMount(() => {
-  if(seasons.value?.length === 0) areThereAnyEpisodes.value = false
-  else {
-    if(store.state.favourites.findIndex((item: any) => item.id.toString() === props.id.toString()) !== -1){
-      currentSeasonAndEpisode.season = parseInt(store.state.favourites[store.state.favourites.findIndex((item: any) => item.id === props.id.toString())].season) -1 || 0;
-      currentSeasonAndEpisode.episode = parseInt(store.state.favourites[store.state.favourites.findIndex((item: any) => item.id === props.id.toString())].episode) -1 || 0;
-    }
+  const episode = store.state.favourites.find((item: any) => item.id.toString() === props.id.toString())
+
+  if(!seasons.value?.length) {
+    areThereAnyEpisodes.value = false
+  } else {
+    currentSeasonAndEpisode.season = ((+episode?.season || 1) - 1)
+    currentSeasonAndEpisode.episode = ((+episode?.episode || 1) - 1)
   }
 })
 </script>

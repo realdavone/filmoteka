@@ -1,6 +1,6 @@
 <template>
   <section ref="playerHolder" :class="`user-select-none player-holder ${loadedIframe && false && 'active'}`">
-    <div v-if="!props.source && props.isReady.status" class="not-pressed">
+    <div v-if="!iframeSource && props.isReady.status" class="not-pressed">
       <Transition name="fade">
         <div v-if="!isPlayerWorking" class="player-warning">
           <span class="material-icons-outlined">warning</span>
@@ -9,7 +9,7 @@
       </Transition>
       <button
         v-if="store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn"
-        @click="handlePlayButton"
+        @click="$emit('setPlayer')"
         class="play-button"
       ><span class="material-icons-outlined">play_arrow</span></button>
       <div v-else class="message">
@@ -19,14 +19,14 @@
         </div>
       </div>
     </div>
-    <div v-if="props.source && !loadedIframe" class="loading">
+    <div v-if="iframeSource && !loadedIframe" class="loading">
       <Loader type="default" style="border-color: white;border-top-color: transparent;" />
     </div>
     <iframe
       @load="loadedIframe = true"
-      v-if="props.source"
+      v-if="iframeSource"
       :class="{ pinned: pinned }"
-      :src="props['source']"
+      :src="iframeSource"
       frameborder="0"
       loading="lazy"
       allowfullscreen
@@ -52,45 +52,45 @@ const pinned = ref(false)
 const loadedIframe = ref(false)
 const playerHolder = ref<HTMLElement | null>(null)
 const dialog = ref<InstanceType<typeof Dialog> | null>(null)
+const iframeSource = ref<string | null>(null) 
 
 const props = defineProps<{
   isReady: {
     message: null | string
     status: boolean
   },
-  source: null | string,
   isPlayerWorking: boolean
 }>()
 
-const emit = defineEmits(['setPlayer'])
-
-watch(() => store.state.settings.pinnedPlayer, (val: Boolean) => {
-  val ? addListener() : removeListener()
-})
+watch(() => store.state.settings.pinnedPlayer, (val: Boolean) => { val ? addListener() : removeListener() })
 
 function handleScroll() {
-  pinned.value = props.source && store.state.settings.pinnedPlayer && (playerHolder.value!.offsetTop < window.scrollY)
+  pinned.value = iframeSource.value && store.state.settings.pinnedPlayer && (playerHolder.value!.offsetTop < window.scrollY)
 }
 
-async function handlePlayButton() {
+async function handlePlayButton(url: string, cb?: (...args: unknown[]) => void) {
   try {
-    store.state.globalSettings?.adblockModalWarning && await dialog.value!.handleDialogWindow({
+    (sessionStorage.getItem('adblockWarning') !== 'false') && store.state.globalSettings?.adblockModalWarning && await dialog.value!.handleDialogWindow({
       body: `Po spustení prehraváča sa možu zobraziť reklamy tretích strán ktoré treba zavrieť.
       Týmto reklamám sa dá vyhnúť zapnutím Adblocku.`,
       cancelText: 'Zavrieť',
       confirmText: 'Pokračovať'
     })
-    emit('setPlayer')
+    
+    cb?.()
+    iframeSource.value = url
+
+    sessionStorage.setItem('adblockWarning', 'false')
   } catch (error) {
     console.error
   }
 }
 
-const { addListener, removeListener } = useEvent({
-  target: window,
-  event: 'scroll',
-  callback: handleScroll
+defineExpose({
+  handlePlayButton
 })
+
+const { addListener, removeListener } = useEvent({ target: window, event: 'scroll', callback: handleScroll })
 
 store.state.settings.pinnedPlayer ? addListener() : removeListener()
 </script>
@@ -176,7 +176,6 @@ section.player-holder{
 
       span{
         font-size:46px;
-
       }
 
       &:hover{
