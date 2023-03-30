@@ -167,14 +167,17 @@ section.player-holder{
     top:0;
     left:0;
     button.play-button{
-      font-size:46px;
       color:var(--font-color-dark);
       line-height: 1;
       height: 80px;
       width: 80px;
       border-radius: 50%;
-      padding-left: 8px;
       transition:0.2s ease background-color;
+
+      span{
+        font-size:46px;
+
+      }
 
       &:hover{
         background-color:var(--background-color-alpha);

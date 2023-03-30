@@ -91,7 +91,7 @@ nav{
   top:-1px;
   z-index:100;
   gap:10px;
-  transition:0.4s ease background-color;
+  transition:0.3s ease background-color;
   isolation:isolate;
   &.scroll{
     height:calc(var(--nav-height) + 1px);

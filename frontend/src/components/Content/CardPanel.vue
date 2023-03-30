@@ -78,9 +78,10 @@ const cardHolder = ref<null | HTMLDivElement>(null)
 const arrowVisibility = reactive({ left: true, right: true })
 
 function handleScroll() {
-  cardHolder.value?.scrollLeft === 0 ? arrowVisibility.left = false : arrowVisibility.left = true
+  arrowVisibility.left = cardHolder.value?.scrollLeft !== 0
 
-  if(cardHolder?.value?.scrollWidth) Math.floor(cardHolder?.value?.scrollWidth - cardHolder?.value!.scrollLeft) <= cardHolder?.value!.clientWidth ? arrowVisibility.right = false : arrowVisibility.right = true
+  if(cardHolder?.value?.scrollWidth)
+    Math.floor(cardHolder?.value?.scrollWidth - cardHolder?.value!.scrollLeft) <= cardHolder?.value!.clientWidth ? arrowVisibility.right = false : arrowVisibility.right = true
 }
 
 function scrollTo(element: HTMLDivElement, distance: number){
@@ -90,11 +91,7 @@ function scrollTo(element: HTMLDivElement, distance: number){
   })
 }
 
-watch(isGrid, () => {
-  setTimeout(() => {
-    !isGrid.value && handleScroll()
-  }, 100)
-})
+watch(isGrid, () => setTimeout(() => { !isGrid.value && handleScroll() }, 100))
 onMounted(() => handleScroll())
 onActivated(() => handleScroll())
 </script>
@@ -102,7 +99,7 @@ onActivated(() => handleScroll())
 <style lang="scss" scoped>
 section.panel{
   position: relative;
-  isolation:isolate;
+  isolation: isolate;
   div.upper-row{
     display:flex;
     align-items:center;

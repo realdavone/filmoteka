@@ -176,10 +176,9 @@ section.container{
   flex-wrap:wrap;
 
   a{
-    background-color: var(--background-color);
+    background-color: var(--card-color);
     padding: 5px 12px 4px;
     border-radius: 14px;
-    outline: 1px solid var(--font-color);
   }
   &:empty{
     display:none

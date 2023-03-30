@@ -1,11 +1,9 @@
 <template>
   <div class="details">
-    <div class="item" v-if="details.status">
-      <span v-font:small class="label">Status</span>
+    <DetailsItem label="Status" v-if="details.status">
       <span v-font:medium>{{ status.get(details.status) }}</span>
-    </div>
-    <div class="item" v-if="details.languages?.length">
-      <span v-font:small class="label">Audio</span>
+    </DetailsItem>
+    <DetailsItem label="Audio" v-if="details.languages?.length">
       <div>
         <span
           v-font:medium
@@ -14,25 +12,20 @@
           :key="language.iso_639_1"
         >{{ language.english_name }}</span>
       </div>
-    </div>
-    <div class="item" v-if="details.revenue">
-      <span v-font:small class="label">Zárobok</span>
+    </DetailsItem>
+    <DetailsItem label="Zárobok" v-if="details.revenue">
       <span v-font:medium>{{ new Intl.NumberFormat('sk-SK', { notation: "compact", compactDisplay: "short", style: "currency", currency: "USD" }).format(details.revenue) }}</span>
-    </div>
-    <div class="item" v-if="details.release_date">
-      <span v-font:small class="label">Premiéra</span>
+    </DetailsItem>
+    <DetailsItem label="Premiéra" v-if="details.release_date">
       <span v-font:medium>{{ new Date(details.release_date).toLocaleDateString('sk-SK') }}</span>
-    </div>
-    <div class="item" v-if="details.number_of_episodes">
-      <span v-font:small class="label">Počet epizód</span>
+    </DetailsItem>
+    <DetailsItem label="Počet epizód" v-if="details.number_of_episodes">
       <span v-font:medium>{{ details.number_of_episodes }}</span>
-    </div>
-    <div class="item" v-if="details.runtime">
-      <span v-font:small class="label">Trvanie</span>
+    </DetailsItem>
+    <DetailsItem label="Dĺžka" v-if="details.runtime">
       <span v-font:medium>{{ `${Math.floor(details.runtime / 60) > 0 ? `${Math.floor(details.runtime / 60)}h` : ''} ${details.runtime % 60}m` }}</span>
-    </div>
-    <div class="item">
-      <span v-font:small class="label">Hodnotenia</span>
+    </DetailsItem>
+    <DetailsItem label="Hodnotenia">
       <div class="ratings">
         <component
           :is="rating.url === null ? 'div' : 'a'"
@@ -42,28 +35,27 @@
           v-font:medium
         ><span>{{ rating.name }}</span><b>{{ getRating(rating.rating as number | string) }}</b></component>
       </div>
-    </div>
-    <div v-if="details.creators?.length" class="item">
-      <span v-font:small class="label">Tvorci</span>
+    </DetailsItem>
+    <DetailsItem label="Tvorci" v-if="details.creators?.length">
       <div>
         <div v-for="creator in details.creators" :key="creator.id">
           <router-link v-font:medium :to="`/person/${creator.id}`" class="name">{{ creator.name }}</router-link>
           <div style="color: gray" v-font:small>{{ new Intl.ListFormat('sk', { style: 'short', type: 'conjunction' }).format(creator.jobs) }}</div>
         </div>
       </div>
-    </div>
-    <div class="item" v-if="details.networks?.length">
-      <span v-font:small class="label">Produkcia</span>
+    </DetailsItem>
+    <DetailsItem label="Produkcia" v-if="details.networks?.length">
       <div>
         <div v-for="network in details.networks" :key="network.id">
           <span v-font:medium>{{ network.name }}</span>
         </div>
       </div>
-    </div>
+    </DetailsItem>
   </div>
 </template>
 
 <script setup lang="ts">
+import DetailsItem from './DetailsItem.vue'
 import { inject } from 'vue'
 
 type Props = {
@@ -128,36 +120,21 @@ div.details{
   gap: 15px;
   width:100%;
 
-  div.item{
-    background-color: var(--card-color);
-    padding: 5px 10px;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    justify-content: space-between;
-    font-family: 'Roboto', sans-serif;
+  div.ratings{
 
-    span.label{
-      color: gray;
+    a, div{
+      display: flex;
+      justify-content: space-between;
+      gap:5px;
+      align-items: center;
     }
 
-    div.ratings{
-
-      a, div{
-        display: flex;
-        justify-content: space-between;
-        gap:5px;
-        align-items: center;
-      }
-
-      a span::after{
-        font-family: 'Material Icons Outlined';
-        content: 'open_in_new';
-        font-size: 10px;
-        margin-left: 5px;
-      }
+    a span::after{
+      font-family: 'Material Icons Outlined';
+      content: 'open_in_new';
+      font-size: 10px;
+      margin-left: 5px;
     }
-  }   
+  }
 }
 </style>
