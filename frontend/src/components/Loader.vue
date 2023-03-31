@@ -14,8 +14,8 @@ div.loader {
   animation: spin 0.8s linear infinite;
   border-radius: 50%;
   border-style: solid;
-  border-color: var(--font-color);
-  border-top-color: transparent;
+  border-color: var(--theme-color-transparent);
+  border-top-color: var(--theme-color);
   &.default{
     min-width: 30px;
     min-height: 30px;

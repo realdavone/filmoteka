@@ -4,22 +4,25 @@
     <div class="outter">
       <section class="form">
         <header>
-          <span v-font:large>Registrácia</span>
+          <span v-font:medium>Registrácia</span>
         </header>
         <form class="form" @submit.prevent="register" autocomplete="off">
           <AuthInput
+            icon="account_circle"
             v-model="credentials.email"
             type="email"
             :required="true"
             placeholder="Emailová adresa"
           />
           <AuthInput
+            icon="key"
             v-model="credentials.password"
             type="password"
             :required="true"
             placeholder="Heslo"
           />
           <AuthInput
+            icon="key"
             v-model="credentials.repeatPassword"
             type="password"
             :required="true"
@@ -28,7 +31,7 @@
           <div v-if="error" class="error">{{error}}</div>
           <BasicButton :disabled="registerStart">
             <span>Registrovať</span>
-            <Loader v-if="registerStart" type="inline" />
+            <Loader v-if="registerStart" type="inline" style="border-color: white;border-top-color: transparent;" />
           </BasicButton>
         </form>
         <router-link

@@ -20,7 +20,7 @@
       </div>
     </div>
     <div v-if="iframeSource && !loadedIframe" class="loading">
-      <Loader type="default" style="border-color: white;border-top-color: transparent;" />
+      <Loader type="default" />
     </div>
     <iframe
       @load="loadedIframe = true"

@@ -8,16 +8,18 @@
     <div class="outter">
       <section class="form">
         <header>
-          <span v-font:large>Prihlásenie</span>
-          </header>
+          <span v-font:medium>Prihlásenie</span>
+        </header>
         <form class="form" @submit.prevent="login">
           <AuthInput
+            icon="account_circle"
             placeholder="Emailová adresa"
             type="email"
             :required="true"
             v-model="credentials.email"
           />
           <AuthInput
+            icon="key"
             placeholder="Heslo"
             type="password"
             :required="true"
@@ -25,7 +27,7 @@
           />
           <BasicButton :disabled="loginStart">
             <span>{{ !loginStart ? 'Prihlásiť' : 'Prihlasovanie' }}</span>
-            <Loader v-if="loginStart" type="inline" />
+            <Loader v-if="loginStart" type="inline" style="border-color: white;border-top-color: transparent;" />
           </BasicButton>
           <div class="google-button" style="width:100%;overflow:hidden;display:flex;justify-content:center;border-radius: 4px;">
             <div id="buttonDiv" style="align-self:center;height:32px;"></div>

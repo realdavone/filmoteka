@@ -1,7 +1,8 @@
 <template>
   <div class="input">
+    <span v-if="icon" class="material-icons-outlined">{{ icon }}</span>
     <input
-      v-font:medium
+      v-font:small
       :type="inputType"
       :placeholder="placeholder"
       :required="required"
@@ -30,10 +31,11 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue'
 
-const { placeholder, type, required } = defineProps<{
+const { icon, placeholder, type, required } = defineProps<{
   placeholder: string
   type: string
   required: boolean
+  icon?: string
 }>()
 
 const inputValue = ref('')
@@ -64,17 +66,21 @@ function handleClick(action: string) {
 
 <style lang="scss" scoped>
 div.input{
-  display:flex;
-  align-items:stretch;
-  border-radius:4px;
-  overflow:hidden;
-  background-color:var(--card-color);
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: var(--card-color);
   height: 40px;
-  outline:2px solid rgb(52, 52, 52);
-  gap:5px;
+  outline: 2px solid rgb(52, 52, 52);
+
+  &>span{
+    font-size: 16px;
+    padding: 0 8px;
+  }
 
   input{
-    padding:10px 10px;
+    padding:10px 10px 10px 0;
     width:100%;
     background-color:inherit;
     color:inherit;
