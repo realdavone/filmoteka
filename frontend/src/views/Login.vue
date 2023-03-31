@@ -11,32 +11,18 @@
           <span v-font:large>Prihlásenie</span>
           </header>
         <form class="form" @submit.prevent="login">
-          <div class="input">
-            <input
-              v-font:medium
-              v-model="credentials.email"
-              type="email"
-              name="email"
-              placeholder="Email"
-              autocomplete="email"
-              required
-              autocapitalize="off"
-              autocorrect="off"
-            />
-          </div>
-          <div class="input">
-            <input
-              v-font:medium
-              v-model="credentials.password"
-              type="password"
-              name="password"
-              placeholder="Heslo"
-              autocomplete="current-password"
-              required
-              autocapitalize="off"
-              autocorrect="off"
-            />
-          </div>
+          <AuthInput
+            placeholder="Emailová adresa"
+            type="email"
+            :required="true"
+            v-model="credentials.email"
+          />
+          <AuthInput
+            placeholder="Heslo"
+            type="password"
+            :required="true"
+            v-model="credentials.password"
+          />
           <BasicButton :disabled="loginStart">
             <span>{{ !loginStart ? 'Prihlásiť' : 'Prihlasovanie' }}</span>
             <Loader v-if="loginStart" type="inline" />
@@ -65,6 +51,7 @@ import { useRouter } from 'vue-router'
 import Auth from '../auth/main'
 import '../styles/auth.scss'
 import BasicButton from '../components/Buttons/BasicButton.vue'
+import AuthInput from '../components/Auth/AuthInput.vue'
 
 const router = useRouter()
 const store = inject<any>('store')
@@ -109,11 +96,11 @@ onMounted(() => {
 const login = () => {
   loginStart.value = true
   Auth.login({ email: credentials.email, password: credentials.password })
-  .then(res => {
-    window.history.state.back === null ? router.push('/') : router.go(-1)
-    notify({ type: 'success', text: res.message })
-  })
-  .catch(error => notify({ type: 'error', text: error.message }) )
-  .finally(() => loginStart.value = false)
+    .then(res => {
+      window.history.state.back === null ? router.push('/') : router.go(-1)
+      notify({ type: 'success', text: res.message })
+    })
+    .catch(error => notify({ type: 'error', text: error.message }) )
+    .finally(() => loginStart.value = false)
 }
 </script>

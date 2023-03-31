@@ -9,12 +9,12 @@
         <div v-font:medium class="body">{{ content.body }}</div>
         <div class="buttons">
           <button
-            v-font:medium
+            v-font:small
             class="confirm"
             @click="resolve"
           >{{ content.confirmText }}</button>
           <button
-            v-font:medium
+            v-font:small
             class="cancel"
             @click="reject"
           >{{ content.cancelText }}</button>
@@ -118,6 +118,7 @@ div.dialog{
       line-height: 1;
       border-radius: 4px;
       font-family: 'Roboto', sans-serif;
+      text-transform: uppercase;
 
       &.cancel{
         background-color: crimson;

@@ -7,45 +7,24 @@
           <span v-font:large>Registrácia</span>
         </header>
         <form class="form" @submit.prevent="register" autocomplete="off">
-          <div class="input">
-            <input
-              v-font:medium
-              v-model="credentials.email"
-              type="email"
-              name="email"
-              placeholder="Email"
-              autocomplete="off"
-              required
-              autocapitalize="off"
-              autocorrect="off"
-            />
-          </div>
-          <div class="input">
-            <input
-              v-font:medium
-              v-model="credentials.password"
-              type="password"
-              name="password"
-              placeholder="Heslo"
-              autocomplete="off"
-              required
-              autocapitalize="off"
-              autocorrect="off"
-            />
-          </div>
-          <div class="input">
-            <input
-              v-font:medium
-              v-model="credentials.repeatPassword"
-              type="password"
-              name="repeat-password"
-              placeholder="Zopakovať heslo"
-              autocomplete="off"
-              required
-              autocapitalize="off"
-              autocorrect="off"
-            />
-          </div>
+          <AuthInput
+            v-model="credentials.email"
+            type="email"
+            :required="true"
+            placeholder="Emailová adresa"
+          />
+          <AuthInput
+            v-model="credentials.password"
+            type="password"
+            :required="true"
+            placeholder="Heslo"
+          />
+          <AuthInput
+            v-model="credentials.repeatPassword"
+            type="password"
+            :required="true"
+            placeholder="Zopakovať heslo"
+          />
           <div v-if="error" class="error">{{error}}</div>
           <BasicButton :disabled="registerStart">
             <span>Registrovať</span>
@@ -71,6 +50,7 @@ import { useRouter } from 'vue-router'
 import Auth from '../auth/main'
 import '../styles/auth.scss'
 import BasicButton from '../components/Buttons/BasicButton.vue'
+import AuthInput from '../components/Auth/AuthInput.vue'
 
 const router = useRouter()
 const error = ref<null | string>(null)

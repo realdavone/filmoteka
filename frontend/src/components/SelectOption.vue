@@ -34,7 +34,7 @@ const emit = defineEmits(['update:modelValue'])
 const values = ref<HTMLElement | null>(null)
 const areValuesVisible = ref(false)
 
-const handleChange = (value: Array<any>) => {
+const handleChange = (value: Array<unknown>) => {
   emit('update:modelValue', value[0])
   areValuesVisible.value = false
 }
