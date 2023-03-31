@@ -14,9 +14,9 @@
           <textarea v-focus ref="textarea" v-model="content" type="text" placeholder="Napíš komentár..."></textarea>
           <div class="buttons">
             <BasicButton type="close" @handleClick="emit('close')">Zavrieť</BasicButton>
-            <BasicButton :disabled="content.length === 0 || loading === true" style="align-self:flex-end;">
+            <BasicButton :disabled="content.length === 0 || loading === true" style="align-self:flex-end;width: 140px;">
               Komentovať
-              <Loader v-if="loading" type="inline" />
+              <Loader v-if="loading" type="inline" style="border-color: white;border-top-color: transparent;" />
             </BasicButton>
           </div>
         </form>

@@ -180,14 +180,15 @@ div.skeleton-text:first-of-type{
 
 .loader-holder {
   div{
+    margin-top:15px;
     width: 30px;
     aspect-ratio: 1;
     border-radius: 50%;
-    border: 3px solid lightgrey;
+    border: 3px solid var(--theme-color-transparent);
     animation-duration: 1s;
     animation-iteration-count: infinite;
     animation-name: spin;
-    border-top-color: transparent;
+    border-top-color: var(--theme-color);
     animation-timing-function: linear;
   }
 }

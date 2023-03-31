@@ -135,13 +135,14 @@ section.container{
     display:flex;
     flex-direction:column;
     align-items:center;
-    gap:15px;
-    align-self:flex-start;
+    gap:10px;
+    align-self: flex-start;
   }
 }
 :slotted(h1.title){
   line-height:1;
   font-weight: 700;
+  text-align: center;
 
   span{
     opacity:0.5;
@@ -177,7 +178,7 @@ section.container{
 
   a{
     background-color: #5d5d5d;
-    padding: 5px 12px 4px;
+    padding: 3px 10px 2px;
     border-radius: 14px;
     color: white;
   }
@@ -205,14 +206,21 @@ section.player-details-holder{
 }
 @media screen and (max-width: 600px){
   div.top-row{ 
-    justify-content:start!important;
+    flex-direction: column;
+    align-items: center;
   }
-  div.poster{
-    min-width:106px!important;
-    max-width:106px!important;
+  div.left-col{
+    align-self: center!important;
   }
   div.right-col{
-    align-self:flex-start;
+    align-items: center!important;
+  }
+  div.poster{
+    min-width:180px!important;
+    max-width:180px!important;
+  }
+  div.overview {
+    text-align: center!important;
   }
 }
 </style>
