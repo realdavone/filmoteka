@@ -38,11 +38,10 @@ export default {
   },
   initLoader(){
     document.getElementById('app')!.innerHTML = ''
-
-    const logo = document.createElement('img')
+    
     const loaderHolder = document.createElement('section')
-    const text = document.createElement('span')
-    text.innerText = 'Spúšťa sa služba'
+    const logo = document.createElement('img')
+    const loader = document.createElement('div')
 
     logo.setAttribute('src', '/icon.svg')
     logo.setAttribute('width', '75')
@@ -51,7 +50,7 @@ export default {
 
     loaderHolder.setAttribute('class', 'loader-holder')
     loaderHolder.appendChild(logo)
-    loaderHolder.appendChild(text)
+    loaderHolder.appendChild(loader)
     
     document.getElementById('app')!.appendChild(loaderHolder)
   },

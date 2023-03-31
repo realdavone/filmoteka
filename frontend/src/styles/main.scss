@@ -178,12 +178,18 @@ div.skeleton-text:first-of-type{
   font-size: var(--medium-font-size);
 }
 
-.loader-holder span::after{
-  content:'';
-  animation-name:loadingText;
-  animation-duration:3s;
-  animation-iteration-count:infinite;
-  animation-timing-function:cubic-bezier(.5,0,.5,1);
+.loader-holder {
+  div{
+    width: 30px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 3px solid lightgrey;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-name: spin;
+    border-top-color: transparent;
+    animation-timing-function: linear;
+  }
 }
 main.content{
   width:100%;
@@ -243,6 +249,15 @@ input, textarea{
   font-family:inherit;
 }
 
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 @media screen and (max-width: 600px) {
   .wrapper{
     padding-top:var(--container-padding);
@@ -255,11 +270,4 @@ input, textarea{
   body.modal-open{
     padding-right:0;
   }
-}
-
-@keyframes loadingText {
-  0%, 100%{ content:'' }
-  25%{ content:'.' }
-  50%{ content:'..' }
-  75%{ content:'...' }
 }

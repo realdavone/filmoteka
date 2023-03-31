@@ -2,10 +2,20 @@
   <main class="title">
     <PlayerDetails :bg="result?.backdrop_path">
       <template #poster>
-        <Poster v-if="result?.poster_path" :src="result.poster_path" :alt="result?.name" :fadeInOnLoad="true" />
+        <Poster
+          v-if="result?.poster_path"
+          :src="result.poster_path"
+          :alt="result?.name"
+          :fadeInOnLoad="true"
+        />
       </template>
       <template #feedback>
-        <Feedback v-if="!loading && store.state.credentials.loggedIn && (new Date()) > new Date(result!.first_air_date)" :likes="result?.likes" :dislikes="result?.dislikes" :title="{ id: $route.params.id as string, type: 'tv' }"/>
+        <Feedback
+          v-if="!loading && store.state.credentials.loggedIn && (new Date()) > new Date(result!.first_air_date)"
+          :likes="result?.likes"
+          :dislikes="result?.dislikes"
+          :title="{ id: $route.params.id as string, type: 'tv' }"
+        />
         <div v-else style="display:none"></div>
       </template>
       <template #actionMenu>
@@ -113,6 +123,7 @@
           :key="country.iso_3166_1"
           :src="`https://flagcdn.com/${country.iso_3166_1.toLowerCase()}.svg`"
           width="30"
+          :title="country.name"
           :alt="country.name"
           draggable="false"
         />

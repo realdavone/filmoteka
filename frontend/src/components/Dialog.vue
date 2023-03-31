@@ -88,12 +88,13 @@ defineExpose({
 
 <style lang="scss" scoped>
 div.dialog{
-  background-color: var(--background-color);
+  background-color: var(--card-color);
   border-radius: 8px;
   overflow: hidden;
   max-width: 300px;
   width: fit-content;
   box-shadow: var(--modal-box-shadow);
+  border: 5px solid var(--background-color);
 
   header {
     background-color: var(--card-color-hover);
@@ -103,19 +104,20 @@ div.dialog{
   div.body{
     padding: 10px 15px;
     pointer-events: none;
-    text-align: center;
+    text-align: justify;
   }
 
   div.buttons{
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     gap: 8px;
     padding: 10px 15px;
 
     button {
-      padding: 5px 10px;
+      padding: 8px 12px;
       line-height: 1;
       border-radius: 4px;
+      font-family: 'Roboto', sans-serif;
 
       &.cancel{
         background-color: crimson;

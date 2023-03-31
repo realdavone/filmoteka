@@ -103,6 +103,7 @@
           width="30"
           :alt="country.name"
           draggable="false"
+          :title="country.name"
         />
       </template>
     </PlayerDetails>
