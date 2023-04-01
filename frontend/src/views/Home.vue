@@ -1,30 +1,34 @@
 <template>
   <main class="home">
     <Featured :titles="featuredTitles" />
-    <CallToLogin v-if="!store.state.credentials.loggedIn" :enableClose="false" />
+    <CallToLogin
+      v-if="!store.state.credentials.loggedIn"
+      :enableClose="false"
+    />
     <CardPanel
-    heading="Trendy"
-    allowGrid
-    isGrid
-    :cards="trendingTitles && trendingTitles!.map(card => ({
-      media_type: card.media_type,
-      id: card.id,
-      poster_path: card.poster_path || '',
-      title: card.media_type === 'movie' ? card.title : card.name
-    }))"
-    :placeholderInfo="{ type: 'title', count: 8 }" />
+      heading="Trendy"
+      allowGrid
+      isGrid
+      :cards="trendingTitles && trendingTitles!.map(card => ({
+        media_type: card.media_type,
+        id: card.id,
+        poster_path: card.poster_path ?? '',
+        title: card.media_type === 'movie' ? card.title : card.name
+      }))"
+      :placeholderInfo="{ type: 'title', count: 8 }"
+    />
     <CardPanel
-    style="margin-top: 1rem;"
-    v-if="store.state.recentItems.length"
-    heading="Posledné navštívené"
-    :cards="store.state.recentItems.map((item: any)=> ({
-      media_type: item.type.toLowerCase(),
-      title: item.title,
-      poster_path: item.poster,
-      id: item.id
-    }))"
-    :placeholderInfo="{ type: 'title', count: 8 }" >
-    </CardPanel>
+      style="margin-top: 1rem;"
+      v-if="store.state.recentItems.length"
+      heading="Posledné navštívené"
+      :cards="store.state.recentItems.map((item: any)=> ({
+        media_type: item.type.toLowerCase(),
+        title: item.title,
+        poster_path: item.poster,
+        id: item.id
+      }))"
+      :placeholderInfo="{ type: 'title', count: 8 }"
+    />
   </main>
   
 </template>

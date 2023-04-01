@@ -22,7 +22,7 @@
         <NavButton
           title="Odporúčané"
           @handleClick="$router.push('/recommended')"
-          v-bind="{ ...(store.state.notifications.recommended.length > 0 && {['data-notification']: ''}) }"
+          v-bind="{ ...(store.state.notifications.recommended.length > 0 && { ['data-notification']: '' }) }"
         ><span class="material-icons-outlined" style="padding-top:5px">recommend</span></NavButton>
         <NavButton
           title="Záložky"
@@ -31,8 +31,15 @@
         ><span class="material-icons-outlined" style="padding-top:5px">bookmarks</span></NavButton>
       </template>
       <div v-if="!isSearchRendered && !store.state.credentials.loggedIn" class="auth-buttons">
-        <button v-if="store.state.globalSettings?.allowRegistration" @click="$router.push('/register')">Registrovať</button>
-        <BasicButton type="hover-color-change" @handleClick="$router.push('/login')">Prihlásiť sa</BasicButton>
+        <button
+          class="register"
+          v-if="store.state.globalSettings?.allowRegistration"
+          @click="$router.push('/register')"
+        >Registrovať</button>
+        <button
+          class="login"
+          @click="$router.push('/login')"
+        >Prihlásiť sa</button>
       </div>
     </div>
   </nav>
@@ -99,9 +106,18 @@ nav{
   }
   div.auth-buttons{
     display:flex;
-    gap:0.75rem;
+    gap:10px;
     align-self:center;
-    margin-left:0.75rem;
+    margin-left:5px;
+
+    button{
+      &.login {
+        background-color: var(--theme-color);
+        padding: 5px 10px;
+        border-radius: 4px;
+        color: white;
+      }
+    }
   }
   div.right-menu{
     display:flex;
@@ -113,18 +129,23 @@ nav{
     align-items:center;
     gap:20px;
     margin-right:auto;
-    a{line-height:1}
+
+    a{
+      line-height:1
+    }
   }
   div.middle{
     margin:0 auto;
     display:flex;
-    gap:1rem;
+    gap:15px;
     width:100%;
     max-width:500px;
   }
 }
 @media screen and (max-width: 600px) {
-  .icon-hide{ display:none!important }
+  .icon-hide{
+    display:none!important
+  }
   aside.modal{
     top:0;
     bottom:0;

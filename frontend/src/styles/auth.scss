@@ -47,8 +47,19 @@ main.login, main.register{
     flex-direction:column;
     gap:15px;
 
-    button{
-      min-height: 40px!important;
+    &>button{
+      padding:8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      border-radius: 30px;
+      background-color: var(--theme-color);
+      font-weight: 700;
+
+      &:disabled{
+        cursor: default;
+      }
     }
 
     div.error {

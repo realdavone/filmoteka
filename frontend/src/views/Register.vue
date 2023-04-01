@@ -29,10 +29,10 @@
             placeholder="Zopakovať heslo"
           />
           <div v-if="error" class="error">{{error}}</div>
-          <BasicButton :disabled="registerStart">
+          <button :disabled="registerStart">
             <span>Registrovať</span>
             <Loader v-if="registerStart" type="inline" style="border-color: white;border-top-color: transparent;" />
-          </BasicButton>
+          </button>
         </form>
         <router-link
           v-font:small

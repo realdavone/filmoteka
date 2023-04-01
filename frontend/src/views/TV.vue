@@ -130,29 +130,30 @@
       </template>
     </PlayerDetails>
     <template v-if="!loading">
-      <Discussion v-if="store.state.credentials.loggedIn && $route.params.id" :title="{ type: 'tv', id: $route.params.id as string }" />
+      <Discussion
+        v-if="store.state.credentials.loggedIn && $route.params.id"
+        :title="{ type: 'tv', id: $route.params.id as string }"
+      />
       <CastPanel
-      v-once
-      heading="Herci"
-      :cast="result?.credits.cast.filter(castMember => castMember.profile_path !== null).splice(0, 16).map(member => {
-        return {
+        v-once
+        heading="Herci"
+        :cast="result?.credits.cast.filter(castMember => castMember.profile_path !== null).splice(0, 16).map(member => ({
           character: member.character,
           id: member.id,
           name: member.name,
           profile_path: member.profile_path
-        }
-      })" />
+        }))"
+      />
       <CardPanel
-      heading="Podobné"
-      :cards="result!.recommendations.results.filter(tv => tv.poster_path !== null).splice(0, 16).map(card => {
-        return {
+        heading="Podobné"
+        :cards="result!.recommendations.results.filter(tv => tv.poster_path !== null).splice(0, 16).map(card => ({
           media_type: 'tv',
           id: card.id,
           poster_path: card.poster_path,
           title: card.name
-        }
-      })"
-      :placeholderInfo="{ type: 'title', count: 8 }" />
+        }))"
+        :placeholderInfo="{ type: 'title', count: 8 }"
+      />
     </template>
   </main>
 </template>
@@ -210,13 +211,15 @@ const fetchData = async (id: string) => {
       poster: result.value.poster_path
     })
     
-    result.value['isPlayerWorking'] === undefined ? isPlayerWorking.value = true : isPlayerWorking.value = result.value['isPlayerWorking']
-    result.value['isRecommended'] === undefined ? isRecommended.value = false : isRecommended.value = result.value['isRecommended']
+    isPlayerWorking.value = result.value.isPlayerWorking ?? true
+    isRecommended.value = result.value.isRecommended ?? false
 
     useTitle({ title: `${result.value?.name}${result.value?.omdb.Year !== undefined ? (' (' + result.value?.omdb.Year + ')') : ''}` })
-
+  } catch (error) {
+    router.push({ name: 'NotFound' })
+  } finally {
     loading.value = false
-  } catch (error) { router.push({ name: 'NotFound' }) }
+  }
 }
 
 const handleEvent = async (event: 'ADD_RECOMMENDED' | 'TOGGLE_WORKING_PLAYER' | 'COPY_URL' | 'TOGGLE_WATCHED' | 'TOGGLE_PINNED_PLAYER' | 'TOGGLE_BOOKMARK'): Promise<void> => {
@@ -296,8 +299,9 @@ const handleEvent = async (event: 'ADD_RECOMMENDED' | 'TOGGLE_WORKING_PLAYER' | 
   notifyPayload && notify(notifyPayload)
 }
 
-onBeforeMount(() => { fetchData(route.params.id as string) })
+onBeforeMount(() => fetchData(route.params.id as string))
 onActivated(() => {
-  if(result.value !== null) document.title = `${result.value?.name} / Filmotéka`
+  if(result.value)
+    useTitle({ title: `${result.value?.name}${result.value?.omdb.Year !== undefined ? (' (' + result.value?.omdb.Year + ')') : ''}` })
 })
 </script>
