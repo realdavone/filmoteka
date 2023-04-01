@@ -31,7 +31,10 @@
             </li>
           </ul>
         </section>
-        <span v-else v-font:medium class="no-items">Neboli pridané žiadne záložky.</span>
+        <div v-else v-font:medium class="no-items">
+          <span class="material-icons-outlined">info</span>
+          Neboli pridané žiadne záložky.
+        </div>
         <div class="buttons">
           <BasicButton type="close" @handleClick="emit('close')">Zavrieť</BasicButton>
           <BasicButton v-if="store.state.favourites.length !== 0" type="transparent" @handleClick="store.methods.favourites.removeAll()">Zmazať všetky</BasicButton>
@@ -192,8 +195,11 @@ aside.modal{
     padding: 0 10px;
     margin-top: auto;
   }
-  span.no-items{
+  div.no-items{
     padding:0 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
   }
 }
 </style>

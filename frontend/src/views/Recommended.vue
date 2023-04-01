@@ -1,6 +1,7 @@
 <template>
   <main class="wrapper">
-    <div v-font:medium v-if="items?.length === 0 && loading === false" class="container">
+    <div v-font:medium v-if="!items?.length && !loading" class="container no-results">
+      <span class="material-icons-outlined">info</span>
       Sekcia odporúčaných je prázdna
     </div>
     <CardPanel
@@ -29,9 +30,10 @@ import { RecommendedTitle } from '../types/title'
 const router = useRouter()
 const store = inject<any>('store')
 const items = ref<Array<RecommendedTitle> | null>(null)
-const loading = ref(true)
+const loading = ref(false)
 
 const fetchRecommended = async () => {
+  const loading = ref(true)
   try {
     const data = await getData<Array<RecommendedTitle>>({ endpoint: '/title/recommended' })
     
@@ -43,38 +45,21 @@ const fetchRecommended = async () => {
         title: card.title.type
       }
     }) as []
-
+  } catch (error) {
+    router.push('/404')
+  } finally {
     loading.value = false
-  } catch (error) { router.push('/404') }
+  }
 }
 
-onBeforeMount(() => { fetchRecommended() })
-onUnmounted(() => { store.methods.notifications.recommended.reset() })
+onBeforeMount(() => fetchRecommended())
+onUnmounted(() => store.methods.notifications.recommended.reset())
 </script>
 
 <style lang="scss" scoped>
-a.item{
-  aspect-ratio:2/3;
-  border-radius:14px;
-  overflow:hidden;
-  transition:0.2s ease transform;
-  position:relative;
-  span.newly-added{
-    position:absolute;
-    top:10px;
-    left:10px;
-    background-color:var(--theme-color);
-    border-radius:4px;
-    padding:2px 3px 1px;
-    text-transform:uppercase;
-    font-weight:700;
-    color:var(--font-color-dark);
-  }
-  img{
-    width:100%;
-    aspect-ratio:2/3;
-    object-fit:cover;
-  }
-  &:hover{ transform:scale(1.05) }
+div.no-results{
+  display: flex;
+  gap: 5px;
+  align-items: center;
 }
 </style>
