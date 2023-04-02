@@ -1,8 +1,7 @@
 <template>
   <div class="input">
-    <span v-if="icon" class="material-icons-outlined">{{ icon }}</span>
     <input
-      v-font:small
+      v-font:medium
       :type="inputType"
       :placeholder="placeholder"
       :required="required"
@@ -71,8 +70,9 @@ div.input{
   border-radius: 4px;
   overflow: hidden;
   background-color: var(--card-color);
-  height: 40px;
+  height: 50px;
   outline: 2px solid rgb(52, 52, 52);
+  padding: 10px 0 10px 10px;
 
   &>span{
     font-size: 16px;
@@ -84,7 +84,10 @@ div.input{
     width:100%;
     background-color:inherit;
     color:inherit;
-    min-height: 40px;
+
+    &::placeholder{
+      font-size: inherit;
+    }
   }
 
   button {

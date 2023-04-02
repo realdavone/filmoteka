@@ -1,15 +1,11 @@
 main.login, main.register{
-  min-height:calc(100vh);
+  min-height:calc(100vh - 1px);
   margin-bottom: calc(0px - var(--main-content-padding-bottom));
   display:flex;
   justify-content:center;
   align-items:center;
   flex-direction:column;
   gap: 15px;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.52), rgba(117, 19, 93, 0.73)),url('/bg.jpeg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
   padding:var(--container-padding);
 
   div.outter{
@@ -48,7 +44,7 @@ main.login, main.register{
     gap:15px;
 
     &>button{
-      padding:8px;
+      padding:12px 8px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -56,6 +52,7 @@ main.login, main.register{
       border-radius: 30px;
       background-color: var(--theme-color);
       font-weight: 700;
+      margin-top: 15px;
 
       &:disabled{
         cursor: default;
@@ -74,5 +71,17 @@ main.login, main.register{
     position: absolute;
     top: 20px;
     right: 20px;
+  }
+
+  div.alt{
+    margin-top: 15px;
+
+    div.google-button {
+      width:100%;
+      overflow:hidden;
+      display:flex;
+      justify-content:center;
+      border-radius: 4px;
+    }
   }
 }

@@ -29,8 +29,10 @@
             <span>{{ !loginStart ? 'Prihlásiť' : 'Prihlasovanie' }}</span>
             <Loader v-if="loginStart" type="inline" style="border-color: white;border-top-color: transparent;" />
           </button>
-          <div class="google-button" style="width:100%;overflow:hidden;display:flex;justify-content:center;border-radius: 4px;">
-            <div id="buttonDiv" style="align-self:center;height:32px;"></div>
+          <div class="alt">
+            <div class="google-button">
+              <div id="buttonDiv" role="button" style="align-self:center;height:32px;"></div>
+            </div>            
           </div>
         </form>
         <router-link
