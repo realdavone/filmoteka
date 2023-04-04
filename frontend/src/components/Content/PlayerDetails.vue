@@ -175,6 +175,7 @@ section.container{
   display:flex;
   gap:10px;
   flex-wrap:wrap;
+  justify-content: center;
 
   a{
     background-color: #5d5d5d;
