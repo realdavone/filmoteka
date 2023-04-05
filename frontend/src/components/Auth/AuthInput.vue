@@ -15,6 +15,7 @@
       v-if="inputValue"
       @click="handleClick(type)"
       type="button"
+      tabindex="-1"
     >
       <span
         v-if="type === 'password'"
@@ -87,6 +88,11 @@ div.input{
 
     &::placeholder{
       font-size: inherit;
+    }
+
+    &:-webkit-autofill{
+      -webkit-text-fill-color: var(--font-color)!important;
+      -webkit-background-clip: text;
     }
   }
 

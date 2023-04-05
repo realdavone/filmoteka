@@ -34,7 +34,9 @@ users.value = await makeRequest<UsersResponse>({
   }
 })
 
-const removeUser = (id: string) => { users.value!.users = users.value!.users.filter(user => user._id !== id) }
+function removeUser(id: string) {
+  users.value!.users = users.value!.users.filter(user => user._id !== id)
+}
 </script>
 
 <style scoped lang="scss">

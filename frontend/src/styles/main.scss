@@ -41,12 +41,16 @@
 
   --basic-box-shadow:0px 0px 15px 0px rgba(0,0,0,0.5);
 }
-*{
+*, *::before, *::after{
   margin:0;
   padding:0;
   box-sizing:border-box;
   font-family:'Nunito',Verdana,sans-serif;
   line-height:1.4;
+}
+*::selection {
+  background-color: var(--theme-color);
+  color: white;
 }
 html{
   font-size: 10px;

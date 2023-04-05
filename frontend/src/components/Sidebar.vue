@@ -28,18 +28,19 @@
     <main class="menu-content">
       <section class="menu">
         <MenuItem
-        v-for="item in menuItems"
-        :key="item.label"
-        :item="{
-          label: item.label,
-          icon: item.icon,
-          route: item.route,
-          isVisible: item.isVisible
-        }"
-        @handleClick="menuClickHandler(item?.onclick || closeMenu)" />
+          v-for="item in menuItems"
+          :key="item.label"
+          :item="{
+            label: item.label,
+            icon: item.icon,
+            route: item.route,
+            isVisible: item.isVisible
+          }"
+          @handleClick="menuClickHandler(item?.onclick ?? closeMenu)"
+        />
       </section>
       <Transition name="fade">
-        <VisualSettingsModal v-if="isVisualMenuOpened" @close="isVisualMenuOpened = false" />
+        <VisualSettingsModal v-if="isVisualMenuOpened" @close="closeVisualMenu" />
       </Transition>
       <Dialog ref="dialog" />
     </main>
@@ -122,8 +123,13 @@ useEvent({
   event: 'keydown',
   callback: (e: KeyboardEvent) => e.code === 'Escape' && closeMenu()
 })
+
 function closeMenu() {
   emit('closeMenu')
+}
+
+function closeVisualMenu() {
+  isVisualMenuOpened.value = false
 }
 
 function menuClickHandler(callback?: () => void) {
