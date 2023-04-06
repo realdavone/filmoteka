@@ -183,8 +183,7 @@ div.skeleton-text:first-of-type{
 }
 
 .loader-holder {
-  div{
-    margin-top:15px;
+  div:last-of-type{
     width: 30px;
     aspect-ratio: 1;
     border-radius: 50%;
