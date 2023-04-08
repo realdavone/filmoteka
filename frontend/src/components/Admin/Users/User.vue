@@ -1,7 +1,7 @@
 <template>
   <div class="user">
     <div class="details">
-      <span v-if="store.state.credentials.user?.email === user.email" class="material-icons label">person_filled</span>
+      <span v-if="authStore.user?.email === user.email" class="material-icons label">person_filled</span>
       <span v-font:small>{{ user.email }}</span>
       <span v-if="user.isOwner" class="material-icons owner">verified_user</span>
     </div>
@@ -19,10 +19,12 @@
 
 <script setup lang="ts">
 import getData from '../../../api/main'
-import { inject, ref } from 'vue'
+import { ref } from 'vue'
 import BasicButton from '../../Buttons/BasicButton.vue';
+import { useAuthStore } from '../../../store/auth';
 
-const store = inject<any>('store') 
+const authStore = useAuthStore()
+
 const { user } = defineProps<{
   user: {
     _id: string
@@ -44,7 +46,7 @@ const toggleAdmin = async (id: string) => {
       endpoint: '/user/roles/admin/toggle',
       options: {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', 'access-token': store.state.credentials.accessToken },
+        headers: { 'Content-Type': 'application/json', 'access-token': authStore.accessToken },
         body: JSON.stringify({ id })
       }
     })
@@ -58,7 +60,7 @@ const toggleApproved = async (id: string) => {
       endpoint: '/user/verified/toggle',
       options: {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', 'access-token': store.state.credentials.accessToken },
+        headers: { 'Content-Type': 'application/json', 'access-token': authStore.accessToken },
         body: JSON.stringify({ id })
       }
     })
@@ -72,7 +74,7 @@ const removeUser = async (id: string) => {
       endpoint: '/user/delete',
       options: {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json', 'access-token': store.state.credentials.accessToken },
+        headers: { 'Content-Type': 'application/json', 'access-token': authStore.accessToken },
         body: JSON.stringify({ id })
       }
     })

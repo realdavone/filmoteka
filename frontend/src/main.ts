@@ -14,7 +14,10 @@ import { useAuthStore } from './store/auth'
 import focus from './directives/focus'
 import font from './directives/font'
 
-const app = createApp(App).use(createPinia()).use(router).use(autoAnimatePlugin).use(Notifications)
+const app = createApp(App)
+app.use(createPinia())
+app.use(Notifications)
+app.use(autoAnimatePlugin)
 
 const globalConfigStore = useGlobalConfigStore()
 useLocalSettingsStore()
@@ -40,6 +43,8 @@ function startApp(){
     
     app.directive('focus', focus)
     app.directive('font', font)
+
+    app.use(router)
     
     app.mount('#app')
   })

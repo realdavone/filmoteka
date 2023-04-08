@@ -132,6 +132,8 @@ router.beforeEach(async (to, from, next) => {
   next()
 })
 
-router.afterEach((to) => useTitle({ title: to.meta?.title as string ?? '' }))
+router.afterEach((to) => {
+  useTitle({ title: to.meta?.title as string ?? '' })
+})
 
 export default router

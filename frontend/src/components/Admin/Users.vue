@@ -7,8 +7,10 @@
 <script setup lang="ts">
 import User from './Users/User.vue'
 import makeRequest from '../../api/main'
+import { ref } from 'vue'
+import { useAuthStore } from '../../store/auth'
 
-import { ref, inject } from 'vue'
+const authStore = useAuthStore()
 
 type UsersResponse = {
   success: boolean
@@ -23,14 +25,13 @@ type User = {
   isVerified: boolean
 }
 
-const store = inject<any>('store')
 const users = ref<null | UsersResponse>(null)
 
 users.value = await makeRequest<UsersResponse>({
   endpoint: '/user/all',
   options: {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', 'access-token': store.state.credentials.accessToken }
+    headers: { 'Content-Type': 'application/json', 'access-token': authStore.accessToken }
   }
 })
 
