@@ -2,19 +2,23 @@ main.login, main.register{
   min-height:calc(100vh - 1px);
   margin-bottom: calc(0px - var(--main-content-padding-bottom));
   display:flex;
-  justify-content:center;
-  align-items:center;
   flex-direction:column;
   gap: 15px;
   padding:var(--container-padding);
+  align-items: center;
+  justify-content: center;
 
   div.outter{
     border-radius: 15px;
     overflow:hidden;
     max-width:400px;
     width:100%;
-    background-color: var(--background-color-alpha);
-    backdrop-filter: blur(2px);
+    background:url('../assets/auth.jpg');
+    background-position: top left;
+    animation-name: backgroundPosition;
+    animation-duration: 60s;
+    animation-timing-function:cubic-bezier(0.39, 0.575, 0.565, 1);
+    animation-iteration-count: infinite;
   }
   section.form{
     display:flex;
@@ -23,6 +27,8 @@ main.login, main.register{
     padding:20px 25px 25px;
     gap:25px;
     width:100%;
+    background-color: var(--background-color-alpha);
+    transition: 0.5s ease backdrop-filter;
 
     a{
       align-self:center;
@@ -30,6 +36,10 @@ main.login, main.register{
       &:hover{
         text-decoration:underline;
       }
+    }
+
+    &:focus-within {
+      backdrop-filter: blur(3px);
     }
   }
   header{
@@ -83,5 +93,20 @@ main.login, main.register{
       justify-content:center;
       border-radius: 4px;
     }
+  }
+}
+
+@keyframes backgroundPosition {
+  0%, 100%{
+    background-position: top left;
+  }
+  25%{
+    background-position: bottom right;
+  }
+  50%{
+    background-position: top right;
+  }
+  75%{
+    background-position: bottom left;
   }
 }
