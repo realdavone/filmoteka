@@ -25,7 +25,7 @@ import { onClickOutside } from '@vueuse/core'
 import { ref } from 'vue'
 
 const { options, modelValue } = defineProps<{
-  options: Map<string | number, string>
+  options: Map<any, any>
   modelValue: string | number
 }>()
 

@@ -50,7 +50,6 @@ import Loader from '../components/Loader.vue'
 import { notify } from "@kyvg/vue3-notification"
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import Auth from '../auth/main'
 import '../styles/auth.scss'
 import BasicButton from '../components/Buttons/BasicButton.vue'
 import AuthInput from '../components/Auth/AuthInput.vue'
@@ -73,7 +72,7 @@ const register = () => {
   
   registerStart.value = true
 
-  Auth.register({ email, password })
+  registerUser({ email, password })
   .then(res => { 
     notify({ type: 'success', text: res.message })
     router.push('/login')
@@ -84,4 +83,29 @@ const register = () => {
     registerStart.value = false
   })
 }
+
+async function registerUser({ email, password }: {
+    email: string
+    password: string
+  }): Promise<{
+    success: boolean
+    message: string
+  }>{
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        })
+        const data = await res.json()
+        
+        if(data.success === false) throw(data.message)
+      
+        resolve({ success: true, message: 'Úspešná registrácia' })
+      } catch (error) {
+        reject({ success: false, message: error })
+      }
+    })
+  }
 </script>

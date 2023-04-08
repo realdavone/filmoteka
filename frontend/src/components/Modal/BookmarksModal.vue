@@ -5,27 +5,35 @@
         <header>
           <span v-font:large class="heading">Záložky</span>
         </header>
-        <section v-if="store.state.favourites.length !== 0" class="title-holder">
+        <section v-if="favouritesStore.favourites.length !== 0" class="title-holder">
           <div class="search-input-holder">
             <span class="material-icons-outlined">search</span>
             <input v-model="searchInput" class="search-input" type="text" placeholder="Vyhľadávanie v záložkách">
             <button v-if="searchInput.length" class="clear-search" @click="searchInput = ''">&times;</button>
           </div>
           <ul v-auto-animate>
-            <li :class="{ 'inactive' : title.inactive }" class="title" v-for="title in items" :key="title.id">
+            <li
+              :class="{ 'inactive': !title.title.toLowerCase().includes(searchInput.toLowerCase()) }"
+              class="title"
+              v-for="title in favouritesStore.favourites"
+              :key="title.id"
+            >
               <router-link tabindex="0" @click.native="$emit('close')" :to="{ name: title.type, params: { id: title.id } }">
                 <div class="poster">
                   <img v-if="title.img" :src="`https://image.tmdb.org/t/p/w92${title.img}`" onerror="javascript:this.remove()" :alt="title.title" loading="lazy">
                 </div>
                 <div>
                   <span v-font:small class="text">{{ title.title }}</span>
-                  <span v-if="title.season" class="last-watched">{{title.season}}.{{`${title.episode < 10 ? '0' + title.episode : title.episode}`}}</span>
+                  <span
+                    v-if="title.episode"
+                    class="last-watched"
+                  >{{ title.season }}.{{`${title.episode < 10 ? '0' + title.episode : title.episode}`}}</span>
                 </div>
               </router-link>
               <button
                 v-font:large
                 class="remove-item"
-                @click="store.methods.favourites.toggle({ id: title.id, type: title.type })"
+                @click="favouritesStore.toggle({ id: title.id, type: title.type, img: title.img, title: title.title })"
                 title="Odobrať"
               >&times;</button>
             </li>
@@ -37,7 +45,7 @@
         </div>
         <div class="buttons">
           <BasicButton type="close" @handleClick="emit('close')">Zavrieť</BasicButton>
-          <BasicButton v-if="store.state.favourites.length !== 0" type="transparent" @handleClick="store.methods.favourites.removeAll()">Zmazať všetky</BasicButton>
+          <BasicButton v-if="favouritesStore.favourites.length !== 0" type="transparent" @handleClick="favouritesStore.removeAll()">Zmazať všetky</BasicButton>
         </div>
       </aside>
     </template>
@@ -45,34 +53,21 @@
 </template>
 
 <script setup lang="ts">
-import { inject, computed, ref, defineAsyncComponent } from 'vue'
+import { ref, defineAsyncComponent } from 'vue'
 import { onClickOutside } from '@vueuse/core'
-import BasicButton from '../Buttons/BasicButton.vue';
-
+import BasicButton from '../Buttons/BasicButton.vue'
+import { useFavouritesStore } from '../../store/favourites'
 const Modal = defineAsyncComponent(() => import('./Modal.vue'))
-
-type BaseTitle = {
-  title: string
-  type: 'Movie' | 'Tv'
-  img: string
-  id: string
-  season?: number
-  episode?: number
-}
-
-const store = inject<any>('store')
 
 const modal = ref<null | HTMLElement>(null)
 const searchInput = ref('')
-
+const favouritesStore = useFavouritesStore()
 const emit = defineEmits(['close'])
 
 onClickOutside(modal, () => {
   searchInput.value = ''
   emit('close')
 })
-
-const items = computed(() => store.state['favourites'].map((title: BaseTitle) => title.title.toLowerCase().includes(searchInput.value.toLowerCase()) ? title : { ...title, inactive: true }))
 </script>
 
 <style lang="scss" scoped>

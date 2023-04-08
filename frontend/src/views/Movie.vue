@@ -5,19 +5,19 @@
         <Poster v-if="result?.poster_path" :src="result.poster_path" :alt="result?.title" :fadeInOnLoad="true" />
       </template>
       <template #feedback>
-        <Feedback v-if="!loading && store.state.credentials.loggedIn && (new Date()) > new Date(result!.release_date)" :likes="result?.likes" :dislikes="result?.dislikes" :title="{ id: $route.params.id as string, type: 'movie' }"/>
+        <Feedback v-if="!loading && authStore.isLoggedIn && (new Date()) > new Date(result!.release_date)" :likes="result?.likes" :dislikes="result?.dislikes" :title="{ id: $route.params.id as string, type: 'movie' }"/>
         <div v-else style="display:none"></div>
       </template>
       <template #actionMenu>
         <ActionMenu>
           <template v-if="!loading">
             <ActionButton title="Skopírovať URL adresu" icon="copy" @handleClick="handleEvent('COPY_URL')" />
-            <template v-if="store.state.credentials.loggedIn">
+            <template v-if="authStore.isLoggedIn">
               <ActionButton title="Nahlásiť prehrávač" :loading="isPlayerWorking.isLoading" icon="report" :warning="!isPlayerWorking.value" @handleClick="handleEvent('TOGGLE_WORKING_PLAYER')" />
               <ActionButton title="Odporúčiť" :loading="isRecommended.isLoading"  icon="thumb_up" :disabled="isRecommended.value" @handleClick="handleEvent('ADD_RECOMMENDED')" />
-              <ActionButton title="Označit ako prezrené" :success="store.methods.watched.exists({ type: route.name, id: route.params.id })" icon="visibility" @handleClick="handleEvent('TOGGLE_WATCHED')" />
-              <ActionButton title="Pripnutie prehrávača" :success="store.state.settings.pinnedPlayer" icon="push_pin" @handleClick="handleEvent('TOGGLE_PINNED_PLAYER')" />
-              <ActionButton title="Pridanie k záložkam" :success="store.methods.favourites.exists({ type: route.name, id: route.params.id })" icon="bookmark" @handleClick="handleEvent('TOGGLE_BOOKMARK')" />  
+              <ActionButton title="Označit ako prezrené" :success="watchedStore.exists({ type: 'Movie', id: route.params.id as string })" icon="visibility" @handleClick="handleEvent('TOGGLE_WATCHED')" />
+              <ActionButton title="Pripnutie prehrávača" :success="localSettingsStore.localSettings.pinnedPlayer" icon="push_pin" @handleClick="handleEvent('TOGGLE_PINNED_PLAYER')" />
+              <ActionButton title="Pridanie k záložkam" :success="favouritesStore.exists({ type: 'Movie', id: route.params.id as string })" icon="bookmark" @handleClick="handleEvent('TOGGLE_BOOKMARK')" />  
             </template>
           </template>
         </ActionMenu>
@@ -109,7 +109,7 @@
     </PlayerDetails>
     <template v-if="!loading">
       <Discussion
-        v-if="store.state.credentials.loggedIn && $route.params.id"
+        v-if="authStore.isLoggedIn && $route.params.id"
         :title="{ type: 'movie', id: $route.params.id as string }"
       />
       <Collection
@@ -145,7 +145,7 @@ import getData from '../api/main'
 import _ from '../utils/main'
 import useTitle from '../composables/title'
 
-import { ref, reactive, onBeforeMount, inject, onActivated } from 'vue'
+import { ref, reactive, onBeforeMount, onActivated } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { notify } from "@kyvg/vue3-notification"
 
@@ -164,9 +164,20 @@ import Poster from '../components/Content/Poster.vue'
 import { FullMovieType, MovieTitleTranslation } from '../types/title'
 import { RecommendedResponse, WorkingPlayerResponse } from '../types/response'
 
+import { useFavouritesStore } from '../store/favourites'
+import { useWatchedStore } from '../store/watched'
+import { useLocalSettingsStore } from '../store/local-settings'
+import { useRecentTitlesStore } from '../store/recent-items'
+import { useAuthStore } from '../store/auth'
+
+const favouritesStore = useFavouritesStore()
+const watchedStore = useWatchedStore()
+const localSettingsStore = useLocalSettingsStore()
+const recentTitlesStore = useRecentTitlesStore()
+
 const route = useRoute()
 const router = useRouter()
-const store = inject<any>('store')
+const authStore = useAuthStore()
 
 const result = ref<null | FullMovieType>(null)
 const loading = ref(true)
@@ -197,11 +208,11 @@ const fetchData = async (id: string) => {
     isPlayerWorking.value = result.value.isPlayerWorking ?? true
     isRecommended.value = result.value.isRecommended ?? false
 
-    store.methods.recentItems.pushItem({
-      type: route.name,
+    recentTitlesStore.addItem({
+      type: 'Tv',
       title: result.value.title,
-      id: route.params.id,
-      poster: result.value.poster_path
+      id: +route.params.id,
+      poster: result.value.poster_path as string
     })
 
     useTitle({ title: `${result.value?.title}${result.value?.omdb.Year !== undefined ? (' (' + result.value?.omdb.Year + ')') : ''}` }) 
@@ -226,7 +237,7 @@ const handleEvent = async (event: 'ADD_RECOMMENDED' | 'TOGGLE_WORKING_PLAYER' | 
           endpoint: '/title/recommend',
           options: {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'access-token': store.state.credentials.accessToken },
+            headers: { 'Content-Type': 'application/json', 'access-token': authStore.accessToken },
             body: JSON.stringify({ id: result.value?.id, img: result.value?.poster_path, type: route.name, savedTitle: result.value?.title })
           }
         })
@@ -247,7 +258,7 @@ const handleEvent = async (event: 'ADD_RECOMMENDED' | 'TOGGLE_WORKING_PLAYER' | 
           endpoint: `/title/non-working/`,
           options: {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'access-token': store.state.credentials.accessToken },
+            headers: { 'Content-Type': 'application/json', 'access-token': authStore.accessToken },
             body: JSON.stringify({ id: route.params.id, img: result.value?.poster_path, type: route.name, title: result.value?.title })
           }
         })
@@ -274,15 +285,24 @@ const handleEvent = async (event: 'ADD_RECOMMENDED' | 'TOGGLE_WORKING_PLAYER' | 
       break
     }
     case 'TOGGLE_WATCHED': {
-      store.methods.watched.toggle({ id: route.params.id, type: route.name, title: result.value?.title})
+      watchedStore.toggle({
+        id: route.params.id.toString(),
+        type: 'Movie',
+        title: result.value?.title as string
+      })
       break
     }
     case 'TOGGLE_PINNED_PLAYER': {
-      store.methods.settings.pinnedPlayerToggle()
+      localSettingsStore.togglePinnedPlayer()
       break
     }
     case 'TOGGLE_BOOKMARK': {
-      store.methods.favourites.toggle({ id: route.params.id, img: result.value?.poster_path, type: route.name, title: result.value?.title })
+      favouritesStore.toggle({
+        id: route.params.id as string,
+        img: result.value?.poster_path as string,
+        type: 'Movie',
+        title: result.value?.title as string
+      })
       break
     }
   }

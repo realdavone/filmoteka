@@ -1,5 +1,5 @@
 <template>
-  <router-link tabindex="0" :title="item.title" :class="`title-card user-select-none ${store.methods.watched.exists({ type: item.media_type, id: item.id }) ? 'seen' : ''}`" :to="`/${item.media_type}/${item.id}`">
+  <router-link tabindex="0" :title="item.title" :class="`title-card user-select-none ${watchedStore.exists({ type: item.media_type, id: item.id.toString() }) ? 'seen' : ''}`" :to="`/${item.media_type}/${item.id}`">
     <div class="poster">
       <div v-if="!item.poster_path">{{ item.title }}</div>
       <Poster :src="item.poster_path || null" :alt="item.title" :fadeInOnLoad="true" />
@@ -13,9 +13,10 @@
 <script setup lang="ts">
 import Poster from './Poster.vue'
 
-import { inject } from 'vue'
+import { useWatchedStore } from '../../store/watched'
 
-const store = inject<any>('store')
+const watchedStore = useWatchedStore()
+
 const { item } = defineProps<{
   item: {
     media_type: 'movie' | 'tv'

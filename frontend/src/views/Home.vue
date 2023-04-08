@@ -2,7 +2,7 @@
   <main class="home">
     <Featured :titles="featuredTitles" />
     <CallToLogin
-      v-if="!store.state.credentials.loggedIn"
+      v-if="!authStore.isLoggedIn"
       :enableClose="false"
     />
     <CardPanel
@@ -19,10 +19,10 @@
     />
     <CardPanel
       style="margin-top: 1rem;"
-      v-if="store.state.recentItems.length"
+      v-if="recentTitlesStore.recentItems.length"
       heading="Posledné navštívené"
-      :cards="store.state.recentItems.map((item: any)=> ({
-        media_type: item.type.toLowerCase(),
+      :cards="recentTitlesStore.recentItems.map(item => ({
+        media_type: item.type.toLowerCase() as 'movie' | 'tv',
         title: item.title,
         poster_path: item.poster,
         id: item.id
@@ -34,9 +34,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeMount, inject } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import { useRouter } from 'vue-router'
 import getData from '../api/main'
+import { useRecentTitlesStore } from '../store/recent-items'
 
 import Featured from '../components/Home/Featured.vue'
 import CardPanel from '../components/Content/CardPanel.vue'
@@ -44,8 +45,10 @@ import CallToLogin from '../components/Content/CallToLogin.vue'
 
 import { Title } from '../types/title'
 import { ApiListResponse } from '../types/response'
+import { useAuthStore } from '../store/auth'
 
-const store = inject<any>('store')
+const recentTitlesStore = useRecentTitlesStore()
+const authStore = useAuthStore()
 const router = useRouter()
 
 const trendingTitles = ref<Title[] | null>(null)
@@ -56,7 +59,6 @@ const fetchData = async () => {
     const trends = await getData<ApiListResponse<Title[]>>({ endpoint: '/panel/trending/day' })
     trendingTitles.value = trends['results'].filter(title => title['poster_path'] !== null)
 
-    featuredTitles.value = new Array()
     featuredTitles.value = [trendingTitles.value[0], trendingTitles.value[5], trendingTitles.value[10], trendingTitles.value[15]]
 
   } catch (error) { router.push({ name: 'NotFound' }) }

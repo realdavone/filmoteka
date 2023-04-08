@@ -1,18 +1,4 @@
-import getData from '../api/main.js'
-
 export default {
-  async getCountries(code: string){
-    const data = await getData<any>({ endpoint: `/country-codes/${code}` })
-    return data.codes
-  },
-  async getGenres(keyword: 'movie' | 'tv'){
-    const data = await getData<any>({ endpoint: `/resources/genre/${keyword}` })
-    const genres = new Map()
-    for(let genre of data.genres){
-      genres.set(genre.id, genre.name)
-    }
-    return genres
-  },
   makeUnscrollable(element: HTMLElement, arg: any){ element.classList.toggle('modal-open', arg) },
   getTranslations<T extends { data: { overview: string } }>(translations: Array<T>, key: keyof T, codes: Array<string>): T{
     return translations

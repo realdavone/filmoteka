@@ -8,7 +8,7 @@
       zo strany ostatných webových služieb, ktorí sprístupňujú tento obsah. 
       Prevádzkovateľ nie je majiteľom žiadnych takých webových služieb!
       <br><br>
-      Hlavnou úlohou portálu {{url}} je odkazovanie na tzv. embedovaná videá.
+      Hlavnou úlohou portálu {{ url }} je odkazovanie na tzv. embedovaná videá.
       <br><br>
       Táto činnosť je Európskym súdom vyhlásená ako legálna a tým pádom neporušujeme žiadny zákon, zdroje:
       <br><br>
@@ -24,7 +24,7 @@
       V prípade, že ste vlastníkom práv niektorého súboru, berte na vedomie, 
       že odstránením odkazu nebude odobraté skutočné zdrojové video. 
       Musíte kontaktovať vlastníkov serverov a požiadať priamo ich o odstránenie. 
-      Portál {{url}} ponúka len odkazy a nie konkrétne súbory!
+      Portál {{ url }} ponúka len odkazy a nie konkrétne súbory!
     </article>
   </section>
 </template>

@@ -8,7 +8,7 @@
           style="width:45px;"
         >&times;</button>
       </div>
-      <div v-if="store.state.credentials.loggedIn" class="right-col">
+      <div v-if="authStore.isLoggedIn" class="right-col">
         <BasicButton
           type="transparent"
           @handleClick="handleLogout"
@@ -16,12 +16,12 @@
         >Odhlásiť</BasicButton>
       </div>
     </header>
-    <section v-if="store.state.credentials.loggedIn" class="user-select-none user">
+    <section v-if="authStore.isLoggedIn" class="user-select-none user">
       <div class="user-info">
         <div class="username">
-          <Avatar :id="store.state.credentials.user._id" />
-          <span v-font:small>{{ store.state.credentials.user.email }}</span>
-          <Verified v-if="store.state.credentials.user.isVerified" />
+          <Avatar :id="authStore.user!._id" />
+          <span v-font:small>{{ authStore.user!.email }}</span>
+          <Verified v-if="authStore.user!.isVerified" />
         </div>
       </div>
     </section>
@@ -34,7 +34,7 @@
             label: item.label,
             icon: item.icon,
             route: item.route,
-            isVisible: item.isVisible
+            isVisible: item.isVisible ?? false
           }"
           @handleClick="menuClickHandler(item?.onclick ?? closeMenu)"
         />
@@ -59,14 +59,16 @@ import BasicButton from './Buttons/BasicButton.vue'
 import MenuItem from './Sidebar/MenuItem.vue'
 import { notify } from "@kyvg/vue3-notification"
 import { onClickOutside } from '@vueuse/core'
-import { ref, inject, onMounted, onUnmounted } from 'vue'
-import Auth from '../auth/main'
+import { ref, onMounted, onUnmounted } from 'vue'
 import _ from '../utils/main'
 import useEvent from '../composables/event'
 import Verified from './Content/Verified.vue'
 import Dialog from './Dialog.vue'
+import { useAuthStore } from '../store/auth'
+import { useRouter } from 'vue-router'
 
-const store = inject<any>('store')
+const authStore = useAuthStore()
+const router = useRouter()
 
 const menu = ref<null | HTMLDivElement>(null)
 const dialog = ref<InstanceType<typeof Dialog> | null>(null)
@@ -98,7 +100,7 @@ const menuItems = [
     label: 'Admin',
     icon: 'admin_panel_settings',
     route: '/admin',
-    isVisible: store.state.credentials.user?.isAdmin
+    isVisible: authStore.user?.isAdmin
   },
   {
     label: 'DMCA',
@@ -116,7 +118,15 @@ const menuItems = [
   }
 ]
 
-const logout = () => Auth.logout().then(res => notify({ type: 'success', text: res.message }))
+async function logout(){
+  try {
+    const res = await authStore.logout()
+    notify({ type: 'success', text: res.message })
+    router.push('/')   
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 useEvent({
   target: document,

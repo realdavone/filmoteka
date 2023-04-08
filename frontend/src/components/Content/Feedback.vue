@@ -4,7 +4,7 @@
       <span
       v-bind="{
         class: 'material-icons',
-        ...(likesCount.includes(store.state.credentials.user._id) && {
+        ...(likesCount.includes(authStore.user!._id) && {
           style: { color: 'crimson' }
         })
       }"
@@ -15,7 +15,7 @@
       <span
       v-bind="{
         class: 'material-icons',
-        ...(dislikesCount.includes(store.state.credentials.user._id) && {
+        ...(dislikesCount.includes(authStore.user!._id) && {
           style: { color: 'seagreen' }
         })
       }"
@@ -26,10 +26,11 @@
 </template>
 
 <script setup lang="ts">
-import { inject, ref } from 'vue'
+import { ref } from 'vue'
 import getData from '../../api/main.js'
+import { useAuthStore } from '../../store/auth';
 
-const store = inject<any>('store')
+const authStore = useAuthStore()
 
 const { likes, dislikes, title } = defineProps<{
   likes?: Array<string>,
@@ -48,22 +49,22 @@ const handleFeedback = async (action: 'like' | 'dislike') => {
     endpoint: `/title/rate`,
     options: {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json', 'access-token': store.state.credentials.accessToken },
+      headers: { 'Content-Type': 'application/json', 'access-token': authStore.accessToken },
       body: JSON.stringify({ ...title, action })
     }
   })
   if(data.success){
     switch(action){
       case 'like': {
-        if(likesCount.value.includes(store.state.credentials.user?._id)) likesCount.value = likesCount.value.filter(like => like !== store.state.credentials.user._id)
-        else likesCount.value.push(store.state.credentials.user._id)
-        dislikesCount.value = dislikesCount.value.filter(dislike => dislike !== store.state.credentials.user._id)
+        if(likesCount.value.includes(authStore.user!?._id)) likesCount.value = likesCount.value.filter(like => like !== authStore.user!._id)
+        else likesCount.value.push(authStore.user!._id)
+        dislikesCount.value = dislikesCount.value.filter(dislike => dislike !== authStore.user!._id)
         break
       }
       case 'dislike': {
-        if(dislikesCount.value.includes(store.state.credentials.user?._id)) dislikesCount.value = dislikesCount.value.filter(dislike => dislike !== store.state.credentials.user._id)
-        else dislikesCount.value.push(store.state.credentials.user._id)
-        likesCount.value = likesCount.value.filter(like => like !== store.state.credentials.user._id)
+        if(dislikesCount.value.includes(authStore.user!?._id)) dislikesCount.value = dislikesCount.value.filter(dislike => dislike !== authStore.user!._id)
+        else dislikesCount.value.push(authStore.user!._id)
+        likesCount.value = likesCount.value.filter(like => like !== authStore.user!._id)
         break
       }
     }

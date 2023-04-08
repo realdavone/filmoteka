@@ -14,7 +14,7 @@
         @setPlayer="setPlayer"
       />
     </section>
-    <template v-if="props.hasFirstEpisodeAired && areThereAnyEpisodes && (store.state.globalSettings?.allowWatchWhileUnregistered || store.state.credentials.loggedIn)">
+    <template v-if="props.hasFirstEpisodeAired && areThereAnyEpisodes && (globalConfigStore.globalConfig?.allowWatchWhileUnregistered || authStore.isLoggedIn)">
       <EpisodeControls
         :seasons="seasons"
         :current="currentSeasonAndEpisode"
@@ -29,7 +29,7 @@
       />
     </template>
     <section
-      v-if="(props['lastEpisode'] || props['nextEpisode']) && (store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn)"
+      v-if="(props['lastEpisode'] || props['nextEpisode']) && (globalConfigStore.globalConfig?.allowWatchWhileUnregistered || authStore.isLoggedIn)"
       class="episode-card-holder"
     >
       <EpisodeCard 
@@ -62,10 +62,12 @@ import EpisodeInfo from './EpisodeInfo.vue'
 import EpisodeCard from './EpisodeCard.vue'
 import EpisodeControls from './EpisodeControls.vue'
 import Player from '../Content/Player.vue'
-
-import { ref, onBeforeMount, inject, reactive } from 'vue'
+import { useFavouritesStore } from '../../store/favourites'
+import { ref, onBeforeMount, reactive } from 'vue'
  
 import { FullTvTitleType } from '../../types/title'
+import { useAuthStore } from '../../store/auth'
+import { useGlobalConfigStore } from '../../store/global-config'
 
 const props = defineProps<{
   id: number
@@ -75,7 +77,11 @@ const props = defineProps<{
   seasons?: FullTvTitleType['seasons']
   isPlayerWorking: boolean
 }>()
-const store = inject<any>('store')
+
+const authStore = useAuthStore()
+const globalConfigStore = useGlobalConfigStore()
+
+const favouritesStore = useFavouritesStore()
 
 const currentSeasonAndEpisode = reactive({ season: 0, episode: 0 })
 
@@ -103,21 +109,21 @@ function setPlayer() {
   player.value?.handlePlayButton(
     `https://www.2embed.to/embed/tmdb/tv?id=${props.id}&s=${currentSeasonAndEpisode.season + 1}&e=${currentSeasonAndEpisode.episode + 1}`,
     () => {
-      if(store.state.favourites.some((item: any) => item.id === props.id.toString())){
-        store.methods.favourites.update(props.id.toString(), currentSeasonAndEpisode.season + 1, currentSeasonAndEpisode.episode + 1)
+      if(favouritesStore.favourites.some(item => item.id === props.id.toString())){
+        favouritesStore.update(props.id.toString(), currentSeasonAndEpisode.season + 1, currentSeasonAndEpisode.episode + 1)
       }
     }
   )
 }
 
 onBeforeMount(() => {
-  const episode = store.state.favourites.find((item: any) => item.id.toString() === props.id.toString())
+  const savedTitle = favouritesStore.favourites.find(item => item.id.toString() === props.id.toString())
 
   if(!seasons.value?.length) {
     areThereAnyEpisodes.value = false
   } else {
-    currentSeasonAndEpisode.season = ((+episode?.season || 1) - 1)
-    currentSeasonAndEpisode.episode = ((+episode?.episode || 1) - 1)
+    currentSeasonAndEpisode.season = ((savedTitle?.season ? +savedTitle.season : 1) - 1)
+    currentSeasonAndEpisode.episode = ((savedTitle?.episode ? +savedTitle.episode : 1) - 1)
   }
 })
 </script>

@@ -10,7 +10,7 @@
             <div class="poster">
               <slot name="poster" />
             </div>
-            <slot v-if="store.state.credentials.loggedIn" name="feedback">
+            <slot v-if="authStore.isLoggedIn" name="feedback">
               <div class="skeleton-text" style="height:28px;width:100px;"></div>
             </slot>
           </div>
@@ -56,13 +56,12 @@
 </template>
 
 <script setup lang="ts">
-import { inject } from 'vue'
-
 import PlayerPlaceholder from '../Placeholders/PlayerPlaceholder.vue'
 import DetailsPlaceholder from '../Placeholders/DetailsPlaceholder.vue'
 import CoverPoster from './CoverPoster.vue'
+import { useAuthStore } from '../../store/auth';
 
-const store = inject<any>('store')
+const authStore = useAuthStore()
 
 const { bg } = defineProps<{ bg?: string | null }>()
 </script>

@@ -56,7 +56,6 @@
 
 <script setup lang="ts">
 import DetailsItem from './DetailsItem.vue'
-import { inject } from 'vue'
 
 type Props = {
   details: {
@@ -91,8 +90,6 @@ type Props = {
 }
 
 const { details } = defineProps<Props>()
-
-const store = inject<any>('store')
 
 const status = new Map([
   ['Returning Series', 'Pokračuje'],

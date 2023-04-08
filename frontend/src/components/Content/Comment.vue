@@ -10,7 +10,7 @@
       <div v-font:medium>{{ comment.content }}</div>
       <button
         v-font:small
-        v-if="store.state.credentials.user?.email === comment.author?.email"
+        v-if="authStore.user?.email === comment.author?.email"
         class="remove-comment"
         :disabled="loading"
         @click="deleteComment(comment._id)"
@@ -23,11 +23,12 @@
 import getData from '../../api/main'
 import useRelativeTimeDifference from '../../composables/relative-time-difference'
 
-import { inject, ref } from 'vue'
+import { ref } from 'vue'
 
 import { Comment } from '../../types/comment'
 import Avatar from '../Avatar.vue'
 import Verified from './Verified.vue'
+import { useAuthStore } from '../../store/auth'
 
 const { comment } = defineProps<{ comment: Comment }>()
 const emit = defineEmits(['deleted'])
@@ -53,7 +54,7 @@ const deleteComment = (id: string): void => {
   .finally(() => loading.value = false)
 }
 
-const store = inject<any>('store')
+const authStore = useAuthStore()
 </script>
 
 <style lang="scss" scoped>

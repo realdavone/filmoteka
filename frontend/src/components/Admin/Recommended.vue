@@ -12,10 +12,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import getData from '../../api/main'
-import store from '../../store/index'
 import useRelativeTimeDifference from '../../composables/relative-time-difference'
 
 import { RecommendedTitle } from '../../types/title'
+import { useAuthStore } from '../../store/auth';
+
+const authStore = useAuthStore()
 
 const recommended = ref<Array<RecommendedTitle>>([])
 
@@ -24,7 +26,7 @@ recommended.value = await getData<Array<RecommendedTitle>>({ endpoint: '/title/r
 const removeItem = async (id: string) => {
   const data = await getData<{ success: boolean }>({ endpoint: '/title/recommend', options: {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json', 'access-token': store.state.credentials.accessToken },
+    headers: { 'Content-Type': 'application/json', 'access-token': authStore.accessToken },
     body: JSON.stringify({ id })
   } })
 

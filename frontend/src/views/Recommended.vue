@@ -26,9 +26,11 @@ import CardPanel from '../components/Content/CardPanel.vue'
 
 import getData from '../api/main'
 import { RecommendedTitle } from '../types/title'
+import { useNotificationStore } from '../store/notifications'
+
+const notificationsStore = useNotificationStore()
 
 const router = useRouter()
-const store = inject<any>('store')
 const items = ref<Array<RecommendedTitle> | null>(null)
 const loading = ref(false)
 
@@ -53,7 +55,7 @@ const fetchRecommended = async () => {
 }
 
 onBeforeMount(() => fetchRecommended())
-onUnmounted(() => store.methods.notifications.recommended.reset())
+onUnmounted(() => notificationsStore.removeNotification('recommended'))
 </script>
 
 <style lang="scss" scoped>

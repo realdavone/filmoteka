@@ -10,7 +10,7 @@
       </div>
       <div v-if="title.vote_average" class="rating">
         <Rating :rating="title.vote_average" size="small" />
-        <span v-if="store.methods.watched.exists({ type: title.media_type, id: title.id.toString() })" style="color:var(--theme-color)" class="material-icons icon">visibility</span>
+        <span v-if="watchedStore.exists({ type: title.media_type, id: title.id.toString() })" style="color:var(--theme-color)" class="material-icons icon">visibility</span>
       </div>
       <div v-font:small class="overview" v-if="title.overview">{{title.overview}}</div>
     </section>
@@ -25,7 +25,7 @@ import Rating from '../Content/Rating.vue'
 import Poster from '../Content/Poster.vue'
 import CoverPoster from '../Content/CoverPoster.vue'
 
-import { inject } from 'vue'
+import { useWatchedStore } from '../../store/watched';
 
 const { title } = defineProps<{
   title: {
@@ -40,7 +40,7 @@ const { title } = defineProps<{
   }
 }>()
 
-const store = inject<any>('store')
+const watchedStore = useWatchedStore()
 </script>
 
 <style lang="scss" scoped>

@@ -38,7 +38,7 @@
         <router-link
           v-font:small
           tabindex="0"
-          v-if="store.state.globalSettings?.allowRegistration"
+          v-if="globalSettingsStore.globalConfig?.allowRegistration"
           to="/register"
           class="link"
         >Ešte nemáte účet?</router-link>
@@ -52,13 +52,16 @@ import Loader from '../components/Loader.vue'
 import { notify } from "@kyvg/vue3-notification"
 import { reactive, inject, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import Auth from '../auth/main'
 import '../styles/auth.scss'
 import BasicButton from '../components/Buttons/BasicButton.vue'
 import AuthInput from '../components/Auth/AuthInput.vue'
+import { useGlobalConfigStore } from '../store/global-config'
+import { useAuthStore } from '../store/auth'
 
 const router = useRouter()
-const store = inject<any>('store')
+
+const globalSettingsStore = useGlobalConfigStore()
+const authStore = useAuthStore()
 
 const credentials = reactive<{
   email: string
@@ -75,7 +78,7 @@ onMounted(() => {
     client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
     callback: (response) => {
       loginStart.value = true
-      Auth.google(response.credential)
+      authStore.google(response.credential)
       .then(res => {
         window.history.state.back === null ? router.push('/') : router.go(-1)
         notify({ type: 'success', text: res.message })
@@ -99,7 +102,7 @@ onMounted(() => {
 
 const login = () => {
   loginStart.value = true
-  Auth.login({ email: credentials.email, password: credentials.password })
+  authStore.login({ email: credentials.email, password: credentials.password })
     .then(res => {
       window.history.state.back === null ? router.push('/') : router.go(-1)
       notify({ type: 'success', text: res.message })

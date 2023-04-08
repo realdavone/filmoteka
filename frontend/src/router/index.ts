@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteLocationNormalized } from 'vue-router'
-import store from '../store/index'
 import useTitle from '../composables/title'
+import { useAuthStore } from '../store/auth'
+import { useGlobalConfigStore } from '../store/global-config'
 
 const routes = [
   {
@@ -93,7 +94,8 @@ const routes = [
       title: 'Registrácia'
     },
     beforeEnter: () => {
-      if(!store.state.globalSettings!.allowRegistration) return '/'
+      const globalConfigStore = useGlobalConfigStore()
+      if(!globalConfigStore.globalConfig?.allowRegistration) return '/'
     }
   },
   {
@@ -115,10 +117,10 @@ const router = createRouter({
 })
 
 async function getRedirect(to: RouteLocationNormalized) {
-  const { loggedIn } = store.state.credentials
+  const authStore = useAuthStore()
 
-  if(to.meta.denyAccessAsLoggedIn && loggedIn) return Promise.resolve('/') 
-  if(to.name === 'Admin' && !loggedIn) return Promise.resolve('/login')
+  if(to.meta.denyAccessAsLoggedIn && authStore.isLoggedIn) return Promise.resolve('/') 
+  if(to.name === 'Admin' && !authStore.isLoggedIn) return Promise.resolve('/login')
 
   return Promise.resolve(undefined)
 } 

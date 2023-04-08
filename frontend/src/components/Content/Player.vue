@@ -8,7 +8,7 @@
         </div>
       </Transition>
       <button
-        v-if="store.state.globalSettings.allowWatchWhileUnregistered || store.state.credentials.loggedIn"
+        v-if="globalSettingsStore.globalConfig?.allowWatchWhileUnregistered || authStore.isLoggedIn"
         @click="$emit('setPlayer')"
         class="play-button"
       ><span class="material-icons-outlined">play_arrow</span></button>
@@ -43,11 +43,17 @@
 
 <script setup lang="ts">
 import useEvent from '../../composables/event'
+import { useAuthStore } from '../../store/auth';
+import { useGlobalConfigStore } from '../../store/global-config';
+import { useLocalSettingsStore } from '../../store/local-settings'
 import Loader from '../Loader.vue'
-import { ref, inject, watch, defineAsyncComponent } from 'vue'
+import { ref, watch, defineAsyncComponent } from 'vue'
 const Dialog = defineAsyncComponent(() => import('../Dialog.vue'))
 
-const store = inject<any>('store')
+const localSettingsStore = useLocalSettingsStore()
+const globalSettingsStore = useGlobalConfigStore()
+
+const authStore = useAuthStore()
 const pinned = ref(false)
 const loadedIframe = ref(false)
 const playerHolder = ref<HTMLElement | null>(null)
@@ -62,15 +68,15 @@ const props = defineProps<{
   isPlayerWorking: boolean
 }>()
 
-watch(() => store.state.settings.pinnedPlayer, (val: Boolean) => { val ? addListener() : removeListener() })
+watch(() => localSettingsStore.localSettings.pinnedPlayer, (val: Boolean) => { val ? addListener() : removeListener() })
 
 function handleScroll() {
-  pinned.value = iframeSource.value && store.state.settings.pinnedPlayer && (playerHolder.value!.offsetTop < window.scrollY)
+  pinned.value = Boolean(iframeSource.value) && localSettingsStore.localSettings.pinnedPlayer && (playerHolder.value!.offsetTop < window.scrollY)
 }
 
 async function handlePlayButton(url: string, cb?: (...args: unknown[]) => void) {
   try {
-    (sessionStorage.getItem('adblockWarning') !== 'false') && store.state.globalSettings?.adblockModalWarning && await dialog.value!.handleDialogWindow({
+    (sessionStorage.getItem('adblockWarning') !== 'false') && globalSettingsStore.globalConfig?.adblockModalWarning && await dialog.value!.handleDialogWindow({
       body: `Po spustení prehraváča sa možu zobraziť reklamy tretích strán ktoré treba zavrieť.
       Týmto reklamám sa dá vyhnúť zapnutím Adblocku.`,
       cancelText: 'Zavrieť',
@@ -92,7 +98,7 @@ defineExpose({
 
 const { addListener, removeListener } = useEvent({ target: window, event: 'scroll', callback: handleScroll })
 
-store.state.settings.pinnedPlayer ? addListener() : removeListener()
+localSettingsStore.localSettings.pinnedPlayer ? addListener() : removeListener()
 </script>
 
 <style lang="scss" scoped>

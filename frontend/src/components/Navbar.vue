@@ -14,7 +14,7 @@
         title="Vyhľadávanie"
         @handleClick="isSearchRendered = true"
       ><span class="material-icons" style="padding-top:5px;font-weight:700;">search</span></NavButton>
-      <template v-if="store.state.credentials.loggedIn">
+      <template v-if="authStore.isLoggedIn">
         <NavButton
           title="Knižnica"
           @handleClick="$router.push('/library')"
@@ -22,18 +22,18 @@
         <NavButton
           title="Odporúčané"
           @handleClick="$router.push('/recommended')"
-          v-bind="{ ...(store.state.notifications.recommended.length > 0 && { ['data-notification']: '' }) }"
+          v-bind="{ ...(notificationsStore.notifications.recommended.length > 0 && { ['data-notification']: '' }) }"
         ><span class="material-icons-outlined" style="padding-top:5px">recommend</span></NavButton>
         <NavButton
           title="Záložky"
           @handleClick="bookmarksVisible = true"
-          v-bind="{ ...(store.state.favourites.length > 0 && {['data-count']: store.state.favourites.length}) }"
+          v-bind="{ ...(favouritesStore.favourites.length > 0 && {['data-count']: favouritesStore.favourites.length}) }"
         ><span class="material-icons-outlined" style="padding-top:5px">bookmarks</span></NavButton>
       </template>
-      <div v-if="!isSearchRendered && !store.state.credentials.loggedIn" class="auth-buttons">
+      <div v-if="!isSearchRendered && !authStore.isLoggedIn" class="auth-buttons">
         <button
           class="register"
-          v-if="store.state.globalSettings?.allowRegistration"
+          v-if="globalConfigStore.globalConfig?.allowRegistration"
           @click="$router.push('/register')"
         >Registrovať</button>
         <button
@@ -59,13 +59,20 @@
 import { ref, inject, defineAsyncComponent, onMounted } from 'vue'
 
 import NavButton from './Buttons/NavButton.vue'
-import BasicButton from './Buttons/BasicButton.vue'
 import { DefaultEventsMap } from '@socket.io/component-emitter'
+import { useFavouritesStore } from '../store/favourites'
+import { useNotificationStore } from '../store/notifications'
+import { useAuthStore } from '../store/auth';
+import { useGlobalConfigStore } from '../store/global-config';
 const BookmarksModal = defineAsyncComponent(() => import('./Modal/BookmarksModal.vue'))
 const Sidebar = defineAsyncComponent(() => import('./Sidebar.vue'))
 const SearchForm = defineAsyncComponent(() => import('./Content/SearchForm.vue'))
 
-const store = inject<any>('store')
+const notificationsStore = useNotificationStore()
+const authStore = useAuthStore()
+const globalConfigStore = useGlobalConfigStore()
+
+const favouritesStore = useFavouritesStore()
 const socket = inject<DefaultEventsMap>('socket')
 
 const navbar = ref<HTMLDivElement | null>(null)
@@ -75,7 +82,7 @@ const bookmarksVisible = ref(false)
 
 socket!.on('newRecommended', (data: any) => {
   const { type, id } = data.title.title
-  store.methods.notifications.recommended.add({ type, id }) 
+  notificationsStore.addNotification('recommended', { type, id })
 })
 
 onMounted(() => { 

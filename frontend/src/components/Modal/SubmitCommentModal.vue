@@ -4,9 +4,9 @@
       <div ref="modal" class="modal"> 
         <header>
           <div class="user">
-            <Avatar :id="store.state.credentials.user?._id"/>
-            <span v-font:small>{{store.state.credentials.user?.email}}</span>
-            <Verified v-if="store.state.credentials.user?.isVerified" />
+            <Avatar :id="authStore.user?._id as string"/>
+            <span v-font:small>{{authStore.user?.email}}</span>
+            <Verified v-if="authStore.user?.isVerified" />
           </div>
         </header>
         <div v-if="error" class="error">{{error}}</div>
@@ -35,6 +35,7 @@ import Loader from '../Loader.vue'
 import Avatar from '../Avatar.vue'
 import BasicButton from '../Buttons/BasicButton.vue'
 import Verified from '../Content/Verified.vue'
+import { useAuthStore } from '../../store/auth'
 
 const { title } = defineProps<{
   title: {
@@ -44,7 +45,7 @@ const { title } = defineProps<{
 }>()
 const emit = defineEmits(['close', 'submitted'])
 
-const store = inject<any>('store')
+const authStore = useAuthStore()
 
 const loading = ref<boolean>(false)
 const error = ref<string | null>(null)

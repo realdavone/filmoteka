@@ -46,8 +46,6 @@ import PersonPlaceholder from '../Placeholders/PersonPlaceholder.vue'
 import { Title as TitleType } from '../../types/title'
 import { PersonSearchType } from '../../types/person'
 
-
-
 const props = defineProps<{
   type: 'title' | 'person'
   placeholderData: { count: number }

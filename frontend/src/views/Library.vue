@@ -17,7 +17,7 @@
         />
         <SelectOption
           v-model="filterParams.genre"
-          :options="store.state.genres[filterParams.type]"
+          :options="genresStore.genres[filterParams.type]"
         />
         <SelectOption
           v-model="filterParams.sort"
@@ -28,14 +28,22 @@
         ><span class="label">Filter</span></button>
       </fieldset>
     </div>
-    <ItemPanel type="title" :placeholderData="{count: 8 }" :items="titles" />
+    <ItemPanel
+      type="title"
+      :placeholderData="{count: 8 }"
+      :items="titles"
+    />
     <NoResults v-if="loaded && !titles?.length" />
-    <PageControl v-if="titles?.length" @navigate="navigate" :pages="{ current: filterParams.page, total: totalPages }"/>
+    <PageControl
+      v-if="titles?.length"
+      @navigate="navigate"
+      :pages="{ current: filterParams.page, total: totalPages }"
+    />
   </main>
 </template>
 
 <script setup lang="ts">
-import { ref, inject, onBeforeMount, reactive } from 'vue'
+import { ref, onBeforeMount, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import SelectOption from '../components/SelectOption.vue'
@@ -43,7 +51,7 @@ import Title from '../components/Content/Title.vue'
 import ItemPanel from '../components/Content/ItemPanel.vue'
 import PageControl from '../components/PageControl.vue'
 import NoResults from '../components/NoResults.vue'
-
+import { useGenresStore } from '../store/genres'
 import getData from '../api/main'
 
 import { Title as TitleType } from '../types/title'
@@ -51,7 +59,7 @@ import { ApiListResponse } from '../types/response'
 
 const route = useRoute()
 const router = useRouter()
-const store = inject<any>('store')
+const genresStore = useGenresStore()
 
 const titleTypes = new Map()
 .set('movie', 'Filmy')
@@ -85,16 +93,14 @@ const filterVisible = ref(false)
 
 const loaded = ref(false)
 
-const typeChange = (newType: string): void => {
-  !store.state.genres[newType].has(filterParams.genre) && (filterParams.genre = store.state.genres[filterParams.type].entries().next().value[0])
+function typeChange(newType: 'movie' | 'tv') {
+  !genresStore.genres[newType].has(filterParams.genre) && (filterParams.genre = genresStore.genres[filterParams.type].entries().next().value[0])
 }
 
 const fetchTitles = (url: string): void => {
   getData<ApiListResponse<TitleType[]>>({ endpoint: url })
   .then(data => {
-    const mapped = data.results.filter(title => title.poster_path).map(title => {
-      return { ...title, media_type: filterParams.type }
-    })
+    const mapped = data.results.filter(title => title.poster_path).map(title => ({ ...title, media_type: filterParams.type }))
 
     titles.value = mapped as []
 
@@ -109,7 +115,7 @@ const filter = (type: Filter['type'], sort: Filter['sort'], page: Filter['page']
 
 const navigate = (page: number): void => { router.push({ name: 'Library', query: { ...route.query, page } }) }
 
-onBeforeMount(() => { fetchTitles(`/discover/${route.query.type || 'movie'}?sort=${route.query.sort || 'popularity.desc'}&page=${route.query.page || 1}&genre=${route.query.genre || 28}`) })
+onBeforeMount(() => { fetchTitles(`/discover/${route.query.type ?? 'movie'}?sort=${route.query.sort ?? 'popularity.desc'}&page=${route.query.page ?? 1}&genre=${route.query.genre ?? 28}`) })
 </script>
 
 <style lang="scss" scoped>

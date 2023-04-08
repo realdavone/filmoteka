@@ -4,13 +4,13 @@
       <section class="button-holder-outter">
         <div class="button-holder-inner">
           <button :class="{'active': $route.path.split('/')[2] === button.path}" v-for="(button, key) in categoryButtons" :key="key" @click="filterResults(button.path)">
-            <span v-font:medium class="material-icons">{{button.icon}}</span>
-            <span v-font:medium>{{key}}</span>
+            <span v-font:medium class="material-icons">{{ button.icon }}</span>
+            <span v-font:medium>{{ key }}</span>
           </button>
         </div>
       </section>
       <section class="results-holder">
-        <Title>Výsledky pre <span class="quotation-marks">{{route.query.q}}</span></Title>
+        <Title>Výsledky pre <span class="quotation-marks">{{ route.query.q }}</span></Title>
         <router-view></router-view>
       </section>
     </section>
@@ -18,10 +18,11 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, inject } from 'vue'
+import { onBeforeMount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import Title from '../components/Content/Title.vue'
+import { useRecentSearchStore } from '../store/recent-search'
 
 interface CategoryDetails {
   icon: string
@@ -34,14 +35,14 @@ const categoryButtons: Record<'Filmy' | 'Seriály' | 'Osoby', CategoryDetails> =
   Osoby: { icon: 'person', path: 'person' }
 }
 
-const store = inject<any>('store')
+const recentSearchStore = useRecentSearchStore()
 const route = useRoute()
 const router = useRouter()
 
 const filterResults = (category: CategoryDetails['path']) => { router.push({ path: `/search/${category}`, query: { q: route.query.q, page: 1 } }) }
 
 onBeforeMount(() => {
-  store.methods.recentSearch.pushItem(route.query.q)
+  recentSearchStore.addSearchQuery(route.query.q as string)
   document.title = `${route.query.q} - Vyhľadávanie / Filmotéka`
 })
 </script>

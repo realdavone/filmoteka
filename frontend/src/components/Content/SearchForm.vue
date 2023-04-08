@@ -51,13 +51,17 @@
         <span class="quotation-marks">{{ searchQuery }}</span>
       </div>
       <div>
-        <Loader v-if="loadingSearch" type="inline" style="display: block; margin:10px auto 0" />
+        <Loader
+          v-if="loadingSearch"
+          type="inline"
+          style="display: block; margin:10px auto 0"
+        />
         <AutoSearchResults
           v-else
           :movies="autoSearchResults.movies"
           :tvs="autoSearchResults.tvs"
           :people="autoSearchResults.people"
-          :recent="store.state.recentSearch"
+          :recent="recentSearchStore.recentSearch"
         >
           <template v-slot="{ people, movies, tvs, recent }">
             <div v-if="movies?.length" class="label" v-font:small>Filmy</div>
@@ -98,7 +102,7 @@
 
 <script setup lang="ts">
 import { onClickOutside } from '@vueuse/core'
-import { ref, reactive, inject } from 'vue'
+import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import Loader from '../Loader.vue'
 import AutoSearchResults from '../Content/AutoSearchResults.vue'
@@ -108,6 +112,7 @@ import makeRequest from '../../api/main'
 import { TvTitle, MovieTitle } from '../../types/title'
 import { PersonSearchType } from '../../types/person'
 import { ApiListResponse } from '../../types/response'
+import { useRecentSearchStore } from '../../store/recent-search'
 
 interface Options {
   value: string
@@ -133,7 +138,7 @@ const options: Record<'Všetko' | 'Filmy' | 'Seriály' | 'Osoby', Options> = {
   }
 }
 
-const store = inject<any>('store')
+const recentSearchStore = useRecentSearchStore()
 
 const router = useRouter()
 const searchQuery = ref('')
@@ -157,7 +162,7 @@ const optionsMenu = ref<null | HTMLDivElement>(null)
 const searchType = ref(options['Všetko'])
 
 function removeItem(item: string) {
-  store.methods.recentSearch.removeItem(item)
+  recentSearchStore.removeSearchQuery(item)
 }
 
 function resetResults() {

@@ -13,12 +13,12 @@
 <script setup lang="ts">
 import Navbar from './components/Navbar.vue'
 import { provide } from 'vue'
-import store from './store/index'
 import socket from './socket/main'
+import { useGlobalConfigStore } from './store/global-config';
 
-socket.on('globalSettingsUpdate', (data: any) => store.state.globalSettings = { ...store.state.globalSettings, ...data } )
+const globalSettingsStore = useGlobalConfigStore()
+socket.on('globalSettingsUpdate', (data: any) => globalSettingsStore.globalConfig = { ...globalSettingsStore.globalConfig, ...data } )
 
-provide('store', store)
 provide('socket', socket)
 </script>
 

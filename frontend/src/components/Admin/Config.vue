@@ -2,15 +2,15 @@
   <section class="settings">
     <div class="row">
       <span v-font:medium>Povolené registrácie</span>
-      <button :data-active="store.state.globalSettings?.allowRegistration" class="toggle-button" @click="updateProperty('allowRegistration', store.state.globalSettings?.allowRegistration)" />
+      <button :data-active="globalConfigStore.globalConfig?.allowRegistration" class="toggle-button" @click="updateProperty('allowRegistration', globalConfigStore.globalConfig?.allowRegistration)" />
     </div>
     <div class="row">
       <span v-font:medium>Sledovanie bez registrácie</span>
-      <button :data-active="store.state.globalSettings?.allowWatchWhileUnregistered" class="toggle-button" @click="updateProperty('allowWatchWhileUnregistered', store.state.globalSettings?.allowWatchWhileUnregistered)" />
+      <button :data-active="globalConfigStore.globalConfig?.allowWatchWhileUnregistered" class="toggle-button" @click="updateProperty('allowWatchWhileUnregistered', globalConfigStore.globalConfig?.allowWatchWhileUnregistered)" />
     </div>
     <div class="row">
       <span v-font:medium>Adblock varovanie</span>
-      <button :data-active="store.state.globalSettings?.adblockModalWarning" class="toggle-button" @click="updateProperty('adblockModalWarning', store.state.globalSettings?.adblockModalWarning)" />
+      <button :data-active="globalConfigStore.globalConfig?.adblockModalWarning" class="toggle-button" @click="updateProperty('adblockModalWarning', globalConfigStore.globalConfig?.adblockModalWarning)" />
     </div>
     <div class="row">
       <span v-font:medium>Refresh tokeny</span>
@@ -22,9 +22,11 @@
 <script setup lang="ts">
 import { notify } from "@kyvg/vue3-notification"
 import getData from '../../api/main'
-import { inject } from 'vue'
+import { useGlobalConfigStore } from "../../store/global-config";
+import { useAuthStore } from "../../store/auth";
 
-const store = inject<any>('store')
+const globalConfigStore = useGlobalConfigStore()
+const authStore = useAuthStore()
 
 const updateProperty = async (property: string, value: unknown) => {
   try {
@@ -32,7 +34,7 @@ const updateProperty = async (property: string, value: unknown) => {
       endpoint: '/config/update',
       options: {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json', 'access-token': store.state.credentials.accessToken },
+        headers: { 'Content-Type': 'application/json', 'access-token': authStore.accessToken },
         body: JSON.stringify({ [property]: !value })
       }
     })
@@ -45,7 +47,7 @@ const clearTokens = async () => {
       endpoint: '/config/tokens/clear',
       options: {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json', 'access-token': store.state.credentials.accessToken }
+        headers: { 'Content-Type': 'application/json', 'access-token': authStore.accessToken }
       }
     })
     if(data.success) notify({ type: 'success', text: data.message }) 

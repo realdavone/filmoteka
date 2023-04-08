@@ -9,7 +9,7 @@
           <span v-else>&mdash;</span>
         </td>
         <td class="watched">
-          <div v-if="store.methods.watched.exists({ type: props.filter.type, id: title.id.toString() })">
+          <div v-if="watchedStore.exists({ type: props.filter.type, id: title.id.toString() })">
             <span class="material-icons" style="color:var(--theme-color)">visibility</span>
           </div> 
         </td>
@@ -31,9 +31,10 @@
 </template>
 
 <script setup lang="ts">
-import { inject, computed } from 'vue'
+import { computed } from 'vue'
 
 import { MovieCastItem, MovieCrewItem, TvCastItem, TvCrewItem } from '../../types/person'
+import { useWatchedStore } from '../../store/watched';
 
 type MovieCastItemType = MovieCastItem & { job_type: 'cast' } & { media_type: 'movie' }
 type MovieCrewItemType = MovieCrewItem & { job_type: 'crew' } & { media_type: 'movie' }
@@ -47,7 +48,7 @@ type TvItem = TvCastItemType | TvCrewItemType
 
 type Title = MovieItem | TvItem
 
-const store = inject<any>('store')
+const watchedStore = useWatchedStore()
 
 const props = defineProps<{
   items: Array<Title>

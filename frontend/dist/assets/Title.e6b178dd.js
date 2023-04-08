@@ -1,1 +1,0 @@
-import{_ as t,o as s,c as _,m as n}from"./index.88e82aa5.js";const o={},c={class:"title user-select-none"};function r(e,a){return s(),_("div",c,[n(e.$slots,"default",{},void 0,!0)])}const l=t(o,[["render",r],["__scopeId","data-v-efe26140"]]);export{l as H};

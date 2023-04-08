@@ -3,38 +3,46 @@ import App from './App.vue'
 import router from './router/index'
 import Notifications from '@kyvg/vue3-notification'
 import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
-import store from './store/index'
-import Auth from './auth/main'
 import _ from './utils/main'
 import './styles/main.scss'
+import { createPinia } from 'pinia'
+
+import { useGlobalConfigStore } from './store/global-config'
+import { useLocalSettingsStore } from './store/local-settings'
+import { useAuthStore } from './store/auth'
 
 import focus from './directives/focus'
 import font from './directives/font'
 
-(function startApp(){
+const app = createApp(App).use(createPinia()).use(router).use(autoAnimatePlugin).use(Notifications)
+
+const globalConfigStore = useGlobalConfigStore()
+useLocalSettingsStore()
+const authStore = useAuthStore()
+
+function startApp(){
   _.initLoader()
 
   Promise.allSettled([
-    Auth.refresh(localStorage.getItem('refreshToken')),
-    store.methods.globalSettings.init()
-  ]).then(result => {
-    const [attemptLogin, globals] = result
+    authStore.refresh(localStorage.getItem('refreshToken')),
+    globalConfigStore.getConfig()
+  ])
+  .then(result => {
+    const [attemptLogin, config] = result
 
-    if(globals.status === 'rejected') return _.setFailedScreen(globals.reason, startApp)
-    if(attemptLogin.status === 'rejected') localStorage.removeItem('refreshToken')
+    if(config.status === 'rejected')
+      return _.setFailedScreen(config.reason, startApp)
 
-    store.state.globalSettings = globals.value as any
+    if(attemptLogin.status === 'rejected')
+      localStorage.removeItem('refreshToken')
 
-    const app = createApp(App)
-    .use(router)
-    .use(autoAnimatePlugin)
-    .use(Notifications) 
+    globalConfigStore.setConfig(config.value.settings)
     
     app.directive('focus', focus)
     app.directive('font', font)
     
     app.mount('#app')
-    
-    store.initResources()
   })
-})()
+}
+
+startApp()

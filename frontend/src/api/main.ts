@@ -1,6 +1,5 @@
 const baseURL = import.meta.env.VITE_BASE_URL
-import Auth from '../auth/main'
-import store from '../store/index'
+import { useAuthStore } from '../store/auth'
 
 type Options = {
   method?: 'GET' | 'PATCH' | 'POST' | 'PUT' | 'CONNECT' | 'DELETE' | 'OPTIONS' | 'HEAD' | 'TRACE'
@@ -9,18 +8,17 @@ type Options = {
   signal?: any
 }
 
-const makeRequest = <T>({
-  endpoint,
-  options
-}: {
+function makeRequest<T>({ endpoint, options }: {
   endpoint: string,
   options?: Options
-}): Promise<T> => {
+}): Promise<T> {
+  const authStore = useAuthStore()
+
   let request = new Request(`${baseURL}${endpoint}`, {
     method: options?.method ?? 'GET',
     headers: {
       'Content-Type': 'application/json',
-      ...(store.state.credentials.accessToken ? { 'access-token': store.state.credentials.accessToken } : undefined),
+      ...(authStore.accessToken ? { 'access-token': authStore.accessToken } : undefined),
     },
     body: options?.body
   })
@@ -31,12 +29,12 @@ const makeRequest = <T>({
       if(res.ok) return res.json()
 
       if(res.status === 401 && localStorage.getItem('refreshToken') !== null){
-        Auth.refresh(localStorage.getItem('refreshToken')).then(() => {
+        authStore.refresh(localStorage.getItem('refreshToken')).then(() => {
           let request = new Request(`${baseURL}${endpoint}`, {
             method: options?.method ?? 'GET',
             headers: {
               'Content-Type': 'application/json',
-              ...(store.state.credentials.accessToken ? { 'access-token': store.state.credentials.accessToken } : undefined),
+              ...(authStore.accessToken ? { 'access-token': authStore.accessToken } : undefined),
             },
             body: options?.body
           })

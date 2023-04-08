@@ -5,21 +5,27 @@
         <header v-font:large>Vizuálne nastavenia</header>
         <div v-font:medium>Téma</div>
         <div class="theme-picker">
-          <button class="theme-button dark" @click="store.methods.settings.darkTheme.set(true)" :data-active="store.state.settings.darkTheme === true" title="Tmavý režim">
-            <span class="material-icons">dark_mode</span>
-          </button>
-          <button class="theme-button light" @click="store.methods.settings.darkTheme.set(false)" :data-active="store.state.settings.darkTheme === false" title="Svetlý režim">
-            <span class="material-icons-outlined">light_mode</span>
-          </button>
+          <button
+            class="theme-button dark"
+            @click="localSettingsStore.setDarkTheme(true)"
+            :data-active="localSettingsStore.localSettings.darkTheme"
+            title="Tmavý režim"
+          ><span class="material-icons">dark_mode</span></button>
+          <button
+            class="theme-button light"
+            @click="localSettingsStore.setDarkTheme(false)"
+            :data-active="!localSettingsStore.localSettings.darkTheme"
+            title="Svetlý režim"
+          ><span class="material-icons-outlined">light_mode</span></button>
         </div>
         <div v-font:medium>Farebný motív</div>
         <div class="color-picker">
-          <button v-for="(color, i) in store.state.settings.themeColors.colors"
+          <button v-for="(color, i) in localSettingsStore.localSettings.themeColors.colors"
             :key="i"
             class="color"
             :style="`background-color:${color}`"
-            @click="store.methods.settings.themeColor.set(color)"
-            :data-active="store.methods.settings.themeColor.get()===color"
+            @click="localSettingsStore.setThemeColor(color)"
+            :data-active="localSettingsStore.localSettings.themeColors.mainColor === color"
           ></button>
         </div>
         <BasicButton type="close" style="align-self: center" @handleClick="$emit('close')">Zavrieť</BasicButton>
@@ -30,13 +36,14 @@
 
 <script setup lang="ts">
 import Modal from './Modal.vue'
-import { inject, ref } from 'vue'
+import { ref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
-import BasicButton from '../Buttons/BasicButton.vue';
+import BasicButton from '../Buttons/BasicButton.vue'
+import { useLocalSettingsStore } from '../../store/local-settings'
+
+const localSettingsStore = useLocalSettingsStore()
 
 const modal = ref<HTMLDivElement | null>(null)
-
-const store = inject<any>('store')
 
 const emit = defineEmits(['close'])
 
