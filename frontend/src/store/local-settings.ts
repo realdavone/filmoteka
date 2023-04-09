@@ -14,9 +14,9 @@ export const useLocalSettingsStore = defineStore('localSettings', () => {
   const localSettings = reactive<LocalSettings>(initLocalSettings())
 
   function initLocalSettings() {
-    const savedPinnedPlayer = Boolean(localStorage.getItem('pinnedPlayer') as string) ?? false
+    const savedPinnedPlayer = Boolean(JSON.parse(localStorage.getItem('pinnedPlayer') ?? 'false'))
     const savedMainColor = localStorage.getItem('themeColor') as string ?? '#ED3F00'
-    const savedDarkTheme = Boolean(localStorage.getItem('darkTheme')) ?? true
+    const savedDarkTheme = Boolean(JSON.parse(localStorage.getItem('darkTheme') ?? 'true'))
 
     return {
       pinnedPlayer: savedPinnedPlayer,
