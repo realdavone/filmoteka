@@ -4,6 +4,7 @@
       <NavButton
       @handleClick="isMenuOpened = !isMenuOpened"
       ><span class="material-icons" style="padding-top:5px;">menu</span></NavButton>
+      <Logo />
     </div>
     <div v-if="isSearchRendered" class="middle">
       <SearchForm />
@@ -64,6 +65,7 @@ import { useFavouritesStore } from '../store/favourites'
 import { useNotificationStore } from '../store/notifications'
 import { useAuthStore } from '../store/auth';
 import { useGlobalConfigStore } from '../store/global-config';
+import Logo from './Logo.vue'
 const BookmarksModal = defineAsyncComponent(() => import('./Modal/BookmarksModal.vue'))
 const Sidebar = defineAsyncComponent(() => import('./Sidebar.vue'))
 const SearchForm = defineAsyncComponent(() => import('./Content/SearchForm.vue'))
@@ -134,7 +136,7 @@ nav{
   div.left-menu{
     display:flex;
     align-items:center;
-    gap:20px;
+    gap:10px;
     margin-right:auto;
 
     a{
