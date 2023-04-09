@@ -209,7 +209,7 @@ const fetchData = async (id: string) => {
     isRecommended.value = result.value.isRecommended ?? false
 
     recentTitlesStore.addItem({
-      type: 'Tv',
+      type: 'Movie',
       title: result.value.title,
       id: +route.params.id,
       poster: result.value.poster_path as string
