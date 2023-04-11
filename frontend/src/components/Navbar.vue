@@ -1,47 +1,55 @@
 <template>
   <nav ref="navbar" v-auto-animate class="container">
-    <div v-if="!isSearchRendered" class="left-menu">
-      <NavButton
-      @handleClick="isMenuOpened = !isMenuOpened"
-      ><span class="material-icons" style="padding-top:5px;">menu</span></NavButton>
-      <Logo />
-    </div>
-    <div v-if="isSearchRendered" class="middle">
-      <SearchForm />
-      <button @click="isSearchRendered = false" v-font:large>&times;</button>
-    </div>
-    <div v-if="!isSearchRendered" class="right-menu">
-      <NavButton
-        title="Vyhľadávanie"
-        @handleClick="isSearchRendered = true"
-      ><span class="material-icons" style="padding-top:5px;font-weight:700;">search</span></NavButton>
-      <template v-if="authStore.isLoggedIn">
+    <template v-if="!isSearchRendered">
+      <div class="left-menu">
         <NavButton
-          title="Knižnica"
-          @handleClick="$router.push('/library')"
-        ><span class="material-icons-outlined icon" style="padding-top:5px">video_library</span></NavButton>
-        <NavButton
-          title="Odporúčané"
-          @handleClick="$router.push('/recommended')"
-          v-bind="{ ...(notificationsStore.notifications.recommended.length > 0 && { ['data-notification']: '' }) }"
-        ><span class="material-icons-outlined" style="padding-top:5px">recommend</span></NavButton>
-        <NavButton
-          title="Záložky"
-          @handleClick="bookmarksVisible = true"
-          v-bind="{ ...(favouritesStore.favourites.length > 0 && {['data-count']: favouritesStore.favourites.length}) }"
-        ><span class="material-icons-outlined" style="padding-top:5px">bookmarks</span></NavButton>
-      </template>
-      <div v-if="!isSearchRendered && !authStore.isLoggedIn" class="auth-buttons">
-        <button
-          class="register"
-          v-if="globalConfigStore.globalConfig?.allowRegistration"
-          @click="$router.push('/register')"
-        >Registrovať</button>
-        <button
-          class="login"
-          @click="$router.push('/login')"
-        >Prihlásiť sa</button>
+          @handleClick="isMenuOpened = !isMenuOpened"
+        ><span class="material-icons" style="padding-top:5px;">menu</span></NavButton>
+        <Logo />
       </div>
+      <div class="right-menu">
+        <NavButton
+          title="Vyhľadávanie"
+          @handleClick="isSearchRendered = true"
+        ><span class="material-icons" style="padding-top:5px;font-weight:700;">search</span></NavButton>
+        <template v-if="authStore.isLoggedIn">
+          <NavButton
+            title="Knižnica"
+            @handleClick="$router.push('/library')"
+          ><span class="material-icons-outlined icon" style="padding-top:5px">video_library</span></NavButton>
+          <NavButton
+            title="Odporúčané"
+            @handleClick="$router.push('/recommended')"
+            v-bind="{ ...(notificationsStore.notifications.recommended.length > 0 && { ['data-notification']: '' }) }"
+          ><span class="material-icons-outlined" style="padding-top:5px">recommend</span></NavButton>
+          <NavButton
+            title="Záložky"
+            @handleClick="bookmarksVisible = true"
+            v-bind="{ ...(favouritesStore.favourites.length > 0 && { ['data-count']: favouritesStore.favourites.length }) }"
+          ><span class="material-icons-outlined" style="padding-top:5px">bookmarks</span></NavButton>
+        </template>
+        <div
+          v-if="!isSearchRendered && !authStore.isLoggedIn"
+          class="auth-buttons"
+        >
+          <button
+            class="register"
+            v-if="globalConfigStore.globalConfig?.allowRegistration"
+            @click="$router.push('/register')"
+          >Registrovať</button>
+          <button
+            class="login"
+            @click="$router.push('/login')"
+          >Prihlásiť sa</button>
+        </div>
+      </div>
+    </template>
+    <div v-else class="middle">
+      <SearchForm />
+      <button
+        @click="isSearchRendered = false"
+        v-font:large
+      >&times;</button>
     </div>
   </nav>
   <Teleport to="body">

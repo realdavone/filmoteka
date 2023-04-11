@@ -3,17 +3,10 @@
     <header class="user-select-none">
       <div class="left-col">
         <button
-        v-font:large  
+          v-font:large  
           @click="closeMenu"
-          style="width:45px;"
+          style="width:45px;font-weight: 900;"
         >&times;</button>
-      </div>
-      <div v-if="authStore.isLoggedIn" class="right-col">
-        <BasicButton
-          type="transparent"
-          @handleClick="handleLogout"
-          title="Odhlásiť"
-        >Odhlásiť</BasicButton>
       </div>
     </header>
     <section v-if="authStore.isLoggedIn" class="user-select-none user">
@@ -55,7 +48,6 @@
 import Footer from './Footer.vue'
 import Avatar from './Avatar.vue'
 import VisualSettingsModal from './Modal/VisualSettingsModal.vue'
-import BasicButton from './Buttons/BasicButton.vue'
 import MenuItem from './Sidebar/MenuItem.vue'
 import { notify } from "@kyvg/vue3-notification"
 import { onClickOutside } from '@vueuse/core'
@@ -115,6 +107,12 @@ const menuItems = [
       isVisualMenuOpened.value = true
     },
     isVisible: true
+  },
+  {
+    label: 'Odhlásiť',
+    icon: 'logout',
+    onclick: handleLogout,
+    isVisible: authStore.isLoggedIn
   }
 ]
 
@@ -195,12 +193,6 @@ aside{
     transition: 0.2s ease background;
 
     div.left-col{
-      margin-right:auto;
-      display:flex;
-      align-items:center;
-      gap: 15px;
-    }
-    div.right-col{
       margin-left:auto;
       display:flex;
       align-items:center;

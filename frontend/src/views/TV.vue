@@ -322,6 +322,6 @@ const handleEvent = async (event: 'ADD_RECOMMENDED' | 'TOGGLE_WORKING_PLAYER' | 
 onBeforeMount(() => fetchData(route.params.id as string))
 onActivated(() => {
   if(result.value)
-    useTitle({ title: `${result.value?.name}${result.value?.omdb.Year !== undefined ? (' (' + result.value?.omdb.Year + ')') : ''}` })
+    useTitle({ title: `${result.value?.name}${result.value?.omdb.Year ? (' (' + result.value?.omdb.Year + ')') : ''}` })
 })
 </script>
