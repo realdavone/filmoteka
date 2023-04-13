@@ -11,7 +11,7 @@
       </template>
       <template #feedback>
         <Feedback
-          v-if="!loading && authStore.isLoggedIn && (new Date()) > new Date(result!.first_air_date)"
+          v-if="!loading && authStore.isLoggedIn && (new Date()) > new Date(result?.first_air_date ?? 0)"
           :likes="result?.likes"
           :dislikes="result?.dislikes"
           :title="{ id: $route.params.id as string, type: 'tv' }"
@@ -71,7 +71,7 @@
         <TVPlayerPanel
         v-if="!loading"
         :isPlayerWorking="isPlayerWorking.value"
-        :id="parseInt(result!.id)"
+        :id="+result!.id"
         :seasons="result?.seasons"
         :lastEpisode="result?.['last_episode_to_air']"
         :nextEpisode="result?.['next_episode_to_air']"
@@ -145,8 +145,9 @@
         }))"
       />
       <CardPanel
+        v-if="result"
         heading="Podobné"
-        :cards="result!.recommendations.results.filter(tv => tv.poster_path !== null).splice(0, 16).map(card => ({
+        :cards="result.recommendations.results.filter(tv => tv.poster_path !== null).splice(0, 16).map(card => ({
           media_type: 'tv',
           id: card.id,
           poster_path: card.poster_path,
@@ -226,10 +227,9 @@ const fetchData = async (id: string) => {
     isRecommended.value = result.value.isRecommended ?? false
 
     useTitle({ title: `${result.value?.name}${result.value?.omdb.Year !== undefined ? (' (' + result.value?.omdb.Year + ')') : ''}` })
+    loading.value = false
   } catch (error) {
     router.push({ name: 'NotFound' })
-  } finally {
-    loading.value = false
   }
 }
 

@@ -5,8 +5,14 @@
       tag="div"
     >
       <template v-for="title, i in props.titles" :key="title.id">
-        <div v-if="active === i" class="featured container">
-          <div v-if="title && title?.backdrop_path" class="background-image">
+        <div
+          v-if="activeIndex === i"
+          class="featured container"
+        >
+          <div
+            v-if="title && title?.backdrop_path"
+            class="background-image"
+          >
             <CoverPoster
               style="filter:blur(3px)"
               :src="title?.backdrop_path"
@@ -36,45 +42,62 @@
               <BasicButton
                 v-if="title"
                 class="cta"
-                @handleClick="$router.push(`/${title?.media_type}/${title?.id}`)"
+                @handleClick="handleShowTitle(() => $router.push(`/${title?.media_type}/${title?.id}`))"
               >Zobraziť viac</BasicButton>
             </div>      
           </div>
         </div>
       </template>
     </TransitionGroup>
-    <CircleButtonsControl :number-of-buttons="titles?.length" :active-index="active" @changeButton="handleSelect" />
+    <CircleButtonsControl
+      :number-of-buttons="titles?.length"
+      :active-index="activeIndex"
+      @changeButton="handleSelect"
+    />
   </section>
 </template>
 
 <script setup lang="ts">
 import { Title } from '../../types/title'
-import { ref } from 'vue'
+import { onActivated, onDeactivated, ref } from 'vue'
 import BasicButton from '../Buttons/BasicButton.vue'
 import Poster from '../Content/Poster.vue'
 import CoverPoster from '../Content/CoverPoster.vue'
 import CircleButtonsControl from '../Content/CircleButtonsControl.vue'
 
-const active = ref(0)
+const activeIndex = ref(0)
+const hasIntervalBeenStopped = ref(false)
+let interval: number
 
 const props = defineProps<{ titles: Array<Title> | null }>()
 
-function handleSelect({
-  index,
-  clear
-}: {
+function handleSelect({ index, clear }: {
   index: number
   clear?: boolean
-}){
-  active.value = index
+}) {
+  activeIndex.value = index
   clear && clearInterval(interval)
 }
 
-const interval = setInterval(() => {
-  if(!props.titles?.length) return clearInterval(interval)
-  if(active.value + 1 !== props.titles?.length) handleSelect({ index: active.value + 1 })
-  else handleSelect({ index: 0 })
-}, 10000)
+function handleShowTitle(callback?: (...args: unknown[]) => void) {
+  clearInterval(interval)
+  hasIntervalBeenStopped.value = true
+  callback?.()
+}
+
+function startInterval() {
+  interval = setInterval(() => {
+    if(!props.titles?.length) {
+      clearInterval(interval)
+      return
+    }
+    if(activeIndex.value + 1 !== props.titles?.length) handleSelect({ index: activeIndex.value + 1 })
+    else handleSelect({ index: 0 })
+  }, 10000)
+}
+
+onDeactivated(() => clearInterval(interval))
+onActivated(() => !hasIntervalBeenStopped.value && startInterval())
 </script>
 
 <style lang="scss" scoped>
