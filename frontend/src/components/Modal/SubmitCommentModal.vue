@@ -4,7 +4,7 @@
       <div ref="modal" class="modal"> 
         <header>
           <div class="user">
-            <Avatar :id="authStore.user?._id as string"/>
+            <Avatar :id="authStore.user!._id" />
             <span v-font:small>{{authStore.user?.email}}</span>
             <Verified v-if="authStore.user?.isVerified" />
           </div>
@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject } from 'vue'
+import { ref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import getData from '../../api/main.js'
 

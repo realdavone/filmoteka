@@ -188,7 +188,7 @@ div.featured{
 
 @media screen and (max-width: 600px) {
   section.featured-section{
-    min-height: 300px;
+    min-height: 310px;
   }
   div.poster{
     align-self: flex-start;
