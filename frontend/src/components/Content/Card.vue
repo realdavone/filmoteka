@@ -1,8 +1,17 @@
 <template>
-  <router-link tabindex="0" :title="item.title" :class="`title-card user-select-none ${watchedStore.exists({ type: item.media_type, id: item.id.toString() }) ? 'seen' : ''}`" :to="`/${item.media_type}/${item.id}`">
+  <router-link
+    tabindex="0"
+    :title="item.title"
+    :class="`title-card user-select-none ${watchedStore.exists({ type: item.media_type, id: item.id.toString() }) ? 'seen' : ''}`"
+    :to="`/${item.media_type}/${item.id}`"
+  >
     <div class="poster">
       <div v-if="!item.poster_path">{{ item.title }}</div>
-      <Poster :src="item.poster_path || null" :alt="item.title" :fadeInOnLoad="true" />
+      <Poster
+        :src="item.poster_path ?? null"
+        :alt="item.title"
+        :fadeInOnLoad="true"
+      />
       <div class="hover">
         <span class="material-icons-outlined">play_arrow</span>
       </div>
@@ -81,13 +90,6 @@ a.title-card{
         font-size: 40px!important;
       }
     }
-    &:hover{
-      div.hover{
-        opacity:1;
-        span{ transform:scale(1) }
-      }
-      img{ transform:scale(1.05) }
-    }
     &:active{
       div.hover{ 
         span{ box-shadow: inset 0px 0px 0px 200px var(--theme-color) }
@@ -109,9 +111,18 @@ a.title-card{
     font-size: var(--large-font-size);
   }
 }
-@media screen and (max-width: 600px) {
-  div.poster{
-    pointer-events:none
+@media (hover: hover) {
+  div.poster:hover{
+    div.hover{
+      opacity:1!important;
+      
+      span{
+        transform:scale(1)!important;
+      }
+    }
+    img{
+      transform:scale(1.05)
+    }
   }
 }
 </style>

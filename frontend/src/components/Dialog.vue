@@ -6,7 +6,10 @@
           v-if="content.header"
           v-font:medium
         >{{ content.header }}</header>
-        <div v-font:medium class="body">{{ content.body }}</div>
+        <div
+          v-font:medium
+          class="body"
+        >{{ content.body }}</div>
         <div class="buttons">
           <button
             v-font:small

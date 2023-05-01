@@ -4,7 +4,7 @@
     :class="`${props.type}`"
     @click="$emit('handleClick')"
     :type="props.type === 'close' ? 'button' : undefined"
-  ><slot></slot></button>
+  ><slot /></button>
 </template>
 
 <script setup lang="ts">
@@ -59,20 +59,16 @@ button{
     background-color:var(--theme-color);
     color:var(--font-color-dark);
     transition:0.2s ease all;
-    &:hover{
-      background-color:var(--font-color);
-      color:var(--background-color);
-    }
   }
   &:disabled{
     opacity: 0.5;
     cursor: initial;
   }
 }
-@media screen and (max-width:600px){
+@media (hover: hover) {
   button.hover-color-change:hover{
-    background-color:var(--theme-color);
-    color:var(--font-color-dark);
+    background-color:var(--font-color);
+    color:var(--background-color);
   }
 }
 </style>

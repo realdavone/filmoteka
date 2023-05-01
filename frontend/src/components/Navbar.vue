@@ -65,10 +65,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject, defineAsyncComponent, onMounted } from 'vue'
+import { ref, defineAsyncComponent, onMounted } from 'vue'
 
 import NavButton from './Buttons/NavButton.vue'
-import { DefaultEventsMap } from '@socket.io/component-emitter'
 import { useFavouritesStore } from '../store/favourites'
 import { useNotificationStore } from '../store/notifications'
 import { useAuthStore } from '../store/auth';
@@ -83,17 +82,11 @@ const authStore = useAuthStore()
 const globalConfigStore = useGlobalConfigStore()
 
 const favouritesStore = useFavouritesStore()
-const socket = inject<DefaultEventsMap>('socket')
 
 const navbar = ref<HTMLDivElement | null>(null)
 const isSearchRendered = ref(false)
 const isMenuOpened = ref(false)
 const bookmarksVisible = ref(false)
-
-socket!.on('newRecommended', (data: any) => {
-  const { type, id } = data.title.title
-  notificationsStore.addNotification('recommended', { type, id })
-})
 
 onMounted(() => { 
   const observer = new IntersectionObserver(([entry]) => {

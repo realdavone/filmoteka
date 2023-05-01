@@ -15,7 +15,7 @@
       <div v-else class="message">
         <span class="material-icons-outlined icon">lock</span>
         <div class="right">
-          <span v-font:medium>Prehrávač je dostupný iba prihlásením užívateľom</span>
+          <span v-font:medium>Prehrávač je dostupný iba prihláseným užívateľom</span>
         </div>
       </div>
     </div>

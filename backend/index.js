@@ -17,18 +17,18 @@ import resourcesRoutes from './routes/resources.js'
 import panelRoutes from './routes/panel.js'
 import commentsRoutes from './routes/comments.js'
 
+import clients from './clients/index.js'
+
 const app = express()
 dotenv.config()
 
 const server = http.createServer(app)
 init(server)
 
-const users = new Map()
-
-io.on('connection', (socket) => { 
-  users.set(socket.id, null)
-  socket.on('disconnect', () => users.delete(socket.id))
-})
+// io.on('connection', (socket) => { 
+//   clients.addClient(socket.id)
+//   socket.on('disconnect', () => clients.removeClient(socket.id))
+// })
 
 app.use(express.json())
 app.use(cors())
@@ -49,4 +49,4 @@ app.use('/api/panel', panelRoutes)
 app.use('/api/resources', resourcesRoutes)
 app.use('/api/comments', commentsRoutes)
 
-server.listen(process.env.PORT || 5000, () => console.log(`Server started at port ${process.env.PORT || 5000}`))
+server.listen(process.env.PORT ?? 5000, () => console.log(`Server started at port ${process.env.PORT || 5000}`))

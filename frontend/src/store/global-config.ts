@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import socket from '../socket/main'
 
 interface GlobalConfig {
   allowRegistration: boolean
@@ -26,6 +27,8 @@ export const useGlobalConfigStore = defineStore('globalConfig', () => {
   function setConfig(config: GlobalConfig) {
     globalConfig.value = config
   }
+
+  socket.on('globalSettingsUpdate', (newConfig: any) => setConfig({ ...globalConfig.value, ...newConfig }))
 
   return {
     globalConfig,
