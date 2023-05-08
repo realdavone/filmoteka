@@ -47,6 +47,11 @@ button.action-button{
     opacity:0.25;
     background-color:transparent;
   }
-  &:hover:not(:disabled){ transform:scale(1.25); }
+}
+
+@media(hover: hover) {
+  button.action-button:hover:not(:disabled){
+    transform:scale(1.25);
+  }
 }
 </style>

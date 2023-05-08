@@ -2,19 +2,35 @@
   <section class="settings">
     <div class="row">
       <span v-font:medium>Povolené registrácie</span>
-      <button :data-active="globalConfigStore.globalConfig?.allowRegistration" class="toggle-button" @click="updateProperty('allowRegistration', globalConfigStore.globalConfig?.allowRegistration)" />
+      <button
+        :data-active="globalConfigStore.globalConfig?.allowRegistration"
+        class="toggle-button"
+        @click="updateProperty('allowRegistration', globalConfigStore.globalConfig?.allowRegistration)"
+      />
     </div>
     <div class="row">
       <span v-font:medium>Sledovanie bez registrácie</span>
-      <button :data-active="globalConfigStore.globalConfig?.allowWatchWhileUnregistered" class="toggle-button" @click="updateProperty('allowWatchWhileUnregistered', globalConfigStore.globalConfig?.allowWatchWhileUnregistered)" />
+      <button
+        :data-active="globalConfigStore.globalConfig?.allowWatchWhileUnregistered"
+        class="toggle-button"
+        @click="updateProperty('allowWatchWhileUnregistered', globalConfigStore.globalConfig?.allowWatchWhileUnregistered)"
+      />
     </div>
     <div class="row">
       <span v-font:medium>Adblock varovanie</span>
-      <button :data-active="globalConfigStore.globalConfig?.adblockModalWarning" class="toggle-button" @click="updateProperty('adblockModalWarning', globalConfigStore.globalConfig?.adblockModalWarning)" />
+      <button
+        :data-active="globalConfigStore.globalConfig?.adblockModalWarning"
+        class="toggle-button"
+        @click="updateProperty('adblockModalWarning', globalConfigStore.globalConfig?.adblockModalWarning)"
+      />
     </div>
     <div class="row">
       <span v-font:medium>Refresh tokeny</span>
-      <button v-font:small @click="clearTokens" class="remove-button">Zmazať</button>
+      <button
+        v-font:small
+        @click="clearTokens"
+        class="remove-button"
+      >Zmazať</button>
     </div>
   </section>
 </template>
@@ -43,7 +59,10 @@ const updateProperty = async (property: string, value: unknown) => {
 
 const clearTokens = async () => {
   try {
-    const data = await getData<any>({
+    const data = await getData<{
+      success: true
+      message: string
+    }>({
       endpoint: '/config/tokens/clear',
       options: {
         method: 'DELETE',

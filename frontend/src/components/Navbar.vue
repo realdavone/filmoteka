@@ -5,7 +5,7 @@
         <NavButton
           @handleClick="isMenuOpened = !isMenuOpened"
         ><span class="material-icons" style="padding-top:5px;">menu</span></NavButton>
-        <Logo />
+        <Logo class="logo" />
       </div>
       <div class="right-menu">
         <NavButton
@@ -137,7 +137,7 @@ nav{
   div.left-menu{
     display:flex;
     align-items:center;
-    gap:10px;
+    gap:8px;
     margin-right:auto;
 
     a{
@@ -164,6 +164,9 @@ nav{
     border-radius:0;
     position:fixed;
     min-height:100%;
+  }
+  .logo{
+    display: none;
   }
 }
 </style>

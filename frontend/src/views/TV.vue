@@ -122,7 +122,7 @@
           v-for="country in result?.production_countries"
           :key="country.iso_3166_1"
           :src="`https://flagcdn.com/${country.iso_3166_1.toLowerCase()}.svg`"
-          width="30"
+          height="16"
           :title="country.name"
           :alt="country.name"
           draggable="false"

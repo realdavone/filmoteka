@@ -37,7 +37,7 @@
               </slot>
             </div>
             <div class="countries" style="display: flex; gap: 10px; flex-wrap: wrap;">
-              <slot name="countries"></slot>
+              <slot name="countries" />
             </div>
           </div>        
         </div>
@@ -74,10 +74,7 @@ section.container{
   margin-top:calc(0px - var(--nav-height));
   div.background-image{
     position:absolute;
-    top:0;
-    left:0;
-    right:0;
-    bottom:0;
+    inset: 0;
     z-index:0;
     -webkit-mask-image: linear-gradient(#00000010, #00000030 50%, transparent);
     mask-image: linear-gradient(#00000010, #00000030 50% transparent);
