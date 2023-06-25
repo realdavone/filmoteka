@@ -25,7 +25,7 @@ const props = defineProps<{
 }>()
 
 function setPlayer() { 
-  player.value?.handlePlayButton(`https://www.2embed.to/embed/imdb/movie?id=${props.id}`)
+  player.value?.handlePlayButton(`https://www.2embed.cc/embed/${props.id}`)
 }
 </script>
 

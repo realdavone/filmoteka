@@ -1,6 +1,10 @@
 import { DirectiveBinding } from 'vue'
 
-function font(el: HTMLElement, binding: DirectiveBinding) {
+interface FontDirectiveBinding extends DirectiveBinding {
+  arg?: string
+}
+
+function font(el: HTMLElement, binding: FontDirectiveBinding) {
   let size: number | undefined
   switch(binding.arg){
     case 'small':

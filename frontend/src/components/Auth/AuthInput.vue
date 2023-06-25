@@ -31,11 +31,10 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue'
 
-const { icon, placeholder, type, required } = defineProps<{
+const { placeholder, type, required } = defineProps<{
   placeholder: string
   type: string
   required: boolean
-  icon?: string
 }>()
 
 const inputValue = ref('')
