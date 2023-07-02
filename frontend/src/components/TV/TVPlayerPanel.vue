@@ -107,7 +107,7 @@ function playEpisode({ season, episode }: { season: number; episode: number }) {
 
 function setPlayer() {
   player.value?.handlePlayButton(
-    `https://www.2embed.cc/embed/${props.id}&s=${currentSeasonAndEpisode.season + 1}&e=${currentSeasonAndEpisode.episode + 1}`,
+    `https://multiembed.mov/?video_id=${props.id}&tmdb=1&s=${currentSeasonAndEpisode.season + 1}&e=${currentSeasonAndEpisode.episode + 1}`,
     () => {
       if(favouritesStore.favourites.some(item => item.id === props.id.toString())){
         favouritesStore.update(props.id.toString(), currentSeasonAndEpisode.season + 1, currentSeasonAndEpisode.episode + 1)
