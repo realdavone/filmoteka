@@ -7,7 +7,7 @@
         status: props.isReleased,
         message: props.isReleased ? null : 'Film ešte nevyšiel'
       }"
-      @setPlayer="setPlayer()"
+      @setPlayer="setPlayer"
     />
   </section>
 </template>
@@ -16,7 +16,7 @@
 import { ref } from 'vue'
 import Player from '../Content/Player.vue'
 
-const player = ref<InstanceType<typeof Player> | null>()
+const player = ref<InstanceType<typeof Player> | null>(null)
 
 const props = defineProps<{
   id: string
@@ -24,9 +24,7 @@ const props = defineProps<{
   isPlayerWorking: boolean
 }>()
 
-function setPlayer() { 
-  player.value?.handlePlayButton(`https://multiembed.mov/?video_id=${props.id}&tmdb=1`)
-}
+const setPlayer = () => player.value?.handlePlayButton(`https://multiembed.mov/?video_id=${props.id}`)
 </script>
 
 <style lang="scss" scoped>
